@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template
+        id="report_saleorder_document_inherit_image"
+        inherit_id="sale.report_saleorder_document">
+
+        <!-- Product description (line.name) ke baad content add -->
+        <xpath expr="//span[@t-field='line.name']" position="after">
+
+            <div t-if="line.product_id.image_1920" style="margin-top:5px;">
+                <img t-att-src="'data:image/png;base64,%s' % line.product_id.image_1920"
+                     style="max-width:120px; max-height:120px;"/>
+            </div>
+
+        </xpath>
+
+    </template>
+
+</odoo>
+
