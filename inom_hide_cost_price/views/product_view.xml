@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_template_form_hide_cost_price" model="ir.ui.view">
+        <field name="name">product.template.form.hide.cost.price</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='standard_price']" position="attributes">
+                <attribute name="groups">inom_hide_cost_price.group_view_cost_price</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_template_tree_hide_cost_price" model="ir.ui.view">
+        <field name="name">product.template.tree.hide.cost.price</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='standard_price']" position="attributes">
+                <attribute name="groups">inom_hide_cost_price.group_view_cost_price</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_variant_tree_hide_cost_price" model="ir.ui.view">
+        <field name="name">product.product.tree.hide.cost.price</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_product_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='standard_price']" position="attributes">
+                <attribute name="groups">inom_hide_cost_price.group_view_cost_price</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_variant_form_hide_cost_price" model="ir.ui.view">
+        <field name="name">product.product.form.hide.cost.price</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='standard_price']" position="attributes">
+                <attribute name="groups">inom_hide_cost_price.group_view_cost_price</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
+
+
