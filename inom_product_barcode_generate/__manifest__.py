@@ -12,7 +12,7 @@ Key Features:
 • Ensures barcode uniqueness  
 • Optional regenerate button on product form  
 • Seamless integration with Odoo Inventory  
-• Compatible with Odoo 19.  
+• Compatible with Odoo 17.  
 
 Ideal for businesses that want fast, reliable, and standardized barcode management.
 """,

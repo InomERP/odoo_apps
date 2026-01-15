@@ -7,7 +7,6 @@
 
             <!-- Insert Customer Code after Phone field -->
             <xpath expr="//field[@name='category_id']" position="after">
-                <field name="phone"/>
                 <field name="customer_code"/>
             </xpath>
 

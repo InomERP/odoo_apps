@@ -1,6 +1,6 @@
 {
     "name": "Inom Customer Code & Mandatory Phone",
-    "version": "19.0.1.0.0",
+    "version": "17.0.1.0.0",
     "category": "Contacts",
     "summary": "Enforce unique Customer Code and mandatory Phone number for Contacts",
     "description": """
