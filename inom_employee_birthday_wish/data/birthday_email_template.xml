@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="email_template_employee_birthday" model="mail.template">
+            <field name="name">Employee Birthday Wishes</field>
+
+            <!-- MUST match hr.employee -->
+            <field name="model_id" ref="hr.model_hr_employee"/>
+
+            <!-- Sender -->
+            <field name="email_from">{{object.company_id.email_formatted or user.email_formatted}}</field>
+
+            <!-- Receiver -->
+            <field name="email_to">{{object.work_email}}</field>
+
+            <!-- Subject -->
+            <field name="subject">
+                🎉 Happy Birthday {{object.name}} 🎂
+            </field>
+
+            <!-- Body -->
+            <field name="body_html" type="html">
+                <div style="font-family:Arial,Helvetica,sans-serif;
+                            background:#f4f6f8;
+                            padding:30px;">
+                    <div style="max-width:600px;
+                                margin:auto;
+                                background:#ffffff;
+                                border-radius:10px;
+                                box-shadow:0 6px 20px rgba(0,0,0,0.15);">
+
+                        <div style="background:#7b2ff7;
+                                    padding:25px;
+                                    color:#ffffff;
+                                    text-align:center;">
+                            <h2 style="margin:0;">🎂 Happy Birthday 🎉</h2>
+                        </div>
+
+                        <div style="padding:30px;color:#333;">
+                            <p>
+                                Dear <strong><t t-esc="object.name"/></strong>,
+                            </p>
+
+                            <p>
+                                Wishing you a very <strong>Happy Birthday</strong>!
+                                May your special day be filled with happiness,
+                                success, and memorable moments.
+                            </p>
+
+                            <p>
+                                We truly appreciate your dedication and contribution
+                                to the organization. May the coming year bring you
+                                new achievements and growth.
+                            </p>
+
+                            <p style="margin-top:30px;">
+                                Warm Regards,<br/>
+                                <strong><t t-esc="user.name"/></strong><br/>
+                                HR Team
+                            </p>
+                        </div>
+
+                        <div style="background:#f1f1f1;
+                                    padding:12px;
+                                    text-align:center;
+                                    font-size:12px;
+                                    color:#777;">
+                            © Your Company | All Rights Reserved
+                        </div>
+
+                    </div>
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>
+
+

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="email_template_thank_you" model="mail.template">
+		<field name="name">Thank You Email</field>
+        <field name="model_id" ref="crm.model_crm_lead"/>
+        <field name="email_from">{{object.email_from}}</field>
+        <field name="subject">Thank you for connecting with us</field>
+        <field name="body_html" type="html">
+            <div>
+                <p>Hello <t t-esc="object.name"/></p>
+                <p>Thank you for showing interest in our products.</p>
+                <p>
+                    Regards,<br/>
+                    <t t-esc="user.name"/>
+                </p>
+            </div>            
+        </field>
+    </record>
+</odoo>

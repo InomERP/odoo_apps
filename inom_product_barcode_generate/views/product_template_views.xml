@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	
+	<!-- form view-->
+	<record id="view_product_template_form_barcode" model="ir.ui.view">
+		<field name="name">product.template.form.barcode</field>
+		<field name="model">product.template</field>
+		<field name="inherit_id" ref="product.product_template_form_view"/>
+		<field name="arch" type="xml">
+
+			<!--add button-->
+			<xpath expr="//sheet" position="before">
+				<header>
+					<button name="action_regenerate_barcode"
+					        type="object"
+					        string="Regenerate Barcode"/>
+				</header>
+			</xpath>
+        </field>
+	</record>
+</odoo>
