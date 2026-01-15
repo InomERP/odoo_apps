@@ -1,9 +1,12 @@
 from odoo import models, fields
 from datetime import date
+import logging
+
+_logger = logging.getLogger(__name__)
+
 
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
-
 
     def cron_send_birthday_wishes(self):
         today = date.today()

@@ -1,6 +1,6 @@
 {
     'name': 'Inom CRM Lead Automation',
-    'version': '19.0.1.0',
+    'version': '18.0.1.0',
     'category': 'Sales/CRM',
     'summary': 'Automatic email notification on CRM lead creation',
     'description': """
@@ -14,7 +14,7 @@ Key Features:
 • Seamless integration with Odoo CRM  
 • Eliminates manual follow-ups  
 • Improves customer engagement and lead response time  
-• Compatible with Odoo 19  
+• Compatible with Odoo 18  
 
 Ideal for businesses that want to automate lead communication and
 enhance their CRM workflow.
@@ -29,3 +29,4 @@ enhance their CRM workflow.
     'installable': True,
     'application': True,
 }
+

@@ -13,7 +13,7 @@ Key Features:
 • Personalized email templates with employee details  
 • Runs daily without manual intervention  
 • Works seamlessly with Odoo HR module  
-• Compatible with Odoo 19  
+• Compatible with Odoo 18  
 
 Ideal for organizations that want to ensure timely and consistent
 birthday greetings for their employees.
