@@ -22,6 +22,7 @@ Ideal for businesses that want fast, reliable, and standardized barcode manageme
 	'data': [
 	    'views/product_template_views.xml',
 	],
+	'images': ['static/description/banner.png'],
 	'license': 'LGPL-3',
 	'installable': True,
 	'application': True,
