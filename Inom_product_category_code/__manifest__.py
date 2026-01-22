@@ -30,6 +30,7 @@ and strict invoice validation for accurate accounting.
         'views/product_category_view.xml',
         'views/account_move_view.xml',
     ],
+    'images': ['static/description/banner.png'],
     'license': 'LGPL-3',
     'installable': True,
     'application': True,
