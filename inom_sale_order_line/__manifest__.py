@@ -26,6 +26,7 @@ orders and reports, improving accuracy and efficiency.
         'views/sale_order_views.xml',
         'reports/sale_order_report.xml',
     ],
+    'images': ['static/description/banner.png'],
     'license': 'LGPL-3',
     'installable': True,
     'application': True,
