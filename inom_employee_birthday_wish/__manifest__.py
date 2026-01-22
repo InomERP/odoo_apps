@@ -25,6 +25,7 @@ birthday greetings for their employees.
         'data/birthday_email_template.xml',
         'data/birthday_cron.xml',
     ],
+    'images': ['static/description/banner.png'],
     'license': 'LGPL-3',
     'installable': True,
     'application': True,

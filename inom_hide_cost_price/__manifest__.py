@@ -31,6 +31,7 @@ safe handling of sensitive pricing data.
         'security/security.xml',
         'views/product_view.xml',
     ],
+    'images': ['static/description/banner.png'],
     'license': 'LGPL-3',
     'installable': True,
     'application': True,

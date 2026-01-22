@@ -20,6 +20,7 @@ Key Features:
     "author": "Inom ERP",
     "website": "https://www.inomerp.in",
     "support": "info@inomerp.in",
+    'images': ['static/description/banner.png'],
     "license": "LGPL-3",
     "depends": [
         "base",

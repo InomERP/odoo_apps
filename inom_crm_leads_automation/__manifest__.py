@@ -25,6 +25,7 @@ enhance their CRM workflow.
     'data': [
         'data/mail_template.xml',
     ],
+    'images': ['static/description/banner.png'],
     'license': 'LGPL-3',
     'installable': True,
     'application': True,
