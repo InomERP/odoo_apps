@@ -1,0 +1,13 @@
+*.pyc
+.project
+.pydevproject
+.settings/
+odoo.local.config
+__pycache__
+.settings
+*.bak
+*.ipynb_checkpoints
+Prima.code-workspace
+.vscode
+.env
+.idea/
