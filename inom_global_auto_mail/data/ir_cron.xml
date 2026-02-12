@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ir_cron_global_auto_mail" model="ir.cron">
+            <field name="name">Global Auto Mail Sender</field>
+            <field name="model_id" ref="model_global_mail_config"/>
+            <field name="state">code</field>
+            <field name="code">model._send_auto_mails()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+    </record>
+</odoo>
