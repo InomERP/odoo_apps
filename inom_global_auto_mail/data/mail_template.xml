@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ================= SALE ORDER TEMPLATE ================= -->
+    <record id="email_template_sale_auto" model="mail.template">
+        <field name="name">Sale Order Auto Mail</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+
+        <field name="email_from">
+            {{ object.company_id.name }} &lt;{{ object.company_id.email }}&gt;
+        </field>
+        <field name="email_to">{{ object.partner_id.email }}</field>
+
+        <field name="subject">
+            Sale Order Confirmation : {{ object.name }}
+        </field>
+
+        <field name="body_html" type="html">
+            <div>
+                <p>Hello <t t-esc="object.partner_id.name"/>,</p>
+
+                <p>
+                    We are pleased to inform you that your
+                    <strong>Sale Order <t t-esc="object.name"/></strong>
+                    has been successfully confirmed.
+                </p>
+
+                <p>
+                    <strong>Order Date:</strong>
+                    <t t-esc="object.date_order"/>
+                </p>
+
+                <p>
+                    Thank you for choosing us.
+                </p>
+
+                <p>
+                    Regards,<br/>
+                    <t t-esc="object.company_id.name"/>
+                </p>
+            </div>
+        </field>
+    </record>
+
+
+    <!-- ================= PURCHASE ORDER TEMPLATE ================= -->
+    <record id="email_template_purchase_auto" model="mail.template">
+        <field name="name">Purchase Order Auto Mail</field>
+        <field name="model_id" ref="purchase.model_purchase_order"/>
+
+        <field name="email_from">
+            {{ object.company_id.name }} &lt;{{ object.company_id.email }}&gt;
+        </field>
+        <field name="email_to">{{ object.partner_id.email }}</field>
+
+        <field name="subject">
+            Purchase Order : {{ object.name }}
+        </field>
+
+        <field name="body_html" type="html">
+            <div>
+                <p>Hello <t t-esc="object.partner_id.name"/>,</p>
+
+                <p>
+                    A new
+                    <strong>Purchase Order <t t-esc="object.name"/></strong>
+                    has been generated for you.
+                </p>
+
+                <p>
+                    <strong>Order Date:</strong>
+                    <t t-esc="object.date_order"/>
+                </p>
+
+                <p>
+                    Kindly review the order details.
+                </p>
+
+                <p>
+                    Regards,<br/>
+                    <t t-esc="object.company_id.name"/>
+                </p>
+            </div>
+        </field>
+    </record>
+
+
+    <!-- ================= INVOICE TEMPLATE ================= -->
+    <record id="email_template_invoice_auto" model="mail.template">
+        <field name="name">Invoice Auto Mail</field>
+        <field name="model_id" ref="account.model_account_move"/>
+
+        <field name="email_from">
+            {{ object.company_id.name }} &lt;{{ object.company_id.email }}&gt;
+        </field>
+        <field name="email_to">{{ object.partner_id.email }}</field>
+
+        <field name="subject">
+            Invoice Generated : {{ object.name }}
+        </field>
+
+        <field name="body_html" type="html">
+            <div>
+                <p>Hello <t t-esc="object.partner_id.name"/>,</p>
+
+                <p>
+                    Your invoice
+                    <strong><t t-esc="object.name"/></strong>
+                    dated
+                    <strong><t t-esc="object.invoice_date"/></strong>
+                    has been generated.
+                </p>
+
+                <p>
+                    <strong>Invoice Amount:</strong>
+                    <t t-esc="object.amount_total"/>
+                </p>
+
+                <p>
+                    Please arrange payment as per agreed terms.
+                </p>
+
+                <p>
+                    Regards,<br/>
+                    <t t-esc="object.company_id.name"/>
+                </p>
+            </div>
+        </field>
+    </record>
+
+</odoo>
