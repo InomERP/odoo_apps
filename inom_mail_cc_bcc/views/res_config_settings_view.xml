@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_email_defaults_settings" model="ir.ui.view">
+        <field name="name">res.config.settings.email.defaults</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <div class="app_settings_block" string="Email Defaults"
+                    data-key="inom_mail_cc_bcc">
+                    <h2>Email Defaults</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="o_setting_box col-12 col-lg-6">
+                            <div class="o_setting_left_pane" />
+                            <div class="o_setting_right_pane">
+                                <field name="email_cc_enable" />
+                                <label for="email_cc_enable" />
+                                <div class="text-muted">
+                                    These emails will automatically appear in the CC field when
+                                    composing a new email.
+                                </div>
+                                <field name="email_cc_text" />
+                            </div>
+                        </div>
+                        <div class="o_setting_box col-12 col-lg-6">
+                            <div class="o_setting_left_pane" />
+                            <div class="o_setting_right_pane">
+                                <field name="email_bcc_enable" />
+                                <label for="email_bcc_enable" />
+                                <div class="text-muted">
+                                    These emails will automatically appear in the BCC field when
+                                    composing a new email.
+                                </div>
+                                <field name="email_bcc_text" />
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane" />
+                            <div class="o_setting_right_pane">
+                                <field name="reply_to_enable" />
+                                <label for="reply_to_enable" />
+                                <div class="text-muted">
+                                    Replies from recipients will be sent to this email address by
+                                    default.
+                                </div>
+                                <field name="reply_to_text" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
