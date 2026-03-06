@@ -1,6 +1,6 @@
 {
     "name": "Inom Advanced Email Control (CC / BCC)",
-    "version": "1.0.0",
+    "version": "17.0.0",
     "summary": "Manage CC, BCC, and Reply-To with defaults & tracking in Odoo",
     "description": """
 Advanced Email Control Module for Odoo
@@ -24,12 +24,12 @@ Ideal For:
 
 Website:
 --------
-Visit [InoMerp](https://www.inomerp.com) for more modules and support.
+Visit [InomERP](https://inomerp.com) for more modules and support.
 """,
     "category": "Mail",
     'license': 'LGPL-3',
-    "author": "InoMerp",
-    "website": "https://www.inomerp.com",
+    "author": "InomERP",
+    "website": "https://inomerp.com",
     "depends": [
         "base",
         "mail"
