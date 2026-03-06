@@ -1,0 +1,15 @@
+<odoo>
+
+    <record id="crm_stage_form_color_inherit" model="ir.ui.view">
+        <field name="name">crm.stage.form.color</field>
+        <field name="model">crm.stage</field>
+        <field name="inherit_id" ref="crm.crm_stage_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="color" widget="color_picker" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
