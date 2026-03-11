@@ -1,0 +1,18 @@
+<odoo>
+    <record id="crm_lead_kanban_stage_color" model="ir.ui.view">
+        <field name="name">crm.lead.kanban.stage.color</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_kanban_view_leads" />
+        <field name="arch" type="xml">
+            <xpath expr="//kanban" position="inside">
+                <field name="stage_color" />
+            </xpath>
+            <xpath expr="//kanban/templates/t[@t-name='kanban-box']/div" position="attributes">
+                <attribute name="t-attf-class">
+                    oe_kanban_global_click oe_kanban_card d-flex flex-column
+                    oe_kanban_color_#{record.stage_color.raw_value}
+                </attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
