@@ -1,0 +1,13 @@
+<odoo>
+    <template id="login_background" inherit_id="web.frontend_layout">
+        <xpath expr="//div[@id='wrapwrap']" position="attributes">
+            <attribute name="style">
+                background-image:url('/dashboard');
+                background-size:cover;
+                background-position:center;
+                background-repeat:no-repeat;
+                min-height:100vh;
+            </attribute>
+        </xpath>
+    </template>
+</odoo>
