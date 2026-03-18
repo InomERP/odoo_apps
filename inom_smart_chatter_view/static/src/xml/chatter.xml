@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t name="mail.ChatterAdvanced" t-inherit="mail.Chatter" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('o-mail-Chatter')]" position="replace">
+            <div t-if="state.thread"
+                class="position-relative flex-grow-1 d-flex w-100"
+                t-ref="main_root">
+                <div class="o-mail-Form-chatter">
+                    <button class="icon" id="send_message"
+                            t-on-click="_onClickSendMessage">💬
+                    </button>
+                    <button class="icon" id="log_note"
+                            t-on-click="_onClickLogNote">📝
+                    </button>
+                    <button class="icon" id="active"
+                            t-on-click="_onClickActive">⏰
+                    </button>
+                </div>
+                <div class="o_ChatterContainer chatter_v2_body hide"
+                    t-att-class="{ 'o-isInFormSheetBg mx-auto': props.isInFormSheetBg }"
+                    t-attf-class="{{ props.className }}"
+                    t-ref="root">
+
+                    <div class="d-flex justify-content-end p-2">
+                        <button class="chatter-close-btn btn btn-sm btn-light d-none"
+                                t-on-click="_onClickCross">
+                            ✖
+                        </button>
+                    </div>
+                    <div class="o-mail-Chatter-top position-sticky top-0 bg-white z-1"
+                        t-ref="top">
+                        <div class="o-mail-Chatter-topbar d-flex flex-wrap gap-2 p-2">
+                            <button id="header_message" class="btn btn-primary d-none"
+                                    t-on-click="() => this.toggleComposer('message')">
+                                Send message
+                            </button>
+                            <button id="header_note" class="btn btn-success d-none"
+                                    t-on-click="() => this.toggleComposer('note')">
+                                Log note
+                            </button>
+                        </div>
+                        <t t-if="state.composerType">
+                            <!-- <RecipientsInput t-if="state.composerType !== 'note'"
+                                            thread="state.thread"/> -->
+                            <Composer composer="state.thread.composer" autofocus="true"
+                                    mode="'extended'" type="state.composerType"/>
+                        </t>
+                    </div>
+                    <div class="o-mail-Chatter-content chatter_content p-2">
+                        <div class="o-mail-ActivityList d-none">
+                            <t t-if="props.has_activities and activities.length">
+                                <t t-call="mail.ActivityList"/>
+                            </t>
+                        </div>
+                        <Thread thread="state.thread" t-key="state.thread.localId" order="'desc'"/>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </t>
+</templates>
