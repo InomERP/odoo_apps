@@ -1,0 +1,7 @@
+<odoo>
+    <template id="advanced_chatter_assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/css" href="/advanced_chatter_view/static/src/css/chatter_panel.css"/>
+        </xpath>
+    </template>
+</odoo>
