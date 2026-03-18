@@ -35,7 +35,7 @@ Ideal For:
     "category": "Productivity",
     "license": "LGPL-3",
     "author": "inomERP",
-    "website": "inomerp.in",
+    "website": "https://inomerp.in/",
 
     "depends": [
         "base",
