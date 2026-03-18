@@ -1,0 +1,121 @@
+/* ================= ICON STYLE ================= */
+
+.icon {
+    background-color: #F8F8F8;
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+    font-size: 22px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+.icon:hover {
+    transform: scale(1.08);
+    background: #eaeaea;
+}
+.icon.active {
+    background: #007bff;
+    color: #fff;
+}
+.o_form_sheet_bg {
+    max-width: 1500px !important;
+    margin: 0 auto !important;
+    padding: 0 16px;
+    transition: max-width 0.35s ease, margin 0.35s ease;
+}
+.o_form_sheet {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+.o_form_view.o_chatter_open .o_form_sheet_bg {
+    max-width: calc(100% - 450px) !important;
+    margin-right: 450px !important;
+}
+.o-mail-Form-chatter {
+    width: 80px !important;
+    height: 100vh;
+    background-color: #ffffff;
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 20px;
+    border-left: 1px solid #eee;
+    z-index: 5;
+}
+.o_ChatterContainer {
+    position: absolute;
+    right: 80px;
+    top: 35px;
+    width: 350px;
+    height: calc(100vh - 40px);
+    background: #fff;
+    overflow-y: auto;
+    transform: translateX(100%);
+    transition: transform 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+}
+.o_ChatterContainer.show {
+    transform: translateX(0);
+}
+.chatter-close-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: #f1f1f1;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.chatter-close-btn:hover {
+    background: #e0e0e0;
+}
+.hide {
+    display: none;
+    font-size: 12px;
+    margin-top: 5px;
+}
+.icon:hover + .hide {
+    display: block;
+}
+.o_form_editable {
+    flex-direction: row !important;
+}
+@media (max-width: 768px) {
+    .o_form_editable {
+        flex-direction: column !important;
+    }
+    .o-mail-Form-chatter {
+        width: 100% !important;
+        height: auto;
+        position: relative;
+        flex-direction: row;
+        justify-content: center;
+    }
+    .o_form_sheet_bg {
+        max-width: 100% !important;
+        margin-right: 0 !important;
+    }
+    .o_ChatterContainer {
+        position: relative;
+        right: 0;
+        width: 100%;
+        height: auto;
+        transform: none;
+    }
+    .hide {
+        display: block;
+        margin-top: 10px;
+        margin-left: 0;
+    }
+}
