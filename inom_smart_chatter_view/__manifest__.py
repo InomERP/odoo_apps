@@ -9,7 +9,7 @@
 
     "category": "",
     "license": "LGPL-3",
-    "author": "inomERP",
+    "author": "InomERP",
     "website": "https://inomerp.in/",
 
     "depends": [
