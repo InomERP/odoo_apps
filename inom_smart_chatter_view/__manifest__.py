@@ -24,9 +24,9 @@
 
     "assets": {
         "web.assets_backend": [
-            "advanced_chatter_view/static/src/js/**/*.js",
-            "advanced_chatter_view/static/src/css/**/*.css",
-            "advanced_chatter_view/static/src/xml/**/*.xml",
+            "inom_smart_chatter_view/static/src/js/**/*.js",
+            "inom_smart_chatter_view/static/src/css/**/*.css",
+            "inom_smart_chatter_view/static/src/xml/**/*.xml",
         ],
     },
 
