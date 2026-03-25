@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_activity_rule_list" model="ir.ui.view">
+        <field name="name">activity.rule.list</field>
+        <field name="model">activity.rule</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="trigger"/>
+                <field name="activity_type_id"/>
+                <field name="days"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_activity_rule_form" model="ir.ui.view">
+        <field name="name">activity.rule.form</field>
+        <field name="model">activity.rule</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+
+                        <group>
+                            <field name="name"/>
+                            <field name="model_id"/>
+                            <field name="trigger"/>
+                        </group>
+                       
+                       <group>
+                            <field name="activity_type_id"/>
+                            <field name="user_id"/>
+                            <field name="days"/>
+                            <field name="note"/>
+                        </group>
+
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_activity_rule" model="ir.actions.act_window">
+        <field name="name">Activity Auto Rules</field>
+        <field name="res_model">activity.rule</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_activity_auto_root"
+              name="Activity Automation"/>
+
+    <menuitem id="menu_activity_rule"
+              name="Auto Activity Rules"
+              parent="menu_activity_auto_root"
+              action="action_activity_rule"/>
+
+</odoo>
