@@ -1,5 +1,5 @@
 {
-    'name': 'Simple Activity Auto Creator',
+    'name': 'Inom Automatic Activity Auto Creator'',
     'version': '19.0.1.0.0',
     'summary': 'Automatically create activities on SO confirmation and Invoice posting',
 
@@ -8,12 +8,11 @@ Automatically creates follow-up activities when:
 - Sales Order is confirmed
 - Invoice is posted
 
-Works in Community & Enterprise.
 """,
 
     'category': 'Productivity',
-    'author': 'INOM ERP',
-    'website': 'https://yourcompany.com',
+    'author': 'InomERP',
+    'website': 'https://inomerp.in/',
 
     'depends': [
         'mail',
