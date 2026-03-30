@@ -1,0 +1,14 @@
+<odoo>
+
+    <!-- User -->
+    <record id="group_purchase_discount_user" model="res.groups">
+        <field name="name">Purchase Discount User</field>
+    </record>
+
+    <!-- Manager -->
+    <record id="group_purchase_discount_manager" model="res.groups">
+        <field name="name">Purchase Discount Manager</field>
+        <field name="implied_ids" eval="[(4, ref('group_purchase_discount_user'))]"/>
+    </record>
+
+</odoo>
