@@ -1,0 +1,30 @@
+<odoo>
+    <record id="view_partner_form_overdue_button" model="ir.ui.view">
+        <field name="name">res.partner.overdue.button</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <field name="has_overdue" invisible="1"/>
+                <field name="overdue_message" invisible="1"/>
+            </xpath>
+            <!--RED ALERT -->
+            <xpath expr="//sheet" position="before">
+                <div class="alert alert-danger"
+                     invisible="not has_overdue">
+                    <field name="overdue_message" readonly="1"/>
+                </div>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_overdue"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-exclamation-circle">
+                    <field name="overdue_count"
+                           widget="statinfo"
+                           string="Overdue"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

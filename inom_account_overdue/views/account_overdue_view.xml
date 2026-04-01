@@ -1,0 +1,70 @@
+<odoo>
+    <!-- TREE / LIST VIEW -->
+    <record id="view_account_overdue_tree" model="ir.ui.view">
+        <field name="name">account.overdue.tree</field>
+        <field name="model">account.overdue</field>
+        <field name="arch" type="xml">
+            <tree string="Overdue Entries">
+                <field name="invoice_date"/>
+                <field name="date"/>
+                <field name="journal_id"/>
+                <field name="invoice_id"/>
+                <field name="partner_id"/>
+                <field name="label"/>
+                <!-- <field name="amount_currency" invisible="1"/> -->
+                <field name="debit"/>
+                <field name="credit"/>
+                <field name="tax_amount"/>
+                <field name="base_amount"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- FORM VIEW -->
+    <record id="view_account_overdue_form" model="ir.ui.view">
+        <field name="name">account.overdue.form</field>
+        <field name="model">account.overdue</field>
+        <field name="arch" type="xml">
+            <form string="Overdue Entry">
+                <sheet>
+                    <group>
+                        <field name="invoice_id"/>
+                        <field name="partner_id"/>
+                        <field name="journal_id"/>
+                    </group>
+                    <group>
+                        <field name="invoice_date"/>
+                        <field name="date"/>
+                    </group>
+                    <group>
+                        <field name="label"/>
+                    </group>
+                    <group string="Amounts">
+                        <field name="amount_currency"/>
+                        <field name="debit"/>
+                        <field name="credit"/>
+                        <field name="tax_amount"/>
+                        <field name="base_amount"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ACTION -->
+    <record id="action_account_overdue" model="ir.actions.act_window">
+        <field name="name">Overdue Entries</field>
+        <field name="res_model">account.overdue</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- MENU ROOT -->
+    <menuitem id="menu_account_overdue_root" name="Account Overdue" sequence="10"/>
+
+    <!-- SUB MENU -->
+    <menuitem id="menu_account_overdue_entries"
+              name="Overdue Entries"
+              parent="menu_account_overdue_root"
+              action="action_account_overdue"
+              sequence="1"/>
+</odoo>
