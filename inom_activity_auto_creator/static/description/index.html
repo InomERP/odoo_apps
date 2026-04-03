@@ -1,148 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>inomERP - Smart Activity Auto Creator</title>
+<meta charset="UTF-8"/>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+<style>
 
-    <style>
-        body{
-            font-family:'Montserrat',sans-serif;
-            background:linear-gradient(180deg,#f5f3ff,#ede9fe,#e0e7ff);
-            color:#1e1b4b;
-        }
+body{
+    font-family: Arial, sans-serif;
+    background:linear-gradient(180deg,#f5f3ff,#ede9fe,#e0e7ff);
+    color:#1e1b4b;
+    margin:0;
+}
 
-        .hero{
-            background: linear-gradient(135deg, #c7d2fe, #a78bfa, #e9d5ff);
-            border-radius: 30px;
-            padding: 70px 40px;
-            text-align:center;
-            box-shadow: 0 20px 50px rgba(139, 92, 246, 0.25);
-        }
+/* container */
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:60px 25px;
+}
 
-        .hero h1{
-            font-size:2.8rem;
-            font-weight:800;
-        }
+/* HERO */
+.hero{
+    background: linear-gradient(135deg, #c7d2fe, #a78bfa, #e9d5ff);
+    border-radius: 30px;
+    padding:80px 40px;
+    text-align:center;
+    box-shadow: 0 20px 50px rgba(139, 92, 246, 0.25);
+    margin-bottom:60px;
+}
 
-        .hero p{
-            font-size:18px;
-            max-width:800px;
-            margin:auto;
-            opacity:0.95;
-        }
+.hero h1{
+    font-size:42px;
+    font-weight:800;
+    margin-bottom:20px;
+}
 
-        .section-title{
-            font-size:2.2rem;
-            font-weight:800;
-            text-align:center;
-            margin:60px 0 40px;
-            color:#312e81;
-        }
+.hero p{
+    font-size:18px;
+    line-height:1.8;
+}
 
-        .card-box{
-            border-radius:22px;
-            padding:30px;
-            height:100%;
-            color:white;
-            transition:0.3s;
-        }
+/* TITLE */
+.section-title{
+    font-size:34px;
+    font-weight:800;
+    text-align:center;
+    margin:30px 0 20px;
+    color:#312e81;
+}
 
-        .card-box:hover{
-            transform:translateY(-6px);
-            box-shadow:0 15px 35px rgba(139,92,246,0.25);
-        }
+/* GRID */
+.row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:30px;
+}
 
-        .card1{background:linear-gradient(135deg,#6366f1,#8b5cf6);}
-        .card2{background:linear-gradient(135deg,#7c3aed,#9333ea);}
-        .card3{background:linear-gradient(135deg,#6d28d9,#8b5cf6);}
+.col-md-4{
+    flex:1;
+    min-width:280px;
+}
 
-        .icon-circle{
-            width:65px;
-            height:65px;
-            border-radius:50%;
-            background:rgba(255,255,255,0.25);
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            font-size:26px;
-            margin-bottom:15px;
-        }
+/* CARD */
+.card-box{
+    border-radius:22px;
+    padding:35px;
+    color:white;
+}
 
-        .workflow-box{
-            background:#ede9fe;
-            border-radius:18px;
-            padding:25px;
-            box-shadow:0 8px 25px rgba(139,92,246,0.15);
-            border-left:5px solid #8b5cf6;
-            margin-bottom:20px;
-        }
+.card-box h5{
+    font-size:20px;
+    margin-bottom:10px;
+}
 
-        .workflow-box p{
-            color:#4338ca;
-        }
+.card-box p{
+    font-size:16px;
+    line-height:1.7;
+}
 
-        .screenshot-box{
-            background:#ede9fe;
-            padding:20px;
-            border-radius:20px;
-            box-shadow:0 10px 30px rgba(139,92,246,0.2);
-            margin-bottom:30px;
-        }
+.card1{background:linear-gradient(135deg,#6366f1,#8b5cf6);}
+.card2{background:linear-gradient(135deg,#7c3aed,#9333ea);}
+.card3{background:linear-gradient(135deg,#6d28d9,#8b5cf6);}
 
-        .screenshot-box img{
-            border-radius:15px;
-            width:100%;
-        }
+.icon-circle{
+    width:70px;
+    height:70px;
+    font-size:28px;
+    margin-bottom:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(255,255,255,0.25);
+    border-radius:50%;
+}
 
-        .support-box{
-            background:linear-gradient(135deg,#ddd6fe,#ede9fe);
-            border-radius:20px;
-            padding:30px;
-            box-shadow:0 10px 30px rgba(139,92,246,0.2);
-            margin-top:40px;
-        }
+/* WORKFLOW */
+.workflow-box{
+    background:#ede9fe;
+    border-radius:18px;
+    padding:30px;
+    margin-bottom:25px;
+}
 
-        .footer{
-            background:linear-gradient(135deg,#1e1b4b,#312e81);
-            color:white;
-            border-radius:20px;
-            padding:30px;
-            text-align:center;
-            margin-top:50px;
-        }
+.workflow-box h5{
+    font-size:18px;
+    margin-bottom:5px;
+}
 
-        a{
-            text-decoration:none;
-            color:#4f46e5;
-        }
+.workflow-box p{
+    font-size:16px;
+    line-height:1.7;
+}
 
-        .btn-primary{
-            background:#7c3aed;
-            border:none;
-        }
+/* SCREENSHOT */
+.screenshot-box{
+    background:#ede9fe;
+    padding:25px;
+    border-radius:20px;
+    margin-bottom:20px;
+}
 
-        .btn-primary:hover{
-            background:#6d28d9;
-        }
-    </style>
+.screenshot-box h6{
+    font-size:16px;
+    margin-bottom:5px;
+}
+
+.screenshot-box img{
+    width:100%;
+    border-radius:15px;
+}
+
+/* SUPPORT */
+.support-box{
+    background:linear-gradient(135deg,#ddd6fe,#ede9fe);
+    border-radius:20px;
+    padding:20px;
+    margin-top:40px;
+    text-align:center;
+}
+
+.support-box h4{
+    font-size:22px;
+    margin-bottom:10px;
+}
+
+.support-box p{
+    font-size:16px;
+    line-height:1.8;
+}
+
+/* BUTTON */
+.btn-primary{
+    display:inline-block;
+    margin-top:15px;
+    padding:10px 20px;
+    background:#7c3aed;
+    color:white;
+    border-radius:8px;
+    text-decoration:none;
+}
+
+.btn-primary:hover{
+    background:#6d28d9;
+}
+
+/* FOOTER */
+.footer{
+    background:linear-gradient(135deg,#1e1b4b,#312e81);
+    color:white;
+    border-radius:20px;
+    padding:25px;
+    text-align:center;
+    margin-top:50px;
+}
+
+</style>
 </head>
 
 <body>
 
-<div class="container py-5">
+<div class="container">
 
     <!-- HERO -->
-    <div class="hero mb-5">
-        <img src="./logo.png" style="width:220px;" class="mb-3"/>
-
+    <div class="hero">
+        <img src="./logo.png" style="width:220px;margin-bottom:15px;"/>
         <h1>Smart Activity Auto Creator</h1>
-
-        <p class="mt-3">
+        <p>
             Automate your follow-ups effortlessly in Odoo.  
             This module automatically creates activities based on key business actions 
             like Sales Orders and Invoices — ensuring no task is ever missed.
@@ -154,39 +197,27 @@
 
     <div class="row">
 
-        <div class="col-md-4 mb-4">
+        <div class="col-md-4">
             <div class="card-box card1">
-                <div class="icon-circle">
-                    <i class="fa fa-shopping-cart"></i>
-                </div>
+                <div class="icon-circle">🛒</div>
                 <h5>Sales Order Automation</h5>
-                <p>
-                    Automatically creates activities when a Sales Order is confirmed.
-                </p>
+                <p>Automatically creates activities when a Sales Order is confirmed.</p>
             </div>
         </div>
 
-        <div class="col-md-4 mb-4">
+        <div class="col-md-4">
             <div class="card-box card2">
-                <div class="icon-circle">
-                    <i class="fa fa-file-invoice"></i>
-                </div>
+                <div class="icon-circle">📄</div>
                 <h5>Invoice Triggered Activities</h5>
-                <p>
-                    Instantly generate follow-up tasks after invoice posting.
-                </p>
+                <p>Instantly generate follow-up tasks after invoice posting.</p>
             </div>
         </div>
 
-        <div class="col-md-4 mb-4">
+        <div class="col-md-4">
             <div class="card-box card3">
-                <div class="icon-circle">
-                    <i class="fa fa-cogs"></i>
-                </div>
+                <div class="icon-circle">⚙️</div>
                 <h5>Fully Configurable</h5>
-                <p>
-                    Customize activity type, responsible user, deadline, and notes.
-                </p>
+                <p>Customize activity type, responsible user, deadline, and notes.</p>
             </div>
         </div>
 
@@ -209,53 +240,57 @@
     <h2 class="section-title">📸 Screenshots</h2>
 
     <div class="screenshot-box">
-        <h6 class="text-center mb-3">Sales Order Activity</h6>
+        <h6>Sales Order Activity</h6>
         <img src="./icon1_static.png"/>
     </div>
 
     <div class="screenshot-box">
-        <h6 class="text-center mb-3">Invoice Activity</h6>
+        <h6>Invoice Activity</h6>
         <img src="./icon2_static.png"/>
     </div>
 
     <!-- SUPPORT -->
-    <div class="support-box text-center">
-        <h4 style="font-weight:700;">💬 Need Help or Customization?</h4>
+    <div class="support-box">
 
-        <p class="mt-3">
-            For <strong>support, bug reports, or customization requests</strong>, feel free to reach out to us.
-        </p>
+        <h4>💬 Need Help or Customization?</h4>
 
-        <p style="font-size:18px; font-weight:600;">
-            📧 Email: 
-            <a href="mailto:info@inomerp.in">info@inomerp.in</a>
-        </p>
-
-        <hr/>
-
-        <h5 class="mt-3">🚀 Connect With Us</h5>
         <p>
-            For demos, enterprise solutions, or advanced customization — connect with our team.
+            For support, bug reports, or customization requests, contact us:
         </p>
 
-        <a href="https://www.inomerp.in/contactus" target="_blank" 
-           class="btn btn-primary px-4 py-2">
-           Contact Us
+        <p><b>info@inomerp.in</b></p>
+
+        <a href="https://www.inomerp.in/contactus" target="_blank" class="btn-primary">
+            Contact Us
         </a>
+
+        <hr style="margin:30px 0;">
+
+        <p>
+            We provide a <strong>one-time setup and installation service completely free of cost</strong>
+            on any Odoo-supported server. Our experienced team ensures smooth deployment.
+        </p>
+
+        <p>
+            <strong style="color:#d32f2f;">Important Note:</strong><br/>
+            Free support is provided for standard Odoo code only. 
+            Third-party or custom issues may be chargeable.
+        </p>
+
     </div>
 
     <!-- FOOTER -->
-    <div class="footer">
-        <h4>inomERP</h4>
-        <p>Odoo Experts | ERP Solutions | Custom Development</p>
+   <div class="footer">
+    <h4>inomERP</h4>
+    <p>Odoo Experts | ERP Solutions | Custom Development</p>
 
-        <p>
-            🌐 
-            <a href="https://inomerp.in" target="_blank" style="color:white;font-weight:600;">
-                www.inomerp.in
-            </a>
-        </p>
-    </div>
+    <p style="margin-top:10px;">
+        🌐 
+        <a href="https://inomerp.in" target="_blank" style="color:#c4b5fd; text-decoration:none; font-weight:600;">
+            www.inomerp.in
+        </a>
+    </p>
+</div>
 
 </div>
 
