@@ -1,5 +1,5 @@
 {
-    'name': 'Sale Global Discount Approval',
+    'name': 'Inom Sale Global Discount Approval',
 
     'version': '17.0.1.0.0',
 
