@@ -27,13 +27,15 @@
     padding: 0 16px;
     transition: max-width 0.35s ease, margin 0.35s ease;
 }
-.o_form_sheet {
+.o_form_sheet_bg {
     width: 100% !important;
-    max-width: 100% !important;
+    max-width: 1500px !important;
+    transition: width 0.75s cubic-bezier(0.4, 0, 0.2, 1),
+                margin-right 0.75s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .o_form_view.o_chatter_open .o_form_sheet_bg {
-    max-width: calc(100% - 450px) !important;
-    margin-right: 450px !important;
+    width: calc(100% - 430px) !important; /* 80 + 350 */
+    margin-right: 430px !important;
 }
 .o-mail-Form-chatter {
     width: 80px !important;
