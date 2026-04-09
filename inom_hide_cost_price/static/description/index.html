@@ -1,145 +1,708 @@
-<h1>Inom Hide Product Cost Price</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Inom Hide Product Cost Price</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
+    <style>
+        :root {
+            --primary-color: #7f54b3;
+            --bg-white: #fff;
+            --text-color: #121212;
+            --text-color-light: #64728f;
+        }
 
-<p>
-Inom Hide Product Cost Price module helps you protect sensitive pricing
-information by restricting access to the product cost price
-(<strong>standard_price</strong>) based on user permissions.
-</p>
+        body {
+            font-family: "Montserrat", sans-serif;
+        }
 
-<p>
-Product cost price is a critical business value and should only be visible
-to authorized users such as administrators or accountants. This module
-adds an additional security layer to ensure confidentiality and better
-role-based access control.
-</p>
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+            color: #121212;
+            font-family: Montserrat;
+            font-size: 16px !important;
+            font-weight: 500 !important;
+            border-radius: 30px;
+            line-height: normal;
+            text-transform: capitalize;
+            background-color: #F5F5F5;
+            border: none;
+            margin-bottom: 0;
+            padding: 8px 20px;
+        }
 
-<hr/>
+        .nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
+            border-color: transparent;
+            isolation: isolate;
+        }
 
-<h2>Why Choose This Module?</h2>
-<p>
-In many organizations, exposing product cost price to all users can lead
-to data leakage and internal conflicts. This module ensures that only
-authorized users can view cost prices, improving internal security and
-maintaining pricing confidentiality across departments.
-</p>
+        .nav-tabs .nav-link:focus-visible {
+            border-color: transparent;
+            box-shadow: none;
+        }
 
-<hr/>
+        /* owl-carosel */
+        .owl-carousel .owl-nav {
+            position: absolute;
+            top: 42%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-42%);
+        }
 
-<h2>Key Features</h2>
-<ul>
-    <li>
-        <strong>Cost Price Access Control</strong><br/>
-        Restricts visibility of product cost price based on assigned user groups.
-    </li>
+        .owl-carousel .owl-nav button.owl-prev {
+            position: absolute;
+            right: -36px;
+            font-size: 28px;
+            background-color: #e4e4e4;
+            border-radius: 20px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-    <li>
-        <strong>Dedicated Security Group</strong><br/>
-        Adds a new user group <strong>“View Cost Price”</strong> to manage access permissions.
-    </li>
+        .owl-carousel .owl-nav button.owl-next {
+            position: absolute;
+            left: -36px;
+            font-size: 28px;
+            background-color: #e4e4e4;
+            border-radius: 20px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
-    <li>
-        <strong>Product Form View Support</strong><br/>
-        Cost price field is displayed only to authorized users in the product form view.
-    </li>
+        }
 
-    <li>
-        <strong>Product List (Tree) View Support</strong><br/>
-        Cost price column visibility is controlled in the product list view.
-    </li>
+    </style>
+</head>
+<body>
+<!-- overview -->
+<div class="container">
+    <div class="my-5">
+        <!-- button tab -->
+        <!--  -->
+        <!-- version support -->
+        <div class="my-3 d-flex align-items-center justify-content-end">
+            <div class="text-center"
+                 style="background-color:#017E84 !important; font-size:0.8rem !important; color:#fff !important; font-weight:500 !important; padding:4px !important; margin:0 3px !important; border-radius:50px !important; min-width:120px !important">
+                Community
+            </div>
+           <div class="text-center"
+                 style="background-color:#875A7B !important; color:#fff !important; font-size:0.8rem !important; font-weight:500 !important; padding:4px !important; margin:0 3px !important; border-radius:50px !important; min-width:120px !important">
+                Enterprise
+            </div>
+           <div class="text-center"
+            style="background-color:#7C7BAD !important; color:#fff !important; font-size:0.8rem !important; font-weight:500 !important; padding:4px !important; margin:0 3px !important; border-radius:50px !important; min-width:120px !important">
+            Odoo.sh </div>
+        </div>
+       <div class="tab-content" id="myTabContent">
+    <!-- description -->
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        
+        <div class="position-relative" style="border-radius: 16px; background: #f8f8f8; padding: 20px 0;">
+            
+            <div class="row" style="padding: 2rem 0rem 0 !important;">
+                
+                <!-- Heading -->
+                <div class="col-lg-8 mx-auto gap-4 d-flex flex-column align-items-center">
+                    
+                    <p class="my-1 text-center text-uppercase"
+                       style="letter-spacing: 4px; color: #7f54b3; font-weight: 600; font-size: 14px;">
+                       Hide Product Cost Price
+                    </p>
 
-    <li>
-        <strong>Improved Data Confidentiality</strong><br/>
-        Prevents sensitive cost data from being exposed to non-authorized users.
-    </li>
+                    <h1 class="text-center text-uppercase my-0"
+                        style="color: #121212; font-size: 46px; font-weight: 700;">
+                        Inom Hide Product Cost Price
+                    </h1>
 
-    <li>
-        <strong>Odoo 19 Compatible</strong><br/>
-        Fully compatible with Odoo 19 Community and Enterprise editions.
-    </li>
-</ul>
+                </div>
 
-<hr/>
+                <!-- SAME IMAGE (No Change) -->
+                <div class="col-lg-12 d-flex justify-content-center align-items-center"
+                     style="margin: 1rem 0;">
+                    <img src="./assets/icons/logo.png"
+                         style="width: 30%; height: auto;"
+                         class="img-responsive"/>
+                </div>
 
-<h2>How It Works</h2>
-<p>
-1. Install the module.<br/>
-2. A new security group <strong>“View Cost Price”</strong> is created automatically.<br/>
-3. Assign this group to users who are allowed to see product cost prices.<br/>
-4. Users without this group will not see the cost price field in product views.
-</p>
+                <!-- Buttons -->
+                <div class="col-md-12 text-center">
+                    
+                    <a href="mailto:info@inomerp.in"
+                       target="_blank"
+                       style="background-color: transparent;
+                              border-radius: 35px;
+                              padding: 7px 23px;
+                              border: 1px solid #7f54b3;
+                              color: #7f54b3;
+                              text-decoration: none;"
+                       class="mx-1 mb-2">
+                        <img style="width: 24px" src="./assets/icons/mail.svg"/>
+                        <span style="font-size: 16px;">Email Us</span>
+                    </a>
 
-<hr/>
+                </div>
 
-<h2>Business Benefits</h2>
-<ul>
-    <li>Protects sensitive product cost information</li>
-    <li>Improves internal data security</li>
-    <li>Prevents unauthorized access to pricing values</li>
-    <li>Supports role-based user access control</li>
-    <li>Enhances operational transparency and compliance</li>
-</ul>
+                <!-- SAME GIF (No Change) -->
+                <div class="d-flex justify-content-center mt-2">
+                    <img src="./assets/icons/InomERP dashboard and global connections.png"
+                         class="w-100"
+                         style="z-index: 3; height: auto;">
+                </div>
 
-<hr/>
+            </div>
 
-<h2>Module Screenshots</h2>
-<p>
-Below are preview images demonstrating cost price visibility based on user permissions.
-</p>
+            <!-- Background SAME -->
+            <div class="position-absolute bottom-0" style="z-index: 1; width: 100%;">
+                <img src="./assets/icons/banner-bg.svg" class="img-fluid w-100">
+            </div>
 
-<h3> user Form View – Cost Price Visible (Authorized User)</h3>
+            <div class="position-absolute bottom-0 end-0" style="z-index: 2;">
+                <img src="./assets/icons/patter.svg">
+            </div>
 
-<img src="icon_cost_view2.png"
-     alt="Product list view showing cost price column"/>
+        </div>
+    </div>
+</div>
+                <!-- key-highlight -->
+                <div class="" style="border-radius: 16px;
+     padding: 60px 40px;
+     border: 1px solid #EBEEF2;
+     background: #F5F5F7;
+     box-shadow: 0px 5px 20px -11px rgba(0, 0, 0, 0.25); ">
+                    <div class="row">
+                        <div class="col-lg-12 d-flex flex-column justify-content-center align-items-center">
+                            <h2 style=" color: #121212;
+            text-align: center;
+            font-size: 40px;
+            font-weight: 700;
+            text-transform: uppercase; padding-bottom: 50px;">Key
+                                Highlights</h2>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="mb-4 d-flex flex-column justify-content-center gap-3"
+                                 style="border-radius: 12px; border: 1px solid  #B6BCCD;
+            background:  #FFF;padding:32px ">
+                                <div class="d-flex justify-content-center align-items-center"
+                                     style="background-color:#7847D9 !important; border-radius:8px !important; height:42px; width:42px">
+                                    <img src="./assets/icons/feature-icon.svg"
+                                         class="img-responsive" height="26px"
+                                         width="26px">
+                                </div>
+                                <h5 class="m-0"
+                                    style="color:#000 !important; font-weight:bold">
+                                    Hide Product Cost Information
+                                </h5>
+                                <p class="m-0"
+                                   style="font-size:0.9rem; color:var(--text-color-light); font-size: 16px; font-weight: 400;">
+                                    Securely hides the product cost price from forms, product views, and related documents to prevent unauthorized access to sensitive pricing data.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="mb-4 d-flex flex-column justify-content-center gap-3"
+                                 style="border-radius: 12px;
+          border: 1px solid  #B6BCCD;
+          background:  #FFF;padding:32px ">
+                                <div class="d-flex justify-content-center align-items-center"
+                                     style="background-color:#7847D9 !important; border-radius:8px !important; height:42px; width:42px">
+                                    <img src="./assets/icons/feature-icon.svg"
+                                         class="img-responsive" height="26px"
+                                         width="26px">
+                                </div>
+                                <h5 class="m-0"
+                                    style="color:#000 !important; font-weight:bold">
+                                   Improved Data Privacy & Security
+                                </h5>
+                                <p class="m-0"
+                                   style="font-size:0.9rem; color:var(--text-color-light); font-size: 16px; font-weight: 400;">
+                                    Protects confidential cost details, ensuring that only authorized users can access internal product cost information..
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="mb-4 d-flex flex-column justify-content-center gap-3"
+                                 style="border-radius: 12px;
+          border: 1px solid  #B6BCCD;
+          background:  #FFF;padding:32px ">
+                                <div class="d-flex justify-content-center align-items-center"
+                                     style="background-color:#7847D9; border-radius:8px !important; height:42px; width:42px">
+                                    <img src="./assets/icons/feature-icon.svg"
+                                         class="img-responsive" height="26px"
+                                         width="26px">
+                                </div>
+                                <h5 class="m-0"
+                                    style="color:#000 !important; font-weight:bold">
+                                    Better Role-Based Access Control
+                                </h5>
+                                <p class="m-0"
+                                   style="font-size:0.9rem; color:var(--text-color-light); font-size: 16px; font-weight: 400;">
+                                     Helps businesses maintain proper user permissions by restricting cost visibility for sales teams, employees, or non-finance users..
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--code  -->
+                <div class="my-5">
+                    <div style=" padding: 5rem 4rem 5rem 4rem; background-color: #0A1425; border-radius: 12px; position: relative;">
+                        <div class="wrapper-info"
+                             style="display: flex; flex-direction: column; gap: 20px;">
+                            <span class="wrapper-subtitle"
+                                  style="font-size: 40px; font-weight: 700; color: #fff;line-height: 60px; text-transform: capitalize; width: 450px;">Inom Hide Product Cost Price</span>
+                            <h3 class="wrapper-details"
+                                style="font-size: 20px; font-weight: 400; color: #fff; line-height: 32px; ">
+                                Are you ready to make your business more
+                                organized?
+                                <br> Improve now!
+                            </h3>
+                            <div class="d-flex gap-3">
+                                    <!-- <span style="font-weight: 500;">+91 9074270811</span> -->
+                                </a>
+                            </div>
+                        </div>
+                        <div class=""
+                             style="position: absolute; bottom: 0; right: 0;">
+                            <img src="./assets/icons/banner-pattern.svg"
+                                 style="width: 540px;">
+                        </div>
+                    </div>
+                </div>
+                <!-- end-code -->
+                <!--  -->
+              
+                <!-- screenshot and other -->
 
-<br/><br/><br/>
+                <div class="mb-4 bg-white"
+                     style=" border: 1px solid #EBEEF2; border-radius: 6px; box-shadow: 0px 8px 20px -4px rgba(0, 0, 0, 0.10); border: 1px solid #EBEEF2;">
+                    <div>
+                        <ul class="nav nav-tabs justify-content-center bg-white py-2"
+                            id="myTab" role="tablist"
+                            style="border-radius: 6px 6px 0 0;">
+                            <li class="nav-item">
+                                <a aria-controls="overview"
+                                   aria-bs-selected="true"
+                                   class="nav-link active" data-bs-toggle="tab"
+                                   href="#overview" id="overview-tab" role="tab"
+                                   style="color:#121212; font-weight:900; font-size:0px">
+                                    Screenshots</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content p-md-5 p-2 py-3" id="myTabContent">
+                        <div aria-labelledby="overview-tab"
+                             class="tab-pane fade show active" id="overview"
+                             role="tabpanel">
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px">
+                                <img alt="acc_bg"
+                                     class="w-100 h-100 position-absolute img-fluid left_0"
+                                     loading="lazy"
+                                     src="//apps.odoocdn.com/apps/assets/17.0/ks_dashboard_ninja/ai-img/o3.png?007008f"
+                                     style="">
+                            </div>
+                            <!-- screenshots section-->
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Default Product Cost Visibility
+                                      </span>
+                                                <!-- <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">on Sales Order Confirmation</span> -->
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  This screen shows the product form where the cost price is visible by default to the user before applying any access restriction.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="icon_cost_view1.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Configure Hide Product Cost Access Rights
+                                      </span>
+                                                <!-- <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">on Sales Order Confirmation</span> -->
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  Go to Settings → Users & Companies → Users / Access Rights and enable the “Hide Product Cost” permission for the required user role to restrict cost visibility.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="icon_cost_view2.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <div aria-labelledby="faq-tab"
+                             class="tab-pane fade show" id="faq"
+                             role="tabpanel">
+                            <div class="row"
+                                 style=" background-color:#fff !important">
+                                <div class="col-md-12" aria-labelledby="faq-tab"
+                                     id="faq" role="tabpanel">
+                                    <div class="accordion mb-4" id="accordion6">
+                                        <div style="background-color:#fff">
+                                            <!-- accordian -->
+                                            <div class="accordion"
+                                                 id="accordion_faq">
+                                                <!-- Question 1 -->
+                                                <div class=""
+                                                     style="margin:1rem 0rem">
+                                                    <div aria-expanded="false"
+                                                         class=" card-header collapsed"
+                                                         data-bs-toggle="collapse"
+                                                         data-bs-target="#collapseFAQOne"
+                                                         href="#collapseFAQOne"
+                                                         aria-controls="collapseFAQOne"
+                                                         style="cursor: pointer; background-color:#f8f8f8; border:none; border-top-right-radius:10px; border-top-left-radius:10px; padding: 12px 24px;">
+                                                    </div>
+                                                    <div class="accordion-collapse collapse"
+                                                         aria-labelledby="collapseFAQOne"
+                                                         data-bs-parent="#accordion_faq"
+                                                         id="collapseFAQOne"
+                                                         style=" box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px; border: 1px solid #f8f8f8; border-bottom-right-radius:10px; border-bottom-left-radius:10px">
+                                                        <p style=" padding:0.75rem 1.25rem; font-size:16px; line-height:27px;  color:#888; font-weight:normal; border-bottom-right-radius:10px; border-bottom-left-radius:10px">
+                                                            For printing images in the report first we have enable 'Show Product image in the report' option in the configuration settings.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--  -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div aria-labelledby="releases-tab"
+                             class="tab-pane fade show" id="releases"
+                             role="tabpanel">
+                            <!-- Release Notes -->
+                            <div class="row pt-5 m-0">
+                                <div class="col-md-3">
+                                </div>
+                                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+              
+                <!-- service-section -->
 
-<h3>Product List View – Cost Price Visible</h3>
-<img src="icon_cost_view1.png"
-     alt="user&companies form view showing cost price for authorized user"/>
+                <section id="services" class="mt-5" style="border-radius: 16px;
+                                                            border: 1px solid #EBEEF2;
+                                                            background: var(--Neutral-N0, #FFF);
+                                                            padding: 30px 20px;
+                                                            box-shadow: 0px 5px 20px -11px rgba(0, 0, 0, 0.25);">
+                    <div class="text-center mt-4"><h3 class="mb-0" style="color: #000;
+                                                                  text-align: center;
+                                                                  font-family: Montserrat;
+                                                                  font-size: 40px;
+                                                                  font-style: normal;
+                                                                  font-weight: 700;
+                                                                  line-height: normal;
+                                                                  text-transform: uppercase;
+                                                                  padding-bottom: 50px;">
+                        Our Services</h3></div>
+                    <div class="row mt-3">
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold;background-color:#FFE2E5; margin:auto; gap: 16px; border-radius: 8px;">
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#FA5A7D; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/gear.svg"
+                                             class="img-responsive"
+                                             height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px;
+                                  color: var(--text-color);
+                                  font-weight: 600;"> Odoo Customization</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold;background-color:#FFF4DE; margin:auto; gap: 16px; border-radius: 8px;">
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#FF947A; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/wrench-icon.svg"
+                                             class="img-responsive"
+                                             height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px;
+                    color: var(--text-color);
+                    font-weight: 600;"> Odoo Implementation</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold;background-color:#DCFCE7; margin:auto; gap: 16px; border-radius: 8px;">
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#3CD856; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/life-ring-icon.svg"
+                                             class="img-responsive"
+                                             height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px;
+                  color: var(--text-color);
+                  font-weight: 600;">Odoo Support</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold;background-color:#F3E8FF; margin:auto; gap: 16px; border-radius: 8px;">
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#BF83FF; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/arrows-repeat.svg"
+                                             class="img-responsive"
+                                             height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px;
+                color: var(--text-color);
+                font-weight: 600;">Odoo Migration</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold;background-color:#F1F9FF; margin:auto; gap: 16px; border-radius: 8px;">
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#01649C; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/puzzle-piece-icon.svg"
+                                             class="img-responsive"
+                                             height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px;
+              color: var(--text-color);
+              font-weight: 600;">Odoo integration</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold;background-color:#EDF8ED; margin:auto; gap: 16px; border-radius: 8px;">
 
-     
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#69CC70; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/odoo-consultancy.svg"
+                                             class="img-responsive"
+                                             height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px;
+            color: var(--text-color);
+            font-weight: 600;">Odoo Consultancy</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold;background-color:#F1F6FF; margin:auto; gap: 16px; border-radius: 8px;">
 
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#2E4556; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/odoo-licencing.svg"
+                                             class="img-responsive"
+                                             height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px;
+          color: var(--text-color);
+          font-weight: 600;">Odoo Licensing</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold;background-color:#FAF6EA; margin:auto; gap: 16px; border-radius: 8px;">
 
-<br/><br/>
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#FCD12C; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/hire-odoo.svg"
+                                             class="img-responsive"
+                                             height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px;
+          color: var(--text-color);
+          font-weight: 600;">Hire Odoo Developer</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+            </div>
+            <!-- licence -->
+            <div class="tab-pane fade" id="profile" role="tabpanel"
+                 aria-labelledby="profile-tab">
+                <div class="px-5">
+                    ....
+                </div>
+            </div>
+            <!--  -->
+        </div>
+        </section>
+        <!--  -->
+    </div>
+</div>
+<div style="max-width:850px;margin:10px auto;
+padding:35px 25px;
+border-radius:16px;
+background-color:#0f172a;
+color:#fff;
+font-family: 'Segoe UI', sans-serif;
+box-shadow:0 10px 30px rgba(0,0,0,0.2);">
 
-<hr/>
+    <!-- HEADER -->
+    <div style="text-align:center;margin-bottom:20px;">
+        <h2 style="margin:0;font-size:26px;font-weight:600;">
+            Support & Customization
+        </h2>
+        <p style="color:#94a3b8;font-size:14px;margin-top:6px;">
+            We're here to help you with setup, customization & support
+        </p>
+    </div>
 
-<h2>Support & Customization</h2>
-<p>
-For support, bug reports, or customization requests, please contact us:
-</p>
+    <!-- EMAIL BUTTON -->
+    <div style="text-align:center;margin-bottom:25px;">
+        <a href="mailto:info@inomerp.in"
+           style="background:linear-gradient(135deg,#7f54b3,#9b6cff);
+           color:#fff;
+           padding:10px 22px;
+           border-radius:30px;
+           text-decoration:none;
+           font-size:14px;
+           font-weight:500;
+           display:inline-block;
+           box-shadow:0 4px 10px rgba(127,84,179,0.4);">
+            📩 info@inomerp.in
+        </a>
+    </div>
 
-<p>
-<strong>Email:</strong>
-<a href="mailto:info@inomerp.in">info@inomerp.in</a>
-</p>
+    <!-- SUPPORT CARD -->
+    <div style="background:rgba(255,255,255,0.05);
+                padding:18px 20px;
+                border-radius:12px;
+                border:1px solid rgba(255,255,255,0.08);
+                backdrop-filter: blur(6px);">
 
-<hr/>
+        <h4 style="color:#f87171;font-size:17px;margin-bottom:6px;">
+            🚀 Free Installation Support
+        </h4>
 
-<h2 style="color:#d32f2f;">
-One-Time Setup & Free Installation Support
-</h2>
+        <p style="font-size:13px;color:#e2e8f0;margin-bottom:6px;">
+            One-time free setup on Odoo server with proper configuration.
+        </p>
 
-<p>
-We provide a <strong>one-time setup and installation service completely free of cost</strong>
-on <strong>any Odoo-supported server</strong>. Our experienced technical team ensures
-proper installation, configuration, and deployment so you can start using
-the module smoothly without any technical complications.
-</p>
+        <p style="font-size:12px;color:#94a3b8;margin:0;">
+            Third-party or custom development requests may be chargeable.
+        </p>
+    </div>
 
-<p>
-<strong>Important Note:</strong><br/>
-Free support is provided for issues caused by the <strong>standard Odoo source code</strong>
-related to this module. Any issues arising due to <strong>third-party modules,
-custom developments, or compatibility conflicts</strong> are outside the scope of
-free support and may be <strong>chargeable</strong>.
-</p>
+    <!-- BUTTON -->
+    <div style="text-align:center;margin-top:25px;">
+        <a href="https://inomerp.in"
+           target="_blank"
+           style="border:1px solid #7f54b3;
+           color:#fff;
+           padding:9px 22px;
+           border-radius:30px;
+           text-decoration:none;
+           font-size:13px;
+           transition:0.3s;">
+            🌐 Visit Website
+        </a>
+    </div>
 
-<hr/>
+    <!-- FOOTER -->
+    <div style="text-align:center;margin-top:30px;
+                border-top:1px solid rgba(255,255,255,0.1);
+                padding-top:15px;">
 
-<h2>Connect With Us</h2>
-<p>
-For demos, customization, or enterprise support, connect with our team:
-</p>
+        <strong style="font-size:14px;letter-spacing:1px;">
+            INOM ERP
+        </strong>
 
-<a href="https://inomerp.in/contactus">https://www.inomerp.in/contactus</a>
+        <p style="font-size:12px;color:#94a3b8;margin-top:5px;">
+            Odoo Experts | ERP Solutions | Custom Development
+        </p>
+    </div>
+
+</div>
+</div>
+
+</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script>
+    $('.owl-carousel').owlCarousel({
+     rtl:true,
+     loop:true,
+     margin:10,
+     nav:true,
+     responsive:{
+         0:{
+             items:1
+         },
+         600:{
+             items:3
+         },
+         1000:{
+             items:3
+         }
+     }
+ })
+</script>
+</html>
