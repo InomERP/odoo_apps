@@ -1,0 +1,5 @@
+<odoo>
+    <record id="due_payment_dashboard_main" model="due.payment.dashboard">
+        <field name="name">Due Payment Overview</field>
+    </record>
+</odoo>
