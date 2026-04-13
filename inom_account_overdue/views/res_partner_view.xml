@@ -4,27 +4,57 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
+
+            <!-- Hidden fields -->
             <xpath expr="//sheet" position="inside">
                 <field name="has_overdue" invisible="1"/>
                 <field name="overdue_message" invisible="1"/>
+
+                <field name="has_vendor_overdue" invisible="1"/>
+                <field name="vendor_overdue_message" invisible="1"/>
             </xpath>
-            <!--RED ALERT -->
+
+            <!-- Customer Red Alert -->
             <xpath expr="//sheet" position="before">
                 <div class="alert alert-danger"
                      invisible="not has_overdue">
                     <field name="overdue_message" readonly="1"/>
                 </div>
             </xpath>
+
+            <!-- Vendor Red Alert -->
+            <xpath expr="//sheet" position="before">
+                <div class="alert alert-warning"
+                     invisible="not has_vendor_overdue">
+                    <field name="vendor_overdue_message" readonly="1"/>
+                </div>
+            </xpath>
+
+            <!-- Smart Buttons -->
             <xpath expr="//div[@name='button_box']" position="inside">
+
+                <!-- Customer Due Button -->
                 <button name="action_view_overdue"
                         type="object"
                         class="oe_stat_button"
                         icon="fa-exclamation-circle">
                     <field name="overdue_count"
                            widget="statinfo"
-                           string="Overdue"/>
+                           string="Customer Due"/>
                 </button>
+
+                <!-- Vendor Due Button -->
+                <button name="action_view_vendor_overdue"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-file-text-o">
+                    <field name="vendor_overdue_count"
+                           widget="statinfo"
+                           string="Vendor Due"/>
+                </button>
+
             </xpath>
+
         </field>
     </record>
 </odoo>
