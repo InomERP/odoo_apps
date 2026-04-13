@@ -17,7 +17,9 @@ This module helps finance teams manage outstanding dues efficiently.
     'data': [
         'security/ir.model.access.csv',
         'views/account_overdue_view.xml',
+        'views/dashboard_views.xml',
         'views/res_partner_view.xml',
+        'data/dashboard_data.xml',
         'data/cron.xml',
     ],
     'images': [
