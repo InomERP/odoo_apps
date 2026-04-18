@@ -24,7 +24,7 @@ Main Features:
 Compatible with Odoo 17 Community & Enterprise.
 """,
 
-    'author': 'INOM ERP',
+    'author': 'InomERP',
 
     'website': 'https://inomerp.in/',
 
