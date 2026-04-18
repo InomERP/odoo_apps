@@ -23,7 +23,7 @@ Main Features:
 Compatible with Odoo Community & Enterprise.
 """,
 
-    'author': 'INOM ERP',
+    'author': 'InomERP',
 
     'website': 'https://inomerp.in/',
 
