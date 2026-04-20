@@ -1,5 +1,5 @@
 {
-    'name': 'inom_pg_query_toolkit',
+    'name': 'Inom Pg Query Toolkit',
     'version': '18.0.0.0',
     'category': 'Tools',
     'summary': 'An advanced Odoo module for executing PostgreSQL queries and managing database operations efficiently.',
