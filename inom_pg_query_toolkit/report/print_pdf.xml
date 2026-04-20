@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<odoo>
+    <template id="pdf_layout">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+
+                <div class="page" style="font-family: Arial;">
+
+                    <!-- TITLE -->
+                    <div style="text-align:center; font-size:20px; font-weight:bold; margin-bottom:15px;">
+                        <span t-field="doc.name"/>
+                    </div>
+
+                    <!-- QUERY RESULT -->
+                    <t t-set="results" t-value="doc.get_result_query(doc.name)"/>
+                    <t t-set="headers" t-value="results[0]"/>
+                    <t t-set="bodies" t-value="results[1]"/>
+
+                    <div t-if="headers and bodies">
+
+                        <table style="
+                            width:100%;
+                            border-collapse:collapse;
+                            font-size:13px;
+                            text-align:center;">
+
+                            <!-- HEADER -->
+                            <thead>
+                                <tr style="background-color:#f2f2f2;">
+                                    <th style="border:1px solid #000; padding:8px; background:#ffffff;">#</th>
+
+                                    <t t-foreach="headers" t-as="header">
+                                        <th style="border:1px solid #000; padding:8px;">
+                                            <t t-out="header"/>
+                                        </th>
+                                    </t>
+                                </tr>
+                            </thead>
+
+                            <!-- BODY -->
+                            <tbody>
+                                <t t-foreach="bodies" t-as="body" t-foreach-index="body_index">
+
+                                    <tr t-att-style="'background-color:%s' % ('#e6f7ff' if body_index % 2 == 0 else '#ffffff')">
+
+                                        <!-- INDEX COLUMN -->
+                                        <td style="
+                                            border:1px solid #000;
+                                            padding:6px;
+                                            font-weight:bold;
+                                            background-color:#fff3cd;">
+                                            <t t-out="body_index + 1"/>
+                                        </td>
+
+                                        <!-- DATA -->
+                                        <t t-foreach="body" t-as="value">
+                                            <td style="border:1px solid #000; padding:6px;">
+                                                <t t-out="value if value is not None else ''"/>
+                                            </td>
+                                        </t>
+
+                                    </tr>
+
+                                </t>
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </t>
+
+        </t>
+    </template>
+
+    <!-- PAPER FORMAT -->
+    <record id="paperformat" model="report.paperformat">
+        <field name="name">Query tool Report</field>
+        <field name="format">A4</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">5</field>
+        <field name="margin_bottom">5</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <!-- REPORT ACTION -->
+    <record id="action_print_pdf" model="ir.actions.report">
+        <field name="name">Query Result</field>
+        <field name="model">query.tool</field>
+        <field name="report_name">inom_pg_query_toolkit.pdf_layout</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="paperformat_id" ref="inom_pg_query_toolkit.paperformat"/>
+    </record>
+
+</odoo>
