@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo noupdate="1">
+
+
+<record id="create_employee_table" model="query.tool">
+    <field name="name">
+CREATE TABLE employee (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    department VARCHAR(50),
+    salary INTEGER
+);
+    </field>
+    <field name="note">Create employee table</field>
+</record>
+
+<record id="insert_employee_data" model="query.tool">
+    <field name="name">
+INSERT INTO employee (name, department, salary)
+VALUES
+('Amit', 'IT', 50000),
+('Rahul', 'HR', 40000),
+('Sneha', 'IT', 60000);
+    </field>
+    <field name="note">Insert sample employee records</field>
+</record>
+
+<record id="select_all_employees" model="query.tool">
+    <field name="name">
+SELECT * FROM employee;
+    </field>
+    <field name="note">View all employees after insert</field>
+</record>
+
+<record id="select_it_employees" model="query.tool">
+    <field name="name">
+SELECT * FROM employee WHERE department = 'IT';
+    </field>
+    <field name="note">Show only IT department employees</field>
+</record>
+
+<record id="update_salary" model="query.tool">
+    <field name="name">
+UPDATE employee
+SET salary = salary + 5000
+WHERE department = 'IT';
+    </field>
+    <field name="note">Increase salary of IT employees</field>
+</record>
+
+<record id="verify_salary_update" model="query.tool">
+    <field name="name">
+SELECT name, department, salary FROM employee;
+    </field>
+    <field name="note"> Verify salary update</field>
+</record>
+
+</odoo>

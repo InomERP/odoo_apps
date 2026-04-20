@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_query_tool_user,query.tool.user,model_query_tool,base.group_user,1,1,1,1
+access_orientationpdf,orientationpdf access,inom_pg_query_toolkit.model_orientationpdf,inom_pg_query_toolkit.group_querytool,1,1,1,1
+

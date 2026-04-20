@@ -1,0 +1,17 @@
+<odoo>
+<record id="view_pdf_orientation_wizard" model="ir.ui.view">
+    <field name="name">pdf.orientationpdf.form</field>
+    <field name="model">orientationpdf</field>
+    <field name="arch" type="xml">
+        <form string="Select Orientation">
+            <group>
+                <field name="orientation"/>
+            </group>
+            <footer>
+                <button name="pdf_print" type="object" string="Print"/>
+                <button string="Cancel" special="cancel"/>
+            </footer>
+        </form>
+    </field>
+</record>
+</odoo>
