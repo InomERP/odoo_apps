@@ -1,0 +1,93 @@
+<odoo>
+    <data>
+    <record id="view_query_tool_list" model="ir.ui.view">
+        <field name="name">view.query.tool.list</field>
+        <field name="model">query.tool</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" string="Query"/>
+                <field name="note" string ="Note"  optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_query_tool_form" model ="ir.ui.view">
+        <field name="name">view.query.tool.list</field>
+        <field name="model">query.tool</field>
+        <field name="arch" type="xml">
+            <form>
+            <header>
+               <button name="action_print_pdf"
+                        string="Print PDF"
+                        class = "btn-danger"
+                        type ="object"/>
+            </header>
+                <sheet>
+                    <group string="Type a query">
+						<label string="Query :" for="name"/>
+						<div class="o_row">
+							<field name="name" placeholder="SELECT * FROM res_partner" style="border-bottom: 10px solid red"/>
+						</div>
+                    </group>
+                    <group>
+						<button name="execute" type="object" string="Execute" class="oe_highlight"/>
+					</group>
+                    <group>
+						<field name="note" placeholder="This query is used to ..."/>
+					</group>
+                    <group>
+						<label string=" " for="rowcount"/>
+						<div class="o_row">
+							<field name="rowcount" readonly="1" nolabel="1"/>
+						</div>
+					</group>
+                    <group>
+						<label string="" for="html"/>
+						<div class="o_row">
+							<field name="html" readonly="1"/>
+						</div>
+					</group>
+                    <chatter/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+        <record id="view_querytool_search" model="ir.ui.view">
+            <field name="name">querytool.search</field>
+            <field name="model">query.tool</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" string="Query"/>
+                    <field name="note"/>
+                    <group name="filter">
+                        <filter name="With_note" string="With note" domain="[('note','!=',False)]"/>
+                                <separator/>
+                        <filter name="active" string="Only active" domain="[('active', '=', True)]"/>
+                    <filter name="archive" string="Only archived" domain="[('active', '=', False)]"/>
+                    </group>
+                    <group name="group_by">
+                    <filter name="name" string="Query" context="{'group_by': 'name'}"/>
+                      <filter name="note" string="Note" context="{'group_by': 'note'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+    <record id="action_query_tool_action" model="ir.actions.act_window">
+    	<field name="name">Query tool</field>
+    	<field name="res_model">query.tool</field>
+        <field name="type">ir.actions.act_window</field>
+    	<field name="view_mode">list,form</field>
+    </record>
+
+	<menuitem id="menu_querytool_root" name="querytool root"
+    sequence="-1" groups="inom_pg_query_toolkit.group_querytool" web_icon="inom_pg_query_toolkit,static/description/icon.png"/>
+	<menuitem id ="menu_querytool" name="querytool"
+		parent="menu_querytool_root"
+        sequence="-1"
+        groups="inom_pg_query_toolkit.group_querytool"
+		action="inom_pg_query_toolkit.action_query_tool_action"/>
+    </data>
+</odoo>
