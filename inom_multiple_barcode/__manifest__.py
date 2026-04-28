@@ -1,0 +1,21 @@
+{
+    'name': 'INOM Multi Barcode for Products',
+    'version': '18.0.1.0.0',
+    'summary': """Allows to create multiple barcode for a single product.""",
+    'author': 'InomERP',
+    "website": "https://inomerp.in/",
+    'depends': ['stock', 'sale_management', 'purchase', 'account'],
+    'data': [
+        'security/ir.model.access.csv',
+        'views/account_move_views.xml',
+        'views/product_product_views.xml',
+        'views/product_template_views.xml',
+        'views/purchase_order_views.xml',
+        'views/sale_order_views.xml',
+    ],
+    'images': ['static/description/banner.jpg'],
+    'license': 'AGPL-3',
+    'installable': True,
+    'auto_install': False,
+    'application': False,
+}
