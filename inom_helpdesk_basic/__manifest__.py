@@ -2,8 +2,7 @@
     'name': 'Inom Helpdesk Basic',
     'version' : '17.0.0.0.0',
     'category' : 'helpdesk',
-    'summary' : "Helpdesk Basic is ideal for businesses looking for a simple yet effective solution to handle customer support without the 
-                    complexity of advanced helpdesk systems.",
+    'summary' : 'Helpdesk Basic',
     'description' : 'Basic Odoo helpdesk module manages internal tickets, '
                     'uses states, assignment, priority, validations, chatter, and workflow '
                     'for training understanding development concepts. ',
