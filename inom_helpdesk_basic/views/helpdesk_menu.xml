@@ -1,0 +1,16 @@
+<odoo>
+
+    <record id="action_helpdesk_ticket" model="ir.actions.act_window">
+        <field name="name">Helpdesk Tickets</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="view_id" ref="view_helpdesk_ticket_kanban"/>
+        <field name="search_view_id" ref="view_helpdesk_ticket_search"/>
+    </record>
+
+    <menuitem id="menu_helpdesh_ticket_root" name="Helpdesk Ticket"/>
+
+    <menuitem id="submenu_helpdesh_ticket_root" name="Helpdesk Ticket"
+              parent="menu_helpdesh_ticket_root" action="action_helpdesk_ticket"/>
+
+</odoo>

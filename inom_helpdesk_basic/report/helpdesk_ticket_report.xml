@@ -1,0 +1,153 @@
+<odoo>
+    <!-- Paper Format -->
+    <record id="helpdesk_ticket_paper_format" model="report.paperformat">
+        <field name="name">Helpdesk Ticket A4</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">20</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">15</field>
+        <field name="margin_right">15</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">10</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <!-- Report Action -->
+    <record id="action_helpdesk_ticket_report" model="ir.actions.report">
+        <field name="name">Ticket Detail Report</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inom_helpdesk_basic.report_helpdesk_ticket_template</field>
+        <field name="report_file">inom_helpdesk_basic.report_helpdesk_ticket_template</field>
+        <field name="paperformat_id" ref="helpdesk_ticket_paper_format"/>
+        <field name="binding_model_id" ref="inom_helpdesk_basic.model_helpdesk_ticket"/>
+        <field name="binding_type">report</field>
+    </record>
+<!--<template id="report_helpdesk_ticket_template">-->
+<!--    <t t-call="web.html_container">-->
+<!--        <t t-foreach="docs" t-as="doc">-->
+<!--            <t t-call="web.external_layout">-->
+
+<!--                <div class="page">-->
+<!--                    <p>DOC COUNT: <t t-esc="len(docs)"/></p>-->
+<!--                    <h2>Helpdesk Ticket Report</h2>-->
+
+<!--                    <p>-->
+<!--                        <strong>Ticket Number:</strong>-->
+<!--                        <t t-esc="doc.ticket_number"/>-->
+<!--                    </p>-->
+
+<!--                    <p>-->
+<!--                        <strong>Subject:</strong>-->
+<!--                        <t t-esc="doc.subject"/>-->
+<!--                    </p>-->
+
+<!--                    <p>-->
+<!--                        <strong>Assigned To:</strong>-->
+<!--                        <t t-esc="doc.assigned_to.name"/>-->
+<!--                    </p>-->
+
+<!--                    <p>-->
+<!--                        <strong>Priority:</strong>-->
+<!--                        <t t-esc="doc.priority"/>-->
+<!--                    </p>-->
+
+<!--                    <p>-->
+<!--                        <strong>Status:</strong>-->
+<!--                        <t t-esc="doc.state"/>-->
+<!--                    </p>-->
+
+<!--                    <p>-->
+<!--                        <strong>Description:</strong>-->
+<!--                        <t t-esc="doc.description"/>-->
+<!--                    </p>-->
+<!--                </div>-->
+
+<!--            </t>-->
+<!--        </t>-->
+<!--    </t>-->
+<!--</template>-->
+
+    <template id="report_helpdesk_ticket_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="row mb-4">
+                            <div class="col-12 text-center">
+                                <h2 style="color:#6f42c1; border-bottom:2px solid #6f42c1; padding-bottom:8px;">
+                                    Helpdesk Ticket Report
+                                </h2>
+                            </div>
+                        </div>
+                        <table class="table table-bordered">
+                            <thead style="background-color:#6f42c1; color:white;">
+                                <tr>
+                                    <th colspan="2" class="text-center">
+                                        Ticket Information
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="width:35%; font-weight:bold; background-color:#f8f9fa;">Ticket Number</td>
+                                    <td><t t-out="doc.ticket_number"/></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:bold; background-color:#f8f9fa;">Subject</td>
+                                    <td><t t-out="doc.subject"/></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:bold; background-color:#f8f9fa;">Assigned To</td>
+                                    <td><t t-out="doc.assigned_to.name"/></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:bold; background-color:#f8f9fa;">Priority</td>
+                                    <td>
+                                        <t t-if="doc.priority == 'high'">
+                                            <span style="background:#dc3545; color:white; padding:3px 10px; border-radius:4px;">High</span>
+                                        </t>
+                                        <t t-elif="doc.priority == 'medium'">
+                                            <span style="background:#ffc107; color:black; padding:3px 10px; border-radius:4px;">Medium</span>
+                                        </t>
+                                        <t t-else="">
+                                            <span style="background:#198754; color:white; padding:3px 10px; border-radius:4px;">Low</span>
+                                        </t>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:bold; background-color:#f8f9fa;">Current Status</td>
+                                    <td>
+                                        <t t-if="doc.state == 'new'">
+                                            <span style="background:#0d6efd; color:white; padding:3px 10px; border-radius:4px;">New</span>
+                                        </t>
+                                        <t t-elif="doc.state == 'in_process'">
+                                            <span style="background:#ffc107; color:black; padding:3px 10px; border-radius:4px;">In Process</span>
+                                        </t>
+                                        <t t-elif="doc.state == 'resolved'">
+                                            <span style="background:#198754; color:white; padding:3px 10px; border-radius:4px;">Resolved</span>
+                                        </t>
+                                        <t t-else="">
+                                            <span style="background:#6c757d; color:white; padding:3px 10px; border-radius:4px;">Closed</span>
+                                        </t>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:bold; background-color:#f8f9fa;">Description</td>
+                                    <td><t t-out="doc.description"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="row mt-4">
+                            <div class="col-12 text-center text-muted">
+                                <small>Generated by Helpdesk Ticket System</small>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
