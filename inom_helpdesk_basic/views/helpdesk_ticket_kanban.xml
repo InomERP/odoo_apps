@@ -1,0 +1,57 @@
+<odoo>
+    <record id="view_helpdesk_ticket_kanban" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.kanban</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state">
+                <field name="state"
+                  group_expand="_group_expand_states"/>
+                <field name="subject"/>
+                <field name="priority"/>
+                <field name="assigned_to"/>
+                <field name="ticket_number"/>
+
+                <templates>
+                    <t t-name="card">
+
+                        <!-- ✅ Priority Color Bar -->
+                        <div t-attf-class="w-100 mb-2 rounded"
+                             t-attf-style="height:6px; background-color:
+                                #{record.priority.raw_value == 'high' ? '#dc3545' :
+                                  record.priority.raw_value == 'medium' ? '#ffc107' :
+                                  '#198754'};">
+                        </div>
+
+                        <!-- ✅ Ticket Number -->
+                        <div class="text-muted" style="font-size:11px;">
+                            <i class="fa fa-ticket"/>
+                            <field name="ticket_number"/>
+                        </div>
+
+                        <!-- ✅ Subject -->
+                        <div class="fw-bold mt-1" style="font-size:14px;">
+                            <field name="subject"/>
+                        </div>
+
+                        <!-- ✅ Assigned To -->
+                        <div class="mt-1 text-muted" style="font-size:12px;">
+                            <i class="fa fa-user"/>
+                            <field name="assigned_to"/>
+                        </div>
+
+                        <!-- ✅ Priority Badge -->
+                        <div class="mt-2">
+                            <span t-attf-class="badge
+                                #{record.priority.raw_value == 'high' ? 'text-bg-danger' :
+                                  record.priority.raw_value == 'medium' ? 'text-bg-warning' :
+                                  'text-bg-success'}">
+                                <field name="priority"/>
+                            </span>
+                        </div>
+
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+</odoo>

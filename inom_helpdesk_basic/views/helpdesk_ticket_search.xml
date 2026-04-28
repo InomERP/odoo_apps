@@ -1,0 +1,23 @@
+<odoo>
+    <record id="view_helpdesk_ticket_search" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.search</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="subject"/>
+                <filter name="new" string="New" domain="[('state','=','new')]"/>
+                <filter name="high" string="High" domain="[('priority','=','high')]"/>
+                <separator/>
+                <filter name="group_state"
+                        string="Group by State"
+                        context="{'group_by': 'state'}"/>
+                <filter name="group_priority"
+                        string="Group by Priority"
+                        context="{'group_by': 'priority'}"/>
+                <filter name="group_assigned"
+                        string="group by user"
+                        context="{'group_by': 'assigned_to'}"/>
+            </search>
+        </field>
+    </record>
+</odoo>
