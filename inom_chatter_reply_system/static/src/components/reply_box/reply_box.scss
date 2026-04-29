@@ -1,0 +1,95 @@
+.o_chatter_reply_box {
+    padding        : 12px;
+    border         : 1px solid #dee2e6;
+    border-radius  : 6px;
+    background     : #fff;
+    margin-top     : 8px;
+
+    // ── Quoted message block ──────────────────────────
+    .o_reply_quoted_message {
+        background    : #f8f9fa;
+        border-left   : 4px solid #adb5bd;
+        padding       : 8px 12px;
+        border-radius : 4px;
+        margin-bottom : 10px;
+
+        .o_reply_quoted_author {
+            font-weight : 600;
+            font-size   : 12px;
+            color       : #6c757d;
+            display     : block;
+            margin-bottom: 4px;
+        }
+
+        .o_reply_quoted_body {
+            font-size   : 13px;
+            color       : #333;
+        }
+    }
+
+    // ── Textarea ──────────────────────────────────────
+    .o_reply_input_area {
+        margin-bottom: 10px;
+
+        .o_reply_textarea {
+            width         : 100%;
+            min-height    : 80px;
+            border        : 1px solid #ced4da;
+            border-radius : 4px;
+            padding       : 8px;
+            font-size     : 14px;
+            resize        : vertical;
+            outline       : none;
+            transition    : border-color 0.2s;
+
+            &:focus {
+                border-color: #017e84;
+                box-shadow  : 0 0 0 2px rgba(1, 126, 132, 0.15);
+            }
+
+            &::placeholder {
+                color: #adb5bd;
+            }
+        }
+    }
+
+    // ── Buttons ───────────────────────────────────────
+    .o_reply_actions {
+        display    : flex;
+        gap        : 8px;
+        align-items: center;
+
+        .o_reply_send_btn {
+            background : #017e84;
+            border     : none;
+            color      : #fff;
+            padding    : 6px 16px;
+
+            &:hover {
+                background: #015f64;
+            }
+        }
+
+        .o_reply_log_btn {
+            background : #f0ad4e;
+            border     : none;
+            color      : #fff;
+            padding    : 6px 16px;
+
+            &:hover {
+                background: #d99533;
+            }
+        }
+
+        .o_reply_discard_btn {
+            background : transparent;
+            border     : 1px solid #6c757d;
+            color      : #6c757d;
+            padding    : 6px 16px;
+
+            &:hover {
+                background: #f8f9fa;
+            }
+        }
+    }
+}

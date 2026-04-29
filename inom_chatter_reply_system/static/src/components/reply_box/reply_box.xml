@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="chatter_reply_system.ReplyBox" owl="1">
+        <div class="o_chatter_reply_box">
+
+            <!-- ── Quoted Parent Message ───────────────── -->
+            <div class="o_reply_quoted_message">
+                <span class="o_reply_quoted_author">
+                    <t t-esc="props.authorName"/> wrote:
+                </span>
+                <div class="o_reply_quoted_body"
+                     t-out="props.quotedBody"/>
+            </div>
+
+            <!-- ── Reply Input Area ────────────────────── -->
+            <div class="o_reply_input_area">
+                <textarea
+                    class="o_reply_textarea"
+                    t-ref="replyTextarea"
+                    placeholder="Write your reply here..."
+                    t-on-input="onInput"
+                />
+            </div>
+
+            <!-- ── Action Buttons ──────────────────────── -->
+            <div class="o_reply_actions">
+
+                <!-- SEND button → Message ke liye -->
+                <t t-if="props.replyType === 'comment'">
+                    <button class="btn btn-primary o_reply_send_btn"
+                            t-on-click="onSend">
+                        Send
+                    </button>
+                </t>
+
+                <!-- LOG button → Log Note ke liye -->
+                <t t-if="props.replyType === 'note'">
+                    <button class="btn btn-warning o_reply_log_btn"
+                            t-on-click="onLog">
+                        Log
+                    </button>
+                </t>
+
+                <!-- Discard button -->
+                <button class="btn btn-secondary o_reply_discard_btn"
+                        t-on-click="onDiscard">
+                    Discard
+                </button>
+
+            </div>
+
+        </div>
+    </t>
+
+</templates>
