@@ -1,0 +1,110 @@
+<odoo>
+
+    <!-- ===================== -->
+    <!-- CATEGORY FORM VIEW -->
+    <!-- ===================== -->
+    <record id="view_category_form" model="ir.ui.view">
+        <field name="name">asset.category.form</field>
+        <field name="model">asset.category.custom</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+
+                    <group>
+                        <field name="name"/>
+                    </group>
+
+                    <group string="Journal Entries">
+                        <field name="journal_id"/>
+                        <field name="asset_account_id"/>
+                        <field name="depreciation_account_id"/>
+                        <field name="expense_account_id"/>
+                    </group>
+
+                    <group string="Periodicity">
+                        <field name="method_time"/>
+                        <field name="method_number"/>
+                        <field name="method_period"/>
+                        <field name="method_end"/>
+                    </group>
+
+                    <group string="Additional Options">
+                        <field name="auto_confirm"/>
+                        <field name="group_entries"/>
+                        <field name="depreciation_type"/>
+                    </group>
+
+                    <group string="Depreciation Method">
+                        <field name="method"/>
+                        <field name="prorata"/>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- ===================== -->
+    <!-- CATEGORY TREE VIEW -->
+    <!-- ===================== -->
+    <record id="view_category_list" model="ir.ui.view">
+        <field name="name">asset.category.list</field>
+        <field name="model">asset.category.custom</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="method"/>
+            </list>
+        </field>
+    </record>
+
+
+    <!-- ===================== -->
+    <!-- ACTION: CATEGORY -->
+    <!-- ===================== -->
+    <record id="action_asset_category" model="ir.actions.act_window">
+        <field name="name">Asset Categories</field>
+        <field name="res_model">asset.category.custom</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+    <!-- ===================== -->
+    <!-- ACTION: DEPRECIATION -->
+    <!-- ===================== -->
+    <record id="action_asset_depreciation" model="ir.actions.act_window">
+        <field name="name">Depreciation Lines</field>
+        <field name="res_model">asset.depreciation.line</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+    <!-- ===================== -->
+    <!-- MAIN MENU -->
+    <!-- ===================== -->
+    <menuitem id="menu_asset_root"
+              name="Asset Management"
+              sequence="10"/>
+
+
+    <!-- ===================== -->
+    <!-- CATEGORY MENU -->
+    <!-- ===================== -->
+    <menuitem id="menu_asset_category"
+              name="Asset Categories"
+              parent="menu_asset_root"
+              action="action_asset_category"
+              sequence="1"/>
+
+
+    <!-- ===================== -->
+    <!-- DEPRECIATION MENU -->
+    <!-- ===================== -->
+    <menuitem id="menu_asset_depreciation"
+              name="Depreciation Lines"
+              parent="menu_asset_root"
+              action="action_asset_depreciation"
+              sequence="2"/>
+
+</odoo>
