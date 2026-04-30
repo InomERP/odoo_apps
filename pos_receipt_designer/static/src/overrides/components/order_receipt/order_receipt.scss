@@ -1,0 +1,217 @@
+// =============================================================================
+// GLOBAL BASE
+// =============================================================================
+.pos-receipt.receipt-design {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 340px;
+    margin: 0 auto;
+    padding: 10px;
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: inherit;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    td {
+        vertical-align: top;
+    }
+}
+
+// =============================================================================
+// CLASSIC
+// =============================================================================
+.pos-receipt[data-design="classic"] {
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    color: #000;
+
+    .pos-receipt-center-align {
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .receipt-orderlines {
+        border-top: 1px dashed #000;
+        border-bottom: 1px dashed #000;
+        margin: 6px 0;
+    }
+
+    .receipt-total {
+        font-weight: bold;
+    }
+}
+
+// =============================================================================
+// MODERN
+// =============================================================================
+.pos-receipt[data-design="modern"] {
+    font-family: "Poppins", sans-serif;
+    color: #222;
+
+    .pos-receipt-center-align {
+        text-align: center;
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .receipt-orderlines td {
+        padding: 6px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .receipt-total {
+        font-size: 16px;
+        font-weight: 700;
+        border-top: 2px solid #000;
+        margin-top: 8px;
+    }
+}
+
+// =============================================================================
+// COMPACT
+// =============================================================================
+.pos-receipt[data-design="compact"] {
+    font-size: 10px;
+
+    .receipt-orderlines td {
+        padding: 2px 0;
+    }
+
+    .receipt-total {
+        font-weight: bold;
+    }
+}
+
+// =============================================================================
+// DETAILED
+// =============================================================================
+.pos-receipt[data-design="detailed"] {
+    font-family: Georgia, serif;
+    border: 2px solid #000;
+    padding: 12px;
+
+    .pos-receipt-center-align {
+        text-align: center;
+        font-weight: bold;
+        border-bottom: 1px solid #000;
+    }
+
+    .receipt-orderlines td {
+        border-bottom: 1px dotted #aaa;
+        padding: 5px 0;
+    }
+
+    .receipt-total {
+        background: #f4f4f4;
+        padding: 6px;
+        border: 1px solid #000;
+        font-weight: bold;
+    }
+}
+
+// =============================================================================
+// MINIMAL
+// =============================================================================
+.pos-receipt[data-design="minimal"] {
+    font-family: sans-serif;
+
+    .receipt-total {
+        border-top: 1px solid #ccc;
+        margin-top: 6px;
+    }
+}
+
+// =============================================================================
+// DARK
+// =============================================================================
+.pos-receipt[data-design="dark"] {
+    background: #111;
+    color: #fff;
+
+    .receipt-orderlines td {
+        border-bottom: 1px solid #444;
+    }
+
+    .receipt-total {
+        border-top: 2px solid #fff;
+        font-weight: bold;
+    }
+}
+
+// =============================================================================
+// CARD
+// =============================================================================
+.pos-receipt[data-design="card"] {
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+
+    .receipt-total {
+        background: #fff;
+        padding: 6px;
+        border-radius: 5px;
+        font-weight: bold;
+    }
+}
+
+// =============================================================================
+// BOLD
+// =============================================================================
+.pos-receipt[data-design="bold"] {
+    font-size: 13px;
+
+    .pos-receipt-center-align {
+        font-weight: 800;
+        font-size: 16px;
+    }
+
+    .receipt-total {
+        font-size: 17px;
+        font-weight: 900;
+        border-top: 3px solid #000;
+    }
+}
+
+// =============================================================================
+// ELEGANT
+// =============================================================================
+.pos-receipt[data-design="elegant"] {
+    font-family: "Times New Roman", serif;
+
+    .receipt-total {
+        border-top: 2px solid #000;
+        font-size: 15px;
+        font-weight: bold;
+    }
+}
+
+// =============================================================================
+// GRADIENT
+// =============================================================================
+.pos-receipt[data-design="gradient"] {
+    background: linear-gradient(135deg, #f2f2f2, #e0e0e0);
+
+    .receipt-total {
+        background: linear-gradient(90deg, #000, #444);
+        color: #fff;
+        padding: 6px;
+        border-radius: 4px;
+    }
+}
+
+// =============================================================================
+// PRINT SUPPORT
+// =============================================================================
+@media print {
+    .pos-receipt[data-design] {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}

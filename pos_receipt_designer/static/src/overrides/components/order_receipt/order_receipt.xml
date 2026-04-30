@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-inherit="point_of_sale.OrderReceipt"
+       t-inherit-mode="extension">
+
+        <xpath expr="//div[contains(@class, 'pos-receipt')]" position="attributes">
+
+            <!-- class add -->
+            <attribute name="class" add="receipt-design" separator=" "/>
+
+            <!-- data attribute -->
+            <attribute name="t-att-data-design">
+                receiptDesign || 'classic'
+            </attribute>
+
+        </xpath>
+
+    </t>
+
+</templates>
