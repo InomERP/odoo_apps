@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_asset,asset.asset.custom,model_asset_asset_custom,,1,1,1,1
+access_asset_category,asset.category.custom,model_asset_category_custom,,1,1,1,1
+access_depreciation_line,asset.depreciation.line,model_asset_depreciation_line,,1,1,1,1

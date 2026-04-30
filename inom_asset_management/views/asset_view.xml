@@ -1,0 +1,66 @@
+<odoo>
+
+    <record id="view_asset_form" model="ir.ui.view">
+        <field name="name">asset.form</field>
+        <field name="model">asset.asset.custom</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_compute"
+                            string="Compute Depreciation"
+                            type="object"
+                            class="btn-primary"/>
+                        </header>
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="name"/>
+                                    <field name="reference"/>
+                                    <field name="category_id"/>
+                                    <field name="purchase_date"/>
+                                    <field name="first_depreciation_date"/>
+                                </group>
+
+                                <group>
+                                    <field name="gross_value"/>
+                                    <field name="salvage_value"/>
+                                </group>
+                            </group>
+                    <notebook>
+                        <page string="Depreciation Lines">
+                            <field name="depreciation_line_ids">
+                                <list>
+                                    <field name="depreciation_date"/>
+                                    <field name="amount"/>
+                                    <field name="cumulative_value"/>
+                                    <field name="remaining_value"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+
+    <record id="action_asset" model="ir.actions.act_window">
+        <field name="name">Assets</field>
+        <field name="res_model">asset.asset.custom</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+    <menuitem id="menu_asset_root"
+              name="Asset Management"
+              sequence="10"/>
+
+    <menuitem id="menu_asset"
+              name="Assets"
+              parent="menu_asset_root"
+              action="action_asset"
+              sequence="1"/>
+
+</odoo>
