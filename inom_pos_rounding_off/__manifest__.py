@@ -30,7 +30,7 @@ Ideal for businesses handling cash transactions where rounding off is required
 Fully integrated with Odoo POS and Accounting.
 """,
 
-    'author': 'Inom',
+    'author': 'InomERP',
     'website': 'https://inomerp.in/',
     'license': 'LGPL-3',
 
