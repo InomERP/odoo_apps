@@ -87,7 +87,7 @@ Fully integrated with Odoo POS and Accounting.
 #     'version': '19.0.1.0.0',
 #     'category': 'Point of Sale',
 #     'summary': 'Round off the amount in POS while payment is made',
-#     'author': 'Inom',
+#     'author': 'InomERP',
 #     'website': 'https://www.inom.com',
 
     
