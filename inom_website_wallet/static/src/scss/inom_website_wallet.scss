@@ -1,0 +1,56 @@
+// Website Wallet styles
+
+.o_website_wallet_hero {
+    background: linear-gradient(135deg, #5a2a73 0%, #8e44ad 100%);
+    color: #fff;
+    border-radius: 8px;
+    margin: 1rem 0;
+
+    .o_wallet_title {
+        color: #FBBF24;
+        font-weight: 700;
+    }
+
+    .o_wallet_illustration {
+        i.fa {
+            background: #fff;
+            border-radius: 50%;
+            padding: 30px;
+            color: #f39c12 !important;
+        }
+    }
+}
+
+.o_wallet_recharge_form {
+    .form-control-lg {
+        border-radius: 6px;
+    }
+    button[type="submit"] {
+        background: #5a2a73;
+        border-color: #5a2a73;
+
+        &:hover, &:focus {
+            background: #44205a;
+            border-color: #44205a;
+        }
+    }
+}
+
+.o_wallet_payment_card {
+    border-width: 2px !important;
+    background: #f8f5ff;
+
+    .card-title {
+        color: #5a2a73;
+        font-weight: 600;
+    }
+
+    .btn-primary {
+        background: #5a2a73;
+        border-color: #5a2a73;
+        &:hover, &:focus {
+            background: #44205a;
+            border-color: #44205a;
+        }
+    }
+}

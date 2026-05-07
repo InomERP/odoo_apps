@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- =========================================================
+         Portal "My Account" home: Wallet Transactions card
+         ========================================================= -->
+    <template id="portal_my_home_wallet"
+              name="Portal Wallet Card"
+              inherit_id="portal.portal_my_home"
+              priority="40">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Wallet Transactions</t>
+                <t t-set="text">View your wallet balance and transactions.</t>
+                <t t-set="url" t-value="'/my/wallet/transactions'"/>
+                <t t-set="placeholder_count" t-value="'wallet_count'"/>
+                <t t-set="config_card" t-value="True"/>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- =========================================================
+         Wallet transactions list page
+         ========================================================= -->
+    <template id="portal_my_wallet_transactions" name="My Wallet Transactions">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Wallet Transactions</t>
+            </t>
+
+            <div class="o_portal_my_doc_table mb-3">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body d-flex flex-wrap align-items-center justify-content-between">
+                        <div>
+                            <h5 class="mb-1">My Wallet</h5>
+                            <p class="text-muted mb-0 small">
+                                Track your wallet balance &amp; transactions.
+                            </p>
+                        </div>
+                        <div class="text-end">
+                            <span class="badge text-bg-primary fs-5">
+                                <span t-out="wallet_balance"
+                                      t-options='{"widget":"monetary","display_currency":currency}'/>
+                            </span>
+                            <div class="small text-muted">Available balance</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <t t-if="not transactions">
+                <div class="alert alert-info">
+                    You do not have any wallet transactions yet.
+                    <a href="/shop/wallet" class="btn btn-link p-0 align-baseline">
+                        Add Wallet Balance &#8250;
+                    </a>
+                </div>
+            </t>
+            <t t-if="transactions">
+                <table class="table table-hover o_portal_my_doc_table">
+                    <thead>
+                        <tr class="active">
+                            <th class="text-start">Reference</th>
+                            <th>Type</th>
+                            <th>Date</th>
+                            <th class="text-end">Amount</th>
+                            <th class="text-center">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="transactions" t-as="tx">
+                            <tr>
+                                <td>
+                                    <a t-attf-href="/my/wallet/transaction/#{tx.id}">
+                                        <span t-field="tx.name"/>
+                                    </a>
+                                </td>
+                                <td>
+                                    <t t-if="tx.transaction_type == 'credit'">
+                                        <span class="badge text-bg-success">Credit</span>
+                                    </t>
+                                    <t t-if="tx.transaction_type == 'debit'">
+                                        <span class="badge text-bg-danger">Debit</span>
+                                    </t>
+                                </td>
+                                <td><span t-field="tx.date"/></td>
+                                <td class="text-end">
+                                    <t t-if="tx.transaction_type == 'credit'">+ </t>
+                                    <t t-if="tx.transaction_type == 'debit'">- </t>
+                                    <span t-field="tx.amount"
+                                          t-options='{"widget":"monetary","display_currency":tx.currency_id}'/>
+                                </td>
+                                <td class="text-center">
+                                    <t t-if="tx.state == 'confirmed'">
+                                        <span class="badge text-bg-success">Confirmed</span>
+                                    </t>
+                                    <t t-if="tx.state == 'draft'">
+                                        <span class="badge text-bg-secondary">Draft</span>
+                                    </t>
+                                    <t t-if="tx.state == 'cancelled'">
+                                        <span class="badge text-bg-light">Cancelled</span>
+                                    </t>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+
+                <t t-call="portal.pager"/>
+            </t>
+        </t>
+    </template>
+
+    <!-- =========================================================
+         Wallet transaction detail page
+         ========================================================= -->
+    <template id="portal_wallet_transaction_detail"
+              name="Wallet Transaction Detail">
+        <t t-call="portal.portal_layout">
+            <t t-set="o_portal_fullwidth_alert" groups="website.group_website_designer"/>
+
+            <div class="card my-3">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <span t-field="transaction.name"/>
+                    </h4>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <strong>Type:</strong>
+                            <t t-if="transaction.transaction_type == 'credit'">
+                                <span class="badge text-bg-success">Credit</span>
+                            </t>
+                            <t t-if="transaction.transaction_type == 'debit'">
+                                <span class="badge text-bg-danger">Debit</span>
+                            </t>
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Date:</strong>
+                            <span t-field="transaction.date"/>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <strong>Amount:</strong>
+                            <span t-field="transaction.amount"
+                                  t-options='{"widget":"monetary","display_currency":transaction.currency_id}'/>
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Status:</strong>
+                            <span t-field="transaction.state"/>
+                        </div>
+                    </div>
+                    <t t-if="transaction.description">
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                <strong>Memo:</strong>
+                                <span t-field="transaction.description"/>
+                            </div>
+                        </div>
+                    </t>
+                    <a href="/my/wallet/transactions" class="btn btn-link p-0">
+                        &#8249; Back to transactions
+                    </a>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

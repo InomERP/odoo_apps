@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_website_wallet_transaction_user,website.wallet.transaction.user,model_website_wallet_transaction,base.group_user,1,1,1,1
+access_website_wallet_transaction_portal,website.wallet.transaction.portal,model_website_wallet_transaction,base.group_portal,1,0,0,0
+access_add_wallet_balance_wizard,add.wallet.balance.wizard,model_add_wallet_balance_wizard,base.group_user,1,1,1,1

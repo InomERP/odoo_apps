@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_add_wallet_balance_wizard_form" model="ir.ui.view">
+        <field name="name">add.wallet.balance.wizard.form</field>
+        <field name="model">add.wallet.balance.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Add Money to Wallet">
+                <group>
+                    <field name="partner_id"
+                           options="{'no_create_edit': True}"
+                           readonly="context.get('default_partner_id')"/>
+                    <field name="transaction_type"/>
+                    <field name="amount"/>
+                    <field name="currency_id" groups="base.group_multi_currency"/>
+                    <field name="description"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object"
+                            string="Confirm" class="btn-primary"/>
+                    <button name="action_cancel" type="object"
+                            string="Cancel" class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

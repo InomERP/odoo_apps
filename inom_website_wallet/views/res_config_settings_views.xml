@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_inherit_website_wallet" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.website.wallet</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="website.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='website_info_settings']" position="after">
+                <block title="Wallet" name="website_wallet_settings" id="website_wallet_settings">
+                    <setting id="website_wallet_enabled_setting"
+                             string="Use Wallet"
+                             help="Enable a digital wallet for your customers on the website.">
+                        <field name="wallet_enabled"/>
+                        <div class="content-group" invisible="not wallet_enabled">
+                            <div class="row mt16">
+                                <label for="wallet_recharge_product_id"
+                                       class="col-lg-4 o_light_label"/>
+                                <field name="wallet_recharge_product_id"
+                                       class="oe_inline"
+                                       options="{'no_create_edit': True}"/>
+                            </div>
+                            <div class="row">
+                                <label for="wallet_min_recharge"
+                                       class="col-lg-4 o_light_label"/>
+                                <field name="wallet_min_recharge" class="oe_inline"/>
+                            </div>
+                            <div class="row">
+                                <label for="wallet_max_recharge"
+                                       class="col-lg-4 o_light_label"/>
+                                <field name="wallet_max_recharge" class="oe_inline"/>
+                            </div>
+                        </div>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

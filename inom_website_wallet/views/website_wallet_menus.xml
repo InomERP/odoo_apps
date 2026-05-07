@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Wallet Transactions menu under Sales > Configuration -->
+    <menuitem id="menu_website_wallet_transaction_sales"
+              name="Wallet Transactions"
+              parent="sale.menu_sale_config"
+              action="action_website_wallet_transaction"
+              sequence="80"/>
+
+</odoo>
+

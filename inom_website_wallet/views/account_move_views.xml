@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_move_form_inherit_website_wallet" model="ir.ui.view">
+        <field name="name">account.move.form.inherit.website.wallet</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_apply_wallet_balance"
+                        type="object"
+                        string="Add Wallet Balance"
+                        class="btn-secondary"
+                        invisible="state != 'posted' or move_type != 'out_invoice' or payment_state in ('paid', 'in_payment', 'reversed') or not has_wallet_balance"/>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button"
+                        type="object"
+                        name="action_view_wallet_transactions"
+                        icon="fa-money"
+                        invisible="wallet_amount_used == 0">
+                    <div class="o_stat_info">
+                        <field name="wallet_amount_used" widget="monetary"
+                               class="o_stat_value"/>
+                        <span class="o_stat_text">Wallet Used</span>
+                    </div>
+                </button>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="has_wallet_balance" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
