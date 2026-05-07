@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_pos_config_rounding_manager,pos.config.rounding.manager,point_of_sale.model_pos_config,point_of_sale.group_pos_manager,1,1,1,1
+access_pos_config_rounding_user,pos.config.rounding.user,point_of_sale.model_pos_config,point_of_sale.group_pos_user,1,0,0,0
+access_pos_payment_method_rounding_manager,pos.payment.method.rounding.manager,point_of_sale.model_pos_payment_method,point_of_sale.group_pos_manager,1,1,1,1
+access_pos_order_rounding_manager,pos.order.rounding.manager,point_of_sale.model_pos_order,point_of_sale.group_pos_manager,1,1,1,1
+access_pos_order_rounding_user,pos.order.rounding.user,point_of_sale.model_pos_order,point_of_sale.group_pos_user,1,1,1,0
