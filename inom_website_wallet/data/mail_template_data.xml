@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="mail_template_wallet_recharge" model="mail.template">
+            <field name="name">Wallet: Recharge Notification</field>
+            <field name="model_id" ref="model_website_wallet_transaction"/>
+            <field name="subject">Your wallet has been recharged</field>
+            <field name="email_from">{{ (object.company_id.email or user.email or '') }}</field>
+            <field name="email_to">{{ object.partner_id.email or '' }}</field>
+            <field name="lang">{{ object.partner_id.lang }}</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html" type="html">
+<div style="margin:0 auto; max-width:600px; font-family:Arial,Helvetica,sans-serif; color:#333;">
+    <p>Dear <t t-out="object.partner_id.name or 'Customer'"/>,</p>
+    <p>Your wallet has been successfully credited.</p>
+    <table cellpadding="8" cellspacing="0" border="0" style="border:1px solid #eee; width:100%; margin:16px 0;">
+        <tr style="background:#875A7B; color:#fff;">
+            <th align="left">Reference</th>
+            <th align="left">Amount</th>
+            <th align="left">Date</th>
+        </tr>
+        <tr>
+            <td><t t-out="object.name"/></td>
+            <td>
+                <t t-out="object.amount" t-options="{'widget': 'monetary', 'display_currency': object.currency_id}"/>
+            </td>
+            <td><t t-out="format_date(object.date)"/></td>
+        </tr>
+    </table>
+    <p>
+        Your current available wallet balance is:
+        <strong>
+            <t t-out="object.partner_id.wallet_balance"
+               t-options="{'widget': 'monetary', 'display_currency': object.currency_id}"/>
+        </strong>
+    </p>
+    <p>Thank you for shopping with us.</p>
+    <p style="color:#888; font-size:12px;">
+        This is an automated message from <t t-out="object.company_id.name"/>.
+    </p>
+</div>
+            </field>
+        </record>
+
+        <record id="mail_template_wallet_debit" model="mail.template">
+            <field name="name">Wallet: Debit (Used) Notification</field>
+            <field name="model_id" ref="model_website_wallet_transaction"/>
+            <field name="subject">Customer Debit Wallet Transaction</field>
+            <field name="email_from">{{ (object.company_id.email or user.email or '') }}</field>
+            <field name="email_to">{{ object.partner_id.email or '' }}</field>
+            <field name="lang">{{ object.partner_id.lang }}</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html" type="html">
+<div style="margin:0 auto; max-width:600px; font-family:Arial,Helvetica,sans-serif; color:#333;">
+    <p>Dear <t t-out="object.partner_id.name or 'Customer'"/>,</p>
+    <p>Wallet amount used in order.</p>
+    <table cellpadding="8" cellspacing="0" border="0" style="border:1px solid #eee; width:100%; margin:16px 0;">
+        <tr style="background:#875A7B; color:#fff;">
+            <th align="left">Reference</th>
+            <th align="left">Amount</th>
+            <th align="left">Date</th>
+        </tr>
+        <tr>
+            <td><t t-out="object.name"/></td>
+            <td>
+                <t t-out="object.amount" t-options="{'widget': 'monetary', 'display_currency': object.currency_id}"/>
+            </td>
+            <td><t t-out="format_date(object.date)"/></td>
+        </tr>
+    </table>
+    <p>
+        Remaining wallet balance:
+        <strong>
+            <t t-out="object.partner_id.wallet_balance"
+               t-options="{'widget': 'monetary', 'display_currency': object.currency_id}"/>
+        </strong>
+    </p>
+    <p>Best Regards,<br/><t t-out="object.company_id.name"/></p>
+    <p style="color:#888; font-size:12px;">
+        This is an automated message from <t t-out="object.company_id.name"/>.
+    </p>
+</div>
+            </field>
+        </record>
+    </data>
+</odoo>
+

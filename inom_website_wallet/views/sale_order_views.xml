@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Sale Order form: smart button + paid by wallet field -->
+    <record id="view_order_form_inherit_website_wallet" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.website.wallet</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button"
+                        type="object"
+                        name="action_view_wallet_transactions"
+                        icon="fa-money"
+                        invisible="wallet_transaction_count == 0">
+                    <div class="o_stat_info">
+                        <field name="wallet_amount_used" widget="monetary"
+                               class="o_stat_value"/>
+                        <span class="o_stat_text">Wallet Used</span>
+                    </div>
+                </button>
+            </xpath>
+            <xpath expr="//field[@name='order_line']" position="before">
+                <field name="wallet_transaction_count" invisible="1"/>
+                <field name="is_wallet_recharge_order" invisible="1"/>
+            </xpath>
+            <!-- Show "Wallet Amount Used" + linked transaction(s) in the
+                 order-line area so they appear next to the totals,
+                 matching the reference layout. -->
+            <xpath expr="//field[@name='order_line']" position="after">
+                <group class="oe_subtotal_footer oe_right o_wallet_so_footer"
+                       invisible="wallet_amount_used == 0">
+                    <field name="wallet_amount_used" readonly="1"/>
+                    <field name="wallet_transaction_ids"
+                           widget="many2many_tags"
+                           readonly="1"
+                           string="Wallet Transaction"
+                           options="{'no_create': True, 'no_open': False}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
+
+

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Add wallet balance + smart button to partner form -->
+    <record id="view_partner_form_inherit_website_wallet" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.website.wallet</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button"
+                        type="object"
+                        name="action_open_wallet_transactions"
+                        icon="fa-money"
+                        invisible="parent_id">
+                    <div class="o_stat_info">
+                        <field name="wallet_balance" widget="monetary"
+                               class="o_stat_value"/>
+                        <span class="o_stat_text">Wallet Balance</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Action: Add Money to Wallet (server action shown in action menu) -->
+    <record id="action_add_money_to_wallet_partner" model="ir.actions.server">
+        <field name="name">Add Money to Wallet</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="binding_model_id" ref="base.model_res_partner"/>
+        <field name="binding_view_types">form,list</field>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    action = records[0].action_add_wallet_balance()
+        </field>
+    </record>
+
+</odoo>
