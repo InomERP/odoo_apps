@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- List view -->
+    <record id="view_website_wallet_transaction_list" model="ir.ui.view">
+        <field name="name">website.wallet.transaction.list</field>
+        <field name="model">website.wallet.transaction</field>
+        <field name="arch" type="xml">
+            <tree string="Wallet Transactions"
+                decoration-success="transaction_type == 'credit' and state == 'confirmed'"
+                decoration-danger="transaction_type == 'debit' and state == 'confirmed'"
+                decoration-muted="state == 'cancelled'"
+                decoration-info="state == 'draft'">
+                <field name="name" />
+                <field name="partner_id" />
+                <field name="transaction_type" />
+                <field name="amount" sum="Total" />
+                <field name="currency_id" column_invisible="True" />
+                <field name="date" />
+                <field name="sale_order_id" optional="show" />
+                <field name="account_move_id" optional="show" />
+                <field name="state" widget="badge"
+                    decoration-success="state == 'confirmed'"
+                    decoration-info="state == 'draft'"
+                    decoration-muted="state == 'cancelled'" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form view -->
+    <record id="view_website_wallet_transaction_form" model="ir.ui.view">
+        <field name="name">website.wallet.transaction.form</field>
+        <field name="model">website.wallet.transaction</field>
+        <field name="arch" type="xml">
+            <form string="Wallet Transaction">
+                <header>
+                    <button name="action_confirm" type="object"
+                        string="Confirm" class="oe_highlight"
+                        invisible="state != 'draft'" />
+                    <button name="action_cancel" type="object"
+                        string="Cancel"
+                        invisible="state == 'cancelled'" />
+                    <button name="action_draft" type="object"
+                        string="Reset to Draft"
+                        invisible="state != 'cancelled'" />
+                    <field name="state" widget="statusbar"
+                        statusbar_visible="draft,confirmed" />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_payment" type="object"
+                            class="oe_stat_button" icon="fa-bank"
+                            invisible="not payment_id">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Accounting Entry</span>
+                            </div>
+                        </button>
+                        <button name="action_open_sale_order" type="object"
+                            class="oe_stat_button" icon="fa-shopping-cart"
+                            invisible="not sale_order_id">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Sale Order</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" />
+                        <h1>
+                            <field name="name" readonly="1" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id" readonly="state != 'draft'" />
+                            <field name="transaction_type" readonly="state != 'draft'" />
+                            <field name="amount" readonly="state != 'draft'" />
+                            <field name="currency_id" groups="base.group_multi_currency" />
+                        </group>
+                        <group>
+                            <field name="date" readonly="state != 'draft'" />
+                            <field name="description" readonly="state != 'draft'" />
+                            <field name="sale_order_id" readonly="1" />
+                            <field name="account_move_id" readonly="1" />
+                            <field name="payment_id" readonly="1" />
+                            <field name="company_id" groups="base.group_multi_company" />
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search view -->
+    <!-- <record id="view_website_wallet_transaction_search" model="ir.ui.view">
+        <field name="name">website.wallet.transaction.search</field>
+        <field name="model">website.wallet.transaction</field>
+        <field name="arch" type="xml">
+            <search string="Wallet Transactions">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="sale_order_id"/>
+                <filter string="Credit" name="filter_credit"
+                        domain="[('transaction_type','=','credit')]"/>
+                <filter string="Debit" name="filter_debit"
+                        domain="[('transaction_type','=','debit')]"/>
+                <separator/>
+                <filter string="Confirmed" name="filter_confirmed"
+                        domain="[('state','=','confirmed')]"/>
+                <filter string="Draft" name="filter_draft"
+                        domain="[('state','=','draft')]"/>
+                <filter string="Cancelled" name="filter_cancelled"
+                        domain="[('state','=','cancelled')]"/>
+                <separator/>
+                <filter string="Date" name="filter_date" date="date"/>
+                <group string="Group By">
+                    <filter string="Customer" name="group_by_partner"
+                            context="{'group_by': 'partner_id'}"/>
+                    <filter string="Type" name="group_by_type"
+                            context="{'group_by': 'transaction_type'}"/>
+                    <filter string="State" name="group_by_state"
+                            context="{'group_by': 'state'}"/>
+                    <filter string="Date" name="group_by_date"
+                            context="{'group_by': 'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record> -->
+
+    <!-- Action -->
+    <record id="action_website_wallet_transaction" model="ir.actions.act_window">
+        <field name="name">Wallet Transactions</field>
+        <field name="res_model">website.wallet.transaction</field>
+        <field name="view_mode">tree,form</field>
+        <!-- <field name="search_view_id" ref="view_website_wallet_transaction_search"/>
+        <field name="context">{'search_default_filter_confirmed': 1}</field> -->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No wallet transactions yet
+            </p>
+            <p>
+                Wallet transactions are created automatically when customers
+                recharge their wallet via the website or use it to pay an
+                order. You can also add money manually to a customer's wallet
+                from their contact form.
+            </p>
+        </field>
+    </record>
+
+</odoo>
