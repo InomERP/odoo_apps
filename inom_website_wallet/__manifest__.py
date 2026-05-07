@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Website Wallet",
+    'name': "Inom Website Wallet",
     'version': '18.0.1.0.0',
     'summary': "A complete digital wallet system for Odoo Website customers.",
     'description': """
@@ -20,7 +20,7 @@ Features
 * Automatic email notification on every wallet recharge.
 * Full accounting integration via internal-transfer payments.
 """,
-    'author': "INOMERP",
+    'author': "InomERP",
     'website': "https://inomerp.in",
     'category': 'Website',
     'license': 'LGPL-3',
