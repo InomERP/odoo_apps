@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="pos_payment_method_rounding" model="pos.payment.method">
+            <field name="name">Rounding</field>
+            <field name="is_rounding_method">True</field>
+            <field name="is_auto_rounding">False</field>
+            <field name="split_transactions">False</field>
+        </record>
+
+    </data>
+</odoo>
