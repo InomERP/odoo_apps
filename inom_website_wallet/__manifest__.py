@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Website Wallet",
+    'name': "Inom Website Wallet",
     'version': '19.0.1.0.0',
     'summary': "A complete digital wallet system for Odoo Website customers.",
     'description': """
