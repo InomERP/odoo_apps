@@ -20,7 +20,7 @@ Features
 * Automatic email notification on every wallet recharge.
 * Full accounting integration via internal-transfer payments.
 """,
-    'author': "INOMERP",
+    'author': "InomERP",
     'website': "https://inomerp.in",
     'category': 'Website',
     'license': 'LGPL-3',
