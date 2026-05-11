@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="res_config_settings_timesheet_restriction_view" model="ir.ui.view">
+        <field name="name">res.config.settings.timesheet.restriction</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+
+            <!-- SAME XPATH STYLE -->
+            <xpath expr="//block[@name='performance']" position="before">
+
+                <div class="app_settings_block" data-string="Timesheet Restriction">
+                    <h2>Timesheet Restriction</h2>
+
+                    <div class="row mt16 o_settings_container">
+
+                        <div class="o_setting_box col-12 col-lg-6 o_searchable_setting">
+                            <field name="restrict_backdate" />
+                            <label for="restrict_backdate" />
+                            <div class="text-muted">
+                                Prevent users from creating or editing backdated timesheets.
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </xpath>
+
+        </field>
+    </record>
+</odoo>
