@@ -1,5 +1,5 @@
 {
-    "name": "Timesheet Backdate Restriction",
+    "name": "Inom Timesheet Backdate Restriction",
     "version": "19.0.1.0.0",
 
     "summary": "Restrict users from creating backdated timesheet entries",
