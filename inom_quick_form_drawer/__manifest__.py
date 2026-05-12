@@ -1,5 +1,5 @@
 {
-    'name': 'Quick Form Drawer',
+    'name': 'Inom Quick Form Drawer',
     'version': '17.0.1.0.7',
     'category': 'Productivity',
     'summary': 'Eye icon on every list row that opens a right-side drawer with the full form view (view + edit).',
@@ -40,7 +40,7 @@ Compatibility
 -------------
 Odoo 19.0 Community and Enterprise.
 """,
-    'author': 'InomERP Pvt Ltd',
+    'author': 'InomERP',
     'maintainer': 'InomERP Pvt Ltd',
     'website': 'https://inomerp.in',
     'support': 'info@inomerp.in',
