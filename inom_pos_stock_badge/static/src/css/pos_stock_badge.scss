@@ -1,0 +1,70 @@
+/**
+ * inom_pos_stock_badge — Badge Styles
+ */
+
+/* overflow-hidden override — badge clip na ho card ke andar */
+article.product {
+    overflow: visible !important;
+}
+
+.inom-stock-badge {
+    position: absolute;
+    z-index: 9999;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+// Position modifiers
+.inom-badge-top_left {
+    top: 4px;
+    left: 4px;
+}
+.inom-badge-top_right {
+    top: 4px;
+    right: 4px;
+}
+.inom-badge-bottom_right {
+    bottom: 4px;
+    right: 4px;
+}
+
+// State modifiers
+.inom-badge-state-out {}
+.inom-badge-state-low {}
+.inom-badge-state-normal {}
+
+/* Low Stock popup overlay — sab ke upar */
+.inom-low-stock-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 99999 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inom-low-stock-dialog {
+    background: white;
+    border-radius: 8px;
+    min-width: 480px;
+    max-width: 600px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 100000 !important;
+    position: relative;
+
+    .modal-body {
+        overflow-y: auto;
+    }
+}
+
+.product-list .product-item article,
+.product-list article {
+    position: relative !important;
+    overflow: visible !important;
+}
