@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <t t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension">
+
+        <!-- After Total Amount -->
+        <xpath expr="//div[hasclass('receipt-total')]" position="after">
+            <div class="pos-receipt-amount d-flex fw-bold pt-1">
+                <span>Total Number Of Items</span>
+                <span class="ms-auto font-monospace">
+                    <t t-esc="totalItemCount"/>
+                </span>
+            </div>
+        </xpath>
+
+    </t>
+</templates>

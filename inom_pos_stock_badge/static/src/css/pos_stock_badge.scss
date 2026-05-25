@@ -1,0 +1,87 @@
+/**
+ * inom_pos_stock_badge — Badge Styles
+ *
+ * The product card (article.product-card) must have position: relative
+ * (it already does in Odoo 19's default POS stylesheet).
+ *
+ * Badge is absolutely positioned inside the card via the
+ * .inom-badge-{position} modifier classes.
+ */
+
+// ── Base badge styles ────────────────────────────────────────────────────────
+.inom-stock-badge {
+    position: absolute;
+    z-index: 10;
+
+    // Typography
+    font-size: 0.65rem;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+
+    // Shape
+    padding: 3px 6px;
+    border-radius: 10px;
+    min-width: 20px;
+    text-align: center;
+
+    // Depth
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+
+    // Smooth color transitions when threshold changes
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+// ── Position modifiers ───────────────────────────────────────────────────────
+.inom-badge-top_left {
+    top: 4px;
+    left: 4px;
+}
+
+.inom-badge-top_right {
+    top: 4px;
+    right: 4px;
+}
+
+.inom-badge-bottom_right {
+    bottom: 4px;
+    right: 4px;
+}
+
+// ── State modifiers (for test selectors & accessibility) ─────────────────────
+// Colors are set inline via JS; these classes serve as semantic markers only.
+.inom-badge-state-out {
+    // out-of-stock: red (set inline)
+}
+
+.inom-badge-state-low {
+    // low-stock: orange (set inline)
+}
+
+.inom-badge-state-normal {
+    // normal: user-configured (set inline)
+}
+.inom-low-stock-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inom-low-stock-dialog {
+    background: white;
+    border-radius: 8px;
+    min-width: 480px;
+    max-width: 600px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    .modal-body {
+        overflow-y: auto;
+    }
+}

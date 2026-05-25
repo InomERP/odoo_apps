@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pos_config_settings_custom" model="ir.ui.view">
+        <field name="name">pos.config.settings.custom</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='pos_inventory_section']" position="after">
+
+                <!-- ✅ Block 1: Stock Configuration in POS -->
+                <block title="Stock Configuration in POS" id="pos_stock_config_section">
+
+                    <setting string="Display Stock in POS"
+                             help="Check this to display stock in POS screen.">
+                        <field name="display_stock"/>
+                    </setting>
+
+                    <setting string="Stock Type"
+                             help="Stock type show up in POS screen."
+                             invisible="not display_stock">
+                        <field name="stock_type" widget="radio"/>
+                    </setting>
+
+                    <setting string="Allow POS Order When Product is Out of Stock"
+                             help="Allow pos order when product is out of stock."
+                             invisible="not display_stock">
+                        <field name="allow_order_out_of_stock"/>
+                    </setting>
+
+                    <setting string="Deny POS Order When Product Qty goes down to"
+                             help="Deny pos order when product qty goes down to entered value."
+                             invisible="not display_stock">
+                        <field name="deny_order_below_qty"/>
+                    </setting>
+
+                    <setting string="Stock Position"
+                             help="Position of stock badge on POS screen."
+                             invisible="not display_stock">
+                        <field name="badge_position" widget="radio"/>
+                    </setting>
+
+                    <setting string="Color Selection"
+                             help="Customize stock badge colors."
+                             invisible="not display_stock">
+                        <div class="content-group mt16">
+                            <div class="row">
+                                <label for="badge_bg_color" class="col-lg-3 o_light_label"/>
+                                <field name="badge_bg_color" widget="color"/>
+                            </div>
+                            <div class="row mt8">
+                                <label for="badge_font_color" class="col-lg-3 o_light_label"/>
+                                <field name="badge_font_color" widget="color"/>
+                            </div>
+                        </div>
+                    </setting>
+
+                    <setting string="Product Low Stock"
+                             help="Below this quantity product is considered low stock."
+                             invisible="not display_stock">
+                        <field name="low_stock_threshold"/>
+                    </setting>
+
+                    <!-- ✅ MISSING FEATURE: Show Low Stock Button toggle (was missing before) -->
+                    <setting string="Show Low Stock Button in POS"
+                             help="Show a Low Stock button in the POS toolbar to quickly view products with low or zero stock."
+                             invisible="not display_stock">
+                        <field name="show_low_stock_button"/>
+                    </setting>
+
+                </block>
+
+                <!-- ✅ Block 2: Stock Location Configuration -->
+                <block title="Stock Location Configuration"
+                       id="pos_stock_location_section"
+                       invisible="not display_stock">
+
+                    <setting string="Show Stock Of"
+                             help="Product stock location type.">
+                        <field name="show_stock_of" widget="radio"/>
+                    </setting>
+
+                    <setting string="Stock Location"
+                             help="Stock location used for inventory."
+                             invisible="show_stock_of != 'current_session'">
+                        <field name="stock_location_id"/>
+                    </setting>
+
+                </block>
+
+            </xpath>
+        </field>
+    </record>
+</odoo>
