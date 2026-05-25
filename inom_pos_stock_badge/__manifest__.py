@@ -13,7 +13,7 @@
         - Low stock threshold setting
         - Master toggle to enable/disable the entire feature
     """,
-    'author': 'Inom ERP',
+    'author': 'InomERP',
     'website': 'https://inomerp.in',
     'category': 'Point of Sale',
     'license': 'LGPL-3',
