@@ -17,7 +17,7 @@ Key Features:
 - Avoids duplicate customer records
 - Seamless integration with Odoo Contacts, Sales, and Accounting
 """,
-    "author": "Inom ERP",
+    "author": "InomERP",
     "website": "https://www.inomerp.in",
     "support": "info@inomerp.in",
     'images': ['static/description/banner.png'],
