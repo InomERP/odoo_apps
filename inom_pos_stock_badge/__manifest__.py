@@ -3,7 +3,7 @@
     'name': 'Inom POS Stock Badge',
     'version': '17.0.1.0.0',
     'summary': 'Display real-time stock badge on POS product cards',
-    'author': 'Inom ERP',
+    'author': 'InomERP',
     'website': 'https://inomerp.in',
     'category': 'Point of Sale',
     'license': 'LGPL-3',
