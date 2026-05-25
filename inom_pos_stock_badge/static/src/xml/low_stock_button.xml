@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <t t-name="inom_pos_stock_badge.LowStockButton">
+        <div class="position-relative">
+            <button class="btn btn-warning btn-lg lh-lg" t-on-click="togglePopup">
+                <i class="fa fa-exclamation-triangle"/> Low Stock
+            </button>
+            <div t-if="state.show"
+                style="position:fixed; top:60px; right:10px; min-width:320px; max-height:400px; overflow-y:auto; z-index:99999; background:white; border:1px solid #ccc; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.2);">
+                <div class="p-2 bg-warning text-dark fw-bold d-flex justify-content-between align-items-center">
+                    <span><i class="fa fa-exclamation-triangle"/> Low Stock Products</span>
+                    <span class="badge bg-dark" t-esc="lowStockProducts.length"/>
+                </div>
+                <t t-if="lowStockProducts.length === 0">
+                    <div class="p-3 text-center text-muted">No low stock products</div>
+                </t>
+                <t t-foreach="lowStockProducts" t-as="product" t-key="product.id">
+                    <div class="d-flex justify-content-between align-items-center px-3 py-2 border-bottom">
+                        <span class="text-truncate me-2" t-esc="product.name"/>
+                        <t t-if="(product.pos_qty ?? 0) &lt;= 0">
+                            <span class="badge bg-danger fw-bold" t-esc="product.pos_qty ?? 0"/>
+                        </t>
+                        <t t-else="">
+                            <span class="badge bg-warning text-dark fw-bold" t-esc="product.pos_qty ?? 0"/>
+                        </t>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </t>
+    <t t-inherit="point_of_sale.Navbar" t-inherit-mode="extension">
+        <xpath expr="//CashierName" position="before">
+            <LowStockButton t-if="pos.config.show_low_stock_button and pos.config.display_stock"/>
+        </xpath>
+    </t>
+</templates>

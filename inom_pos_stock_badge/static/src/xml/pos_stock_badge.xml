@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <t t-inherit="point_of_sale.ProductCard" t-inherit-mode="extension">
+        <xpath expr="//article" position="inside">
+            <t t-if="stockBadgeConfig.enabled">
+                <span
+                    t-att-class="'inom-stock-badge inom-badge-' + stockBadgeConfig.position + ' ' + stockBadgeClass"
+                    t-att-style="'background-color:' + stockBadgeStyle.bg + ';color:' + stockBadgeStyle.fg + ';cursor:pointer;'"
+                    t-on-click.stop="onClickBadge"
+                    t-esc="stockQtyDisplay"
+                />
+                <div t-if="locationState.show"
+                    class="position-absolute bg-white border rounded shadow p-0"
+                    style="top:28px; left:4px; min-width:220px; z-index:9999;"
+                    t-on-click.stop="">
+                    <div class="p-2 fw-bold text-white"
+                        style="background:#1a1a2e; font-size:11px;">
+                        <i class="fa fa-map-marker"/> Stock By Location
+                    </div>
+                    <t t-if="locationState.loading">
+                        <div class="p-2 text-center text-muted" style="font-size:11px;">
+                            <i class="fa fa-spin fa-spinner"/> Loading...
+                        </div>
+                    </t>
+                    <t t-elif="locationState.data.length === 0">
+                        <div class="p-2 text-center text-muted" style="font-size:11px;">
+                            No stock found
+                        </div>
+                    </t>
+                    <t t-foreach="locationState.data" t-as="loc" t-key="loc.location">
+                        <div class="d-flex justify-content-between px-2 py-1 border-bottom"
+                            style="font-size:11px;">
+                            <span class="text-truncate me-2" t-esc="loc.location"/>
+                            <span class="fw-bold" t-esc="loc.qty"/>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </xpath>
+    </t>
+</templates>
