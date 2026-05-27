@@ -1,0 +1,68 @@
+<odoo>
+
+    <!-- Patient Sequence -->
+    <record id="patient_seq" model="ir.sequence">
+        <field name="name">Patient Sequence</field>
+        <field name="code">oeh.patient</field>
+        <field name="prefix">PAT/</field>
+        <field name="padding">5</field>
+    </record>
+
+
+    <!-- Appointment Sequence -->
+    <record id="appointment_seq" model="ir.sequence">
+        <field name="name">Appointment Sequence</field>
+        <field name="code">oeh.appointment</field>
+        <field name="prefix">APT/</field>
+        <field name="padding">5</field>
+    </record>
+
+    <!--- surgery sequence -->
+    <record id="seq_surgery" model="ir.sequence">
+        <field name="name">Surgery Sequence</field>
+        <field name="code">oehealth.surgery</field>
+        <field name="prefix">SUR/</field>
+        <field name="padding">4</field>
+    </record>
+
+    <!-- phaarmacy -->
+    <record id="seq_pharmacy" model="ir.sequence">
+        <field name="name">Pharmacy Sequence</field>
+        <field name="code">oeh.pharmacy</field>
+        <field name="prefix">PHAR/</field>
+        <field name="padding">4</field>
+    </record>
+
+    <!-- speciality care  -->
+    <record id="seq_specialty" model="ir.sequence">
+        <field name="name">Specialty Sequence</field>
+        <field name="code">oeh.specialty</field>
+        <field name="prefix">SPEC/</field>
+        <field name="padding">4</field>
+    </record>
+    
+    <!--  hospital  -->
+    <record id="seq_ipd" model="ir.sequence">
+        <field name="name">IPD Sequence</field>
+        <field name="code">oeh.ipd</field>
+        <field name="prefix">IPD/</field>
+        <field name="padding">4</field>
+    </record>
+
+    <!-- finance -->
+    <record id="seq_billing" model="ir.sequence">
+        <field name="name">Billing Sequence</field>
+        <field name="code">oeh.billing</field>
+        <field name="prefix">BILL/</field>
+        <field name="padding">4</field>
+    </record>    
+
+    <!-- communication -->
+    <record id="seq_communication" model="ir.sequence">
+        <field name="name">Communication Sequence</field>
+        <field name="code">oeh.communication</field>
+        <field name="prefix">COM/</field>
+        <field name="padding">4</field>
+    </record>
+
+</odoo>

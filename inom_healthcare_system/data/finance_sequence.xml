@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="payment_seq" model="ir.sequence">
+        <field name="name">Payment Receipt Sequence</field>
+        <field name="code">oeh.payment</field>
+        <field name="prefix">RCPT/</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record id="insurance_claim_seq" model="ir.sequence">
+        <field name="name">Insurance Claim Sequence</field>
+        <field name="code">oeh.insurance.claim</field>
+        <field name="prefix">CLM/</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record id="hcfa_seq" model="ir.sequence">
+        <field name="name">HCFA / EDI Sequence</field>
+        <field name="code">oeh.hcfa</field>
+        <field name="prefix">HCFA/</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record id="preauth_seq" model="ir.sequence">
+        <field name="name">Pre Authorization Sequence</field>
+        <field name="code">oeh.pre.authorization</field>
+        <field name="prefix">PA/</field>
+        <field name="padding">5</field>
+    </record>
+
+</odoo>

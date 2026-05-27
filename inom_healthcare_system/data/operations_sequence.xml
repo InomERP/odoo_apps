@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="campus_seq" model="ir.sequence">
+        <field name="name">Campus Sequence</field>
+        <field name="code">oeh.campus</field>
+        <field name="prefix">CMP/</field>
+        <field name="padding">4</field>
+    </record>
+
+    <record id="building_seq" model="ir.sequence">
+        <field name="name">Building Sequence</field>
+        <field name="code">oeh.building</field>
+        <field name="prefix">BLD/</field>
+        <field name="padding">4</field>
+    </record>
+
+    <record id="ward_seq" model="ir.sequence">
+        <field name="name">Ward Sequence</field>
+        <field name="code">oeh.ward</field>
+        <field name="prefix">WRD/</field>
+        <field name="padding">4</field>
+    </record>
+
+    <record id="bed_seq" model="ir.sequence">
+        <field name="name">Bed Sequence</field>
+        <field name="code">oeh.bed</field>
+        <field name="prefix">BED/</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record id="icu_seq" model="ir.sequence">
+        <field name="name">ICU Sequence</field>
+        <field name="code">oeh.icu</field>
+        <field name="prefix">ICU/</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record id="emergency_seq" model="ir.sequence">
+        <field name="name">Emergency Sequence</field>
+        <field name="code">oeh.emergency</field>
+        <field name="prefix">ER/</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record id="nursing_seq" model="ir.sequence">
+        <field name="name">Nursing Plan Sequence</field>
+        <field name="code">oeh.nursing</field>
+        <field name="prefix">NRS/</field>
+        <field name="padding">5</field>
+    </record>
+
+</odoo>

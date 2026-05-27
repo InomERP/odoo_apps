@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Client action that renders the OWL dashboard -->
+    <record id="action_hospital_dashboard" model="ir.actions.client">
+        <field name="name">Hospital Dashboard</field>
+        <field name="tag">inom_healthcare_system.dashboard</field>
+    </record>
+
+    <!-- Dashboard menu (first item under the Health root) -->
+    <menuitem id="menu_hospital_dashboard" groups="inom_healthcare_system.group_hospital_manager"
+              name="Dashboard"
+              parent="health_root"
+              action="action_hospital_dashboard"
+              sequence="1"/>
+
+</odoo>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="action_report_billing" model="ir.actions.report">
+        <field name="name">Hospital Bill</field>
+        <field name="model">oeh.billing</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inom_healthcare_system.report_billing_doc</field>
+        <field name="report_file">inom_healthcare_system.report_billing_doc</field>
+        <field name="binding_model_id" ref="model_oeh_billing"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="action_report_payment" model="ir.actions.report">
+        <field name="name">Payment Receipt</field>
+        <field name="model">oeh.payment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inom_healthcare_system.report_payment_doc</field>
+        <field name="report_file">inom_healthcare_system.report_payment_doc</field>
+        <field name="binding_model_id" ref="model_oeh_payment"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="action_report_claim" model="ir.actions.report">
+        <field name="name">Insurance Claim</field>
+        <field name="model">oeh.insurance.claim</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inom_healthcare_system.report_claim_doc</field>
+        <field name="report_file">inom_healthcare_system.report_claim_doc</field>
+        <field name="binding_model_id" ref="model_oeh_insurance_claim"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_billing_doc">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Hospital Bill</h2>
+                        <div class="row mt32 mb32">
+                            <div class="col-6">
+                                <strong>Bill No:</strong> <span t-out="o.name"/><br/>
+                                <strong>Patient:</strong> <span t-out="o.patient_id.name"/><br/>
+                                <strong>Doctor:</strong> <span t-out="o.doctor_id.name"/>
+                            </div>
+                            <div class="col-6 text-end">
+                                <strong>Date:</strong> <span t-out="o.bill_date"/><br/>
+                                <strong>Stage:</strong> <span t-out="o.state"/><br/>
+                                <strong>Payment Status:</strong> <span t-out="o.status"/>
+                            </div>
+                        </div>
+                        <table class="table table-sm">
+                            <tbody>
+                                <tr><td>Total Amount</td><td class="text-end"><span t-out="o.total_amount"/></td></tr>
+                                <tr><td>Tax</td><td class="text-end"><span t-out="o.tax_amount"/></td></tr>
+                                <tr><td>Insurance Coverage</td><td class="text-end"><span t-out="o.insurance_coverage"/></td></tr>
+                                <tr><th>Patient Payable</th><th class="text-end"><span t-out="o.patient_payable"/></th></tr>
+                                <tr><td>Paid</td><td class="text-end"><span t-out="o.paid_amount"/></td></tr>
+                                <tr><th>Balance Due</th><th class="text-end"><span t-out="o.balance"/></th></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_payment_doc">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Payment Receipt</h2>
+                        <div class="row mt32 mb32">
+                            <div class="col-6">
+                                <strong>Receipt No:</strong> <span t-out="o.name"/><br/>
+                                <strong>Patient:</strong> <span t-out="o.patient_id.name"/><br/>
+                                <strong>Bill:</strong> <span t-out="o.billing_id.name"/>
+                            </div>
+                            <div class="col-6 text-end">
+                                <strong>Date:</strong> <span t-out="o.payment_date"/><br/>
+                                <strong>Type:</strong> <span t-out="o.payment_kind"/><br/>
+                                <strong>Status:</strong> <span t-out="o.state"/>
+                            </div>
+                        </div>
+                        <table class="table table-sm">
+                            <tbody>
+                                <tr><td>Payment Method</td><td class="text-end"><span t-out="o.payment_method"/></td></tr>
+                                <tr><td>Reference</td><td class="text-end"><span t-out="o.reference"/></td></tr>
+                                <tr><th>Amount Received</th><th class="text-end"><span t-out="o.amount"/></th></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_claim_doc">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Insurance Claim</h2>
+                        <div class="row mt32 mb32">
+                            <div class="col-6">
+                                <strong>Claim No:</strong> <span t-out="o.name"/><br/>
+                                <strong>Patient:</strong> <span t-out="o.patient_id.name"/><br/>
+                                <strong>Insurance Co.:</strong> <span t-out="o.insurance_company"/><br/>
+                                <strong>Policy:</strong> <span t-out="o.policy_number"/>
+                            </div>
+                            <div class="col-6 text-end">
+                                <strong>Status:</strong> <span t-out="o.claim_status"/><br/>
+                                <strong>Settlement Date:</strong> <span t-out="o.settlement_date"/>
+                            </div>
+                        </div>
+                        <table class="table table-sm">
+                            <tbody>
+                                <tr><td>Claimed Amount</td><td class="text-end"><span t-out="o.claim_amount"/></td></tr>
+                                <tr><td>Approved Amount</td><td class="text-end"><span t-out="o.approved_amount"/></td></tr>
+                                <tr><td>Settled Amount</td><td class="text-end"><span t-out="o.settled_amount"/></td></tr>
+                                <tr><th>Patient Responsibility</th><th class="text-end"><span t-out="o.patient_responsibility"/></th></tr>
+                            </tbody>
+                        </table>
+                        <p t-if="o.approval_notes"><strong>Approval Notes:</strong> <span t-out="o.approval_notes"/></p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>
