@@ -1,0 +1,16 @@
+<templates xml:space="preserve">
+
+    <t t-inherit="web.ListView" t-inherit-mode="extension">
+        <xpath expr="//t[@t-set-slot='control-panel-additional-actions']/CogMenu[1]" position="before">
+            <InomDynamicListPanel
+                t-if="inomDynamicColumns and inomDynamicColumns.length"
+                columns="inomDynamicColumns"
+                modelName="model.root.resModel"
+                viewId="props.info?.viewId or 0"
+                onConfigChange.bind="inomOnConfigChange"
+                onAutoSave.bind="inomOnAutoSave"
+            />
+        </xpath>
+    </t>
+
+</templates>
