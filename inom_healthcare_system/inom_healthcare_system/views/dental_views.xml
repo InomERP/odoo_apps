@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="dental_tree" model="ir.ui.view">
+        <field name="name">dental.tree</field>
+        <field name="model">oeh.dental</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'completed'" decoration-info="state == 'in_progress'"
+                  decoration-muted="state == 'cancel'">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="date"/>
+                <field name="tooth_issue"/>
+                <field name="procedure_type"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="dental_form" model="ir.ui.view">
+        <field name="name">dental.form</field>
+        <field name="model">oeh.dental</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_plan" type="object" string="Plan Treatment"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_start" type="object" string="Start"
+                            class="btn-primary" invisible="state != 'planned'"/>
+                    <button name="action_complete" type="object" string="Complete"
+                            class="btn-primary" invisible="state != 'in_progress'"/>
+                    <button name="action_create_billing" type="object" string="Create Bill"
+                            invisible="state != 'completed'"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state in ('completed','cancel')"/>
+                    <button name="action_reset" type="object" string="Reset"
+                            invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,planned,in_progress,completed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_create_billing" type="object"
+                                class="oe_stat_button" icon="fa-money">
+                            <field name="billing_count" widget="statinfo" string="Bill"/>
+                        </button>
+                        <button class="oe_stat_button" icon="fa-history" disabled="1">
+                            <field name="case_count" widget="statinfo" string="Cases"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group string="Case">
+                            <field name="name" readonly="1"/>
+                            <field name="patient_id"/>
+                            <field name="date"/>
+                            <field name="dentist"/>
+                            <field name="appointment_id"/>
+                        </group>
+                        <group string="Tooth / Procedure">
+                            <field name="tooth_issue"/>
+                            <field name="tooth_number"/>
+                            <field name="quadrant"/>
+                            <field name="procedure_type"/>
+                            <field name="procedure"/>
+                            <field name="fee"/>
+                            <field name="followup_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Treatment Plan">
+                            <field name="treatment_plan"/>
+                        </page>
+                        <page string="Procedure History">
+                            <field name="procedure_history"/>
+                        </page>
+                        <page string="Prescription">
+                            <field name="prescription_notes"/>
+                        </page>
+                        <page string="Imaging / Reports">
+                            <field name="report_reference"/>
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_dental" model="ir.actions.act_window">
+        <field name="name">Dental Practice</field>
+        <field name="res_model">oeh.dental</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

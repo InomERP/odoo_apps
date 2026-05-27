@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="preauth_tree" model="ir.ui.view">
+        <field name="name">preauth.tree</field>
+        <field name="model">oeh.pre.authorization</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="insurance_company"/>
+                <field name="procedure_name"/>
+                <field name="status"/>
+            </list>
+        </field>
+    </record>
+
+
+    <record id="preauth_form" model="ir.ui.view">
+        <field name="name">preauth.form</field>
+        <field name="model">oeh.pre.authorization</field>
+        <field name="arch" type="xml">
+
+            <form>
+
+                <header>
+                    <button name="action_submit" type="object" string="Submit Request"
+                            class="btn-primary" invisible="status != 'draft'"/>
+                    <button name="action_approve" type="object" string="Approve"
+                            class="btn-primary" invisible="status != 'pending'"/>
+                    <button name="action_reject" type="object" string="Reject"
+                            invisible="status != 'pending'"/>
+                    <button name="action_expire" type="object" string="Mark Expired"
+                            invisible="status != 'approved'"/>
+                    <button name="action_reset" type="object" string="Reset to Draft"
+                            invisible="status == 'draft'"/>
+                    <field name="status" widget="statusbar"
+                           statusbar_visible="draft,pending,approved"/>
+                </header>
+
+                <sheet>
+
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="patient_id"/>
+                            <field name="insurance_company"/>
+                            <field name="insurance_partner_id"/>
+                            <field name="policy_number"/>
+                            <field name="doctor_id"/>
+                        </group>
+                        <group>
+                            <field name="procedure_name"/>
+                            <field name="requested_amount"/>
+                            <field name="approved_amount"/>
+                            <field name="authorization_no"/>
+                            <field name="status"/>
+                        </group>
+                    </group>
+
+                    <group string="Authorization Period">
+                        <field name="request_date"/>
+                        <field name="decision_date"/>
+                        <field name="valid_from"/>
+                        <field name="valid_until"/>
+                        <field name="is_expired"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Justification">
+                            <field name="justification" placeholder="Medical justification..."/>
+                            <field name="notes" placeholder="Notes..."/>
+                        </page>
+                        <page string="Documents">
+                            <field name="attachment_ids" widget="many2many_binary"/>
+                        </page>
+                    </notebook>
+
+                </sheet>
+
+                <chatter/>
+
+            </form>
+
+        </field>
+    </record>
+
+    <record id="action_preauthorization" model="ir.actions.act_window">
+        <field name="name">Pre Authorization</field>
+        <field name="res_model">oeh.pre.authorization</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

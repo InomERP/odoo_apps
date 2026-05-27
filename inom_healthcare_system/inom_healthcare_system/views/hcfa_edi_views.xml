@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="hcfa_tree" model="ir.ui.view">
+        <field name="name">hcfa.tree</field>
+        <field name="model">oeh.hcfa</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="claim_id"/>
+                <field name="form_type"/>
+                <field name="status"/>
+            </list>
+        </field>
+    </record>
+
+
+    <record id="hcfa_form" model="ir.ui.view">
+        <field name="name">hcfa.form</field>
+        <field name="model">oeh.hcfa</field>
+        <field name="arch" type="xml">
+
+            <form>
+
+                <header>
+                    <button name="action_send" type="object" string="Send"
+                            class="btn-primary" invisible="status != 'draft'"/>
+                    <button name="action_accept" type="object" string="Mark Accepted"
+                            class="btn-primary" invisible="status != 'sent'"/>
+                    <button name="action_reject" type="object" string="Reject"
+                            invisible="status != 'sent'"/>
+                    <button name="action_reset" type="object" string="Reset to Draft"
+                            invisible="status == 'draft'"/>
+                    <field name="status" widget="statusbar"
+                           statusbar_visible="draft,sent,accepted"/>
+                </header>
+
+                <sheet>
+
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="patient_id"/>
+                            <field name="claim_id"/>
+                            <field name="form_type"/>
+                        </group>
+                        <group>
+                            <field name="insurance_company"/>
+                            <field name="policy_number"/>
+                            <field name="claim_amount"/>
+                            <field name="submission_date"/>
+                        </group>
+                    </group>
+
+                    <group string="Clinical Coding">
+                        <field name="diagnosis_id"/>
+                        <field name="procedure_description"/>
+                    </group>
+
+                </sheet>
+
+                <chatter/>
+
+            </form>
+
+        </field>
+    </record>
+
+
+    <record id="action_hcfa" model="ir.actions.act_window">
+        <field name="name">HCFA / EDI</field>
+        <field name="res_model">oeh.hcfa</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

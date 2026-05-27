@@ -1,0 +1,242 @@
+.o_inom_dashboard {
+    padding: 24px;
+    background: #f4f6fa;
+    min-height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.o_inom_loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60vh;
+    color: #6b7280;
+    font-size: 16px;
+}
+
+/* ---------- Header ---------- */
+.o_inom_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+.o_inom_title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+}
+.o_inom_subtitle {
+    font-size: 13px;
+    color: #6b7280;
+}
+.o_inom_refresh {
+    border-radius: 8px;
+}
+
+/* ---------- KPI cards ---------- */
+.o_inom_kpi_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+.o_inom_kpi {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 20px;
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(16, 24, 40, 0.08);
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease;
+    border: 1px solid #eef0f4;
+}
+.o_inom_kpi:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(16, 24, 40, 0.12);
+}
+.o_kpi_icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: #fff;
+    flex: 0 0 auto;
+}
+.o_kpi_value {
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: #111827;
+}
+.o_kpi_label {
+    font-size: 13px;
+    color: #6b7280;
+    margin-top: 2px;
+}
+.o_kpi_badge {
+    display: inline-block;
+    margin-left: 6px;
+    background: #eef2ff;
+    color: #4338ca;
+    border-radius: 10px;
+    padding: 1px 8px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* KPI accent colors */
+.o_kpi_blue   .o_kpi_icon { background: linear-gradient(135deg,#3b82f6,#2563eb); }
+.o_kpi_teal   .o_kpi_icon { background: linear-gradient(135deg,#14b8a6,#0d9488); }
+.o_kpi_indigo .o_kpi_icon { background: linear-gradient(135deg,#6366f1,#4f46e5); }
+.o_kpi_purple .o_kpi_icon { background: linear-gradient(135deg,#a855f7,#9333ea); }
+.o_kpi_green  .o_kpi_icon { background: linear-gradient(135deg,#22c55e,#16a34a); }
+.o_kpi_cyan   .o_kpi_icon { background: linear-gradient(135deg,#06b6d4,#0891b2); }
+.o_kpi_orange .o_kpi_icon { background: linear-gradient(135deg,#f97316,#ea580c); }
+.o_kpi_red    .o_kpi_icon { background: linear-gradient(135deg,#ef4444,#dc2626); }
+
+/* ---------- Finance strip ---------- */
+.o_inom_finance {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+.o_inom_fin_card {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 18px 20px;
+    box-shadow: 0 1px 3px rgba(16, 24, 40, 0.08);
+    border-left: 4px solid #3b82f6;
+}
+.o_inom_fin_card.o_fin_paid { border-left-color: #22c55e; }
+.o_inom_fin_card.o_fin_due  { border-left-color: #ef4444; }
+.o_fin_label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: #6b7280;
+    margin-bottom: 6px;
+}
+.o_fin_value {
+    font-size: 20px;
+    font-weight: 700;
+    color: #111827;
+}
+
+/* ---------- Panels ---------- */
+.o_inom_panels {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 16px;
+}
+.o_inom_panel {
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 1px 3px rgba(16, 24, 40, 0.08);
+    border: 1px solid #eef0f4;
+    overflow: hidden;
+}
+.o_panel_head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    border-bottom: 1px solid #f0f2f5;
+    font-weight: 600;
+    color: #1f2937;
+    font-size: 14px;
+}
+.o_panel_link {
+    font-size: 12px;
+    color: #2563eb;
+    cursor: pointer;
+    font-weight: 600;
+}
+.o_panel_link:hover { text-decoration: underline; }
+.o_panel_body { padding: 16px 18px; }
+
+/* Bars */
+.o_bar_row {
+    display: grid;
+    grid-template-columns: 110px 1fr 38px;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+.o_bar_row:last-child { margin-bottom: 0; }
+.o_bar_label {
+    font-size: 12px;
+    color: #4b5563;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.o_bar_track {
+    background: #f1f3f7;
+    border-radius: 6px;
+    height: 12px;
+    overflow: hidden;
+}
+.o_bar_fill {
+    height: 100%;
+    border-radius: 6px;
+    background: #3b82f6;
+    min-width: 2px;
+    transition: width .4s ease;
+}
+.o_bar_count {
+    font-size: 13px;
+    font-weight: 700;
+    color: #111827;
+    text-align: right;
+}
+
+/* Status-specific bar colors */
+.o_bar_draft      { background: #9ca3af; }
+.o_bar_confirm,
+.o_bar_scheduled,
+.o_bar_submitted  { background: #3b82f6; }
+.o_bar_progress,
+.o_bar_partial    { background: #f59e0b; }
+.o_bar_done,
+.o_bar_paid,
+.o_bar_approved   { background: #22c55e; }
+.o_bar_cancel,
+.o_bar_rejected   { background: #ef4444; }
+.o_bar_free       { background: #22c55e; }
+.o_bar_occupied   { background: #ef4444; }
+.o_bar_maintenance{ background: #f59e0b; }
+.o_bar_low        { background: #22c55e; }
+.o_bar_medium     { background: #f59e0b; }
+.o_bar_high       { background: #dc2626; }
+
+/* Pharmacy mini stats */
+.o_pharmacy_body {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+.o_mini_stat {
+    background: #f8fafc;
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+}
+.o_mini_value {
+    font-size: 22px;
+    font-weight: 700;
+    color: #111827;
+}
+.o_mini_label {
+    font-size: 12px;
+    color: #6b7280;
+}
+.o_mini_warn { background: #fef2f2; }
+.o_mini_warn .o_mini_value { color: #dc2626; }

@@ -1,0 +1,105 @@
+<odoo>
+
+    <!-- MEDICINE TREE -->
+    <record id="pharmacy_tree" model="ir.ui.view">
+        <field name="name">oeh.pharmacy.tree</field>
+        <field name="model">oeh.pharmacy</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="is_low_stock == True">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="drug_category"/>
+                <field name="medicine_type"/>
+                <field name="price"/>
+                <field name="stock_qty"/>
+                <field name="available_qty"/>
+                <field name="min_stock"/>
+                <field name="is_low_stock"/>
+                <field name="is_controlled"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- MEDICINE FORM -->
+    <record id="pharmacy_form" model="ir.ui.view">
+        <field name="name">oeh.pharmacy.form</field>
+        <field name="model">oeh.pharmacy</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_batches" type="object"
+                                class="oe_stat_button" icon="fa-cubes">
+                            <field name="batch_count" widget="statinfo" string="Batches"/>
+                        </button>
+                        <button name="action_view_dispenses" type="object"
+                                class="oe_stat_button" icon="fa-shopping-bag">
+                            <field name="dispense_count" widget="statinfo" string="Dispenses"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Low Stock" bg_color="text-bg-danger"
+                            invisible="not is_low_stock"/>
+                    <group>
+                        <group string="Identification">
+                            <field name="code" readonly="1"/>
+                            <field name="name"/>
+                            <field name="generic_name"/>
+                            <field name="brand_name"/>
+                            <field name="is_generic"/>
+                            <field name="manufacturer_id"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Classification">
+                            <field name="drug_category"/>
+                            <field name="medicine_type"/>
+                            <field name="strength"/>
+                            <field name="dosage_info"/>
+                            <field name="is_controlled"/>
+                            <field name="price"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Stock">
+                            <field name="stock_qty"/>
+                            <field name="reserved_qty"/>
+                            <field name="available_qty" readonly="1"/>
+                            <field name="min_stock"/>
+                            <field name="is_low_stock" readonly="1"/>
+                        </group>
+                        <group string="Expiry (FEFO)">
+                            <field name="expiry_date"/>
+                            <field name="nearest_expiry" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Batch Details">
+                            <field name="batch_ids">
+                                <list editable="bottom" decoration-danger="expiry_status == 'expired'"
+                                      decoration-warning="expiry_status == 'near'">
+                                    <field name="batch_no"/>
+                                    <field name="mfg_date"/>
+                                    <field name="quantity"/>
+                                    <field name="expiry_date"/>
+                                    <field name="expiry_status"/>
+                                    <field name="status"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Storage">
+                            <field name="storage_instructions"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ACTION -->
+    <record id="pharmacy_action" model="ir.actions.act_window">
+        <field name="name">Pharmacy</field>
+        <field name="res_model">oeh.pharmacy</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

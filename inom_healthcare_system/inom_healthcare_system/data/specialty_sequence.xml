@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="therapy_seq" model="ir.sequence">
+        <field name="name">Physical Therapy Sequence</field>
+        <field name="code">oeh.therapy</field>
+        <field name="prefix">PT/</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record id="dental_seq" model="ir.sequence">
+        <field name="name">Dental Case Sequence</field>
+        <field name="code">oeh.dental</field>
+        <field name="prefix">DEN/</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record id="gynecology_seq" model="ir.sequence">
+        <field name="name">Gynecology Case Sequence</field>
+        <field name="code">oeh.gynecology</field>
+        <field name="prefix">GYN/</field>
+        <field name="padding">5</field>
+    </record>
+
+</odoo>

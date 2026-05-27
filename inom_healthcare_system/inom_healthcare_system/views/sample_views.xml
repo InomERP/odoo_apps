@@ -1,0 +1,59 @@
+<odoo>
+
+    <!-- TREE VIEW -->
+    <record id="sample_tree_view" model="ir.ui.view">
+        <field name="name">oeh.sample.tree</field>
+        <field name="model">oeh.sample</field>
+        <field name="arch" type="xml">
+
+            <list>
+                <field name="barcode"/>
+                <field name="patient_id"/>
+                <field name="sample_type"/>
+                <field name="collected_date"/>
+                <field name="status"/>
+            </list>
+
+        </field>
+    </record>
+
+
+    <!-- FORM VIEW -->
+    <record id="sample_form_view" model="ir.ui.view">
+        <field name="name">oeh.sample.form</field>
+        <field name="model">oeh.sample</field>
+        <field name="arch" type="xml">
+
+            <form>
+
+                <sheet>
+
+                    <group>
+                        <field name="barcode"/>
+                        <field name="patient_id"/>
+                    </group>
+
+                    <group>
+                        <field name="sample_type"/>
+                        <field name="collected_date"/>
+                        <field name="status"/>
+                    </group>
+
+                </sheet>
+
+                <chatter/>
+
+            </form>
+
+        </field>
+    </record>
+
+
+    <!-- ACTION -->
+    <record id="sample_action" model="ir.actions.act_window">
+        <field name="name">Sample Tracking</field>
+        <field name="res_model">oeh.sample</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

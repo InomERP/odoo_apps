@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Surgery Tree -->
+    <record id="view_surgery_tree" model="ir.ui.view">
+        <field name="name">oehealth.surgery.tree</field>
+        <field name="model">oehealth.surgery</field>
+        <field name="arch" type="xml">
+            <list string="Surgery">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="doctor_id"/>
+                <field name="surgery_name"/>
+                <field name="surgery_date"/>
+                <field name="status"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Surgery Form -->
+    <record id="view_surgery_form" model="ir.ui.view">
+        <field name="name">oehealth.surgery.form</field>
+        <field name="model">oehealth.surgery</field>
+        <field name="arch" type="xml">
+
+            <form string="Surgery">
+
+                <header>
+
+                    <!-- BUTTONS -->
+
+                    <button name="action_schedule"
+                            string="Schedule"
+                            type="object"
+                            class="btn-primary"
+                            invisible="status != 'draft'"/>
+
+                    <button name="action_progress"
+                            string="Start Surgery"
+                            type="object"
+                            class="btn-primary"
+                            invisible="status != 'scheduled'"/>
+
+                    <button name="action_done"
+                            string="Done"
+                            type="object"
+                            class="btn-success"
+                            invisible="status != 'progress'"/>
+
+                    <button name="action_cancel"
+                            string="Cancel"
+                            type="object"
+                            class="btn-danger"
+                            invisible="status == 'done' or status == 'cancel'"/>
+
+                    <button name="action_reset_draft"
+                            string="Reset Draft"
+                            type="object"
+                            invisible="status == 'draft'"/>
+
+                    <!-- STATUSBAR -->
+
+                    <field name="status"
+                           widget="statusbar"
+                           statusbar_visible="draft,scheduled,progress,done,cancel"/>
+
+                </header>
+
+                <sheet>
+
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="patient_id"/>
+                            <field name="doctor_id"/>
+                        </group>
+
+                        <group>
+                            <field name="surgery_name"/>
+                            <field name="surgery_date"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+
+                        <page string="ASA / Mallampati / RCRI">
+                            <group>
+                                <field name="asa_score"/>
+                                <field name="mallampati"/>
+                                <field name="rcri_score"/>
+                            </group>
+                        </page>
+
+                        <page string="Surgical Team">
+                            <field name="team_ids"/>
+                        </page>
+
+                        <page string="OT Scheduling">
+                            <field name="ot_ids"/>
+                        </page>
+
+                        <page string="Anesthesia Records">
+                            <field name="anesthesia_ids"/>
+                        </page>
+
+                    </notebook>
+
+                </sheet>
+
+                <chatter/>
+
+            </form>
+
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_surgery" model="ir.actions.act_window">
+        <field name="name">Surgery Management</field>
+        <field name="res_model">oehealth.surgery</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

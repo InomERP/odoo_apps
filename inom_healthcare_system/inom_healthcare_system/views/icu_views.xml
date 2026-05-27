@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="icu_tree" model="ir.ui.view">
+        <field name="name">icu.tree</field>
+        <field name="model">oeh.icu</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="is_critical == True">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="attending_doctor_id"/>
+                <field name="apache_score"/>
+                <field name="sofa_score"/>
+                <field name="status" widget="badge"/>
+                <field name="is_critical"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="icu_form" model="ir.ui.view">
+        <field name="name">icu.form</field>
+        <field name="model">oeh.icu</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_set_critical" type="object" string="Mark Critical"
+                            class="btn-danger" invisible="status == 'critical'"/>
+                    <button name="action_set_stable" type="object" string="Mark Stable"
+                            class="btn-primary" invisible="status == 'stable'"/>
+                    <button name="action_set_recovered" type="object" string="Recovered"
+                            invisible="status in ('recovered','discharged')"/>
+                    <button name="action_discharge" type="object" string="Discharge"
+                            invisible="status == 'discharged'"/>
+                    <field name="status" widget="statusbar"
+                           statusbar_visible="monitoring,critical,stable,recovered"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="CRITICAL" bg_color="text-bg-danger"
+                            invisible="not is_critical"/>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="patient_id"/>
+                            <field name="bed_id"/>
+                            <field name="attending_doctor_id"/>
+                            <field name="nurse_in_charge"/>
+                            <field name="admission_date"/>
+                            <field name="is_critical"/>
+                        </group>
+                        <group>
+                            <field name="on_ventilator"/>
+                            <field name="on_monitor"/>
+                            <field name="apache_score"/>
+                            <field name="sofa_score"/>
+                            <field name="oxygen_level"/>
+                        </group>
+                    </group>
+                    <group string="Vitals">
+                        <group>
+                            <field name="heart_rate"/>
+                            <field name="bp_systolic"/>
+                            <field name="bp_diastolic"/>
+                        </group>
+                        <group>
+                            <field name="temperature"/>
+                            <field name="respiratory_rate"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Shift Notes">
+                            <field name="shift_notes"/>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_icu" model="ir.actions.act_window">
+        <field name="name">ICU Critical Care</field>
+        <field name="res_model">oeh.icu</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

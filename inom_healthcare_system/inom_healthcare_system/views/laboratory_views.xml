@@ -1,0 +1,58 @@
+<odoo>
+
+    <!-- TREE VIEW -->
+    <record id="laboratory_tree" model="ir.ui.view">
+        <field name="name">laboratory.tree</field>
+        <field name="model">oeh.laboratory</field>
+        <field name="arch" type="xml">
+
+            <list>
+                <field name="patient_id"/>
+                <field name="test_name"/>
+                <field name="test_date"/>
+                <field name="status"/>
+            </list>
+
+        </field>
+    </record>
+
+
+    <!-- FORM VIEW -->
+    <record id="laboratory_form" model="ir.ui.view">
+        <field name="name">laboratory.form</field>
+        <field name="model">oeh.laboratory</field>
+        <field name="arch" type="xml">
+
+            <form>
+
+                <sheet>
+
+                    <group>
+                        <field name="patient_id"/>
+                        <field name="test_name"/>
+                        <field name="test_date"/>
+                        <field name="status"/>
+                    </group>
+
+                    <group>
+                        <field name="result"/>
+                    </group>
+
+                </sheet>
+
+                <chatter/>
+
+            </form>
+
+        </field>
+    </record>
+
+
+    <!-- ACTION -->
+    <record id="laboratory_action" model="ir.actions.act_window">
+        <field name="name">Laboratory</field>
+        <field name="res_model">oeh.laboratory</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="ward_tree" model="ir.ui.view">
+        <field name="name">ward.tree</field>
+        <field name="model">oeh.ward</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="building_id"/>
+                <field name="ward_type"/>
+                <field name="bed_count"/>
+                <field name="occupied_count"/>
+                <field name="available_count"/>
+                <field name="occupancy_rate" widget="progressbar"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="ward_form" model="ir.ui.view">
+        <field name="name">ward.form</field>
+        <field name="model">oeh.ward</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_set_active" type="object" string="Activate"
+                            class="btn-primary" invisible="state == 'active'"/>
+                    <button name="action_set_maintenance" type="object" string="Maintenance"
+                            invisible="state == 'maintenance'"/>
+                    <button name="action_close" type="object" string="Close"
+                            invisible="state == 'closed'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="active,maintenance,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_beds" type="object"
+                                class="oe_stat_button" icon="fa-bed">
+                            <field name="bed_count" widget="statinfo" string="Beds"/>
+                        </button>
+                        <button class="oe_stat_button" icon="fa-line-chart" disabled="1">
+                            <field name="occupancy_rate" widget="statinfo" string="Occupancy %"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code" readonly="1"/>
+                            <field name="name"/>
+                            <field name="building_id"/>
+                            <field name="ward_type"/>
+                        </group>
+                        <group>
+                            <field name="is_isolation"/>
+                            <field name="nurse_in_charge"/>
+                            <field name="occupied_count"/>
+                            <field name="available_count"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Beds">
+                            <field name="bed_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ward" model="ir.actions.act_window">
+        <field name="name">Wards</field>
+        <field name="res_model">oeh.ward</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

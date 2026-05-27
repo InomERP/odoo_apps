@@ -1,0 +1,75 @@
+<odoo>
+
+    <record id="certificate_tree" model="ir.ui.view">
+        <field name="name">certificate.tree</field>
+        <field name="model">oeh.certificate</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'issued'" decoration-muted="state in ('expired','cancel')">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="certificate_type"/>
+                <field name="issue_date"/>
+                <field name="valid_until"/>
+                <field name="is_expired"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="certificate_form" model="ir.ui.view">
+        <field name="name">certificate.form</field>
+        <field name="model">oeh.certificate</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_issue" type="object" string="Issue Certificate"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state in ('cancel',)"/>
+                    <button name="action_reset" type="object" string="Reset"
+                            invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,issued"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Expired" bg_color="text-bg-danger"
+                            invisible="not is_expired"/>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="patient_id"/>
+                            <field name="doctor_id"/>
+                            <field name="certificate_type"/>
+                        </group>
+                        <group>
+                            <field name="issue_date"/>
+                            <field name="valid_until"/>
+                            <field name="leave_days"/>
+                            <field name="reason"/>
+                            <field name="reference" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Certificate Details">
+                            <field name="details" widget="html"/>
+                        </page>
+                        <page string="Signature">
+                            <group>
+                                <field name="signed_by"/>
+                                <field name="signed_date"/>
+                                <field name="signature" widget="image"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="certificate_action" model="ir.actions.act_window">
+        <field name="name">Medical Certificates</field>
+        <field name="res_model">oeh.certificate</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

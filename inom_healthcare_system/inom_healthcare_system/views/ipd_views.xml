@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="ipd_tree" model="ir.ui.view">
+        <field name="name">ipd.tree</field>
+        <field name="model">oeh.ipd</field>
+        <field name="arch" type="xml">
+            <list decoration-info="status == 'admitted'" decoration-warning="status == 'under_treatment'"
+                  decoration-muted="status in ('discharged','closed')">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="ward_id"/>
+                <field name="bed_id"/>
+                <field name="attending_doctor_id"/>
+                <field name="admission_date"/>
+                <field name="status" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="ipd_form" model="ir.ui.view">
+        <field name="name">ipd.form</field>
+        <field name="model">oeh.ipd</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_start_treatment" type="object" string="Start Treatment"
+                            class="btn-primary" invisible="status != 'admitted'"/>
+                    <button name="action_discharge" type="object" string="Discharge"
+                            class="btn-primary" invisible="status not in ('admitted','under_treatment')"/>
+                    <button name="action_close" type="object" string="Close"
+                            invisible="status != 'discharged'"/>
+                    <button name="action_create_billing" type="object" string="Create Bill"/>
+                    <button name="action_reset" type="object" string="Reset to Admitted"
+                            invisible="status in ('admitted','under_treatment')"/>
+                    <field name="status" widget="statusbar"
+                           statusbar_visible="admitted,under_treatment,discharged,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_bed" type="object"
+                                class="oe_stat_button" icon="fa-bed">
+                            <span class="o_stat_text">Bed</span>
+                        </button>
+                        <button name="action_create_billing" type="object"
+                                class="oe_stat_button" icon="fa-money">
+                            <field name="billing_count" widget="statinfo" string="Bill"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="patient_id"/>
+                            <field name="bed_id"/>
+                            <field name="ward_id" readonly="1"/>
+                            <field name="attending_doctor_id"/>
+                            <field name="nurse_in_charge"/>
+                        </group>
+                        <group>
+                            <field name="admission_date"/>
+                            <field name="discharge_date"/>
+                            <field name="company_id"/>
+                            <field name="billing_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Clinical">
+                            <field name="reason" placeholder="Reason for admission..."/>
+                            <field name="diagnosis" placeholder="Diagnosis..."/>
+                        </page>
+                        <page string="Discharge Summary">
+                            <field name="discharge_summary"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ipd" model="ir.actions.act_window">
+        <field name="name">IPD</field>
+        <field name="res_model">oeh.ipd</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

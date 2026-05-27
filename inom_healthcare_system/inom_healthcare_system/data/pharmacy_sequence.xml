@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="pharmacy_medicine_seq" model="ir.sequence">
+        <field name="name">Medicine Code Sequence</field>
+        <field name="code">oeh.pharmacy</field>
+        <field name="prefix">MED/</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record id="dispense_seq" model="ir.sequence">
+        <field name="name">Dispense Sequence</field>
+        <field name="code">oeh.prescription.dispense</field>
+        <field name="prefix">DISP/</field>
+        <field name="padding">5</field>
+    </record>
+
+</odoo>

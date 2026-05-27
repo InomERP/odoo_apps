@@ -1,0 +1,189 @@
+<odoo>
+
+    <!-- Patient Form View -->
+    <record id="patient_form" model="ir.ui.view">
+        <field name="name">patient.form</field>
+        <field name="model">oeh.patient</field>
+        <field name="arch" type="xml">
+
+            <form>
+
+                <!-- Smart Buttons -->
+                <header>
+
+                    <button
+                        name="action_view_appointments"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-calendar">
+
+                        <field
+                            name="appointment_count"
+                            widget="statinfo"
+                            string="Appointments"/>
+
+                    </button>
+
+                    <button
+                        name="action_view_visits"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-history">
+
+                        <field
+                            name="visit_count"
+                            widget="statinfo"
+                            string="Visits"/>
+
+                    </button>
+
+                </header>
+
+                <sheet>
+
+                    <!-- Better Title -->
+                    <div class="oe_title">
+
+                        <label for="name"/>
+
+                        <h1>
+                            <field name="name"
+                                   placeholder="Patient Name"/>
+                        </h1>
+
+                        <h3>
+                            <field name="patient_id"
+                                   readonly="1"/>
+                        </h3>
+
+                    </div>
+
+                    <group>
+
+                        <group>
+                            <field name="image_1920" widget="image"/>
+                            <field name="dob"/>
+                            <field name="age"/>
+                            <field name="gender"/>
+                        </group>
+
+                        <group>
+                            <field name="blood_group"/>
+                            <field name="phone"/>
+                            <field name="email"/>
+                            <field name="emergency_contact"/>
+
+                            <!-- Community -->
+                            <field name="partner_id"/>
+                            <field name="crm_lead_id"/>
+
+                        </group>
+
+                    </group>
+
+                    <notebook>
+
+                        <!-- Medical History -->
+                        <page string="Medical History">
+                            <field name="history_ids">
+                                <list editable="bottom">
+                                    <field name="disease"/>
+                                    <field name="diagnosed_date"/>
+                                    <field name="notes"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <!-- Allergies -->
+                        <page string="Allergies">
+                            <field name="allergy_ids">
+                                <list editable="bottom">
+                                    <field name="allergy_name"/>
+                                    <field name="severity"/>
+                                    <field name="notes"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <!-- Vaccinations -->
+                        <page string="Vaccinations">
+                            <field name="vaccination_ids">
+                                <list editable="bottom">
+                                    <field name="vaccine_name"/>
+                                    <field name="vaccination_date"/>
+                                    <field name="next_due_date"/>
+                                    <field name="status"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <!-- Family -->
+                        <page string="Family">
+                            <field name="family_member_ids"
+                                   widget="many2many_tags"/>
+                        </page>
+
+                        <!-- Visit Timeline -->
+                        <page string="Visit Timeline">
+                            <field name="visit_ids">
+
+                                <list editable="bottom">
+
+                                    <field name="visit_date"/>
+                                    <field name="doctor"/>
+                                    <field name="chief_complaint"/>
+                                    <field name="diagnosis"/>
+
+                                    <!-- extra -->
+                                    <field name="notes"/>
+                                    <field name="patient_id"/>
+
+                                </list>
+
+                            </field>
+                        </page>
+
+                    </notebook>
+
+                    <chatter/>
+
+                </sheet>
+
+            </form>
+
+        </field>
+    </record>
+
+
+    <!-- Tree View -->
+    <record id="patient_tree" model="ir.ui.view">
+
+        <field name="name">patient.tree</field>
+        <field name="model">oeh.patient</field>
+
+        <field name="arch" type="xml">
+
+            <list>
+                <field name="patient_id"/>
+                <field name="name"/>
+                <field name="gender"/>
+                <field name="phone"/>
+                <field name="blood_group"/>
+            </list>
+
+        </field>
+
+    </record>
+
+
+    <!-- Action -->
+    <record id="patient_action"
+            model="ir.actions.act_window">
+
+        <field name="name">Patients</field>
+        <field name="res_model">oeh.patient</field>
+        <field name="view_mode">list,form</field>
+
+    </record>
+
+</odoo>

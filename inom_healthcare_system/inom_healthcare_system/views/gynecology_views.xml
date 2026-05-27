@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="gynecology_tree" model="ir.ui.view">
+        <field name="name">gynecology.tree</field>
+        <field name="model">oeh.gynecology</field>
+        <field name="arch" type="xml">
+            <list decoration-info="pregnancy_status == 'yes'" decoration-muted="state == 'closed'">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="date"/>
+                <field name="pregnancy_status"/>
+                <field name="gestational_age"/>
+                <field name="edd"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="gynecology_form" model="ir.ui.view">
+        <field name="name">gynecology.form</field>
+        <field name="model">oeh.gynecology</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_start_consultation" type="object" string="Start Consultation"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_followup" type="object" string="Mark Follow-up"
+                            invisible="state not in ('consultation',)"/>
+                    <button name="action_close" type="object" string="Close"
+                            invisible="state == 'closed'"/>
+                    <button name="action_reset" type="object" string="Reset"
+                            invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,consultation,followup,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_history" type="object"
+                                class="oe_stat_button" icon="fa-history">
+                            <field name="visit_count" widget="statinfo" string="Visits"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group string="Case">
+                            <field name="name" readonly="1"/>
+                            <field name="patient_id"/>
+                            <field name="date"/>
+                            <field name="consultant"/>
+                            <field name="pregnancy_status"/>
+                        </group>
+                        <group string="Clinical">
+                            <field name="bp"/>
+                            <field name="weight"/>
+                            <field name="hb"/>
+                            <field name="followup_date"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Menstrual History">
+                            <field name="last_cycle"/>
+                            <field name="cycle_length"/>
+                            <field name="cycle_regular"/>
+                        </group>
+                        <group string="Obstetric History (G/P/A)">
+                            <field name="gravida"/>
+                            <field name="para"/>
+                            <field name="abortions"/>
+                        </group>
+                    </group>
+                    <group string="Pregnancy / ANC" invisible="pregnancy_status != 'yes'">
+                        <group>
+                            <field name="gestational_age" readonly="1"/>
+                            <field name="edd" readonly="1"/>
+                            <field name="anc_visit_no"/>
+                        </group>
+                        <group>
+                            <field name="delivery_type"/>
+                            <field name="delivery_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Ultrasound / Reports">
+                            <field name="report_reference"/>
+                            <field name="ultrasound_notes"/>
+                        </page>
+                        <page string="Delivery Plan" invisible="pregnancy_status != 'yes'">
+                            <field name="delivery_plan"/>
+                        </page>
+                        <page string="Menstrual Notes">
+                            <field name="menstrual_notes"/>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_gynecology" model="ir.actions.act_window">
+        <field name="name">Gynecology</field>
+        <field name="res_model">oeh.gynecology</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>
