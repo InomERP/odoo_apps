@@ -147,6 +147,9 @@
             'inom_healthcare_system/static/src/xml/dashboard.xml',
         ],
     },
+      'images': [
+        'static/description/banner.png',
+    ],
 
     'application': True,
 
