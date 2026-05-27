@@ -148,6 +148,11 @@
         ],
     },
 
+     'images': [
+        'static/description/banner.png',
+    ],
+
+
     'application': True,
 
     'installable': True,
