@@ -1,7 +1,7 @@
 {
     'name': 'List View Manager',
     'version': '19.0.0.0',
-    'author': 'inomerp',
+    'author': 'InomERP',
     'website': 'https://inomerp.in',
     'summary': 'Dynamic List: Hide/Show, Reorder, Rename, Search, Restore columns per user',
     'depends': ['web', 'base_setup'],
