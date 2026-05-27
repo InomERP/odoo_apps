@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="pediatric_tree" model="ir.ui.view">
+        <field name="name">pediatric.tree</field>
+        <field name="model">oeh.pediatric</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="vaccine_status == 'overdue'" decoration-warning="vaccine_status == 'due'">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="date"/>
+                <field name="age"/>
+                <field name="height"/>
+                <field name="weight"/>
+                <field name="bmi"/>
+                <field name="vaccine_status" widget="badge"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="pediatric_form" model="ir.ui.view">
+        <field name="name">pediatric.form</field>
+        <field name="model">oeh.pediatric</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_start_consultation" type="object" string="Start Consultation"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_done" type="object" string="Complete"
+                            class="btn-primary" invisible="state != 'consultation'"/>
+                    <button name="action_reset" type="object" string="Reset"
+                            invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,consultation,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_history" type="object"
+                                class="oe_stat_button" icon="fa-history">
+                            <field name="visit_count" widget="statinfo" string="Visits"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group string="Visit">
+                            <field name="name" readonly="1"/>
+                            <field name="patient_id"/>
+                            <field name="date"/>
+                            <field name="age"/>
+                        </group>
+                        <group string="Guardian">
+                            <field name="guardian_name"/>
+                            <field name="guardian_relation"/>
+                            <field name="guardian_phone"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Growth">
+                            <field name="birth_weight"/>
+                            <field name="height"/>
+                            <field name="weight"/>
+                            <field name="head_circumference"/>
+                            <field name="bmi" readonly="1"/>
+                            <field name="bmi_status" readonly="1"/>
+                        </group>
+                        <group string="Vitals">
+                            <field name="temperature"/>
+                            <field name="heart_rate"/>
+                            <field name="respiratory_rate"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Vaccination">
+                            <group>
+                                <field name="next_vaccine_date"/>
+                                <field name="vaccine_status" readonly="1"/>
+                            </group>
+                            <field name="vaccine_notes"/>
+                        </page>
+                        <page string="Milestones">
+                            <group>
+                                <field name="can_sit"/>
+                                <field name="can_walk"/>
+                                <field name="can_talk"/>
+                            </group>
+                            <field name="milestone_notes"/>
+                        </page>
+                        <page string="Prescription &amp; Follow-up">
+                            <group>
+                                <field name="medication"/>
+                                <field name="followup_date"/>
+                            </group>
+                            <field name="prescription_notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pediatric" model="ir.actions.act_window">
+        <field name="name">Pediatric</field>
+        <field name="res_model">oeh.pediatric</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

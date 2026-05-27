@@ -1,0 +1,86 @@
+<odoo>
+
+    <record id="batch_tree" model="ir.ui.view">
+        <field name="name">oeh.batch.tree</field>
+        <field name="model">oeh.medicine.batch</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="expiry_status == 'expired'" decoration-warning="expiry_status == 'near'">
+                <field name="batch_no"/>
+                <field name="medicine_id"/>
+                <field name="mfg_date"/>
+                <field name="quantity"/>
+                <field name="expiry_date"/>
+                <field name="days_to_expiry"/>
+                <field name="expiry_status" widget="badge"/>
+                <field name="status"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="batch_form" model="ir.ui.view">
+        <field name="name">oeh.batch.form</field>
+        <field name="model">oeh.medicine.batch</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_add_to_stock" type="object" string="Add to Stock"
+                            class="btn-primary" invisible="status != 'available'"/>
+                    <button name="action_mark_expired" type="object" string="Mark Expired"
+                            invisible="status == 'expired'"/>
+                    <button name="action_mark_finished" type="object" string="Mark Finished"
+                            invisible="status == 'finished'"/>
+                    <field name="status" widget="statusbar" statusbar_visible="available,expired,finished"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="EXPIRED" bg_color="text-bg-danger"
+                            invisible="not is_expired"/>
+                    <group>
+                        <group>
+                            <field name="batch_no"/>
+                            <field name="medicine_id"/>
+                            <field name="quantity"/>
+                        </group>
+                        <group>
+                            <field name="mfg_date"/>
+                            <field name="expiry_date"/>
+                            <field name="days_to_expiry" readonly="1"/>
+                            <field name="expiry_status" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="batch_kanban" model="ir.ui.view">
+        <field name="name">oeh.batch.kanban</field>
+        <field name="model">oeh.medicine.batch</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="expiry_status">
+                <field name="batch_no"/>
+                <field name="medicine_id"/>
+                <field name="quantity"/>
+                <field name="expiry_date"/>
+                <field name="expiry_status"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record">
+                            <strong><field name="batch_no"/></strong>
+                            <div><field name="medicine_id"/></div>
+                            <div>Qty: <field name="quantity"/></div>
+                            <div>Exp: <field name="expiry_date"/></div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="batch_action" model="ir.actions.act_window">
+        <field name="name">Medicine Batch</field>
+        <field name="res_model">oeh.medicine.batch</field>
+        <field name="view_mode">list,kanban,form</field>
+    </record>
+
+</odoo>

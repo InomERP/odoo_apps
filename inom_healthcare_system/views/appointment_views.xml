@@ -1,0 +1,97 @@
+<odoo>
+
+    <record id="appointment_tree" model="ir.ui.view">
+        <field name="name">appointment.tree</field>
+        <field name="model">oeh.appointment</field>
+
+        <field name="arch" type="xml">
+            <list>
+                <field name="appointment_no"/>
+                <field name="patient_id"/>
+                <field name="doctor_id"/>
+                <field name="appointment_date"/>
+                <field name="queue_no"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+
+    <record id="appointment_form" model="ir.ui.view">
+        <field name="name">appointment.form</field>
+        <field name="model">oeh.appointment</field>
+
+        <field name="arch" type="xml">
+
+            <form>
+
+                <header>
+
+                    <button name="action_confirm"
+                            string="Confirm"
+                            type="object"
+                            invisible="state!='draft'"/>
+
+                    <button name="action_progress"
+                            string="Start"
+                            type="object"
+                            invisible="state!='confirm'"/>
+
+                    <button name="action_done"
+                            string="Done"
+                            type="object"
+                            invisible="state!='progress'"/>
+
+                    <button name="action_cancel"
+                            string="Cancel"
+                            type="object"/>
+
+                    <field name="state"
+                           widget="statusbar"/>
+
+                </header>
+
+                <sheet>
+
+                    <group>
+
+                        <group>
+                            <field name="appointment_no"/>
+                            <field name="patient_id"/>
+                            <field name="doctor_id"/>
+                        </group>
+
+                        <group>
+                            <field name="appointment_date"/>
+                            <field name="followup_date"/>
+                            <field name="queue_no"/>
+                        </group>
+
+                    </group>
+
+                    <group>
+                        <field name="chief_complaint"/>
+                    </group>
+
+                    <chatter/>
+
+                </sheet>
+
+            </form>
+
+        </field>
+
+    </record>
+
+    <record id="appointment_action"
+        model="ir.actions.act_window">
+
+        <field name="name">Appointments</field>
+
+        <field name="res_model">oeh.appointment</field>
+
+        <field name="view_mode">list,form</field>
+
+    </record>
+
+</odoo>

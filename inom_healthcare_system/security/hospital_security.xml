@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo noupdate="0">
+
+    <!--
+        Hospital role foundation.
+        res.groups carry the module category via category_id (a many2one to
+        ir.module.category). Roles are grouped under the Hospital Management
+        category and surfaced in Settings > Users.
+
+        RBAC is now fully applied (no behaviour/workflow/field changes):
+          * ir.model.access.csv grants each role only the models it uses,
+            with an explicit Manager/Admin full-access line per model.
+          * Group-based menu visibility is set on the menu items
+            (views/menu.xml, views/dashboard_views.xml).
+          * Record rules below add standard multi-company isolation for the
+            models that carry a company_id (transparent on single-company DBs).
+        The Manager/Admin role implies every operational role, so it retains
+        complete access to all modules. All constructs (ir.model.access.csv,
+        ir.rule, menuitem groups) are valid on both Odoo 17 and 18.
+    -->
+
+    <!-- App category shown in Settings > Users -->
+    <record id="module_category_hospital" model="ir.module.category">
+        <field name="name">Hospital Management</field>
+        <field name="description">Roles for the Hospital / Clinic ERP.</field>
+        <field name="sequence">20</field>
+    </record>
+
+    <record id="group_hospital_receptionist" model="res.groups">
+        <field name="name">Receptionist / Front Desk</field>
+        <field name="category_id" ref="module_category_hospital"/>
+    </record>
+
+    <record id="group_hospital_doctor" model="res.groups">
+        <field name="name">Doctor</field>
+        <field name="category_id" ref="module_category_hospital"/>
+    </record>
+
+    <record id="group_hospital_nurse" model="res.groups">
+        <field name="name">Nurse</field>
+        <field name="category_id" ref="module_category_hospital"/>
+    </record>
+
+    <record id="group_hospital_pharmacist" model="res.groups">
+        <field name="name">Pharmacist</field>
+        <field name="category_id" ref="module_category_hospital"/>
+    </record>
+
+    <record id="group_hospital_lab" model="res.groups">
+        <field name="name">Lab Technician</field>
+        <field name="category_id" ref="module_category_hospital"/>
+    </record>
+
+    <record id="group_hospital_radiology" model="res.groups">
+        <field name="name">Radiology Staff</field>
+        <field name="category_id" ref="module_category_hospital"/>
+    </record>
+
+    <record id="group_hospital_billing" model="res.groups">
+        <field name="name">Billing Staff</field>
+        <field name="category_id" ref="module_category_hospital"/>
+    </record>
+
+    <record id="group_hospital_insurance" model="res.groups">
+        <field name="name">Insurance / TPA Staff</field>
+        <field name="category_id" ref="module_category_hospital"/>
+    </record>
+
+    <!-- Manager / Admin implies every operational role -->
+    <record id="group_hospital_manager" model="res.groups">
+        <field name="name">Hospital Manager / Admin</field>
+        <field name="category_id" ref="module_category_hospital"/>
+        <field name="implied_ids" eval="[(4, ref('group_hospital_receptionist')),
+                                          (4, ref('group_hospital_doctor')),
+                                          (4, ref('group_hospital_nurse')),
+                                          (4, ref('group_hospital_pharmacist')),
+                                          (4, ref('group_hospital_lab')),
+                                          (4, ref('group_hospital_radiology')),
+                                          (4, ref('group_hospital_billing')),
+                                          (4, ref('group_hospital_insurance'))]"/>
+        <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+    </record>
+
+    <!--
+        Record rules (row-level security).
+
+        Multi-company isolation for the models that carry a company_id.
+        These are global rules using the standard Odoo company domain, so on a
+        single-company database they are fully transparent (every record either
+        has no company or the user's own company) and change no workflow. They
+        only take effect when more than one company exists, keeping each
+        company's buildings, campuses and IPD admissions isolated.
+    -->
+    <record id="rule_building_company" model="ir.rule">
+        <field name="name">Building: multi-company</field>
+        <field name="model_id" ref="model_oeh_building"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_campus_company" model="ir.rule">
+        <field name="name">Campus: multi-company</field>
+        <field name="model_id" ref="model_oeh_campus"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_ipd_company" model="ir.rule">
+        <field name="name">IPD Admission: multi-company</field>
+        <field name="model_id" ref="model_oeh_ipd"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+</odoo>

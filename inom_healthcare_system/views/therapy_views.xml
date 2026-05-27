@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="therapy_tree" model="ir.ui.view">
+        <field name="name">therapy.tree</field>
+        <field name="model">oeh.therapy</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'done'" decoration-info="state == 'in_progress'"
+                  decoration-muted="state == 'cancel'">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="therapist"/>
+                <field name="session_date"/>
+                <field name="session_type"/>
+                <field name="pain_level"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="therapy_form" model="ir.ui.view">
+        <field name="name">therapy.form</field>
+        <field name="model">oeh.therapy</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_start" type="object" string="Start Session"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_done" type="object" string="Complete"
+                            class="btn-primary" invisible="state != 'in_progress'"/>
+                    <button name="action_create_billing" type="object" string="Create Bill"
+                            invisible="state != 'done'"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state in ('done','cancel')"/>
+                    <button name="action_reset" type="object" string="Reset"
+                            invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_create_billing" type="object"
+                                class="oe_stat_button" icon="fa-money">
+                            <field name="billing_count" widget="statinfo" string="Bill"/>
+                        </button>
+                        <button class="oe_stat_button" icon="fa-list" disabled="1">
+                            <field name="session_count" widget="statinfo" string="Sessions"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="patient_id"/>
+                            <field name="therapist"/>
+                            <field name="session_type"/>
+                            <field name="session_no"/>
+                        </group>
+                        <group>
+                            <field name="session_date"/>
+                            <field name="duration"/>
+                            <field name="pain_level"/>
+                            <field name="mobility_score"/>
+                            <field name="followup_date"/>
+                            <field name="fee"/>
+                            <field name="billing_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Treatment Plan">
+                            <field name="treatment_plan"/>
+                        </page>
+                        <page string="Exercises">
+                            <field name="exercises"/>
+                        </page>
+                        <page string="Progress &amp; Rehab Notes">
+                            <field name="progress_notes"/>
+                            <field name="rehab_notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="therapy_kanban" model="ir.ui.view">
+        <field name="name">therapy.kanban</field>
+        <field name="model">oeh.therapy</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state">
+                <field name="patient_id"/>
+                <field name="therapist"/>
+                <field name="session_date"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record">
+                            <strong><field name="patient_id"/></strong>
+                            <div><i class="fa fa-user-md"/> <field name="therapist"/></div>
+                            <div><i class="fa fa-calendar"/> <field name="session_date"/></div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_therapy" model="ir.actions.act_window">
+        <field name="name">Physical Therapy</field>
+        <field name="res_model">oeh.therapy</field>
+        <field name="view_mode">list,kanban,form</field>
+    </record>
+
+</odoo>

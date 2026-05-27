@@ -1,0 +1,69 @@
+<odoo>
+
+    <record id="dispense_tree" model="ir.ui.view">
+        <field name="name">oeh.dispense.tree</field>
+        <field name="model">oeh.prescription.dispense</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'done'" decoration-info="state == 'verified'"
+                  decoration-muted="state == 'cancel'">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="doctor_id"/>
+                <field name="medicine_id"/>
+                <field name="quantity"/>
+                <field name="total_price"/>
+                <field name="date"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="dispense_form" model="ir.ui.view">
+        <field name="name">oeh.dispense.form</field>
+        <field name="model">oeh.prescription.dispense</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_verify" type="object" string="Verify"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_dispense" type="object" string="Dispense"
+                            class="btn-primary" invisible="state not in ('draft','verified')"/>
+                    <button name="action_create_billing" type="object" string="Create Bill"
+                            invisible="state not in ('issued','done')"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state in ('cancel','done')"/>
+                    <button name="action_reset" type="object" string="Reset to Pending"
+                            invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,verified,done"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="patient_id"/>
+                            <field name="doctor_id"/>
+                            <field name="prescription_id"/>
+                        </group>
+                        <group>
+                            <field name="medicine_id"/>
+                            <field name="quantity"/>
+                            <field name="unit_price" readonly="1"/>
+                            <field name="total_price" readonly="1"/>
+                            <field name="date"/>
+                            <field name="pharmacist_id" readonly="1"/>
+                            <field name="billing_id" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="dispense_action" model="ir.actions.act_window">
+        <field name="name">Prescription Dispense</field>
+        <field name="res_model">oeh.prescription.dispense</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

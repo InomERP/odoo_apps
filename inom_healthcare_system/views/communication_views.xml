@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- TREE VIEW -->
+    <record id="view_communication_tree" model="ir.ui.view">
+
+        <field name="name">communication.tree</field>
+        <field name="model">oeh.communication</field>
+
+        <field name="arch" type="xml">
+            <list>
+                <field name="patient_id"/>
+                <field name="doctor_id"/>
+                <field name="communication_type"/>
+                <field name="status"/>
+            </list>
+        </field>
+
+    </record>
+
+    <!-- FORM VIEW -->
+    <record id="view_communication_form" model="ir.ui.view">
+
+        <field name="name">communication.form</field>
+        <field name="model">oeh.communication</field>
+
+        <field name="arch" type="xml">
+
+            <form>
+                <sheet>
+
+                    <group>
+                        <field name="patient_id"/>
+                        <field name="doctor_id"/>
+                        <field name="communication_type"/>
+                        <field name="scheduled_time"/>
+                        <field name="status"/>
+                    </group>
+
+                    <group>
+                        <field name="message"/>
+                    </group>
+
+                </sheet>
+            </form>
+
+        </field>
+
+    </record>
+
+    <!-- ACTION -->
+    <record id="action_communication" model="ir.actions.act_window">
+
+        <field name="name">Communication</field>
+        <field name="res_model">oeh.communication</field>
+        <field name="view_mode">list,form</field>
+
+    </record>
+
+</odoo>

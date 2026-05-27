@@ -1,0 +1,83 @@
+<odoo>
+
+    <record id="prescription_tree" model="ir.ui.view">
+        <field name="name">prescription.tree</field>
+        <field name="model">oeh.prescription</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'dispensed'" decoration-info="state == 'verified'">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="doctor_id"/>
+                <field name="medicine"/>
+                <field name="date"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="prescription_form" model="ir.ui.view">
+        <field name="name">prescription.form</field>
+        <field name="model">oeh.prescription</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_verify" type="object" string="Verify"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_issue" type="object" string="Issue"
+                            class="btn-primary" invisible="state != 'verified'"/>
+                    <button name="action_dispense" type="object" string="Mark Dispensed"
+                            invisible="state != 'issued'"/>
+                    <button name="action_reset" type="object" string="Reset"
+                            invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,verified,issued,dispensed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_dispenses" type="object"
+                                class="oe_stat_button" icon="fa-shopping-bag">
+                            <field name="dispense_count" widget="statinfo" string="Dispenses"/>
+                        </button>
+                        <button name="action_view_history" type="object"
+                                class="oe_stat_button" icon="fa-history">
+                            <field name="prescription_count" widget="statinfo" string="History"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="patient_id"/>
+                            <field name="doctor_id"/>
+                            <field name="date"/>
+                            <field name="diagnosis_id"/>
+                        </group>
+                        <group>
+                            <field name="medicine"/>
+                            <field name="dosage"/>
+                            <field name="refill_allowed"/>
+                            <field name="refill_count"/>
+                            <field name="verified_by" readonly="1"/>
+                            <field name="verified_date" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Instructions">
+                            <field name="instruction"/>
+                        </page>
+                        <page string="Allergy / Interaction">
+                            <field name="allergy_warning"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="prescription_action" model="ir.actions.act_window">
+        <field name="name">Prescriptions</field>
+        <field name="res_model">oeh.prescription</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

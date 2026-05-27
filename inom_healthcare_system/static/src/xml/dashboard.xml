@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="inom_healthcare_system.Dashboard">
+        <div class="o_inom_dashboard">
+
+            <!-- Loading -->
+            <div t-if="state.loading" class="o_inom_loading">
+                <i class="fa fa-spinner fa-spin fa-2x"/>
+                <span class="ms-2">Loading dashboard…</span>
+            </div>
+
+            <t t-else="">
+                <!-- Header -->
+                <div class="o_inom_header">
+                    <div>
+                        <h1 class="o_inom_title">Hospital Dashboard</h1>
+                        <span class="o_inom_subtitle" t-esc="state.data.company"/>
+                    </div>
+                    <button class="btn btn-primary o_inom_refresh" t-on-click="onRefresh">
+                        <i class="fa fa-refresh me-1"/> Refresh
+                    </button>
+                </div>
+
+                <!-- ============ KPI CARDS ============ -->
+                <div class="o_inom_kpi_grid">
+                    <div class="o_inom_kpi o_kpi_blue" t-on-click="() => this.openModel('oeh.patient', 'Patients')">
+                        <div class="o_kpi_icon"><i class="fa fa-user-md"/></div>
+                        <div class="o_kpi_body">
+                            <div class="o_kpi_value" t-esc="state.data.kpis.patients"/>
+                            <div class="o_kpi_label">Patients</div>
+                        </div>
+                    </div>
+
+                    <div class="o_inom_kpi o_kpi_teal" t-on-click="() => this.openModel('oeh.doctor', 'Doctors')">
+                        <div class="o_kpi_icon"><i class="fa fa-stethoscope"/></div>
+                        <div class="o_kpi_body">
+                            <div class="o_kpi_value" t-esc="state.data.kpis.doctors"/>
+                            <div class="o_kpi_label">Doctors</div>
+                        </div>
+                    </div>
+
+                    <div class="o_inom_kpi o_kpi_indigo" t-on-click="() => this.openModel('oeh.appointment', 'Appointments')">
+                        <div class="o_kpi_icon"><i class="fa fa-calendar-check-o"/></div>
+                        <div class="o_kpi_body">
+                            <div class="o_kpi_value" t-esc="state.data.kpis.appointments"/>
+                            <div class="o_kpi_label">Appointments
+                                <span class="o_kpi_badge" t-esc="state.data.kpis.appointments_today + ' today'"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="o_inom_kpi o_kpi_purple" t-on-click="() => this.openModel('oehealth.surgery', 'Surgeries')">
+                        <div class="o_kpi_icon"><i class="fa fa-scissors"/></div>
+                        <div class="o_kpi_body">
+                            <div class="o_kpi_value" t-esc="state.data.kpis.surgeries"/>
+                            <div class="o_kpi_label">Surgeries</div>
+                        </div>
+                    </div>
+
+                    <div class="o_inom_kpi o_kpi_green" t-on-click="() => this.openModel('oeh.laboratory', 'Laboratory')">
+                        <div class="o_kpi_icon"><i class="fa fa-flask"/></div>
+                        <div class="o_kpi_body">
+                            <div class="o_kpi_value" t-esc="state.data.kpis.lab_tests"/>
+                            <div class="o_kpi_label">Lab Tests</div>
+                        </div>
+                    </div>
+
+                    <div class="o_inom_kpi o_kpi_cyan" t-on-click="() => this.openModel('oeh.radiology', 'Radiology')">
+                        <div class="o_kpi_icon"><i class="fa fa-image"/></div>
+                        <div class="o_kpi_body">
+                            <div class="o_kpi_value" t-esc="state.data.kpis.radiology"/>
+                            <div class="o_kpi_label">Radiology</div>
+                        </div>
+                    </div>
+
+                    <div class="o_inom_kpi o_kpi_orange" t-on-click="() => this.openModel('oeh.ipd', 'IPD Admissions')">
+                        <div class="o_kpi_icon"><i class="fa fa-bed"/></div>
+                        <div class="o_kpi_body">
+                            <div class="o_kpi_value" t-esc="state.data.kpis.ipd_admitted"/>
+                            <div class="o_kpi_label">Admitted (IPD)</div>
+                        </div>
+                    </div>
+
+                    <div class="o_inom_kpi o_kpi_red" t-on-click="() => this.openModel('oeh.emergency', 'Emergency')">
+                        <div class="o_kpi_icon"><i class="fa fa-ambulance"/></div>
+                        <div class="o_kpi_body">
+                            <div class="o_kpi_value" t-esc="state.data.kpis.emergency"/>
+                            <div class="o_kpi_label">Emergency Cases</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============ FINANCE STRIP ============ -->
+                <div class="o_inom_finance">
+                    <div class="o_inom_fin_card">
+                        <div class="o_fin_label">Total Billed</div>
+                        <div class="o_fin_value" t-esc="formatMoney(state.data.billing.total_billed)"/>
+                    </div>
+                    <div class="o_inom_fin_card o_fin_paid">
+                        <div class="o_fin_label">Collected</div>
+                        <div class="o_fin_value" t-esc="formatMoney(state.data.billing.total_paid)"/>
+                    </div>
+                    <div class="o_inom_fin_card o_fin_due">
+                        <div class="o_fin_label">Outstanding</div>
+                        <div class="o_fin_value" t-esc="formatMoney(state.data.billing.total_balance)"/>
+                    </div>
+                    <div class="o_inom_fin_card">
+                        <div class="o_fin_label">Payments Received</div>
+                        <div class="o_fin_value" t-esc="formatMoney(state.data.payments_total)"/>
+                    </div>
+                    <div class="o_inom_fin_card">
+                        <div class="o_fin_label">Insurance Approved</div>
+                        <div class="o_fin_value" t-esc="formatMoney(state.data.insurance.approved_amount)"/>
+                    </div>
+                </div>
+
+                <!-- ============ BREAKDOWN PANELS ============ -->
+                <div class="o_inom_panels">
+
+                    <t t-set="panels" t-value="[
+                        {title: 'Appointments by Status', icon: 'fa-calendar', list: state.data.appointments_by_state, model: 'oeh.appointment'},
+                        {title: 'Surgeries by Status', icon: 'fa-scissors', list: state.data.surgery_by_status, model: 'oehealth.surgery'},
+                        {title: 'Billing by Status', icon: 'fa-money', list: state.data.billing.by_status, model: 'oeh.billing'},
+                        {title: 'Insurance Claims', icon: 'fa-shield', list: state.data.insurance.by_status, model: 'oeh.insurance.claim'},
+                        {title: 'Emergency by Triage', icon: 'fa-heartbeat', list: state.data.emergency_by_triage, model: 'oeh.emergency'},
+                        {title: 'Bed Occupancy', icon: 'fa-bed', list: state.data.bed_status, model: 'oeh.bed'}
+                    ]"/>
+
+                    <div class="o_inom_panel" t-foreach="panels" t-as="panel" t-key="panel.title">
+                        <div class="o_panel_head">
+                            <span><i t-attf-class="fa {{panel.icon}} me-2"/><t t-esc="panel.title"/></span>
+                            <a class="o_panel_link" t-on-click="() => this.openModel(panel.model, panel.title)">View ›</a>
+                        </div>
+                        <div class="o_panel_body">
+                            <div class="o_bar_row" t-foreach="panel.list" t-as="item" t-key="item.key">
+                                <div class="o_bar_label" t-esc="item.label"/>
+                                <div class="o_bar_track">
+                                    <div class="o_bar_fill" t-attf-class="o_bar_{{item.key}}"
+                                         t-att-style="'width:' + barWidth(item, panel.list)"/>
+                                </div>
+                                <div class="o_bar_count" t-esc="item.count"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pharmacy / Stock panel -->
+                    <div class="o_inom_panel">
+                        <div class="o_panel_head">
+                            <span><i class="fa fa-medkit me-2"/>Pharmacy</span>
+                            <a class="o_panel_link" t-on-click="() => this.openModel('oeh.pharmacy', 'Pharmacy')">View ›</a>
+                        </div>
+                        <div class="o_panel_body o_pharmacy_body">
+                            <div class="o_mini_stat">
+                                <div class="o_mini_value" t-esc="state.data.pharmacy.medicines"/>
+                                <div class="o_mini_label">Medicines</div>
+                            </div>
+                            <div class="o_mini_stat">
+                                <div class="o_mini_value" t-esc="state.data.pharmacy.batches"/>
+                                <div class="o_mini_label">Batches</div>
+                            </div>
+                            <div class="o_mini_stat o_mini_warn">
+                                <div class="o_mini_value" t-esc="state.data.pharmacy.low_stock"/>
+                                <div class="o_mini_label">Low Stock</div>
+                            </div>
+                            <div class="o_mini_stat">
+                                <div class="o_mini_value" t-esc="state.data.kpis.queue_waiting"/>
+                                <div class="o_mini_label">Queue Waiting</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </t>
+        </div>
+    </t>
+
+</templates>

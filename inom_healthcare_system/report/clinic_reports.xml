@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="action_report_certificate" model="ir.actions.report">
+        <field name="name">Medical Certificate</field>
+        <field name="model">oeh.certificate</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inom_healthcare_system.report_certificate_doc</field>
+        <field name="report_file">inom_healthcare_system.report_certificate_doc</field>
+        <field name="binding_model_id" ref="model_oeh_certificate"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="action_report_prescription" model="ir.actions.report">
+        <field name="name">Prescription</field>
+        <field name="model">oeh.prescription</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inom_healthcare_system.report_prescription_doc</field>
+        <field name="report_file">inom_healthcare_system.report_prescription_doc</field>
+        <field name="binding_model_id" ref="model_oeh_prescription"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_certificate_doc">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 class="text-center">Medical Certificate</h2>
+                        <div class="row mt32 mb32">
+                            <div class="col-6">
+                                <strong>Certificate No:</strong> <span t-out="o.name"/><br/>
+                                <strong>Patient:</strong> <span t-out="o.patient_id.name"/><br/>
+                                <strong>Type:</strong> <span t-out="o.certificate_type"/>
+                            </div>
+                            <div class="col-6 text-end">
+                                <strong>Issue Date:</strong> <span t-out="o.issue_date"/><br/>
+                                <strong>Valid Until:</strong> <span t-out="o.valid_until"/><br/>
+                                <strong>Doctor:</strong> <span t-out="o.doctor_id.name"/>
+                            </div>
+                        </div>
+                        <p t-if="o.reason"><strong>Reason:</strong> <span t-out="o.reason"/></p>
+                        <p t-if="o.leave_days"><strong>Recommended Days:</strong> <span t-out="o.leave_days"/></p>
+                        <div t-out="o.details"/>
+                        <div class="row mt64">
+                            <div class="col-6">
+                                <span t-if="o.reference">Ref: <span t-out="o.reference"/></span>
+                            </div>
+                            <div class="col-6 text-end">
+                                <span t-if="o.signed_by">Signed by: <span t-out="o.signed_by"/></span>
+                                <br/>____________________<br/>Authorised Signature
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_prescription_doc">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 class="text-center">Prescription</h2>
+                        <div class="row mt32 mb32">
+                            <div class="col-6">
+                                <strong>Prescription No:</strong> <span t-out="o.name"/><br/>
+                                <strong>Patient:</strong> <span t-out="o.patient_id.name"/><br/>
+                                <strong>Doctor:</strong> <span t-out="o.doctor_id.name"/>
+                            </div>
+                            <div class="col-6 text-end">
+                                <strong>Date:</strong> <span t-out="o.date"/><br/>
+                                <strong>Status:</strong> <span t-out="o.state"/><br/>
+                                <strong>Diagnosis:</strong> <span t-out="o.diagnosis_id.display_name"/>
+                            </div>
+                        </div>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr><th>Medicine</th><th>Dosage</th><th>Instructions</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span t-out="o.medicine"/></td>
+                                    <td><span t-out="o.dosage"/></td>
+                                    <td><span t-out="o.instruction"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p t-if="o.allergy_warning"><strong>Allergy/Interaction Notes:</strong>
+                            <span t-out="o.allergy_warning"/></p>
+                        <div class="row mt64">
+                            <div class="col-6 offset-6 text-end">
+                                ____________________<br/>Doctor's Signature
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

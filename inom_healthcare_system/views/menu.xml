@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Root -->
+    <menuitem id="health_root"
+              name="Health"/>
+
+
+    <!-- ================= PATIENT MANAGEMENT ================= -->
+
+    <menuitem id="patient_menu" groups="inom_healthcare_system.group_hospital_receptionist,inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_nurse,inom_healthcare_system.group_hospital_pharmacist,inom_healthcare_system.group_hospital_lab,inom_healthcare_system.group_hospital_radiology,inom_healthcare_system.group_hospital_billing,inom_healthcare_system.group_hospital_insurance"
+              name="Patients"
+              parent="health_root"
+              sequence="10"/>
+
+    <!-- YE IMPORTANT HAI -->
+    <menuitem id="submenu_patient_registration" groups="inom_healthcare_system.group_hospital_receptionist,inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_nurse,inom_healthcare_system.group_hospital_pharmacist,inom_healthcare_system.group_hospital_lab,inom_healthcare_system.group_hospital_radiology,inom_healthcare_system.group_hospital_billing,inom_healthcare_system.group_hospital_insurance"
+              name="Patient Registration"
+              parent="patient_menu"
+              action="patient_action"
+              sequence="1"/>
+
+    <menuitem id="menu_doctor" groups="inom_healthcare_system.group_hospital_receptionist,inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_nurse,inom_healthcare_system.group_hospital_pharmacist,inom_healthcare_system.group_hospital_lab,inom_healthcare_system.group_hospital_radiology,inom_healthcare_system.group_hospital_billing,inom_healthcare_system.group_hospital_insurance"
+              name="Doctors"
+              parent="patient_menu"
+              action="doctor_action"
+              sequence="2"/>
+
+    <menuitem id="menu_queue" groups="inom_healthcare_system.group_hospital_receptionist,inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_nurse"
+              name="Queue"
+              parent="patient_menu"
+              action="queue_action"
+              sequence="3"/>
+
+
+
+    <!-- ================= APPOINTMENTS ================= -->
+
+    <menuitem id="menu_appointment" groups="inom_healthcare_system.group_hospital_receptionist,inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_nurse"
+              name="Appointments"
+              parent="health_root"
+              action="appointment_action"
+              sequence="20"/>
+
+
+
+    <!-- ================= CLINICAL ================= -->
+
+    <menuitem id="menu_clinical" groups="inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_nurse,inom_healthcare_system.group_hospital_pharmacist,inom_healthcare_system.group_hospital_receptionist"
+              name="Clinical"
+              parent="health_root"
+              sequence="50"/>
+
+    <menuitem id="menu_prescription" groups="inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_nurse,inom_healthcare_system.group_hospital_pharmacist"
+              name="Prescriptions"
+              parent="menu_clinical"
+              action="prescription_action"/>
+
+    <menuitem id="menu_treatment" groups="inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_nurse"
+              name="Treatments"
+              parent="menu_clinical"
+              action="treatment_action"/>
+
+    <menuitem id="menu_certificate" groups="inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_receptionist"
+              name="Medical Certificates"
+              parent="menu_clinical"
+              action="certificate_action"/>
+
+    <menuitem id="menu_icd" groups="inom_healthcare_system.group_hospital_doctor"
+              name="ICD 10/11"
+              parent="menu_clinical"
+              action="icd_action"/>
+
+    <menuitem id="menu_consent" groups="inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_receptionist,inom_healthcare_system.group_hospital_nurse"
+              name="Digital Consent"
+              parent="menu_clinical"
+              action="consent_action"/>
+
+
+
+    <!-- ================= DIAGNOSTICS ================= -->
+
+    <menuitem id="menu_diagnostics" groups="inom_healthcare_system.group_hospital_lab,inom_healthcare_system.group_hospital_radiology,inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_nurse"
+              name="Diagnostics"
+              parent="health_root"
+              sequence="80"/>
+
+    <menuitem id="menu_laboratory" groups="inom_healthcare_system.group_hospital_lab,inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_nurse"
+              name="Laboratory"
+              parent="menu_diagnostics"
+              action="laboratory_action"/>
+
+    <menuitem id="menu_sample" groups="inom_healthcare_system.group_hospital_lab,inom_healthcare_system.group_hospital_doctor"
+              name="Sample Tracking"
+              parent="menu_diagnostics"
+              action="sample_action"/>
+
+    <menuitem id="menu_radiology" groups="inom_healthcare_system.group_hospital_radiology,inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_nurse"
+              name="Radiology"
+              parent="menu_diagnostics"
+              action="radiology_action"/>
+
+
+
+    <!-- ================= SURGERY ================= -->
+
+    <menuitem id="menu_surgery" groups="inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_nurse"
+              name="Surgery"
+              parent="health_root"
+              sequence="140"/>
+
+    <menuitem id="submenu_surgery_management" groups="inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_nurse"
+              name="Surgery Management"
+              parent="menu_surgery"
+              action="action_surgery"/>
+
+    <menuitem id="submenu_ot_schedule" groups="inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_nurse"
+              name="OT Scheduling"
+              parent="menu_surgery"
+              action="action_ot_schedule"/>
+
+    <menuitem id="submenu_anesthesia" groups="inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_nurse"
+              name="Anesthesia Records"
+              parent="menu_surgery"
+              action="action_anesthesia"/>
+
+
+
+    <!-- ================= PHARMACY ================= -->
+
+    <menuitem id="menu_pharmacy" groups="inom_healthcare_system.group_hospital_pharmacist,inom_healthcare_system.group_hospital_doctor"
+              name="Pharmacy"
+              parent="health_root"
+              sequence="150"/>
+
+    <menuitem id="submenu_pharmacy" groups="inom_healthcare_system.group_hospital_pharmacist,inom_healthcare_system.group_hospital_doctor"
+              name="Pharmacy Management"
+              parent="menu_pharmacy"
+              action="pharmacy_action"/>
+
+    <menuitem id="submenu_batch" groups="inom_healthcare_system.group_hospital_pharmacist"
+              name="Batch &amp; Expiry Tracking"
+              parent="menu_pharmacy"
+              action="batch_action"/>
+
+
+
+    <!-- ================= SPECIALTY ================= -->
+
+    <menuitem id="menu_specialty" groups="inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_nurse"
+              name="Specialty Care"
+              parent="health_root"
+              sequence="170"/>
+
+    <menuitem id="submenu_pediatric" groups="inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_nurse"
+              name="Pediatric"
+              parent="menu_specialty"
+              action="action_pediatric"/>
+
+    <menuitem id="submenu_therapy" groups="inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_nurse"
+              name="Physical Therapy"
+              parent="menu_specialty"
+              action="action_therapy"/>
+
+    <menuitem id="submenu_dental" groups="inom_healthcare_system.group_hospital_doctor"
+              name="Dental Practice"
+              parent="menu_specialty"
+              action="action_dental"/>
+
+    <menuitem id="submenu_gynecology" groups="inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_nurse"
+              name="Gynecology"
+              parent="menu_specialty"
+              action="action_gynecology"/>
+
+
+
+    <!-- ================= HOSPITAL ================= -->
+
+    <menuitem id="menu_hospital" groups="inom_healthcare_system.group_hospital_receptionist,inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_nurse"
+              name="Hospital Operations"
+              parent="health_root"
+              sequence="200"/>
+
+    <menuitem id="submenu_building" groups="inom_healthcare_system.group_hospital_receptionist,inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_nurse"
+              name="Buildings"
+              parent="menu_hospital"
+              action="action_building"/>
+
+    <menuitem id="submenu_ward" groups="inom_healthcare_system.group_hospital_receptionist,inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_nurse"
+              name="Wards"
+              parent="menu_hospital"
+              action="action_ward"/>
+
+    <menuitem id="submenu_bed" groups="inom_healthcare_system.group_hospital_receptionist,inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_nurse"
+              name="Beds"
+              parent="menu_hospital"
+              action="action_bed"/>
+
+    <menuitem id="submenu_ipd" groups="inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_nurse,inom_healthcare_system.group_hospital_receptionist"
+              name="IPD Admissions"
+              parent="menu_hospital"
+              action="action_ipd"/>
+
+    <menuitem id="submenu_icu" groups="inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_nurse"
+              name="ICU Critical Care"
+              parent="menu_hospital"
+              action="action_icu"/>
+
+    <menuitem id="submenu_emergency" groups="inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_nurse,inom_healthcare_system.group_hospital_receptionist"
+              name="Emergency &amp; Triage"
+              parent="menu_hospital"
+              action="action_emergency"/>
+
+    <menuitem id="submenu_nursing" groups="inom_healthcare_system.group_hospital_nurse,inom_healthcare_system.group_hospital_doctor"
+              name="Nursing Plans"
+              parent="menu_hospital"
+              action="action_nursing"/>
+
+    <menuitem id="submenu_campus" groups="inom_healthcare_system.group_hospital_receptionist,inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_nurse"
+              name="Multi Campus"
+              parent="menu_hospital"
+              action="action_campus"/>
+
+
+
+    <!-- ================= FINANCE ================= -->
+
+    <menuitem id="menu_finance" groups="inom_healthcare_system.group_hospital_billing,inom_healthcare_system.group_hospital_insurance,inom_healthcare_system.group_hospital_receptionist"
+              name="Finance &amp; Insurance"
+              parent="health_root"
+              sequence="220"/>
+
+    <menuitem id="submenu_billing" groups="inom_healthcare_system.group_hospital_billing,inom_healthcare_system.group_hospital_insurance,inom_healthcare_system.group_hospital_receptionist"
+              name="Billing"
+              parent="menu_finance"
+              action="action_billing"/>
+
+    <menuitem id="submenu_payment" groups="inom_healthcare_system.group_hospital_billing,inom_healthcare_system.group_hospital_insurance"
+              name="Payments"
+              parent="menu_finance"
+              action="action_payment"/>
+
+    <menuitem id="submenu_claim" groups="inom_healthcare_system.group_hospital_insurance,inom_healthcare_system.group_hospital_billing"
+              name="Insurance Claims"
+              parent="menu_finance"
+              action="action_insurance_claim"/>
+
+    <menuitem id="submenu_hcfa" groups="inom_healthcare_system.group_hospital_insurance"
+              name="HCFA / EDI"
+              parent="menu_finance"
+              action="action_hcfa"/>
+
+    <menuitem id="submenu_preauth" groups="inom_healthcare_system.group_hospital_insurance,inom_healthcare_system.group_hospital_billing"
+              name="Pre Authorization"
+              parent="menu_finance"
+              action="action_preauthorization"/>
+
+
+    <!-- ================= COMMUNICATION ================= -->
+
+    <menuitem id="menu_communication" groups="inom_healthcare_system.group_hospital_receptionist,inom_healthcare_system.group_hospital_doctor,inom_healthcare_system.group_hospital_nurse"
+              name="Communication"
+              parent="health_root"
+              action="action_communication"
+              sequence="240"/>
+
+</odoo>
+
+
+
+<!-- <odoo>
+
+<menuitem id="oehealth_root"
+          name="OEHealth"/>
+
+
+<menuitem id="patient_menu"
+		  name="Patients"
+		  parent="oehealth_root"
+		  action="patient_action"/>
+
+<menuitem id="menu_doctor"
+          name="Doctors"
+          parent="oehealth_root"
+          action="doctor_action"/>
+
+<menuitem id="menu_appointment"
+          name="Appointments"
+          parent="oehealth_root"
+          action="appointment_action"/>
+
+<menuitem id="menu_queue"
+          name="Queue"
+          parent="oehealth_root"
+          action="queue_action"/>
+
+<menuitem
+    id="menu_clinical"
+    name="Clinical"
+    parent="oehealth_root"
+    action="clinical_action"
+    sequence="50"/>
+
+<menuitem
+    id="menu_prescription"
+    name="Prescriptions"
+    parent="oehealth_root"
+    action="prescription_action"
+    sequence="60"/>
+
+<menuitem
+    id="menu_treatment"
+    name="Treatments"
+    parent="oehealth_root"
+    action="treatment_action"
+    sequence="70"/>
+
+<menuitem
+    id="menu_certificate"
+    name="Medical Certificates"
+    parent="oehealth_root"
+    action="certificate_action"
+    sequence="80"/>
+
+<menuitem
+    id="menu_icd"
+    name="ICD 10/11"
+    parent="oehealth_root"
+    action="icd_action"
+    sequence="90"/>
+
+<menuitem
+    id="menu_consent"
+    name="Digital Consent"
+    parent="oehealth_root"
+    action="consent_action"
+    sequence="100"/>
+
+<menuitem
+    id="menu_laboratory"
+    name="Laboratory"
+    parent="oehealth_root"
+    action="laboratory_action"
+    sequence="110"/>
+
+<menuitem
+    id="menu_sample"
+    name="Sample Tracking"
+    parent="oehealth_root"
+    action="sample_action"
+    sequence="120"/>
+
+<menuitem
+    id="menu_radiology"
+    name="Radiology"
+    parent="oehealth_root"
+    action="radiology_action"
+    sequence="130"/>
+
+</odoo> -->

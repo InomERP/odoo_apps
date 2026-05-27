@@ -1,0 +1,111 @@
+<odoo>
+
+    <record id="treatment_tree" model="ir.ui.view">
+        <field name="name">treatment.tree</field>
+        <field name="model">oeh.treatment</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'completed'" decoration-info="state == 'in_progress'"
+                  decoration-muted="state == 'cancel'">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="treatment_name"/>
+                <field name="doctor_id"/>
+                <field name="date"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="treatment_form" model="ir.ui.view">
+        <field name="name">treatment.form</field>
+        <field name="model">oeh.treatment</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_plan" type="object" string="Plan" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_start" type="object" string="Start" class="btn-primary"
+                            invisible="state != 'planned'"/>
+                    <button name="action_complete" type="object" string="Complete" class="btn-primary"
+                            invisible="state != 'in_progress'"/>
+                    <button name="action_create_billing" type="object" string="Create Bill"
+                            invisible="state != 'completed'"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state in ('completed','cancel')"/>
+                    <button name="action_reset" type="object" string="Reset"
+                            invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,planned,in_progress,completed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_history" type="object"
+                                class="oe_stat_button" icon="fa-history">
+                            <field name="treatment_count" widget="statinfo" string="Treatments"/>
+                        </button>
+                        <button name="action_create_billing" type="object"
+                                class="oe_stat_button" icon="fa-money">
+                            <field name="billing_count" widget="statinfo" string="Bill"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="patient_id"/>
+                            <field name="treatment_name"/>
+                            <field name="doctor_id"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="diagnosis_id"/>
+                            <field name="followup_date"/>
+                            <field name="fee"/>
+                            <field name="billing_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Treatment Plan">
+                            <field name="treatment_plan"/>
+                        </page>
+                        <page string="Procedure">
+                            <field name="procedure"/>
+                        </page>
+                        <page string="Clinical Notes">
+                            <field name="clinical_notes"/>
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="treatment_kanban" model="ir.ui.view">
+        <field name="name">treatment.kanban</field>
+        <field name="model">oeh.treatment</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state">
+                <field name="patient_id"/>
+                <field name="treatment_name"/>
+                <field name="doctor_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record">
+                            <strong><field name="treatment_name"/></strong>
+                            <div><i class="fa fa-user"/> <field name="patient_id"/></div>
+                            <div t-if="record.doctor_id.raw_value"><i class="fa fa-user-md"/> <field name="doctor_id"/></div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="treatment_action" model="ir.actions.act_window">
+        <field name="name">Treatments</field>
+        <field name="res_model">oeh.treatment</field>
+        <field name="view_mode">list,kanban,form</field>
+    </record>
+
+</odoo>

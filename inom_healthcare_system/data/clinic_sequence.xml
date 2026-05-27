@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="treatment_seq" model="ir.sequence">
+        <field name="name">Treatment Sequence</field>
+        <field name="code">oeh.treatment</field>
+        <field name="prefix">TRT/</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record id="certificate_seq" model="ir.sequence">
+        <field name="name">Medical Certificate Sequence</field>
+        <field name="code">oeh.certificate</field>
+        <field name="prefix">CERT/</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record id="consent_seq" model="ir.sequence">
+        <field name="name">Consent Sequence</field>
+        <field name="code">oeh.consent</field>
+        <field name="prefix">CON/</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record id="prescription_seq" model="ir.sequence">
+        <field name="name">Prescription Sequence</field>
+        <field name="code">oeh.prescription</field>
+        <field name="prefix">PRES/</field>
+        <field name="padding">5</field>
+    </record>
+
+</odoo>
