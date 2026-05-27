@@ -1,5 +1,5 @@
 {
-    'name': 'List View Manager',
+    'name': 'Inom List View Manager',
     'version': '19.0.0.0',
     'author': 'InomERP',
     'website': 'https://inomerp.in',
