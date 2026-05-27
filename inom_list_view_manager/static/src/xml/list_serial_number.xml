@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates xml:space="preserve">
+
+    <!-- HEADER cell: rendered by OWL (no more DOM injection) so it stays
+         aligned with the row cell and survives every re-render. Inserted right
+         after the record-selector <th>, matching the row <td> position below.
+         IMPORTANT: this mirrors the ROW pattern EXACTLY — the cell is wrapped in
+         a <t t-if="this.enableSerialNumber"> (not a t-if directly on the <th>),
+         which is what reliably renders inside an inherited OWL template. -->
+<!--    <t t-inherit="web.ListRenderer"-->
+<!--       t-inherit-mode="extension"-->
+<!--       owl="1">-->
+<!--        <xpath expr="//thead/tr/th[1]"-->
+<!--               position="after">-->
+<!--            <t t-if="this.enableSerialNumber">-->
+<!--                <th class="o_serial_number_header text-center">Sr.No</th>-->
+<!--            </t>-->
+<!--        </xpath>-->
+<!--    </t>-->
+
+    <!-- ROW cell: unchanged behaviour, rendered after the checkbox column. -->
+    <t t-inherit="web.ListRenderer.RecordRow"
+       t-inherit-mode="extension"
+       owl="1">
+        <!-- Checkbox column ke baad -->
+        <xpath expr="//td[1]"
+               position="after">
+            <t t-if="this.enableSerialNumber">
+                <td class="o_serial_number_cell text-center">
+                    <t t-esc="this.getRowNumber(record)"/>
+                </td>
+            </t>
+
+        </xpath>
+    </t>
+</templates>
+
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+
+<!--<templates xml:space="preserve">-->
+
+<!--    &lt;!&ndash; ===================================== &ndash;&gt;-->
+<!--    &lt;!&ndash; RECORD ROW &ndash;&gt;-->
+<!--    &lt;!&ndash; ===================================== &ndash;&gt;-->
+
+<!--    <t t-inherit="web.ListRenderer.RecordRow"-->
+<!--       t-inherit-mode="extension"-->
+<!--       owl="1">-->
+
+<!--        <xpath expr="//td[1]"-->
+<!--               position="after">-->
+
+<!--            <td t-if="this.enableSerialNumber"-->
+<!--                class="o_serial_number_cell text-center">-->
+
+<!--                <t t-esc="this.getRowNumber(record)"/>-->
+
+<!--            </td>-->
+
+<!--        </xpath>-->
+
+<!--    </t>-->
+
+<!--</templates>-->

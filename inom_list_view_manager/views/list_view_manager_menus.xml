@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        FIX: parent="base_setup.action_general_configuration" is WRONG.
+        action_general_configuration is an action record, not a menuitem.
+        The correct parent menu for Settings sub-items is:
+        parent="base_setup.menu_general_configuration"
+    -->
+    <record id="action_inom_list_view_manager" model="ir.actions.act_window">
+        <field name="name">Column Configs</field>
+        <field name="res_model">inom.list.view.manager</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- FIXED: correct parent menu id -->
+    <menuitem
+            id="menu_inom_list_view_manager_root"
+            name="List View Manager"
+            parent="base.menu_administration"
+            sequence="100"/>
+
+    <menuitem id="menu_inom_list_view_manager_configs"
+              name="Column Configs"
+              parent="menu_inom_list_view_manager_root"
+              action="action_inom_list_view_manager"
+              sequence="10"/>
+</odoo>

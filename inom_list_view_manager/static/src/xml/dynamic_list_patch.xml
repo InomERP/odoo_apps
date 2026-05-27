@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="inom_list_view_manager.DynamicListPanel" owl="1">
+        <div class="o_dynamic_list_manager">
+
+            <!-- Trigger Button -->
+            <button type="button"
+                    class="btn btn-sm dynamic_btn"
+                    t-ref="toggleBtn"
+                    t-on-click="togglePanel"
+                    title="Manage Columns">
+                <i class="fa fa-columns me-1"/>
+                Columns
+            </button>
+
+            <!-- Popup Panel -->
+            <div t-if="state.panelOpen"
+                 class="dynamic_dropdown"
+                 t-att-style="'position:fixed; z-index:99999; top:' + state.dropTop + 'px; right:' + state.dropRight + 'px; background:#fff; border:1px solid #d0d0d0; border-radius:8px; box-shadow:0 6px 24px rgba(0,0,0,0.18); width:280px; font-size:13px;'">
+
+                <!-- Header -->
+                <div class="inom-lvm-header">
+                    <span class="inom-lvm-header-title">Manage Columns</span>
+                    <span t-on-click="closePanel" class="inom-lvm-close">&#x2715;</span>
+                </div>
+
+                <!-- Search Box -->
+                <div style="padding:8px 12px; border-bottom:1px solid #eee;">
+                    <input type="text"
+                           class="o_input"
+                           placeholder="Search for Columns..."
+                           t-att-value="state.searchTerm"
+                           t-on-input="onSearchInput"
+                           style="font-size:12px; width:100%; border:1px solid #ddd; border-radius:4px; padding:5px 8px;"/>
+                </div>
+
+                <!-- Column Rows -->
+                <div style="max-height:320px; overflow-y:auto;" t-ref="columnList">
+                    <t t-foreach="filteredColumns" t-as="col" t-key="col.name">
+                        <div class="inom-lvm-row"
+                             t-att-data-name="col.name"
+                             draggable="true"
+                             t-on-dragstart="(ev) => this.onDragStart(ev, col.name)"
+                             t-on-dragover="(ev) => this.onDragOver(ev, col.name)"
+                             t-on-dragenter="(ev) => this.onDragEnter(ev, col.name)"
+                             t-on-drop="(ev) => this.onDrop(ev, col.name)"
+                             t-on-dragend="(ev) => this.onDragEnd(ev)"
+                             style="display:flex; align-items:center; padding:8px 12px; border-bottom:1px solid #f5f5f5; gap:8px; cursor:default; transition: opacity 0.15s;">
+
+                            <!-- Toggle Checkbox -->
+                            <div style="flex-shrink:0;">
+                                <input type="checkbox"
+                                       t-att-id="'inom-col-' + col.name"
+                                       t-att-checked="!col.hidden"
+                                       t-on-change="(ev) => this.toggleColumn(col.name, ev.target.checked)"
+                                       style="width:16px;height:16px;cursor:pointer;accent-color:var(--lvm-toggle-color);"/>
+                            </div>
+
+                            <!-- Label / Rename Input -->
+                            <div style="flex:1; margin:0; min-width:0;">
+                                <t t-if="state.renamingColumn === col.name">
+                                    <input type="text"
+                                           class="o_input inom-rename-input"
+                                           t-att-value="col.label"
+                                           t-on-keydown="(ev) => this.onRenameKey(col.name, ev)"
+                                           t-on-blur="(ev) => this.finishRename(col.name, ev.target.value)"
+                                           style="font-size:12px; width:100%; padding:3px 6px; border:1px solid #7B5EA7; border-radius:4px; outline:none;"/>
+                                </t>
+                                <t t-else="">
+                                    <label t-att-for="'inom-col-' + col.name"
+                                           t-on-dblclick="() => this.onLabelDblClick(col.name)"
+                                           style="display:block; margin:0; cursor:pointer; font-size:13px; color:#222; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"
+                                           title="Double-click to rename">
+                                        <t t-esc="col.label"/>
+                                    </label>
+                                </t>
+                            </div>
+
+                            <!-- Rename Button -->
+                            <span t-on-click="() => this.startRename(col.name)"
+                                  t-att-style="'cursor:pointer; font-size:12px; flex-shrink:0; padding:3px 5px; border-radius:3px; ' + (state.renamingColumn === col.name ? 'color:#7B5EA7; background:#f0ebf8;' : 'color:#aaa;')"
+                                  title="Rename column">
+                                <i class="fa fa-pencil"/>
+                            </span>
+
+                            <!-- Drag Handle -->
+                            <span style="cursor:grab; color:#bbb; font-size:14px; flex-shrink:0; padding:3px 4px;"
+                                  title="Drag to reorder">
+                                <i class="fa fa-bars"/>
+                            </span>
+
+                        </div>
+                    </t>
+                </div>
+
+                <!-- Footer -->
+                <div style="padding:10px 12px; border-top:1px solid #eee; display:flex; gap:8px;">
+                    <button class="btn btn-sm"
+                            t-on-click="applyAndClose"
+                            style="flex:1; background:#7B5EA7; color:#fff; border:none; border-radius:5px; font-size:13px; padding:6px 0; font-weight:500;">
+                        Save
+                    </button>
+                    <button class="btn btn-sm"
+                            t-on-click="resetToDefault"
+                            style="background:#f5f5f5; color:#666; border:1px solid #ddd; border-radius:5px; font-size:13px; padding:6px 12px;">
+                        Reset
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </t>
+
+</templates>
