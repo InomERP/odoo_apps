@@ -5,7 +5,7 @@
 
     'category': 'Healthcare',
 
-    'summary': 'Health Care System',
+    'summary': 'Comprehensive Odoo Healthcare & Hospital Management System for Patients, Doctors, Appointments, Surgery, Pharmacy, Billing, Laboratory, IPD, ICU, and Clinical Operations',
 
     'description': """
         Hospital Management System Core
