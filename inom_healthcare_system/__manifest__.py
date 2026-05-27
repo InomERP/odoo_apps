@@ -62,7 +62,6 @@
         'security/hospital_security.xml',
         'security/ir.model.access.csv',
 
-
         # Sequences
         'data/patient_sequence.xml',
         'data/clinic_sequence.xml',
@@ -104,13 +103,13 @@
         'views/prescription_dispense_views.xml',
         'views/medicine_batch_views.xml',
 
-        #speciality care
+        # Speciality Care
         'views/pediatric_views.xml',
         'views/therapy_views.xml',
         'views/dental_views.xml',
         'views/gynecology_views.xml',
 
-        #hospital
+        # Hospital
         'views/building_views.xml',
         'views/ward_views.xml',
         'views/bed_views.xml',
@@ -120,7 +119,7 @@
         'views/nursing_views.xml',
         'views/campus_views.xml',
 
-        #finacnce
+        # Finance
         'views/billing_views.xml',
         'views/payment_views.xml',
         'views/insurance_claim_views.xml',
@@ -137,7 +136,6 @@
 
         # Dashboard (depends on the Health root menu defined in menu.xml)
         'views/dashboard_views.xml',
-
     ],
 
     'assets': {
@@ -148,10 +146,9 @@
         ],
     },
 
-     'images': [
+    'images': [
         'static/description/banner.png',
     ],
-
 
     'application': True,
 
