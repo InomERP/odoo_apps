@@ -29,6 +29,9 @@ Key Features
 - Fast and user-friendly interaction workflow
 - Easy customization and extensibility
 - Seamless integration with Odoo backend
+- Modern UI with smooth animations and blur effects
+- Lightweight and optimized performance
+- Real-time voice command feedback system
 
 This module improves productivity and provides a modern hands-free experience
 for users working with Odoo applications.
@@ -63,6 +66,10 @@ for users working with Odoo applications.
             "inom_voice_assistant/static/src/xml/inom_voice_assistant_overlay.xml",
         ],
     },
+
+    "images": [
+        "static/description/banner.png",
+    ],
 
     "installable": True,
 
