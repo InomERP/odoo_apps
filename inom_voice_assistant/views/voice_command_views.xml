@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_voice_command_list" model="ir.ui.view">
+        <field name="name">voice.command.list</field>
+        <field name="model">voice.command</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="keywords"/>
+                <field name="command_type"/>
+                <field name="model_id" optional="show"/>
+                <field name="action_id" optional="show"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_voice_command_form" model="ir.ui.view">
+        <field name="name">voice.command.form</field>
+        <field name="model">voice.command</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Customer"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="keywords"
+                                   placeholder="customer, client, ग्राहक"/>
+                            <field name="command_type" widget="radio"/>
+                        </group>
+                        <group>
+                            <field name="model_id"
+                                   invisible="command_type != 'open_model'"
+                                   required="command_type == 'open_model'"
+                                   options="{'no_create': True}"/>
+                            <field name="model_name"
+                                   invisible="command_type != 'open_model'"
+                                   readonly="1"/>
+                            <field name="name_field"
+                                   invisible="command_type != 'open_model'"/>
+                            <field name="action_id"
+                                   invisible="command_type != 'open_action'"
+                                   required="command_type == 'open_action'"
+                                   options="{'no_create': True}"/>
+                            <field name="sequence"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <div class="text-muted" style="margin-top:8px;">
+                        Say a verb (open / search / create / खोलो / खोजो / बनाओ)
+                        plus one of the keywords above, then the record name.
+                        Example: "open customer Sachin".
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_voice_command" model="ir.actions.act_window">
+        <field name="name">Voice Commands</field>
+        <field name="res_model">voice.command</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first voice command</p>
+            <p>Map spoken keywords to an Odoo model or a specific screen.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_inom_voice_assistant_root"
+              name="Voice Assistant"
+              parent="base.menu_administration"
+              sequence="90"
+              groups="base.group_system"/>
+
+    <menuitem id="menu_voice_command"
+              name="Voice Commands"
+              parent="menu_inom_voice_assistant_root"
+              action="action_voice_command"
+              sequence="10"
+              groups="base.group_system"/>
+
+    <record id="server_generate_from_menus" model="ir.actions.server">
+        <field name="name">Generate from Menus</field>
+        <field name="model_id" ref="model_voice_command"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_generate_from_menus()</field>
+    </record>
+
+    <record id="server_generate_from_models" model="ir.actions.server">
+        <field name="name">Generate from Models</field>
+        <field name="model_id" ref="model_voice_command"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_generate_from_models()</field>
+    </record>
+
+    <menuitem id="menu_voice_generate_menus"
+              name="Generate from Menus"
+              parent="menu_inom_voice_assistant_root"
+              action="server_generate_from_menus"
+              sequence="20"
+              groups="base.group_system"/>
+
+    <menuitem id="menu_voice_generate_models"
+              name="Generate from Models"
+              parent="menu_inom_voice_assistant_root"
+              action="server_generate_from_models"
+              sequence="30"
+              groups="base.group_system"/>
+
+</odoo>
