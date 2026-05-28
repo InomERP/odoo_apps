@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="inom_voice_assistant.Overlay">
+        <div t-if="state.visible"
+             class="o_voice_overlay"
+             t-att-class="{ 'o_voice_overlay_error': state.status === 'error' }">
+            <div class="o_voice_pill">
+
+                <!-- Animated waveform while listening -->
+                <div t-if="state.status === 'listening'" class="o_voice_wave">
+                    <span/><span/><span/><span/><span/>
+                </div>
+
+                <!-- Status icon for the other states (Font Awesome, shipped with Odoo) -->
+                <i t-elif="state.status === 'ready'" class="fa fa-microphone o_voice_icon"/>
+                <i t-elif="state.status === 'recognized'" class="fa fa-language o_voice_icon"/>
+                <i t-elif="state.status === 'processing'" class="fa fa-spinner fa-spin o_voice_icon"/>
+                <i t-elif="state.status === 'success'" class="fa fa-check o_voice_icon"/>
+                <i t-elif="state.status === 'error'" class="fa fa-exclamation-triangle o_voice_icon"/>
+
+                <span class="o_voice_label" t-esc="state.text"/>
+
+                <i class="fa fa-times o_voice_close" t-on-click="onClose" role="button" aria-label="Close"/>
+            </div>
+        </div>
+    </t>
+
+</templates>

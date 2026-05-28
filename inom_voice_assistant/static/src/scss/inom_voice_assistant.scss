@@ -1,0 +1,116 @@
+.o_inom_voice_assistant_systray {
+    .o_voice_btn {
+        color: #ffffff;
+        opacity: 0.85;
+        border: none;
+        background: transparent;
+        font-size: 16px;
+        line-height: 1;
+        padding: 0 8px;
+
+        &:hover {
+            opacity: 1;
+        }
+
+        // Listening state: red pulsing mic.
+        &.o_voice_listening {
+            color: #ff5b5b;
+            opacity: 1;
+            animation: o_voice_pulse 1.2s ease-in-out infinite;
+        }
+    }
+}
+
+@keyframes o_voice_pulse {
+    0%   { transform: scale(1);   text-shadow: 0 0 0 rgba(255, 91, 91, 0.6); }
+    50%  { transform: scale(1.15); text-shadow: 0 0 8px rgba(255, 91, 91, 0.9); }
+    100% { transform: scale(1);   text-shadow: 0 0 0 rgba(255, 91, 91, 0.6); }
+}
+
+// ---------------------------------------------------------------------------
+//  Bottom-center listening overlay (Siri-style pill)
+// ---------------------------------------------------------------------------
+.o_voice_overlay {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1100;            // above most content, below modals' backdrop
+    pointer-events: none;     // only the pill itself is interactive
+    animation: o_voice_rise 0.18s ease-out;
+
+    .o_voice_pill {
+        pointer-events: auto;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        max-width: 70vw;
+        padding: 10px 16px;
+        background: #1c1c1e;
+        color: #ffffff;
+        border-radius: 999px;
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.28);
+        font-size: 14px;
+    }
+
+    &.o_voice_overlay_error .o_voice_pill {
+        background: #3a1e1e;
+    }
+
+    .o_voice_label {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 52vw;
+    }
+
+    .o_voice_icon {
+        font-size: 18px;
+        color: #5ad7ff;
+    }
+    &.o_voice_overlay_error .o_voice_icon {
+        color: #ff6b6b;
+    }
+
+    .o_voice_close {
+        font-size: 16px;
+        opacity: 0.55;
+        cursor: pointer;
+        &:hover { opacity: 1; }
+    }
+
+    .o_voice_spin {
+        animation: o_voice_spin 0.9s linear infinite;
+    }
+
+    // Waveform
+    .o_voice_wave {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        height: 22px;
+
+        span {
+            width: 3px;
+            border-radius: 2px;
+            background: #5ad7ff;
+            animation: o_voice_wave 0.8s ease-in-out infinite;
+        }
+        span:nth-child(2) { animation-delay: 0.12s; }
+        span:nth-child(3) { animation-delay: 0.24s; }
+        span:nth-child(4) { animation-delay: 0.36s; }
+        span:nth-child(5) { animation-delay: 0.48s; }
+    }
+}
+
+@keyframes o_voice_wave {
+    0%, 100% { height: 5px; }
+    50%      { height: 20px; }
+}
+@keyframes o_voice_spin {
+    to { transform: rotate(360deg); }
+}
+@keyframes o_voice_rise {
+    from { opacity: 0; transform: translate(-50%, 8px); }
+    to   { opacity: 1; transform: translate(-50%, 0); }
+}
