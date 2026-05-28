@@ -63,7 +63,9 @@ for users working with Odoo applications.
             "inom_voice_assistant/static/src/xml/inom_voice_assistant_overlay.xml",
         ],
     },
-
+     "images": [
+        "static/description/banner.png",
+    ],
     "installable": True,
 
     "application": True,
