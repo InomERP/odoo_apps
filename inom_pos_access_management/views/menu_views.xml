@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Menu under: Point of Sale > Configuration > POS Access Rights
+
+        The parent xmlid ``point_of_sale.menu_point_config_product`` is the
+        standard "Configuration" sub-menu defined by point_of_sale in both
+        Odoo 17 and Odoo 18, so no change is required.
+    -->
+    <menuitem id="menu_pos_access_rights"
+              name="POS Access Rights"
+              parent="point_of_sale.menu_point_config_product"
+              action="action_pos_access_rights"
+              groups="inom_pos_access_management.group_pos_access_manager"
+              sequence="50"/>
+
+</odoo>

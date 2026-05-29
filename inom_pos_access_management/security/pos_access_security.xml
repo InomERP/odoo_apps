@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!--
+            Odoo 17 security group model.
+
+            In Odoo 17 (and Odoo 18) there is NO ``res.groups.privilege``
+            model — that indirection was only introduced in Odoo 19.
+            In Odoo 17 security groups point directly at an
+            ``ir.module.category`` record via ``category_id``. Behaviour,
+            visibility and access semantics match the Odoo 19
+            privilege-based wiring; only the field name and the
+            indirection layer differ.
+        -->
+
+        <!-- Security group: POS Access Manager -->
+        <record id="group_pos_access_manager" model="res.groups">
+            <field name="name">POS Access Manager</field>
+            <field name="category_id" ref="base.module_category_sales_point_of_sale"/>
+            <field name="implied_ids" eval="[(4, ref('point_of_sale.group_pos_manager'))]"/>
+            <field name="comment">Users in this group can create and manage POS access rules.</field>
+        </record>
+
+        <!--
+            Multi-company record rule.
+            In Odoo 17 an ``ir.rule`` with no ``groups`` field is
+            implicitly global, exactly as in Odoo 18 / Odoo 19. No
+            additional changes required.
+        -->
+        <record id="pos_access_rights_company_rule" model="ir.rule">
+            <field name="name">POS Access Rights: multi-company</field>
+            <field name="model_id" ref="model_pos_access_rights"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+    </data>
+</odoo>
