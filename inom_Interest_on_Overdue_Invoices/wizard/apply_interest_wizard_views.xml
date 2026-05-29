@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_inom_apply_interest_wizard" model="ir.ui.view">
+        <field name="name">inom.apply.interest.wizard.form</field>
+        <field name="model">inom.apply.interest.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Apply Overdue Interest">
+                <sheet>
+
+                    <!-- Success banner -->
+                    <div class="alert alert-success mb-3" role="alert">
+                        <strong>Interest Calculated Successfully</strong>
+                        <br/>Review the calculation below and click "Apply Interest" to create a draft debit note.
+                    </div>
+
+                    <group string="SOURCE INVOICE">
+                        <group>
+                            <field name="invoice_id" readonly="1"/>
+                            <field name="partner_id" readonly="1"/>
+                            <field name="company_id" readonly="1" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="CALCULATION DATE">
+                            <field name="calculation_date"/>
+                            <field name="invoice_date" string="Invoice Date" readonly="1"/>
+                            <field name="due_date" string="Due Date" readonly="1"/>
+                            <button name="action_recalculate" type="object"
+                                    string="↻ Recalculate" class="btn-secondary btn-sm mt-1"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group string="OVERDUE STATUS">
+                            <field name="days_overdue" readonly="1"/>
+                            <field name="days_after_grace" readonly="1"/>
+                            <field name="interest_rule_id" readonly="1"/>
+                        </group>
+                        <group string="INTEREST CALCULATION">
+                            <field name="base_amount" readonly="1"/>
+                            <field name="calculated_interest" readonly="1"/>
+                            <field name="final_interest" readonly="1"
+                                   class="fw-bold text-success"/>
+                        </group>
+                    </group>
+
+                    <separator string="CALCULATION BREAKDOWN"/>
+                    <field name="calculation_breakdown" readonly="1" widget="text"
+                           style="font-family: monospace; font-size: 12px;"/>
+
+                    <!-- ACTION SECTION -->
+                    <separator string="ACTION"/>
+                    <group string="">
+                        <group>
+                            <field name="output_type" widget="radio"/>
+                        </group>
+                    </group>
+
+                    <!-- Journal Entry info -->
+                    <div class="alert alert-info mb-2" role="alert"
+                         invisible="output_type != 'journal_entry'">
+                        <i class="fa fa-info-circle"/> A journal entry will be posted immediately.
+                    </div>
+
+                    <!-- Debit Note info -->
+                    <div class="alert alert-info mb-2" role="alert"
+                         invisible="output_type != 'debit_note'">
+                        <i class="fa fa-info-circle"/> The debit note will be created in <strong>DRAFT</strong> state. You must manually review and post it.
+                    </div>
+
+                </sheet>
+                <footer>
+                    <button name="action_apply_interest" type="object"
+                            string="Apply Interest" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>
