@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_inom_interest_history_list" model="ir.ui.view">
+        <field name="name">inom.interest.history.list</field>
+        <field name="model">inom.interest.history</field>
+        <field name="arch" type="xml">
+            <tree string="Interest History">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="invoice_id"/>
+                <field name="rule_id"/>
+                <field name="calculation_date"/>
+                <field name="days_overdue"/>
+                <field name="base_amount"/>
+                <field name="final_interest"/>
+                <field name="move_id" optional="show"/>
+                <field name="status"
+                       decoration-success="status == 'applied'"
+                       decoration-warning="status == 'draft'"
+                       decoration-danger="status == 'cancelled'"
+                       widget="badge"/>
+                <field name="currency_id" column_invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_inom_interest_history_form" model="ir.ui.view">
+        <field name="name">inom.interest.history.form</field>
+        <field name="model">inom.interest.history</field>
+        <field name="arch" type="xml">
+            <form string="Interest Calculation">
+                <header>
+                    <button name="action_apply" type="object" string="Apply"
+                            class="btn-primary" invisible="status != 'draft'"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="status != 'draft'"/>
+                    <button name="action_open_move" type="object" string="View Entry"
+                            invisible="not move_id"/>
+                    <field name="status" widget="statusbar"
+                           statusbar_visible="draft,applied,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+
+                    <group>
+                        <group string="SOURCE DOCUMENT">
+                            <field name="invoice_id"/>
+                            <field name="partner_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="DATES">
+                            <field name="calculation_date"/>
+                            <field name="invoice_date" string="Invoice Date"/>
+                            <field name="due_date" string="Due Date"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group string="OVERDUE ANALYSIS">
+                            <field name="days_overdue"/>
+                            <field name="days_after_grace"/>
+                            <field name="periods_count"/>
+                            <field name="period_type" string="Period Type"/>
+                        </group>
+                        <group string="RULE APPLIED">
+                            <field name="rule_id" string="Interest Rule"/>
+                            <field name="interest_rate_applied" string="Interest Rate Applied"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group string="CALCULATION">
+                            <field name="base_amount" string="Principal Amount"/>
+                            <field name="calculated_interest"/>
+                            <field name="penalty_applied"/>
+                            <field name="interest_before_caps"/>
+                            <field name="currency_id" groups="base.group_multi_currency"/>
+                        </group>
+                        <group string="FINAL RESULT">
+                            <field name="final_interest" class="fw-bold"/>
+                            <field name="result_type" string="Result Type" readonly="1"/>
+                            <field name="move_id" string="Result Document" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <separator string="CALCULATION DETAILS"/>
+                    <field name="calculation_breakdown" readonly="1" widget="text"
+                           style="font-family: monospace; font-size: 12px;"/>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_inom_interest_history" model="ir.actions.act_window">
+        <field name="name">Interest History</field>
+        <field name="res_model">inom.interest.history</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_server_compute_overdue_interest" model="ir.actions.server">
+        <field name="name">Compute Overdue Interest</field>
+        <field name="model_id" ref="model_inom_interest_history"/>
+        <field name="state">code</field>
+        <field name="code">
+records = model.compute_overdue_interest()
+action = {
+    'type': 'ir.actions.act_window',
+    'name': 'Interest History',
+    'res_model': 'inom.interest.history',
+    'view_mode': 'tree,form',
+    'target': 'current',
+}
+        </field>
+    </record>
+
+<!--    <menuitem id="menu_overdue_interest_compute"-->
+<!--              name="Compute Overdue Interest"-->
+<!--              parent="menu_overdue_interest_root"-->
+<!--              action="action_server_compute_overdue_interest"-->
+<!--              sequence="20"-->
+<!--              groups="account.group_account_manager"/>-->
+
+<!--    <menuitem id="menu_inom_interest_history"-->
+<!--              name="Interest History"-->
+<!--              parent="menu_overdue_interest_root"-->
+<!--              action="action_inom_interest_history"-->
+<!--              sequence="30"-->
+<!--              groups="account.group_account_manager"/>-->
+
+    <menuitem id="menu_reporting_overdue_interest"
+              name="Overdue Interest"
+              parent="account.menu_finance_reports"
+              sequence="20"
+              groups="account.group_account_manager"/>
+
+    <menuitem id="menu_reporting_interest_calculations"
+              name="Interest Calculations"
+              parent="menu_reporting_overdue_interest"
+              action="action_inom_interest_history"
+              sequence="10"
+              groups="account.group_account_manager"/>
+
+</odoo>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ── List View ──────────────────────────────────────────────────────── -->
+    <record id="view_overdue_interest_rule_list" model="ir.ui.view">
+        <field name="name">overdue.interest.rule.list</field>
+        <field name="model">overdue.interest.rule</field>
+        <field name="arch" type="xml">
+            <tree string="Interest Rules">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="calculation_type"/>
+                <field name="interest_rate"/>
+                <field name="period_type"/>
+                <field name="grace_days"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ── Form View ──────────────────────────────────────────────────────── -->
+    <record id="view_overdue_interest_rule_form" model="ir.ui.view">
+        <field name="name">overdue.interest.rule.form</field>
+        <field name="model">overdue.interest.rule</field>
+        <field name="arch" type="xml">
+            <form string="Interest Rule">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Rule Name"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. A standard 1.5% monthly interest"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="INTEREST CALCULATION">
+                            <field name="calculation_type" widget="radio" options="{'horizontal': true}"/>
+                            <field name="interest_rate" string="Interest Rate" digits="[16,4]"/>
+                            <field name="period_type"/>
+                            <field name="calculate_on"/>
+                        </group>
+                        <group string="GRACE PERIOD">
+                            <field name="grace_days" string="Grace Period (Days)"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="PENALTY SETTINGS">
+                            <field name="apply_penalty"/>
+                            <field name="penalty_amount" invisible="not apply_penalty" required="apply_penalty"/>
+                        </group>
+                        <group string="INTEREST CAPS">
+                            <field name="minimum_interest" help="0 = no minimum"/>
+                            <field name="maximum_interest" help="0 = no maximum"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="ADVANCED">
+                            <field name="compound_interest" invisible="calculation_type == 'flat_fee'"/>
+                        </group>
+                        <group string="COMPANY">
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="sequence"/>
+                        </group>
+                    </group>
+                    <group string="NOTES">
+                        <field name="note" nolabel="1" placeholder="Internal notes about this rule..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ── Action ─────────────────────────────────────────────────────────── -->
+    <record id="action_overdue_interest_rules" model="ir.actions.act_window">
+        <field name="name">Interest Rules</field>
+        <field name="res_model">overdue.interest.rule</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Interest Rule
+            </p>
+        </field>
+    </record>
+
+    <!-- ── Menus ───────────────────────────────────────────────────────────
+         Parent confirmed: account.menu_finance_configuration (sequence 35)
+         Humara group: sequence 50 — analytic (40) ke baad
+    ──────────────────────────────────────────────────────────────────────── -->
+    <menuitem id="menu_overdue_interest_root"
+              name="Overdue Interest"
+              parent="account.menu_finance_configuration"
+              sequence="50"
+              groups="account.group_account_manager"/>
+
+    <menuitem id="menu_overdue_interest_rules"
+              name="Interest Rules"
+              parent="menu_overdue_interest_root"
+              action="action_overdue_interest_rules"
+              sequence="10"
+              groups="account.group_account_manager"/>
+
+
+</odoo>

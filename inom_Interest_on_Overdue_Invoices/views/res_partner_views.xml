@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_overdue_interest_button" model="ir.ui.view">
+        <field name="name">res.partner.overdue.interest.button</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <!-- Smart Button -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_interest_history"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-percent">
+                    <field name="interest_count" widget="statinfo" string="Interest"/>
+                </button>
+            </xpath>
+            <!-- Overdue Interest Tab -->
+            <xpath expr="//page[@name='internal_notes']" position="before">
+                <page string="Overdue Interest" name="overdue_interest">
+                    <div class="oe_button_box" name="interest_buttons">
+<!--                        <button name="action_compute_interest" type="object"-->
+<!--                                string="Compute Interest" class="btn-primary"/>-->
+                    </div>
+                    <separator/>
+                    <group string="INTEREST CONFIGURATION">
+                        <group>
+                            <field name="interest_calculation" widget="radio"/>
+                            <field name="partner_interest_rule_id"
+                                   invisible="interest_calculation != 'enabled'"/>
+                            <field name="extra_grace_days"
+                                   invisible="interest_calculation == 'disabled'"/>
+                        </group>
+                        <group>
+                            <field name="total_interest_charged"/>
+                            <field name="pending_interest"/>
+                        </group>
+                    </group>
+                    <group string="INTEREST HISTORY">
+                        <field name="interest_history_ids" nolabel="1" readonly="1">
+                            <tree string="Interest History"
+                                  edit="0"
+                                  create="0"
+                                  delete="0"
+                                  no_open="0">
+                                <field name="name"/>
+                                <field name="calculation_date"/>
+                                <field name="invoice_id"/>
+                                <field name="rule_id"/>
+                                <field name="days_overdue"/>
+                                <field name="final_interest"/>
+                                <field name="move_id" optional="hide"/>
+                                <field name="status"
+                                       decoration-success="status == 'applied'"
+                                       decoration-warning="status == 'draft'"
+                                       decoration-danger="status == 'cancelled'"
+                                       widget="badge"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
