@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- List view: optional POS Sales column.
+         We anchor on the 'name' field (the lot number) which is always
+         the first/most fundamental column of the lot list, rather than
+         'product_id', to be resilient across Odoo 19 layouts. -->
+    <record id="view_stock_lot_tree_inherit_pos" model="ir.ui.view">
+        <field name="name">stock.lot.list.inherit.pos</field>
+        <field name="model">stock.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="iml_pos_used_count" string="POS Sales" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Form view: stat-button showing how many POS orders consumed this lot. -->
+    <record id="view_stock_lot_form_inherit_pos" model="ir.ui.view">
+        <field name="name">stock.lot.form.inherit.pos</field>
+        <field name="model">stock.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_pos_orders"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-shopping-cart"
+                        invisible="iml_pos_used_count == 0">
+                    <field name="iml_pos_used_count"
+                           widget="statinfo"
+                           string="POS Sales"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
+
+
+
+<!-- <?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="view_stock_lot_tree_inherit_pos" model="ir.ui.view">
+        <field name="name">stock.lot.tree.inherit.pos</field>
+        <field name="model">stock.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_id']" position="after">
+                <field name="iml_pos_used_count" string="POS Sales" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    
+    <record id="view_stock_lot_form_inherit_pos" model="ir.ui.view">
+        <field name="name">stock.lot.form.inherit.pos</field>
+        <field name="model">stock.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_pos_orders"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-shopping-cart"
+                        invisible="iml_pos_used_count == 0">
+                    <field name="iml_pos_used_count"
+                           widget="statinfo"
+                           string="POS Sales"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+ -->
+<!-- </odoo> -->

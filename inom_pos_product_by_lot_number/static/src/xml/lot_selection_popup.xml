@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="inom_pos_product_by_lot_number.LotSelectionPopup">
+        <div class="popup popup-text iml-lot-popup-dialog" t-ref="root">
+            <div class="modal-header">
+                <h4 class="modal-title title"><t t-esc="title"/></h4>
+            </div>
+            <main class="modal-body">
+
+            <!-- ═══ BODY ════════════════════════════════════════════ -->
+            <div class="iml-lot-popup">
+
+                <!-- Header strip -->
+                <div class="iml-lot-header">
+                    <span class="iml-tracking-badge"
+                          t-att-class="{ 'iml-badge-serial': isSerial, 'iml-badge-lot': !isSerial }">
+                        <t t-esc="trackingLabel"/>
+                    </span>
+                    <div class="iml-selected-summary" t-if="state.selected.size">
+                        <span class="iml-selected-count" t-esc="state.selected.size"/>
+                        <span class="iml-selected-label">
+                            <t t-if="state.selected.size === 1">lot selected</t>
+                            <t t-else="">lots selected</t>
+                        </span>
+                        <span class="iml-selected-qty" t-if="!isSerial">
+                            • total qty <strong t-esc="totalSelectedQty"/>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Search + manual entry + create -->
+                <div class="iml-lot-search">
+                    <i class="fa fa-search iml-search-icon"/>
+                    <input type="text"
+                           t-ref="searchInput"
+                           class="iml-search-input"
+                           placeholder="Search or type a lot/serial number…"
+                           t-att-value="state.searchTerm"
+                           t-on-input="onSearchInput"
+                           t-on-keydown="onKeyDown"
+                           autocomplete="off"
+                           spellcheck="false"/>
+                    <button t-if="typedTermIsNovel and !canCreateLot"
+                            class="btn btn-sm btn-outline-primary iml-manual-add"
+                            t-on-click="addManualEntry"
+                            title="Add this lot/serial manually (Enter)">
+                        <i class="fa fa-plus"/> Add
+                    </button>
+                    <button t-if="canCreateLot and !state.showCreateForm"
+                            class="btn btn-sm btn-outline-success iml-create-toggle"
+                            t-on-click="openCreateForm"
+                            title="Create a new lot/serial number">
+                        <i class="fa fa-plus-circle"/> New
+                    </button>
+                </div>
+
+                <!-- Phase 4: inline create form -->
+                <div t-if="state.showCreateForm" class="iml-create-form">
+                    <div class="iml-create-header">
+                        <i class="fa fa-plus-circle"/>
+                        <span>Create new <t t-if="isSerial">serial</t><t t-else="">lot</t> number</span>
+                        <button class="iml-create-close" t-on-click="closeCreateForm" title="Close">
+                            <i class="fa fa-times"/>
+                        </button>
+                    </div>
+                    <div class="iml-create-body">
+                        <label class="iml-create-label">Name <span class="text-danger">*</span></label>
+                        <input type="text"
+                               class="iml-create-input"
+                               t-att-value="state.createName"
+                               t-on-input="onCreateNameInput"
+                               placeholder="e.g. LOT2024-001"
+                               autocomplete="off"/>
+                        <label class="iml-create-label">Internal reference (optional)</label>
+                        <input type="text"
+                               class="iml-create-input"
+                               t-att-value="state.createRef"
+                               t-on-input="onCreateRefInput"
+                               placeholder="batch / supplier ref…"
+                               autocomplete="off"/>
+                    </div>
+                    <div class="iml-create-footer">
+                        <button class="btn btn-secondary btn-sm"
+                                t-on-click="closeCreateForm"
+                                t-att-disabled="state.creating">
+                            Cancel
+                        </button>
+                        <button class="btn btn-primary btn-sm"
+                                t-on-click="submitCreateLot"
+                                t-att-disabled="state.creating or !state.createName.trim()">
+                            <i t-if="state.creating" class="fa fa-circle-o-notch fa-spin"/>
+                            <i t-else="" class="fa fa-check"/>
+                            Create &amp; Select
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Lot list -->
+                <div class="iml-lot-list-wrapper">
+                    <div t-if="state.loading and !state.firstLoadDone"
+                         class="iml-state-msg iml-state-loading">
+                        <i class="fa fa-circle-o-notch fa-spin"/> Loading lots…
+                    </div>
+
+                    <div t-elif="displayedLots.length === 0"
+                         class="iml-state-msg iml-state-empty">
+                        <i class="fa fa-info-circle"/>
+                        <span t-if="state.searchTerm.trim()">
+                            No matching lot.
+                            <span class="iml-empty-hint">
+                                <t t-if="canCreateLot">
+                                    Click <strong>New</strong> to create this lot.
+                                </t>
+                                <t t-else="">
+                                    Press <kbd>Enter</kbd> or tap <strong>Add</strong> to use this name.
+                                </t>
+                            </span>
+                        </span>
+                        <span t-else="">
+                            No lot/serial numbers available for this product yet.
+                        </span>
+                    </div>
+
+                    <ul t-else="" class="iml-lot-list">
+                        <li t-foreach="displayedLots" t-as="lot" t-key="lot.id || lot.name"
+                            class="iml-lot-row"
+                            t-att-class="{
+                                'iml-selected':      isSelected(lot.name),
+                                'iml-has-error':     !!errorFor(lot.name),
+                                'iml-zero-stock':    !lot._isManual and effectiveAvailable(lot) &lt;= 0,
+                                'iml-highlight':     state.highlightIndex === lot_index,
+                                'iml-manual-entry':  lot._isManual,
+                            }"
+                            t-on-click="() => this.toggleLot(lot)">
+
+                            <div class="iml-lot-check">
+                                <i t-if="isSelected(lot.name)" class="fa fa-check-circle iml-check-on"/>
+                                <i t-else=""                   class="fa fa-circle-o      iml-check-off"/>
+                            </div>
+
+                            <div class="iml-lot-main">
+                                <div class="iml-lot-name">
+                                    <t t-esc="lot.name"/>
+                                    <span t-if="lot._isManual" class="iml-manual-tag">manual</span>
+                                </div>
+                                <div class="iml-lot-meta">
+                                    <span class="iml-lot-qty-avail"
+                                          t-att-class="{ 'iml-low-stock': !lot._isManual and effectiveAvailable(lot) &lt;= 0 }">
+                                        <i class="fa fa-cubes"/>
+                                        <t t-if="lot._isManual">manual entry</t>
+                                        <t t-else="">
+                                            avail: <t t-esc="effectiveAvailable(lot)"/>
+                                            <span t-if="(props.usedInOrder[lot.name] || 0) > 0"
+                                                  class="iml-qty-decremented">
+                                                (-<t t-esc="props.usedInOrder[lot.name]"/> in order)
+                                            </span>
+                                        </t>
+                                    </span>
+                                    <span t-if="lot.expiration_date" class="iml-lot-expiry">
+                                        <i class="fa fa-calendar-o"/>
+                                        exp: <t t-esc="lot.expiration_date"/>
+                                    </span>
+                                </div>
+                                <!-- Phase 3/4 — inline error per row -->
+                                <div t-if="errorFor(lot.name)" class="iml-lot-error">
+                                    <i class="fa fa-exclamation-triangle"/>
+                                    <t t-esc="errorFor(lot.name)"/>
+                                </div>
+                            </div>
+
+                            <div t-if="isSelected(lot.name) and !isSerial"
+                                 class="iml-lot-qty-cell"
+                                 t-on-click.stop="">
+                                <label class="iml-qty-label">qty</label>
+                                <input type="number"
+                                       min="1"
+                                       step="1"
+                                       class="iml-qty-input"
+                                       t-att-class="{ 'iml-qty-input-error': !!errorFor(lot.name) }"
+                                       t-att-value="qtyFor(lot.name)"
+                                       t-on-input="(ev) => this.onQtyChange(lot.name, ev)"
+                                       t-on-click.stop=""/>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            </main>
+
+            <!-- ═══ FOOTER ═══════════════════════════════════════════ -->
+            <footer class="footer footer-flex modal-footer iml-lot-footer">
+                <button class="button cancel btn btn-lg btn-secondary iml-btn-cancel"
+                        t-on-click="cancel">
+                    Cancel
+                </button>
+                <button class="button confirm highlight btn btn-lg btn-primary iml-btn-confirm"
+                        t-att-disabled="!canConfirm"
+                        t-on-click="confirm">
+                    <i class="fa fa-check"/>
+                    Confirm
+                    <span t-if="state.selected.size" class="iml-confirm-count">
+                        (<t t-esc="state.selected.size"/>)
+                    </span>
+                </button>
+            </footer>
+
+        </div>
+    </t>
+
+</templates>

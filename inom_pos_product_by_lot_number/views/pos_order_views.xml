@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Phase 6 — Backend view extension.
+
+        Add a "Lot/Serial" column to the order-lines list inside the POS
+        order form. We add the field INSIDE the lines <tree> container
+        (Odoo 17 embedded one2many lists use the <tree> tag) rather than relying
+        on a specific 'qty' column position, so it stays robust even if
+        the default column set changes.
+    -->
+    <record id="view_pos_pos_form_inherit_iml_lot" model="ir.ui.view">
+        <field name="name">pos.order.form.inherit.iml.lot</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='lines']//tree" position="inside">
+                <field name="pack_lot_ids"
+                       widget="many2many_tags"
+                       string="Lot/Serial"
+                       optional="show"
+                       readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
+
+
+
+
+
+
+
+
+<!-- <?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    
+    <record id="view_pos_pos_form_inherit_iml_lot" model="ir.ui.view">
+        <field name="name">pos.order.form.inherit.iml.lot</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+        <field name="arch" type="xml">
+
+            
+            <xpath expr="//field[@name='lines']//field[@name='qty']" position="after">
+                <field name="pack_lot_ids"
+                       widget="many2many_tags"
+                       string="Lot/Serial"
+                       optional="show"
+                       readonly="1"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>
+ -->

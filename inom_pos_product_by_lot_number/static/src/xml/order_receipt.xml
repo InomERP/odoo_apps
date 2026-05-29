@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <!--
+        ODOO 17: no-op. Odoo 17 renders Lot/Serial numbers on the receipt
+        natively (orderline getDisplayData / packLotLines). The custom
+        OrderReceipt extension targeted an 18/19 template scope that does not
+        exist in 17, so it is intentionally left empty here.
+    -->
+</templates>
