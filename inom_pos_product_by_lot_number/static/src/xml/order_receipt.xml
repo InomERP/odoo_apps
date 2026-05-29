@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <!--
+        Phase 6 — Receipt extension
+
+        Adds a "Lot / Serial #" block under each product line on the
+        printable receipt, gated by pos.config.iml_print_lot_on_receipt.
+
+        We extend `point_of_sale.OrderReceipt` (the consolidated receipt
+        template in Odoo 19). The xpath targets the <Orderline> sub-component;
+        our block is inserted as its sibling, still inside the OrderDisplay
+        slot scope, so both `line` (set via t-set from scope.line) and `order`
+        (the component's root prop) are in scope.
+
+        FIX (Odoo 19): the previous version read the toggle from
+        `props.data?.config?.iml_print_lot_on_receipt`. The OrderReceipt
+        component has NO `props.data`, so the flag was always treated as
+        truthy (the per-config toggle was effectively ignored). The correct
+        accessor inside this template is `order.config` — the same object
+        core uses (e.g. order.config.receipt_footer). Optional chaining +
+        a default keep it crash-proof if the field is ever absent.
+    -->
+    <t t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension">
+        <xpath expr="//Orderline" position="after">
+            <t t-if="(order.config?.iml_print_lot_on_receipt ?? true) and line.pack_lot_ids?.length">
+                <ul class="iml-receipt-lots">
+                    <t t-foreach="line.pack_lot_ids" t-as="pl" t-key="pl.id || pl.uuid || pl_index">
+                        <li>
+                            <span class="iml-receipt-lot-label">
+                                <t t-if="line.product_id?.tracking === 'serial'">SN</t>
+                                <t t-else="">Lot</t>:
+                            </span>
+                            <t t-esc="pl.lot_name || pl.name"/>
+                        </li>
+                    </t>
+                </ul>
+            </t>
+        </xpath>
+    </t>
+
+</templates>

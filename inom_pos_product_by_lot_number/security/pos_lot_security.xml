@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Dedicated security group: "Allow Create Lot/Serial Number from POS".
+
+        Notes:
+        - We do NOT auto-grant this from XML to point_of_sale.group_pos_manager,
+          because modifying another module's noupdate=True record during initial
+          install caused rollbacks on Odoo 19 (the symptom: ir.model.access.csv
+          failed to resolve this group's external id).
+        - Auto-grant to POS Managers is therefore done in the post_init_hook
+          (see __init__.py::_post_init_set_groups). It runs after every data
+          file has been loaded, so timing is bulletproof.
+        - category_id is intentionally omitted so the install never depends on
+          a category external id that may shift between Odoo versions.
+    -->
+    <record id="group_pos_lot_create" model="res.groups">
+        <field name="name">POS / Allow Create Lot/Serial Number</field>
+        <field name="comment">Users in this group may create new Lot/Serial numbers directly from the POS interface. Disable for stricter inventory control.</field>
+    </record>
+
+</odoo>
