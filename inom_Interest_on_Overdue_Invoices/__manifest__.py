@@ -1,5 +1,5 @@
 {
-    'name': 'inom Interest On Overdue Invoice',
+    'name': 'Inom Interest On Overdue Invoice',
     'version': '18.0.1.0',
     'category': 'Accounting',
     'summary': 'Interest on overdue customer invoices',
@@ -65,8 +65,11 @@ Support
 For installation help, customizations or bug reports, contact the
 maintainer at the address in this manifest.
 """,
-    'author': 'inomERP',
+    'author': 'InomERP',
     'depends': ['account', 'mail'],
+    'website': 'https://inomerp.in',
+    'support': 'info@inomerp.in',
+    'license': 'LGPL-3',
     'data': [
         'security/ir.model.access.csv',
         'data/sequences.xml',
