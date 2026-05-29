@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_overdue_interest_rule,access.overdue.interest.rule,model_overdue_interest_rule,account.group_account_manager,1,1,1,1
+access_inom_interest_history,access.inom.interest.history,model_inom_interest_history,account.group_account_manager,1,1,1,1
+access_inom_interest_history_user,access.inom.interest.history.user,model_inom_interest_history,account.group_account_user,1,0,0,0
+access_inom_apply_interest_wizard,access.inom.apply.interest.wizard,model_inom_apply_interest_wizard,account.group_account_manager,1,1,1,1
+access_inom_apply_interest_wizard_user,access.inom.apply.interest.wizard.user,model_inom_apply_interest_wizard,account.group_account_user,1,1,1,0
