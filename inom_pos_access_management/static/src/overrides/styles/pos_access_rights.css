@@ -1,0 +1,495 @@
+/*
+ * Simplify POS Access Management – visual hide rules.
+ *
+ * The classes  body.o_pos_ar_<flag>  are toggled at POS startup by
+ * pos_store.js.  When a flag is on, the matching button(s) in the POS
+ * UI are hidden via display:none.  Each rule uses several fallback
+ * selectors (class name, icon class, aria-label, on-click handler
+ * substring) to maximise the chance of matching across Odoo
+ * sub-versions.  Selectors that don't match anything are simply
+ * inactive – there is no error.
+ */
+
+/* ===================================================================
+ * PAYMENT
+ * ================================================================ */
+
+/* Main "Payment" button on the product / order screen */
+body.o_pos_ar_hide_payment_button .pay-order-button,
+body.o_pos_ar_hide_payment_button .actionpad .pay,
+body.o_pos_ar_hide_payment_button button[name="payment"],
+body.o_pos_ar_hide_payment_button button.btn-pay {
+    display: none !important;
+}
+
+/* Customer button on the payment screen */
+body.o_pos_ar_hide_payment_customer_button .payment-screen .partner-button,
+body.o_pos_ar_hide_payment_customer_button .payment-screen .set-partner,
+body.o_pos_ar_hide_payment_customer_button .payment-screen .js_set_customer,
+body.o_pos_ar_hide_payment_customer_button .payment-screen button[name="customer"] {
+    display: none !important;
+}
+
+/* Validate button on the payment screen */
+body.o_pos_ar_hide_payment_validate_button .payment-screen .validation-button,
+body.o_pos_ar_hide_payment_validate_button .payment-screen .next.highlight,
+body.o_pos_ar_hide_payment_validate_button .payment-screen .button.next,
+body.o_pos_ar_hide_payment_validate_button .payment-screen .validate-button,
+body.o_pos_ar_hide_payment_validate_button .payment-screen button[name="validate"] {
+    display: none !important;
+}
+
+/* Tip button on the payment screen */
+body.o_pos_ar_hide_payment_tip_button .payment-screen .js_tip,
+body.o_pos_ar_hide_payment_tip_button .payment-screen .tip-button,
+body.o_pos_ar_hide_payment_tip_button .payment-screen button[name="tip"] {
+    display: none !important;
+}
+
+/* Ship Later toggle on the payment screen */
+body.o_pos_ar_hide_payment_ship_later_button .payment-screen .ship-later,
+body.o_pos_ar_hide_payment_ship_later_button .payment-screen .js_ship_later,
+body.o_pos_ar_hide_payment_ship_later_button .payment-screen button[name="ship_later"] {
+    display: none !important;
+}
+
+/* Invoice toggle on the payment screen */
+body.o_pos_ar_hide_payment_invoice_button .payment-screen .js_invoice,
+body.o_pos_ar_hide_payment_invoice_button .payment-screen .invoice-button,
+body.o_pos_ar_hide_payment_invoice_button .payment-screen button[name="invoice"] {
+    display: none !important;
+}
+
+/* ===================================================================
+ * ORDER
+ * ================================================================ */
+
+/* Delete-order button (trash icon in tickets / order screen) */
+body.o_pos_ar_hide_delete_order_button .ticket-screen .destroy-button,
+body.o_pos_ar_hide_delete_order_button .ticket-screen .fa-trash,
+body.o_pos_ar_hide_delete_order_button .ticket-screen button[name="delete"],
+body.o_pos_ar_hide_delete_order_button .actionpad .destroy-current-order,
+body.o_pos_ar_hide_delete_order_button .pos-rightheader .destroy-current-order {
+    display: none !important;
+}
+
+/* ===================================================================
+ * CUSTOMER
+ * ================================================================ */
+
+/* Customer/Partner selection button on main order screen */
+body.o_pos_ar_hide_customer_button .actionpad .set-partner,
+body.o_pos_ar_hide_customer_button .actionpad .select-partner,
+body.o_pos_ar_hide_customer_button .actionpad .partner-button,
+body.o_pos_ar_hide_customer_button .product-screen .set-partner,
+body.o_pos_ar_hide_customer_button .product-screen .partner-button,
+body.o_pos_ar_hide_customer_button button[name="customer"] {
+    display: none !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* "Create / Add new" customer button in the partner list */
+body.o_pos_ar_hide_create_customer_button .partner-list .create-partner,
+body.o_pos_ar_hide_create_customer_button .partner-list .add-partner,
+body.o_pos_ar_hide_create_customer_button .partner-list .js_create_partner,
+body.o_pos_ar_hide_create_customer_button .partner-list button[name="create"],
+body.o_pos_ar_hide_create_customer_button .modal-header button.btn.btn-primary,
+body.o_pos_ar_hide_create_customer_button button.btn.btn-primary.create-partner,
+body.o_pos_ar_hide_create_customer_button .partner-screen button.btn-primary {
+    display: none !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*body.o_pos_ar_hide_create_customer_button .partner-list .create-partner,
+body.o_pos_ar_hide_create_customer_button .partner-list .add-partner,
+body.o_pos_ar_hide_create_customer_button .partner-list .js_create_partner,
+body.o_pos_ar_hide_create_customer_button .partner-list button[name="create"] {
+    display: none !important;
+}*/
+
+/* Save button in the partner editor */
+/* Save button in the partner editor */
+body.o_pos_ar_hide_save_customer_button .partner-editor .save,
+body.o_pos_ar_hide_save_customer_button .partner-editor .save-partner,
+body.o_pos_ar_hide_save_customer_button .partner-editor .js_save,
+body.o_pos_ar_hide_save_customer_button .partner-editor button[name="save"],
+body.o_pos_ar_hide_save_customer_button .modal button.o_form_button_save,
+body.o_pos_ar_hide_save_customer_button button.o_form_button_save {
+    display: none !important;
+}
+
+
+
+
+
+
+/*body.o_pos_ar_hide_save_customer_button .partner-editor .save,
+body.o_pos_ar_hide_save_customer_button .partner-editor .save-partner,
+body.o_pos_ar_hide_save_customer_button .partner-editor .js_save,
+body.o_pos_ar_hide_save_customer_button .partner-editor button[name="save"] {
+    display: none !important;
+}*/
+
+/* ===================================================================
+ * NUMPAD
+ * ================================================================ */
+
+/* Hide the whole numpad */
+body.o_pos_ar_hide_numpad_buttons .numpad,
+body.o_pos_ar_hide_numpad_buttons .pos-numpad {
+    display: none !important;
+}
+
+/* Disable individual numpad mode buttons */
+
+
+body.o_pos_ar_disable_price_button .numpad .mode-price,
+body.o_pos_ar_disable_price_button .numpad button[name="price"],
+body.o_pos_ar_disable_price_button .numpad .numpad-buttons-container button:nth-child(1),
+body.o_pos_ar_disable_price_button .numpad button[class*="price"] {
+    pointer-events: none !important;
+    opacity: 0.4 !important;
+    cursor: not-allowed !important;
+}
+body.o_pos_ar_disable_qty_button .numpad .mode-quantity,
+body.o_pos_ar_disable_qty_button .numpad button[name="quantity"],
+body.o_pos_ar_disable_qty_button .numpad .numpad-buttons-container button:nth-child(2),
+body.o_pos_ar_disable_qty_button .numpad button[class*="qty"],
+body.o_pos_ar_disable_qty_button .numpad button[class*="quantity"] {
+    pointer-events: none !important;
+    opacity: 0.4 !important;
+    cursor: not-allowed !important;
+}
+body.o_pos_ar_disable_discount_button .numpad .mode-discount,
+body.o_pos_ar_disable_discount_button .numpad button[name="discount"],
+body.o_pos_ar_disable_discount_button .numpad .numpad-buttons-container button:nth-child(3),
+body.o_pos_ar_disable_discount_button .numpad button[class*="disc"] {
+    pointer-events: none !important;
+    opacity: 0.4 !important;
+    cursor: not-allowed !important;
+}
+body.o_pos_ar_disable_plus_minus_button .numpad .input-button.numpad-minus,
+body.o_pos_ar_disable_plus_minus_button .numpad .input-button[name="sign"],
+body.o_pos_ar_disable_plus_minus_button .numpad button[name="+/-"],
+body.o_pos_ar_disable_plus_minus_button .numpad button[class*="sign"],
+body.o_pos_ar_disable_plus_minus_button .numpad button[class*="plus-minus"],
+body.o_pos_ar_disable_plus_minus_button .numpad button.o_sign_button {
+    pointer-events: none !important;
+    opacity: 0.4 !important;
+    cursor: not-allowed !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*body.o_pos_ar_disable_price_button .numpad .mode-price,
+body.o_pos_ar_disable_price_button .numpad button[name="price"] {
+    pointer-events: none !important;
+    opacity: 0.4 !important;
+}
+body.o_pos_ar_disable_qty_button .numpad .mode-quantity,
+body.o_pos_ar_disable_qty_button .numpad button[name="quantity"] {
+    pointer-events: none !important;
+    opacity: 0.4 !important;
+}
+body.o_pos_ar_disable_discount_button .numpad .mode-discount,
+body.o_pos_ar_disable_discount_button .numpad button[name="discount"] {
+    pointer-events: none !important;
+    opacity: 0.4 !important;
+}
+body.o_pos_ar_disable_plus_minus_button .numpad .input-button.numpad-minus,
+body.o_pos_ar_disable_plus_minus_button .numpad .input-button[name="sign"],
+body.o_pos_ar_disable_plus_minus_button .numpad button[name="+/-"] {
+    pointer-events: none !important;
+    opacity: 0.4 !important;
+}
+*/
+/* ===================================================================
+ * ACTION BUTTONS  (on the order / product screen)
+ * ================================================================ */
+
+/* Customer Note button */
+/*body.o_pos_ar_hide_customer_note_button button[name="customer_note"],
+body.o_pos_ar_hide_customer_note_button .control-button.customer-note,
+body.o_pos_ar_hide_customer_note_button .control-button .fa-sticky-note,
+body.o_pos_ar_hide_customer_note_button .control-button .fa-sticky-note-o {
+    display: none !important;
+}*/
+
+
+
+
+
+/* Customer Note button */
+body.o_pos_ar_hide_customer_note_button button[name="customer_note"],
+body.o_pos_ar_hide_customer_note_button .control-button.customer-note,
+body.o_pos_ar_hide_customer_note_button .control-button .fa-sticky-note,
+body.o_pos_ar_hide_customer_note_button .control-button .fa-sticky-note-o,
+body.o_pos_ar_hide_customer_note_button button.btn-secondary[class*="note"],
+body.o_pos_ar_hide_customer_note_button button[name="internal_note"] {
+    display: none !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+/*body.o_pos_ar_hide_customer_note_button .control-button.customer-note,
+body.o_pos_ar_hide_customer_note_button .control-button .fa-sticky-note,
+body.o_pos_ar_hide_customer_note_button .control-button .fa-sticky-note-o,
+body.o_pos_ar_hide_customer_note_button button[name="customer_note"] {
+    display: none !important;
+}*/
+
+/* Refund button */
+/*body.o_pos_ar_hide_refund_button .control-button.refund-button,
+body.o_pos_ar_hide_refund_button .control-button .fa-undo,
+body.o_pos_ar_hide_refund_button .control-button .fa-rotate-left,
+body.o_pos_ar_hide_refund_button button[name="refund"] {
+    display: none !important;
+}*/
+
+
+/* Refund button */
+body.o_pos_ar_hide_refund_button .control-button.refund-button,
+body.o_pos_ar_hide_refund_button .control-button .fa-undo,
+body.o_pos_ar_hide_refund_button .control-button .fa-rotate-left,
+body.o_pos_ar_hide_refund_button button[name="refund"],
+body.o_pos_ar_hide_refund_button button.btn[class*="refund"] {
+    display: none !important;
+}
+
+
+
+
+/* Info / Product Info button */
+/*body.o_pos_ar_hide_info_button .control-button.info-button,
+body.o_pos_ar_hide_info_button .control-button .fa-info-circle,
+body.o_pos_ar_hide_info_button .control-button .fa-info,
+body.o_pos_ar_hide_info_button button[name="product_info"] {
+    display: none !important;
+}*/
+
+
+
+/* Info button */
+body.o_pos_ar_hide_info_button .control-button.info-button,
+body.o_pos_ar_hide_info_button .control-button .fa-info-circle,
+body.o_pos_ar_hide_info_button .control-button .fa-info,
+body.o_pos_ar_hide_info_button button[name="product_info"],
+body.o_pos_ar_hide_info_button button.btn[class*="info"] {
+    display: none !important;
+}
+
+
+/* Quotation / Sale Order button */
+body.o_pos_ar_hide_quotation_button .control-button.quotation-button,
+body.o_pos_ar_hide_quotation_button .control-button .fa-shopping-cart,
+body.o_pos_ar_hide_quotation_button .control-button .fa-file-text,
+body.o_pos_ar_hide_quotation_button button[name="quotation"] {
+    display: none !important;
+}
+
+/* Fiscal Position button */
+/*body.o_pos_ar_hide_fiscal_button .control-button.fiscal-button,
+body.o_pos_ar_hide_fiscal_button .control-button .fa-book,
+body.o_pos_ar_hide_fiscal_button .control-button .fa-balance-scale,
+body.o_pos_ar_hide_fiscal_button button[name="fiscal_position"] {
+    display: none !important;
+}*/
+/* Fiscal / Tax button */
+body.o_pos_ar_hide_fiscal_button .control-button.fiscal-button,
+body.o_pos_ar_hide_fiscal_button .control-button .fa-book,
+body.o_pos_ar_hide_fiscal_button .control-button .fa-balance-scale,
+body.o_pos_ar_hide_fiscal_button button[name="fiscal_position"],
+body.o_pos_ar_hide_fiscal_button button[name="tax"] {
+    display: none !important;
+}
+
+
+
+
+
+/* Price List button */
+body.o_pos_ar_hide_pricelist_button .control-button.pricelist-button,
+body.o_pos_ar_hide_pricelist_button .control-button .fa-th-list,
+body.o_pos_ar_hide_pricelist_button .control-button .fa-tag,
+body.o_pos_ar_hide_pricelist_button button[name="pricelist"] {
+    display: none !important;
+}
+
+/* Transfer Order button */
+/*body.o_pos_ar_hide_transfer_button .control-button.transfer-button,
+body.o_pos_ar_hide_transfer_button .control-button .fa-exchange,
+body.o_pos_ar_hide_transfer_button .control-button .fa-arrows-h,
+body.o_pos_ar_hide_transfer_button button[name="transfer"] {
+    display: none !important;
+}*/
+
+
+/* Transfer / Merge button */
+body.o_pos_ar_hide_transfer_button .control-button.transfer-button,
+body.o_pos_ar_hide_transfer_button .control-button .fa-exchange,
+body.o_pos_ar_hide_transfer_button .control-button .fa-arrows-h,
+body.o_pos_ar_hide_transfer_button button[name="transfer"],
+body.o_pos_ar_hide_transfer_button button[name="transfer_order"] {
+    display: none !important;
+}
+
+/* ===================================================================
+ * GENERAL  (navbar / header)
+ * ================================================================ */
+
+/* Close POS session button */
+/* Close POS session button */
+body.o_pos_ar_hide_close_pos_button .pos-topheader .close-button,
+body.o_pos_ar_hide_close_pos_button .pos-rightheader .close-button,
+body.o_pos_ar_hide_close_pos_button .navbar .close-button,
+body.o_pos_ar_hide_close_pos_button button[name="close_pos"],
+body.o_pos_ar_hide_close_pos_button .modal-footer button.button.highlight.btn.btn-primary.btn-lg,
+body.o_pos_ar_hide_close_pos_button .pos-burger-menu-items.o-dropdown-item {
+    display: none !important;
+}
+
+
+
+
+/*body.o_pos_ar_hide_close_pos_button .pos-topheader .close-button,
+body.o_pos_ar_hide_close_pos_button .pos-rightheader .close-button,
+body.o_pos_ar_hide_close_pos_button .navbar .close-button,
+body.o_pos_ar_hide_close_pos_button button[name="close_pos"] {
+    display: none !important;
+}*/
+
+/* Back-to-Backend button */
+body.o_pos_ar_hide_backend_pos_button .pos-topheader .backend-button,
+body.o_pos_ar_hide_backend_pos_button .navbar .backend-button,
+body.o_pos_ar_hide_backend_pos_button button[name="backend"],
+body.o_pos_ar_hide_backend_pos_button .pos-burger-menu-items.o-dropdown-item {
+    display: none !important;
+}
+
+
+
+/*body.o_pos_ar_hide_backend_pos_button .pos-topheader .backend-button,
+body.o_pos_ar_hide_backend_pos_button .navbar .backend-button,
+body.o_pos_ar_hide_backend_pos_button button[name="backend"] {
+    display: none !important;
+}*/
+
+/* Cash In / Cash Out button */
+/* Cash In / Cash Out button */
+body.o_pos_ar_hide_cash_in_out_button .cash-move-button,
+body.o_pos_ar_hide_cash_in_out_button .cash-in-out,
+body.o_pos_ar_hide_cash_in_out_button button[name="cash_move"],
+body.o_pos_ar_hide_cash_in_out_button button[name="cash_in_out"],
+body.o_pos_ar_hide_cash_in_out_button .pos-burger-menu-items.o-dropdown-item {
+    display: none !important;
+}
+
+
+
+
+/*body.o_pos_ar_hide_cash_in_out_button .cash-move-button,
+body.o_pos_ar_hide_cash_in_out_button .cash-in-out,
+body.o_pos_ar_hide_cash_in_out_button button[name="cash_move"],
+body.o_pos_ar_hide_cash_in_out_button button[name="cash_in_out"] {
+    display: none !important;
+}*/
+
+/* Debug widget panel */
+/* Debug bug icon — bottom right corner (class confirmed from browser inspect) */
+/* Hide Debug Window */
+/* Hide Debug Window — Bug Icon */
+/* Hide Debug Window — Bug Icon */
+/*body.o_pos_ar_hide_debug_window .debug-widget,
+body.o_pos_ar_hide_debug_window .pos-debug-widget,
+body.o_pos_ar_hide_debug_window .o_debug_manager {
+    display: none !important;
+}*/
+
+
+
+/* Debug Window */
+body.o_pos_ar_hide_debug_window .o-dropdown--menu .o-dropdown--item:has(> span:contains("Install App")),
+body.o_pos_ar_hide_debug_window .o-dropdown--menu .o-dropdown--item:has(> span:contains("Debug Window")),
+body.o_pos_ar_hide_debug_window .o-dropdown--menu .o-dropdown--item:has(> span:contains("Clear Cache")),
+body.o_pos_ar_hide_debug_window .debug-manager,
+body.o_pos_ar_hide_debug_window .o_debug_manager,
+body.o_pos_ar_hide_debug_window .o_debug_manager_icon {
+    display: none !important;
+}
+
+
+/*body.o_pos_ar_hide_debug_window .debug-widget,
+body.o_pos_ar_hide_debug_window .pos-debug-widget {
+    display: none !important;
+}
+*/
+
+
+
+
+/* Only Show Active Order — hide non-active order tabs */
+body.o_pos_ar_only_show_active_order .btn.btn-lg.btn-secondary.text-truncate.mx-1.border-transparent:not(.active) {
+    display: none !important;
+}
