@@ -28,6 +28,7 @@ Key Highlights
     'website': 'https://inomerp.in/',
     'support': 'info@inomerp.in',
     'license': 'LGPL-3',
+    'live_test_url': 'https://youtu.be/5diiQ2FOs4c',
     'depends': [
         'point_of_sale',
         'hr',
