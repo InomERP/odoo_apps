@@ -21,7 +21,7 @@ Enable POS users to:
 
 Compatible with Odoo 18 Community & Enterprise.
 """,
-    'author': 'Inom',
+    'author': 'InomERP',
     'website': 'https://inomerp.in/',
     'support': 'info@inomerp.in',
     'license': 'LGPL-3',
