@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!--
+            Odoo 19 refactor: res.groups.category_id has been removed.
+            Categories are now held on a new model res.groups.privilege,
+            and security groups point to a privilege via privilege_id.
+        -->
+        <record id="res_groups_privilege_pos_access" model="res.groups.privilege">
+            <field name="name">POS Access Management</field>
+            <field name="sequence">100</field>
+            <field name="category_id" ref="base.module_category_sales_point_of_sale"/>
+        </record>
+
+        <!-- Security group: POS Access Manager -->
+        <record id="group_pos_access_manager" model="res.groups">
+            <field name="name">POS Access Manager</field>
+            <field name="privilege_id" ref="res_groups_privilege_pos_access"/>
+            <field name="implied_ids" eval="[(4, ref('point_of_sale.group_pos_manager'))]"/>
+            <field name="comment">Users in this group can create and manage POS access rules.</field>
+        </record>
+
+        <!--
+            Multi-company record rule.
+            ir.rule.global is now a computed field (computed from `groups`);
+            when no groups are specified the rule is automatically global.
+        -->
+        <record id="pos_access_rights_company_rule" model="ir.rule">
+            <field name="name">POS Access Rights: multi-company</field>
+            <field name="model_id" ref="model_pos_access_rights"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+    </data>
+</odoo>
