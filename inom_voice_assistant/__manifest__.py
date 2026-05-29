@@ -42,6 +42,7 @@ for users working with Odoo applications.
     "website": "https://inomerp.in",
 
     "license": "LGPL-3",
+    "live_test_url": "https://youtu.be/1U7FOntZvKc",
 
     "depends": [
         "web",
