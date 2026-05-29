@@ -24,7 +24,7 @@ Key Highlights
     - General
 * Works on Odoo Online, Odoo.sh, and On-Premise.
 """,
-    'author': 'Inom',
+    'author': 'InomERP',
     'website': 'https://inomerp.in/',
     'support': 'info@inomerp.in',
     'license': 'LGPL-3',
