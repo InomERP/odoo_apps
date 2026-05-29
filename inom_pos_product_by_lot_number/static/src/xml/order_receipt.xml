@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <!--
+        Phase 6 — Receipt lot/serial display.
+
+        ODOO 18 NOTE:
+        Odoo 18 renders Lot/Serial numbers on the printed receipt NATIVELY:
+        each orderline's getDisplayData() returns `packLotLines`, and the core
+        `point_of_sale.Orderline` template prints them
+        (<li t-foreach="line.packLotLines or []" ...>).
+
+        The previous custom extension inherited `point_of_sale.OrderReceipt`
+        and referenced `order.config`. In Odoo 18 the receipt template has NO
+        `order` variable in scope (it renders from `props.data` only), so that
+        reference threw "Cannot read properties of undefined (reading 'config')"
+        and crashed the receipt / payment screen.
+
+        Since core already shows the lots, no extension is needed on Odoo 18.
+        This file is intentionally a no-op (kept so the assets glob stays
+        stable across phases).
+    -->
+
+</templates>
