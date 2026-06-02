@@ -1,0 +1,72 @@
+// =============================================================
+// Custom styling for Order / Quotation Line Kanban cards
+// Layout closely follows the reference screenshot:
+//   - large product image on the LEFT (≈ 50% of the card)
+//   - order details on the RIGHT
+//   - light pill for Sub Total amount
+// =============================================================
+
+.o_inom_sol_kanban {
+
+    // ---- card sizing -------------------------------------------------
+    .o_kanban_record {
+        min-height: 200px;
+    }
+
+    // ---- product image (left side) -----------------------------------
+    .o_inom_sol_img {
+        max-width: 100%;
+        max-height: 160px;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        border-radius: 4px;
+    }
+
+    // wrapper around the image field
+    .o_field_image,
+    .o_field_widget[name='order_line_image'] {
+        width: 100%;
+        text-align: center;
+
+        img {
+            max-width: 100%;
+            max-height: 160px;
+            object-fit: contain;
+        }
+    }
+
+    // ---- right-hand details ------------------------------------------
+    .o_inom_sol_order {
+        font-size: 0.95rem;
+        color: #212529;
+    }
+
+    .o_inom_sol_line {
+        font-size: 0.82rem;
+        line-height: 1.25;
+        margin-bottom: 2px;
+        word-break: break-word;
+
+        // many2one fields render as plain text inside the card
+        .o_field_widget {
+            display: inline;
+        }
+    }
+
+    // ---- subtotal pill -----------------------------------------------
+    .o_inom_sol_subtotal {
+        display: inline-block;
+        padding: 2px 8px;
+        font-weight: 500;
+        font-size: 0.8rem;
+        background-color: #e9ecef !important;
+        color: #212529 !important;
+        border-radius: 10px;
+    }
+}
+
+// ---- keep list-view thumbnails tidy ----------------------------------
+.o_list_view .o_data_row .o_field_image img {
+    border-radius: 3px;
+}
