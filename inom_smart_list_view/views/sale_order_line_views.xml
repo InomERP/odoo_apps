@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- ============================================================== -->
+    <!-- LIST (TREE) VIEW (read-only)                                   -->
+    <!-- ============================================================== -->
+    <record id="view_inom_order_line_list" model="ir.ui.view">
+        <field name="name">inom.order.line.list</field>
+        <field name="model">sale.order.line</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Order Line Views" sample="1" create="0" edit="0" delete="0"
+                  default_order="create_date desc, order_id desc">
+                <field name="currency_id" column_invisible="1"/>
+                <field name="display_type" column_invisible="1"/>
+                <field name="order_id" string="Order ID"/>
+                <field name="order_partner_id" string="Customer"/>
+                <field name="name" string="Description" optional="hide"/>
+                <field name="product_id" string="Product"/>
+                <field name="order_line_image" string="Image" widget="image"
+                       options="{'size': [24, 24]}" optional="show"/>
+                <field name="product_uom_qty" string="Ordered" sum="Ordered"/>
+                <field name="qty_delivered" string="Delivered" sum="Delivered"/>
+                <field name="qty_invoiced" string="Invoiced" sum="Invoiced"/>
+                <field name="qty_to_invoice" string="To Invoice" sum="To Invoice"/>
+                <field name="product_uom" string="UoM" groups="uom.group_uom" optional="hide"/>
+                <field name="price_unit" string="Price" optional="hide"/>
+                <field name="price_subtotal" string="Subtotal" sum="Subtotal"/>
+                <field name="state" string="Status" widget="badge"
+                       decoration-success="state == 'sale'"
+                       decoration-info="state == 'draft'"
+                       decoration-warning="state == 'sent'"
+                       decoration-danger="state == 'cancel'"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ============================================================== -->
+    <!-- KANBAN VIEW (read-only, customer-grouped, screenshot layout)   -->
+    <!-- Odoo 17: uses t-name="kanban-box" with oe_kanban_global_click  -->
+    <!-- ============================================================== -->
+    <record id="view_inom_order_line_kanban" model="ir.ui.view">
+        <field name="name">inom.order.line.kanban</field>
+        <field name="model">sale.order.line</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <kanban sample="1"
+                    create="0"
+                    group_create="0"
+                    default_group_by="order_partner_id"
+                    class="o_kanban_small_column o_inom_sol_kanban">
+                <field name="currency_id"/>
+                <field name="state"/>
+                <field name="order_line_image"/>
+                <field name="order_id"/>
+                <field name="product_id"/>
+                <field name="product_uom_qty"/>
+                <field name="price_unit"/>
+                <field name="price_subtotal"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click o_inom_sol_kanban_card p-2">
+                            <div class="row g-0">
+                                <!-- LEFT: large product image -->
+                                <div class="col-6 pe-2 d-flex align-items-center justify-content-center">
+                                    <field name="order_line_image"
+                                           widget="image"
+                                           options="{'img_class': 'o_inom_sol_img'}"
+                                           alt="Product"/>
+                                </div>
+                                <!-- RIGHT: order details -->
+                                <div class="col-6">
+                                    <div class="text-center fw-bold mb-1 o_inom_sol_order">
+                                        <field name="order_id"/>
+                                    </div>
+                                    <div class="o_inom_sol_line">
+                                        Product:
+                                        <field name="product_id"/>
+                                    </div>
+                                    <div class="o_inom_sol_line">
+                                        Quantity:
+                                        <field name="product_uom_qty"/>
+                                    </div>
+                                    <div class="o_inom_sol_line">
+                                        Price
+                                        <field name="price_unit" widget="monetary"/>
+                                    </div>
+                                    <div class="o_inom_sol_line mb-1">
+                                        Sub Total:
+                                        <div>
+                                            <span class="badge text-bg-light o_inom_sol_subtotal">
+                                                <field name="price_subtotal" widget="monetary"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="mt-1">
+                                        <field name="state"
+                                               widget="label_selection"
+                                               options="{'classes': {'draft': 'info', 'sent': 'warning', 'sale': 'success', 'cancel': 'danger'}}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ============================================================== -->
+    <!-- FORM VIEW (read-only: no create/edit/delete/duplicate)         -->
+    <!-- ============================================================== -->
+    <record id="view_inom_order_line_form" model="ir.ui.view">
+        <field name="name">inom.order.line.form</field>
+        <field name="model">sale.order.line</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Order Line Views" create="0" edit="0" delete="0" duplicate="0">
+                <sheet>
+                    <field name="order_line_image" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <label for="order_id" string="Order"/>
+                        <h1><field name="order_id"/></h1>
+                    </div>
+                    <group>
+                        <group string="Customer">
+                            <field name="order_partner_id" string="Customer"/>
+                            <field name="contact_email" widget="email"/>
+                            <field name="contact_phone" widget="phone"/>
+                            <field name="salesman_id"/>
+                        </group>
+                        <group string="Product">
+                            <field name="product_id"/>
+                            <field name="name" string="Description"/>
+                            <!-- required by product_uom's domain validator (Odoo 17) -->
+                            <field name="product_uom_category_id" invisible="1"/>
+                            <field name="product_uom" string="Unit of Measure" groups="uom.group_uom"/>
+                            <field name="state" string="Status" widget="badge"
+                                   decoration-success="state == 'sale'"
+                                   decoration-info="state == 'draft'"
+                                   decoration-warning="state == 'sent'"
+                                   decoration-danger="state == 'cancel'"/>
+                            <field name="invoice_status"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Quantities">
+                            <field name="product_uom_qty" string="Ordered"/>
+                            <field name="qty_delivered" string="Delivered"/>
+                            <field name="qty_invoiced" string="Invoiced"/>
+                            <field name="qty_to_invoice" string="To Invoice"/>
+                        </group>
+                        <group string="Pricing">
+                            <!-- invisible fields required by domain validators (Odoo 17 strict) -->
+                            <field name="currency_id" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="price_unit"/>
+                            <field name="discount"/>
+                            <field name="tax_id" widget="many2many_tags"/>
+                            <field name="price_subtotal"/>
+                            <field name="price_tax"/>
+                            <field name="price_total"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============================================================== -->
+    <!-- PIVOT VIEW                                                     -->
+    <!-- ============================================================== -->
+    <record id="view_inom_order_line_pivot" model="ir.ui.view">
+        <field name="name">inom.order.line.pivot</field>
+        <field name="model">sale.order.line</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <pivot string="Order Line Views" sample="1">
+                <field name="order_partner_id" type="row"/>
+                <field name="product_id" type="col"/>
+                <field name="price_subtotal" type="measure"/>
+                <field name="product_uom_qty" type="measure"/>
+                <field name="price_unit" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- ============================================================== -->
+    <!-- GRAPH VIEW                                                     -->
+    <!-- ============================================================== -->
+    <record id="view_inom_order_line_graph" model="ir.ui.view">
+        <field name="name">inom.order.line.graph</field>
+        <field name="model">sale.order.line</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <graph string="Order Line Views" type="bar" sample="1">
+                <field name="product_id"/>
+                <field name="product_uom_qty" type="measure"/>
+                <field name="price_subtotal" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- ============================================================== -->
+    <!-- CALENDAR VIEW (customer-wise color, on create date)            -->
+    <!-- ============================================================== -->
+    <record id="view_inom_order_line_calendar" model="ir.ui.view">
+        <field name="name">inom.order.line.calendar</field>
+        <field name="model">sale.order.line</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <calendar string="Order Line Views" date_start="create_date"
+                      color="order_partner_id" mode="month" create="0" quick_create="0">
+                <field name="order_partner_id" filters="1"/>
+                <field name="product_id"/>
+                <field name="price_subtotal"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- ============================================================== -->
+    <!-- SEARCH VIEW (search, filters, group by, favorites, panel)     -->
+    <!-- ============================================================== -->
+    <record id="view_inom_order_line_search" model="ir.ui.view">
+        <field name="name">inom.order.line.search</field>
+        <field name="model">sale.order.line</field>
+        <field name="arch" type="xml">
+            <search string="Order Line Views">
+                <field name="order_id" string="Order" filter_domain="[('order_id.name', 'ilike', self)]"/>
+                <field name="order_partner_id" string="Customer" filter_domain="[('order_partner_id', 'child_of', self)]"/>
+                <field name="product_id"/>
+                <field name="salesman_id"/>
+                <field name="state"/>
+                <field name="invoice_status"/>
+                <separator/>
+                <filter name="my_orders" string="My Orders" domain="[('salesman_id', '=', uid)]"/>
+                <separator/>
+                <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="sent" string="Sent" domain="[('state', '=', 'sent')]"/>
+                <filter name="confirmed" string="Confirmed" domain="[('state', '=', 'sale')]"/>
+                <filter name="cancelled" string="Cancelled" domain="[('state', '=', 'cancel')]"/>
+                <separator/>
+                <filter name="to_invoice" string="To Invoice" domain="[('invoice_status', '=', 'to invoice')]"/>
+                <separator/>
+                <filter name="filter_create_date" string="Order Date" date="create_date"/>
+                <group expand="1" string="Group By">
+                    <filter name="group_customer" string="Customer" context="{'group_by': 'order_partner_id'}"/>
+                    <filter name="group_product" string="Product" context="{'group_by': 'product_id'}"/>
+                    <filter name="group_order" string="Order" context="{'group_by': 'order_id'}"/>
+                    <filter name="group_salesperson" string="Salesperson" context="{'group_by': 'salesman_id'}"/>
+                    <filter name="group_status" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_invoice_status" string="Invoice Status" context="{'group_by': 'invoice_status'}"/>
+                    <filter name="group_create_date" string="Order Date" context="{'group_by': 'create_date:month'}"/>
+                </group>
+                <searchpanel>
+                    <field name="state" string="Status" icon="fa-flag" enable_counters="1"/>
+                    <field name="salesman_id" string="Salesperson" icon="fa-user" select="multi" enable_counters="1"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <!-- ============================================================== -->
+    <!-- ACTION                                                         -->
+    <!-- ============================================================== -->
+    <record id="action_inom_order_line" model="ir.actions.act_window">
+        <field name="name">Order Lines</field>
+        <field name="res_model">sale.order.line</field>
+        <field name="view_mode">tree,kanban,form,pivot,graph,calendar</field>
+        <field name="search_view_id" ref="view_inom_order_line_search"/>
+        <field name="domain">[('display_type', '=', False), ('state', '=', 'sale')]</field>
+        <field name="context">{}</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'sequence': 10, 'view_mode': 'tree',
+                    'view_id': ref('view_inom_order_line_list')}),
+            (0, 0, {'sequence': 20, 'view_mode': 'kanban',
+                    'view_id': ref('view_inom_order_line_kanban')}),
+            (0, 0, {'sequence': 30, 'view_mode': 'form',
+                    'view_id': ref('view_inom_order_line_form')}),
+            (0, 0, {'sequence': 40, 'view_mode': 'pivot',
+                    'view_id': ref('view_inom_order_line_pivot')}),
+            (0, 0, {'sequence': 50, 'view_mode': 'graph',
+                    'view_id': ref('view_inom_order_line_graph')}),
+            (0, 0, {'sequence': 60, 'view_mode': 'calendar',
+                    'view_id': ref('view_inom_order_line_calendar')})
+        ]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No confirmed order lines yet</p>
+            <p>Lines from confirmed sales orders are listed here for quick analysis.</p>
+        </field>
+    </record>
+
+    <!-- ============================================================== -->
+    <!-- MENU: Sales > Orders > Order Lines                             -->
+    <!-- ============================================================== -->
+    <menuitem id="menu_inom_order_line"
+              name="Order Lines"
+              parent="sale.sale_order_menu"
+              action="action_inom_order_line"
+              sequence="90"
+              groups="sales_team.group_sale_salesman"/>
+
+</odoo>
