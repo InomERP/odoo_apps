@@ -1,0 +1,305 @@
+.o_audit_dashboard {
+    padding: 16px 20px 28px;
+    background: #f0eef0;
+    min-height: 100%;
+
+    $purple: #714B67;
+    $green: #28a745;
+    $red: #e4533f;
+    $orange: #d9822b;
+    $blue: #2b8bd9;
+    $txt: #374151;
+    $dim: #6b7280;
+    $faint: #9aa0a6;
+
+    .o_audit_clock {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12.5px;
+        color: $dim;
+        margin-bottom: 12px;
+    }
+
+    .o_audit_live_dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: $green;
+        box-shadow: 0 0 0 0 rgba($green, .5);
+        animation: o_audit_pulse 1.8s infinite;
+        flex: none;
+    }
+    @keyframes o_audit_pulse {
+        0%   { box-shadow: 0 0 0 0 rgba($green, .5); }
+        70%  { box-shadow: 0 0 0 7px rgba($green, 0); }
+        100% { box-shadow: 0 0 0 0 rgba($green, 0); }
+    }
+
+    .o_audit_tiles {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        @media (max-width: 1100px) { grid-template-columns: repeat(2, 1fr); }
+        @media (max-width: 600px)  { grid-template-columns: 1fr; }
+    }
+
+    .o_audit_tile {
+        position: relative;
+        background: #fff;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 16px 18px 18px;
+        box-shadow: 0 1px 2px rgba(0,0,0,.04);
+        overflow: hidden;
+
+        &::before {
+            content: "";
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 3px;
+        }
+        &.t-green::before  { background: $green; }
+        &.t-purple::before { background: $purple; }
+        &.t-blue::before   { background: $blue; }
+        &.t-orange::before { background: $orange; }
+
+        &.t-purple, &.t-orange { cursor: pointer; }
+        &.t-purple:hover, &.t-orange:hover { box-shadow: 0 4px 14px rgba(0,0,0,.08); }
+    }
+
+    .o_audit_tile_top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 12px;
+    }
+    .o_audit_label {
+        font-size: 11.5px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+        color: $dim;
+    }
+    .o_audit_ic {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        display: grid;
+        place-items: center;
+        font-size: 15px;
+        &.ic-green  { background: rgba($green,.13);  color: darken($green,8%); }
+        &.ic-purple { background: rgba($purple,.12); color: $purple; }
+        &.ic-blue   { background: rgba($blue,.13);   color: darken($blue,5%); }
+        &.ic-orange { background: rgba($orange,.13); color: darken($orange,5%); }
+    }
+
+    .o_audit_val {
+        font-size: 34px;
+        font-weight: 900;
+        line-height: 1;
+        color: $txt;
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+    }
+    .o_audit_unit {
+        font-size: 13px;
+        font-weight: 700;
+        color: $faint;
+    }
+    .o_audit_sub {
+        font-size: 12px;
+        color: $dim;
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .o_audit_trend {
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        &.up   { color: $green; }
+        &.down { color: $red; }
+        &.flat { color: $faint; }
+    }
+
+    .o_audit_avatars {
+        display: flex;
+        margin-top: 12px;
+        align-items: center;
+        .o_audit_av {
+            width: 27px; height: 27px;
+            border-radius: 50%;
+            display: grid; place-items: center;
+            font-size: 10px; font-weight: 700;
+            color: #fff;
+            background: $purple;
+            border: 2px solid #fff;
+            margin-left: -7px;
+            &:first-child { margin-left: 0; }
+        }
+        .o_audit_av:nth-child(2) { background: $blue; }
+        .o_audit_av:nth-child(3) { background: $green; }
+        .o_audit_av:nth-child(4) { background: $orange; }
+        .o_audit_more {
+            width: 27px; height: 27px;
+            border-radius: 50%;
+            background: #ececec; color: $dim;
+            display: grid; place-items: center;
+            font-size: 10px; font-weight: 700;
+            border: 2px solid #fff;
+            margin-left: -7px;
+        }
+        .o_audit_none { color: $faint; font-size: 12px; }
+    }
+
+    .o_audit_bars {
+        display: flex;
+        align-items: flex-end;
+        gap: 3px;
+        height: 34px;
+        margin-top: 12px;
+        .o_audit_bar {
+            flex: 1;
+            background: #cdbcc7;
+            border-radius: 2px 2px 0 0;
+            min-height: 2px;
+            transition: height .4s;
+            &.now { background: $green; }
+        }
+    }
+}
+
+/* ---- clickable + drill-down sections ---- */
+.o_audit_dashboard {
+    $purple: #714B67;
+    $green: #28a745;
+    $red: #e4533f;
+    $orange: #d9822b;
+    $blue: #2b8bd9;
+    $txt: #374151;
+    $dim: #6b7280;
+    $faint: #9aa0a6;
+    $line: #dee2e6;
+
+    .o_audit_clickable { cursor: pointer; }
+    .o_audit_hint { color: $faint; font-style: italic; }
+
+    .o_audit_section {
+        background: #fff;
+        border: 1px solid $line;
+        border-radius: 8px;
+        margin-top: 18px;
+        box-shadow: 0 1px 2px rgba(0,0,0,.04);
+        overflow: hidden;
+    }
+    .o_audit_section_head {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 13px 18px;
+        border-bottom: 1px solid #ededed;
+        .o_audit_section_title { font-size: 15px; font-weight: 700; color: $txt; }
+        .o_audit_count { font-size: 12px; color: $faint; }
+    }
+    .o_audit_btn {
+        margin-left: auto;
+        border: none;
+        background: $purple;
+        color: #fff;
+        font-weight: 700;
+        font-size: 12.5px;
+        padding: 6px 13px;
+        border-radius: 5px;
+        cursor: pointer;
+        i { margin-right: 5px; }
+        &:hover { background: #5c3d54; }
+    }
+
+    /* user list */
+    .o_audit_userlist {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 2px 10px;
+        padding: 10px 12px;
+    }
+    .o_audit_userrow {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 10px;
+        border-radius: 6px;
+        &:hover { background: #f7f7f8; }
+        .o_audit_uname { font-weight: 600; color: $txt; flex: 1; }
+        .o_audit_status { font-size: 11.5px; color: $green; display: flex; align-items: center; gap: 6px; }
+    }
+
+    /* rules table */
+    .o_audit_table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+        thead th {
+            text-align: left;
+            padding: 10px 16px;
+            font-size: 11.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .03em;
+            color: $dim;
+            background: #f9f9f9;
+            border-bottom: 1px solid $line;
+            white-space: nowrap;
+        }
+        tbody tr { border-bottom: 1px solid #ededed; }
+        tbody tr.o_audit_clickable:hover { background: #faf7f9; }
+        tbody td { padding: 11px 16px; vertical-align: middle; }
+        .text-center { text-align: center; }
+    }
+    .o_audit_rname { font-weight: 700; color: $txt; }
+    .o_audit_model { font-weight: 600; color: $txt; }
+    .o_audit_tech { display: block; font-family: monospace; font-size: 10.5px; color: $faint; }
+
+    .o_audit_ops .o_audit_op {
+        display: inline-grid;
+        place-items: center;
+        width: 22px; height: 22px;
+        border-radius: 5px;
+        font-size: 10.5px; font-weight: 900;
+        margin: 0 2px;
+        &.off { background: #f1f1f1; color: #c7c7c7; }
+        &.create { background: rgba($green,.13); color: darken($green,8%); }
+        &.read   { background: rgba($blue,.13);  color: darken($blue,8%); }
+        &.write  { background: rgba($orange,.14); color: darken($orange,6%); }
+        &.unlink { background: rgba($red,.13);   color: darken($red,6%); }
+    }
+    .o_audit_fchip {
+        display: inline-block;
+        background: #eef0f3;
+        color: #445;
+        border: 1px solid #e1e4e9;
+        font-size: 11px; font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 11px;
+        margin: 1px 3px 1px 0;
+        &.more { background: rgba($purple,.10); color: $purple; border-color: #e6d9e1; }
+    }
+    .o_audit_allf { color: $faint; font-style: italic; }
+    .o_audit_grp { font-weight: 700; color: #445; }
+
+    .o_audit_badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11.5px; font-weight: 700;
+        padding: 3px 10px;
+        border-radius: 11px;
+        &::before { content: ""; width: 7px; height: 7px; border-radius: 50%; }
+        &.active   { background: rgba($green,.13); color: darken($green,8%); &::before { background: $green; } }
+        &.archived { background: #f0f0f0; color: #888; &::before { background: #bbb; } }
+    }
+    .o_audit_empty { text-align: center; color: $faint; padding: 36px; }
+}

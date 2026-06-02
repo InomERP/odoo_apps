@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_inom_audit_trail_rule_manager,inom.audit.trail.rule.manager,model_inom_audit_trail_rule,group_inom_audit_trail_manager,1,1,1,1
+access_inom_audit_trail_log_manager,inom.audit.trail.log.manager,model_inom_audit_trail_log,group_inom_audit_trail_manager,1,0,0,1
+access_inom_audit_trail_log_line_manager,inom.audit.trail.log.line.manager,model_inom_audit_trail_log_line,group_inom_audit_trail_manager,1,0,0,1

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="inom_audit_trail.AuditDashboard">
+        <div class="o_audit_dashboard">
+
+            <div class="o_audit_clock">
+                <span class="o_audit_live_dot"/>
+                <span>Live overview · as of <b t-esc="state.now"/></span>
+            </div>
+
+            <div class="o_audit_tiles">
+
+                <!-- Active users now (click to see who) -->
+                <div class="o_audit_tile t-green o_audit_clickable" t-on-click="() => this.toggleUsers()">
+                    <div class="o_audit_tile_top">
+                        <span class="o_audit_label">Active Users Now</span>
+                        <span class="o_audit_ic ic-green"><i class="fa fa-users"/></span>
+                    </div>
+                    <div class="o_audit_val">
+                        <t t-esc="state.data.active_now"/> <span class="o_audit_unit">live</span>
+                    </div>
+                    <div class="o_audit_sub">
+                        <span class="o_audit_live_dot"/>
+                        online right now <span class="o_audit_hint">· click to view</span>
+                    </div>
+                    <div class="o_audit_avatars">
+                        <t t-if="onlineAvatars.length">
+                            <t t-foreach="onlineAvatars" t-as="u" t-key="u.id">
+                                <span class="o_audit_av" t-att-title="u.name" t-esc="initials(u.name)"/>
+                            </t>
+                            <span t-if="onlineUsers.length > 4" class="o_audit_more"
+                                  t-esc="'+' + (onlineUsers.length - 4)"/>
+                        </t>
+                        <t t-else="">
+                            <span class="o_audit_none">No active sessions</span>
+                        </t>
+                    </div>
+                </div>
+
+                <!-- Activity today -->
+                <div class="o_audit_tile t-purple o_audit_clickable" t-on-click="() => this.openLogs()">
+                    <div class="o_audit_tile_top">
+                        <span class="o_audit_label">Activity Today</span>
+                        <span class="o_audit_ic ic-purple"><i class="fa fa-bolt"/></span>
+                    </div>
+                    <div class="o_audit_val">
+                        <t t-esc="state.data.today"/> <span class="o_audit_unit">logged events</span>
+                    </div>
+                    <div class="o_audit_sub">
+                        <span t-att-class="'o_audit_trend ' + delta.cls">
+                            <i t-if="delta.cls === 'up'" class="fa fa-arrow-up"/>
+                            <i t-if="delta.cls === 'down'" class="fa fa-arrow-down"/>
+                            <t t-esc="delta.txt"/>
+                        </span>
+                        <span>vs yesterday (<t t-esc="state.data.yesterday"/>)</span>
+                    </div>
+                    <div class="o_audit_bars">
+                        <t t-foreach="state.data.buckets" t-as="b" t-key="b_index">
+                            <div class="o_audit_bar"
+                                 t-att-class="{ 'now': b_index === state.data.current_bucket }"
+                                 t-attf-style="height: {{ barHeight(b) }}%;"
+                                 t-att-title="b + ' events'"/>
+                        </t>
+                    </div>
+                </div>
+
+                <!-- Yesterday -->
+                <div class="o_audit_tile t-blue">
+                    <div class="o_audit_tile_top">
+                        <span class="o_audit_label">Yesterday</span>
+                        <span class="o_audit_ic ic-blue"><i class="fa fa-calendar"/></span>
+                    </div>
+                    <div class="o_audit_val">
+                        <t t-esc="state.data.yesterday"/> <span class="o_audit_unit">events</span>
+                    </div>
+                    <div class="o_audit_sub">Tracked across the full day</div>
+                </div>
+
+                <!-- Active rules -->
+                <div class="o_audit_tile t-orange o_audit_clickable" t-on-click="() => this.openRules()">
+                    <div class="o_audit_tile_top">
+                        <span class="o_audit_label">Active Rules</span>
+                        <span class="o_audit_ic ic-orange"><i class="fa fa-shield"/></span>
+                    </div>
+                    <div class="o_audit_val">
+                        <t t-esc="state.data.active_rules"/>
+                        <span class="o_audit_unit">of <t t-esc="state.data.total_rules"/></span>
+                    </div>
+                    <div class="o_audit_sub">
+                        <t t-esc="state.data.objects_tracked"/> object(s) currently tracked
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Active users drill-down -->
+            <div class="o_audit_section" t-if="state.showUsers">
+                <div class="o_audit_section_head">
+                    <span class="o_audit_section_title">Active Users</span>
+                    <span class="o_audit_count" t-esc="onlineUsers.length + ' online'"/>
+                </div>
+                <div class="o_audit_userlist">
+                    <t t-if="onlineUsers.length">
+                        <t t-foreach="onlineUsers" t-as="u" t-key="u.id">
+                            <div class="o_audit_userrow">
+                                <span class="o_audit_av" t-esc="initials(u.name)"/>
+                                <span class="o_audit_uname" t-esc="u.name"/>
+                                <span class="o_audit_status"><span class="o_audit_live_dot"/> online</span>
+                            </div>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <div class="o_audit_none" style="padding:14px">No active sessions right now.</div>
+                    </t>
+                </div>
+            </div>
+
+            <!-- Rules list -->
+            <div class="o_audit_section">
+                <div class="o_audit_section_head">
+                    <span class="o_audit_section_title">Logging Rules</span>
+                    <span class="o_audit_count" t-esc="state.data.rules.length + ' rule(s)'"/>
+                    <button class="o_audit_btn" t-on-click="() => this.newRule()">
+                        <i class="fa fa-plus"/> New
+                    </button>
+                </div>
+                <table class="o_audit_table">
+                    <thead>
+                        <tr>
+                            <th>Rule Name</th>
+                            <th>Object (Model)</th>
+                            <th class="text-center">Operations</th>
+                            <th>Tracked Fields</th>
+                            <th>Restrict To</th>
+                            <th class="text-center">Logged</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-if="state.data.rules.length">
+                            <t t-foreach="state.data.rules" t-as="r" t-key="r.id">
+                                <tr class="o_audit_clickable" t-on-click="() => this.openRule(r.id)">
+                                    <td><span class="o_audit_rname" t-esc="r.name"/></td>
+                                    <td>
+                                        <span class="o_audit_model" t-esc="r.model_label"/>
+                                        <span class="o_audit_tech" t-esc="r.model_tech"/>
+                                    </td>
+                                    <td class="text-center o_audit_ops">
+                                        <span t-att-class="'o_audit_op ' + (r.create ? 'create' : 'off')" title="Create">C</span>
+                                        <span t-att-class="'o_audit_op ' + (r.read ? 'read' : 'off')" title="Read">R</span>
+                                        <span t-att-class="'o_audit_op ' + (r.write ? 'write' : 'off')" title="Update">U</span>
+                                        <span t-att-class="'o_audit_op ' + (r.unlink ? 'unlink' : 'off')" title="Delete">D</span>
+                                    </td>
+                                    <td>
+                                        <t t-if="r.fields_all">
+                                            <span class="o_audit_allf">All fields</span>
+                                        </t>
+                                        <t t-else="">
+                                            <t t-foreach="r.fields" t-as="f" t-key="f_index">
+                                                <span class="o_audit_fchip" t-esc="f"/>
+                                            </t>
+                                            <span t-if="r.fields_extra" class="o_audit_fchip more"
+                                                  t-esc="'+' + r.fields_extra"/>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <span t-if="r.group" class="o_audit_grp" t-esc="r.group"/>
+                                        <span t-else="" class="o_audit_allf">All Users</span>
+                                    </td>
+                                    <td class="text-center" t-esc="r.active ? r.log_count : '—'"/>
+                                    <td>
+                                        <span t-att-class="'o_audit_badge ' + (r.active ? 'active' : 'archived')"
+                                              t-esc="r.active ? 'Active' : 'Archived'"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </t>
+                        <t t-else="">
+                            <tr><td colspan="7" class="o_audit_empty">No logging rules yet. Click New to add one.</td></tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </t>
+
+</templates>
