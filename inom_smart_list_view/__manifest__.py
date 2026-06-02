@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Inom Smart List View',
-    'version': '17.0.1.1.3',
+    'version': '19.0.1.1.5',
     'category': 'Sales',
     'summary': 'Sale Order and Quotation Lines Detailed View',
     'description': """

@@ -2,14 +2,14 @@
 <odoo>
 
     <!-- ============================================================== -->
-    <!-- LIST (TREE) VIEW (read-only)                                   -->
+    <!-- LIST VIEW (read-only)                                          -->
     <!-- ============================================================== -->
     <record id="view_inom_order_line_list" model="ir.ui.view">
         <field name="name">inom.order.line.list</field>
         <field name="model">sale.order.line</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree string="Order Line Views" sample="1" create="0" edit="0" delete="0"
+            <list string="Order Line Views" sample="1" create="0" edit="0" delete="0"
                   default_order="create_date desc, order_id desc">
                 <field name="currency_id" column_invisible="1"/>
                 <field name="display_type" column_invisible="1"/>
@@ -23,7 +23,7 @@
                 <field name="qty_delivered" string="Delivered" sum="Delivered"/>
                 <field name="qty_invoiced" string="Invoiced" sum="Invoiced"/>
                 <field name="qty_to_invoice" string="To Invoice" sum="To Invoice"/>
-                <field name="product_uom" string="UoM" groups="uom.group_uom" optional="hide"/>
+                <field name="product_uom_id" string="UoM" groups="uom.group_uom" optional="hide"/>
                 <field name="price_unit" string="Price" optional="hide"/>
                 <field name="price_subtotal" string="Subtotal" sum="Subtotal"/>
                 <field name="state" string="Status" widget="badge"
@@ -31,13 +31,12 @@
                        decoration-info="state == 'draft'"
                        decoration-warning="state == 'sent'"
                        decoration-danger="state == 'cancel'"/>
-            </tree>
+            </list>
         </field>
     </record>
 
     <!-- ============================================================== -->
     <!-- KANBAN VIEW (read-only, customer-grouped, screenshot layout)   -->
-    <!-- Odoo 17: uses t-name="kanban-box" with oe_kanban_global_click  -->
     <!-- ============================================================== -->
     <record id="view_inom_order_line_kanban" model="ir.ui.view">
         <field name="name">inom.order.line.kanban</field>
@@ -52,52 +51,45 @@
                 <field name="currency_id"/>
                 <field name="state"/>
                 <field name="order_line_image"/>
-                <field name="order_id"/>
-                <field name="product_id"/>
-                <field name="product_uom_qty"/>
-                <field name="price_unit"/>
-                <field name="price_subtotal"/>
                 <templates>
-                    <t t-name="kanban-box">
-                        <div class="oe_kanban_card oe_kanban_global_click o_inom_sol_kanban_card p-2">
-                            <div class="row g-0">
-                                <!-- LEFT: large product image -->
-                                <div class="col-6 pe-2 d-flex align-items-center justify-content-center">
-                                    <field name="order_line_image"
-                                           widget="image"
-                                           options="{'img_class': 'o_inom_sol_img'}"
-                                           alt="Product"/>
+                    <t t-name="card" class="p-2">
+                        <div class="row g-0">
+                            <!-- LEFT: large product image -->
+                            <div class="col-6 pe-2 d-flex align-items-center justify-content-center">
+                                <field name="order_line_image"
+                                       widget="image"
+                                       options="{'img_class': 'o_inom_sol_img'}"
+                                       alt="Product"/>
+                            </div>
+                            <!-- RIGHT: order details -->
+                            <div class="col-6">
+                                <div class="text-center fw-bold mb-1 o_inom_sol_order">
+                                    <field name="order_id"/>
                                 </div>
-                                <!-- RIGHT: order details -->
-                                <div class="col-6">
-                                    <div class="text-center fw-bold mb-1 o_inom_sol_order">
-                                        <field name="order_id"/>
+                                <div class="o_inom_sol_line">
+                                    Product:
+                                    <field name="product_id"/>
+                                </div>
+                                <div class="o_inom_sol_line">
+                                    Quantity:
+                                    <field name="product_uom_qty"/>
+                                </div>
+                                <div class="o_inom_sol_line">
+                                    Price
+                                    <field name="price_unit" widget="monetary"/>
+                                </div>
+                                <div class="o_inom_sol_line mb-1">
+                                    Sub Total:
+                                    <div>
+                                        <span class="badge text-bg-light o_inom_sol_subtotal">
+                                            <field name="price_subtotal" widget="monetary"/>
+                                        </span>
                                     </div>
-                                    <div class="o_inom_sol_line">
-                                        Product:
-                                        <field name="product_id"/>
-                                    </div>
-                                    <div class="o_inom_sol_line">
-                                        Quantity:
-                                        <field name="product_uom_qty"/>
-                                    </div>
-                                    <div class="o_inom_sol_line">
-                                        Price
-                                        <field name="price_unit" widget="monetary"/>
-                                    </div>
-                                    <div class="o_inom_sol_line mb-1">
-                                        Sub Total:
-                                        <div>
-                                            <span class="badge text-bg-light o_inom_sol_subtotal">
-                                                <field name="price_subtotal" widget="monetary"/>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="mt-1">
-                                        <field name="state"
-                                               widget="label_selection"
-                                               options="{'classes': {'draft': 'info', 'sent': 'warning', 'sale': 'success', 'cancel': 'danger'}}"/>
-                                    </div>
+                                </div>
+                                <div class="mt-1">
+                                    <field name="state"
+                                           widget="label_selection"
+                                           options="{'classes': {'draft': 'info', 'sent': 'warning', 'sale': 'success', 'cancel': 'danger'}}"/>
                                 </div>
                             </div>
                         </div>
@@ -132,9 +124,7 @@
                         <group string="Product">
                             <field name="product_id"/>
                             <field name="name" string="Description"/>
-                            <!-- required by product_uom's domain validator (Odoo 17) -->
-                            <field name="product_uom_category_id" invisible="1"/>
-                            <field name="product_uom" string="Unit of Measure" groups="uom.group_uom"/>
+                            <field name="product_uom_id" string="Unit of Measure" groups="uom.group_uom"/>
                             <field name="state" string="Status" widget="badge"
                                    decoration-success="state == 'sale'"
                                    decoration-info="state == 'draft'"
@@ -156,7 +146,7 @@
                             <field name="company_id" invisible="1"/>
                             <field name="price_unit"/>
                             <field name="discount"/>
-                            <field name="tax_id" widget="many2many_tags"/>
+                            <field name="tax_ids" widget="many2many_tags"/>
                             <field name="price_subtotal"/>
                             <field name="price_tax"/>
                             <field name="price_total"/>
@@ -243,7 +233,7 @@
                 <filter name="to_invoice" string="To Invoice" domain="[('invoice_status', '=', 'to invoice')]"/>
                 <separator/>
                 <filter name="filter_create_date" string="Order Date" date="create_date"/>
-                <group expand="1" string="Group By">
+                <separator/>
                     <filter name="group_customer" string="Customer" context="{'group_by': 'order_partner_id'}"/>
                     <filter name="group_product" string="Product" context="{'group_by': 'product_id'}"/>
                     <filter name="group_order" string="Order" context="{'group_by': 'order_id'}"/>
@@ -251,10 +241,9 @@
                     <filter name="group_status" string="Status" context="{'group_by': 'state'}"/>
                     <filter name="group_invoice_status" string="Invoice Status" context="{'group_by': 'invoice_status'}"/>
                     <filter name="group_create_date" string="Order Date" context="{'group_by': 'create_date:month'}"/>
-                </group>
                 <searchpanel>
-                    <field name="state" string="Status" icon="fa-flag" enable_counters="1"/>
-                    <field name="salesman_id" string="Salesperson" icon="fa-user" select="multi" enable_counters="1"/>
+                    <field name="state" string="Status" icon="fa-flag"/>
+                    <field name="salesman_id" string="Salesperson" icon="fa-user" select="multi"/>
                 </searchpanel>
             </search>
         </field>
@@ -266,12 +255,12 @@
     <record id="action_inom_order_line" model="ir.actions.act_window">
         <field name="name">Order Lines</field>
         <field name="res_model">sale.order.line</field>
-        <field name="view_mode">tree,kanban,form,pivot,graph,calendar</field>
+        <field name="view_mode">list,kanban,form,pivot,graph,calendar</field>
         <field name="search_view_id" ref="view_inom_order_line_search"/>
         <field name="domain">[('display_type', '=', False), ('state', '=', 'sale')]</field>
         <field name="context">{}</field>
         <field name="view_ids" eval="[(5, 0, 0),
-            (0, 0, {'sequence': 10, 'view_mode': 'tree',
+            (0, 0, {'sequence': 10, 'view_mode': 'list',
                     'view_id': ref('view_inom_order_line_list')}),
             (0, 0, {'sequence': 20, 'view_mode': 'kanban',
                     'view_id': ref('view_inom_order_line_kanban')}),
