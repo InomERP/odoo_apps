@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- App category (used by the privilege below) -->
+    <record id="module_category_inom_audit_trail" model="ir.module.category">
+        <field name="name">Audit Trail</field>
+        <field name="description">Manage audit trail logging rules and logs.</field>
+        <field name="sequence">25</field>
+    </record>
+
+    <!-- Odoo 19: groups are grouped under a res.groups.privilege
+         (this replaces the old res.groups.category_id field) -->
+    <record id="privilege_inom_audit_trail" model="res.groups.privilege">
+        <field name="name">Audit Trail</field>
+        <field name="category_id" ref="module_category_inom_audit_trail"/>
+        <field name="sequence">25</field>
+    </record>
+
+    <record id="group_inom_audit_trail_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="privilege_id" ref="privilege_inom_audit_trail"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="user_ids" eval="[(4, ref('base.user_admin'))]"/>
+        <field name="comment">Can configure logging rules and read the audit log.</field>
+    </record>
+</odoo>
