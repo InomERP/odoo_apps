@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_audit_rule_list" model="ir.ui.view">
+        <field name="name">inom.audit.trail.rule.list</field>
+        <field name="model">inom.audit.trail.rule</field>
+        <field name="arch" type="xml">
+            <tree string="Logging Rules">
+                <field name="name"/>
+                <field name="model_id"/>
+                <field name="model_name" optional="hide"/>
+                <field name="log_create" string="Create"/>
+                <field name="log_read" string="Read"/>
+                <field name="log_write" string="Update"/>
+                <field name="log_unlink" string="Delete"/>
+                <field name="field_ids" widget="many2many_tags" string="Tracked Fields" optional="show"/>
+                <field name="group_id" string="Restrict To" optional="show"/>
+                <field name="log_count" string="Logged"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_audit_rule_form" model="ir.ui.view">
+        <field name="name">inom.audit.trail.rule.form</field>
+        <field name="model">inom.audit.trail.rule</field>
+        <field name="arch" type="xml">
+            <form string="Logging Rule">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" icon="fa-list-ul"
+                                type="object" name="action_view_logs">
+                            <field name="log_count" widget="statinfo" string="Logged"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived"
+                            bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Track Contact Details"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="model_id" options="{'no_create': True}"/>
+                            <field name="model_name" invisible="1"/>
+                            <field name="group_id"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                        <group string="Operations to Log">
+                            <field name="log_create"/>
+                            <field name="log_read"/>
+                            <field name="log_write"/>
+                            <field name="log_unlink"/>
+                        </group>
+                    </group>
+                    <group string="Tracked Fields" invisible="not log_write">
+                        <field name="field_ids" widget="many2many_tags" nolabel="1" colspan="2"
+                               domain="[('model_id', '=', model_id)]"
+                               options="{'no_create': True}"
+                               placeholder="Leave empty to track every field…"/>
+                        <div colspan="2" class="text-muted">
+                            On <b>Update</b>, each tracked field change is recorded with the user,
+                            the previous value and the new value. Leave empty to track every field.
+                        </div>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_audit_rule_search" model="ir.ui.view">
+        <field name="name">inom.audit.trail.rule.search</field>
+        <field name="model">inom.audit.trail.rule</field>
+        <field name="arch" type="xml">
+            <search string="Logging Rules">
+                <field name="name"/>
+                <field name="model_id"/>
+                <field name="group_id"/>
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                <separator/>
+                <group>
+                    <filter name="gb_model" string="Object" context="{'group_by': 'model_id'}"/>
+                    <filter name="gb_group" string="Restricted Group" context="{'group_by': 'group_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_audit_rule" model="ir.actions.act_window">
+        <field name="name">Logging Rules</field>
+        <field name="res_model">inom.audit.trail.rule</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_audit_rule_search"/>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first logging rule</p>
+            <p>
+                Pick an object, choose which operations to log, and optionally restrict
+                tracking to specific fields or to a user group.
+            </p>
+        </field>
+    </record>
+
+</odoo>

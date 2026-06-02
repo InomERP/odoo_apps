@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_audit_dashboard" model="ir.actions.client">
+        <field name="name">Audit Overview</field>
+        <field name="tag">inom_audit_trail.dashboard</field>
+    </record>
+</odoo>

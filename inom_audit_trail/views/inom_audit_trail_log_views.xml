@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_audit_log_list" model="ir.ui.view">
+        <field name="name">inom.audit.trail.log.list</field>
+        <field name="model">inom.audit.trail.log</field>
+        <field name="arch" type="xml">
+            <tree string="Audit Log" create="false" edit="false" default_order="create_date desc">
+                <field name="create_date" string="Date"/>
+                <field name="user_id"/>
+                <field name="model_id" string="Object"/>
+                <field name="res_name" string="Record"/>
+                <field name="res_id" optional="hide"/>
+                <field name="ip_address" string="IP" optional="show"/>
+                <field name="browser" string="Browser / OS" optional="show"/>
+                <field name="location" optional="hide"/>
+                <field name="method" widget="badge"
+                       decoration-success="method == 'create'"
+                       decoration-info="method == 'read'"
+                       decoration-warning="method == 'write'"
+                       decoration-danger="method == 'unlink'"/>
+                <field name="rule_id" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_audit_log_form" model="ir.ui.view">
+        <field name="name">inom.audit.trail.log.form</field>
+        <field name="model">inom.audit.trail.log</field>
+        <field name="arch" type="xml">
+            <form string="Audit Log Entry" create="false" edit="false">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="method"/>
+                            <field name="create_date" string="Date / Time"/>
+                            <field name="user_id" string="Changed By"/>
+                        </group>
+                        <group>
+                            <field name="model_id" string="Object"/>
+                            <field name="res_name" string="Record"/>
+                            <field name="res_id"/>
+                            <field name="rule_id"/>
+                        </group>
+                    </group>
+                    <separator string="Source / Device"/>
+                    <group>
+                        <group>
+                            <field name="ip_address"/>
+                            <field name="browser"/>
+                            <field name="location" placeholder="Requires a GeoIP database on the server"/>
+                        </group>
+                        <group>
+                            <field name="user_agent"/>
+                        </group>
+                    </group>
+                    <separator string="Tracked Field Changes" invisible="method != 'write'"/>
+                    <field name="line_ids" invisible="method != 'write'">
+                        <tree create="false" edit="false">
+                            <field name="field_description" string="Field"/>
+                            <field name="field_name" optional="hide"/>
+                            <field name="old_value"/>
+                            <field name="new_value"/>
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_audit_log_search" model="ir.ui.view">
+        <field name="name">inom.audit.trail.log.search</field>
+        <field name="model">inom.audit.trail.log</field>
+        <field name="arch" type="xml">
+            <search string="Audit Log">
+                <field name="res_name" string="Record"/>
+                <field name="user_id"/>
+                <field name="model_id"/>
+                <filter name="today" string="Today"
+                        domain="[('create_date', '>=', datetime.datetime.combine(context_today(), datetime.time(0,0,0)))]"/>
+                <separator/>
+                <filter name="m_create" string="Create" domain="[('method', '=', 'create')]"/>
+                <filter name="m_read" string="Read" domain="[('method', '=', 'read')]"/>
+                <filter name="m_write" string="Update" domain="[('method', '=', 'write')]"/>
+                <filter name="m_unlink" string="Delete" domain="[('method', '=', 'unlink')]"/>
+                <separator/>
+                <group>
+                    <filter name="gb_object" string="Object" context="{'group_by': 'model_id'}"/>
+                    <filter name="gb_user" string="User" context="{'group_by': 'user_id'}"/>
+                    <filter name="gb_method" string="Operation" context="{'group_by': 'method'}"/>
+                    <filter name="gb_date" string="Date" context="{'group_by': 'create_date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_audit_log" model="ir.actions.act_window">
+        <field name="name">Audit Log</field>
+        <field name="res_model">inom.audit.trail.log</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_audit_log_search"/>
+        <field name="context">{'create': False}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No audit entries yet</p>
+            <p>Entries appear here as soon as users act on objects covered by an active rule.</p>
+        </field>
+    </record>
+
+</odoo>

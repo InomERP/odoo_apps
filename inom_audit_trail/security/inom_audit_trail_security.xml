@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="module_category_inom_audit_trail" model="ir.module.category">
+        <field name="name">Audit Trail</field>
+        <field name="description">Manage audit trail logging rules and logs.</field>
+        <field name="sequence">25</field>
+    </record>
+
+    <!-- Odoo 17/18: groups reference category_id directly (res.groups.privilege
+         does not exist before Odoo 19) -->
+    <record id="group_inom_audit_trail_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="category_id" ref="module_category_inom_audit_trail"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        <field name="comment">Can configure logging rules and read the audit log.</field>
+    </record>
+</odoo>
