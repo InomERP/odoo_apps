@@ -38,6 +38,7 @@ Brought to you by InomERP - https://inomerp.in - support: info@inomerp.in
     "website": "https://inomerp.in",
     "support": "info@inomerp.in",
     "license": "LGPL-3",
+    "live_test_url": "https://youtu.be/BhzWTcmMDtc",
     "depends": ["base", "web", "bus"],
     "data": [
         "security/inom_audit_trail_security.xml",
