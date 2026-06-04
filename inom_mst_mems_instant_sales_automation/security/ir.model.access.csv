@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_instant_sale_user,instant.sale.user,sale.model_sale_order,inom_mst_mems_instant_sales_automation.group_instant_sale_user,1,1,1,0
+access_instant_sale_manager,instant.sale.manager,sale.model_sale_order,inom_mst_mems_instant_sales_automation.group_instant_sale_manager,1,1,1,1
