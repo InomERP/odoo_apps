@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <!-- ===================================================== -->
+        <!-- RES CONFIG SETTINGS VIEW -->
+        <!-- ===================================================== -->
+
+        <record id="res_config_settings_view_form_instant_sale"
+                model="ir.ui.view">
+
+            <field name="name">
+                res.config.settings.view.form.instant.sale
+            </field>
+
+            <field name="model">
+                res.config.settings
+            </field>
+
+            <field name="inherit_id"
+                   ref="sale.res_config_settings_view_form"/>
+
+            <field name="arch"
+                   type="xml">
+
+                <xpath expr="//form"
+                       position="inside">
+
+                    <app string="Instant Sale Automation"
+                         name="instant_sale_automation">
+
+                        <block title="Instant Sale Automation Settings">
+
+                            <!-- ===================================== -->
+                            <!-- SEQUENCE -->
+                            <!-- ===================================== -->
+
+                            <setting string="Instant Sale Sequence Prefix"
+                                     help="Define custom sequence prefix for instant sale orders.">
+
+                                <field name="instant_sale_sequence_prefix"/>
+
+                            </setting>
+
+                            <!-- ===================================== -->
+                            <!-- DELIVERY -->
+                            <!-- ===================================== -->
+
+                            <setting string="Auto Validate Delivery"
+                                     help="Automatically validates delivery order after confirming sale order.">
+
+                                <field name="auto_validate_delivery"/>
+
+                            </setting>
+
+                            <!-- ===================================== -->
+                            <!-- INVOICE -->
+                            <!-- ===================================== -->
+
+                            <setting string="Auto Create Invoice"
+                                     help="Automatically creates invoice after sale confirmation.">
+
+                                <field name="auto_create_invoice"/>
+
+                            </setting>
+
+                            <setting string="Auto Post Invoice"
+                                     help="Automatically posts invoice after invoice creation.">
+
+                                <field name="auto_post_invoice"/>
+
+                            </setting>
+
+                            <!-- ===================================== -->
+                            <!-- PAYMENT -->
+                            <!-- ===================================== -->
+
+                            <setting string="Auto Register Payment"
+                                     help="Automatically registers customer payment after invoice posting.">
+
+                                <field name="auto_register_payment"/>
+
+                            </setting>
+
+                            <!-- ===================================== -->
+                            <!-- CANCEL FLOW -->
+                            <!-- ===================================== -->
+
+                            <setting string="Auto Return Delivery On Cancel"
+                                     help="Automatically creates return transfer when sale order is cancelled.">
+
+                                <field name="auto_return_delivery_on_cancel"/>
+
+                            </setting>
+
+                            <setting string="Auto Cancel Invoice On Cancel"
+                                     help="Automatically cancels invoice when sale order is cancelled.">
+
+                                <field name="auto_cancel_invoice_on_cancel"/>
+
+                            </setting>
+
+                            <!-- ===================================== -->
+                            <!-- STOCK -->
+                            <!-- ===================================== -->
+
+                            <setting string="Allow Negative Stock"
+                                     help="Enable delivery validation even when stock is unavailable or negative.">
+
+                                <field name="allow_negative_stock"/>
+
+                            </setting>
+
+                            <!-- ===================================== -->
+                            <!-- PARTIAL DELIVERY -->
+                            <!-- ===================================== -->
+
+                            <setting string="Allow Partial Delivery"
+                                     help="Allows partial delivery and automatically creates backorders for remaining quantities.">
+
+                                <field name="allow_partial_delivery"/>
+
+                            </setting>
+
+                        </block>
+
+                    </app>
+
+                </xpath>
+
+            </field>
+
+        </record>
+
+    </data>
+</odoo>

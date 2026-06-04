@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data noupdate="0">
+
+        <!-- ===================================================== -->
+        <!-- MODULE CATEGORY -->
+        <!-- ===================================================== -->
+
+        <record id="module_category_instant_sale"
+                model="ir.module.category">
+
+            <field name="name">
+                Instant Sales
+            </field>
+
+            <field name="description">
+                Manage Instant Sales Automation Rights
+            </field>
+
+            <field name="sequence">
+                100
+            </field>
+
+        </record>
+
+        <!-- ===================================================== -->
+        <!-- INSTANT SALE USER GROUP -->
+        <!-- ===================================================== -->
+
+        <record id="group_instant_sale_user"
+                model="res.groups">
+
+            <field name="name">
+                Instant Sale User
+            </field>
+
+            <field name="category_id"
+                   ref="module_category_instant_sale"/>
+
+            <field name="comment">
+                Users can create and manage
+                instant sales orders.
+            </field>
+
+        </record>
+
+        <!-- ===================================================== -->
+        <!-- INSTANT SALE MANAGER GROUP -->
+        <!-- ===================================================== -->
+
+        <record id="group_instant_sale_manager"
+                model="res.groups">
+
+            <field name="name">
+                Instant Sale Manager
+            </field>
+
+            <field name="category_id"
+                   ref="module_category_instant_sale"/>
+
+            <field name="comment">
+                Managers can configure
+                and control instant sale automation.
+            </field>
+
+            <field name="implied_ids"
+                   eval="[(4, ref('group_instant_sale_user'))]"/>
+
+            <field name="users"
+                   eval="[(4, ref('base.user_admin'))]"/>
+
+        </record>
+
+    </data>
+</odoo>
