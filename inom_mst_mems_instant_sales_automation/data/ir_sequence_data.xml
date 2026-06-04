@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="seq_instant_sale_order" model="ir.sequence">
+            <field name="name">Instant Sale Order Sequence</field>
+            <field name="code">instant.sale.order</field>
+            <field name="prefix">IN/SO</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>
