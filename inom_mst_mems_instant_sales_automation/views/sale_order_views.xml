@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <!-- SALE ORDER FORM -->
+
+        <record id="view_order_form_instant_sale"
+                model="ir.ui.view">
+
+            <field name="name">sale.order.form.instant.sale</field>
+
+            <field name="model">sale.order</field>
+
+            <field name="inherit_id"
+                   ref="sale.view_order_form"/>
+
+            <field name="arch"
+                   type="xml">
+
+                <xpath expr="//field[@name='payment_term_id']"
+                       position="after">
+
+                    <field name="sales_view_type"
+                           groups="inom_mst_mems_instant_sales_automation.group_instant_sale_user"/>
+
+                    <field name="source_location_id"
+                           invisible="sales_view_type != 'instant_sale'"
+                           groups="inom_mst_mems_instant_sales_automation.group_instant_sale_user"/>
+
+                </xpath>
+
+            </field>
+
+        </record>
+
+        <!-- ACTION -->
+
+        <record id="action_instant_sale_quotations"
+                model="ir.actions.act_window">
+
+            <field name="name">Instant Sale</field>
+
+            <field name="res_model">sale.order</field>
+
+            <field name="view_mode">list,form</field>
+
+            <field name="domain">
+                [('sales_view_type', '=', 'instant_sale')]
+            </field>
+
+            <field name="context">
+                {'default_sales_view_type': 'instant_sale'}
+            </field>
+
+            <field name="help"
+                   type="html">
+
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first Instant Sale order!
+                </p>
+
+            </field>
+
+        </record>
+
+        <!-- MENU -->
+
+        <menuitem
+            id="menu_instant_sale"
+            name="Instant Sale"
+            parent="sale.sale_order_menu"
+            action="action_instant_sale_quotations"
+            sequence="2"
+            groups="inom_mst_mems_instant_sales_automation.group_instant_sale_user"/>
+
+    </data>
+
+</odoo>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        h2 { color: #7C7BAD; }
+        ul { line-height: 2; }
+    </style>
+</head>
+<body>
+<h2>Odoo Sales Automation | Auto Invoice | Auto Delivery</h2>
+<p>
+    This module enables <strong>Instant Sale Automation</strong> in Odoo 19.
+    When a quotation is confirmed as an Instant Sale, the system automatically:
+</p>
+<ul>
+    <li>Validates the delivery order (if stock is available in the selected source location)</li>
+    <li>Creates and posts the customer invoice</li>
+    <li>On cancellation: auto-creates return delivery and cancels/reverses the invoice</li>
+</ul>
+
+<h2>Key Features</h2>
+<ul>
+    <li><b>Instant Sale View Type</b>: Select "Instant Sale" as Sales View Type on quotations</li>
+    <li><b>Source Location</b>: Choose warehouse source location for stock validation</li>
+    <li><b>Stock Validation</b>: Prevents confirmation if insufficient stock</li>
+    <li><b>Auto Validate Delivery</b>: Delivery auto-validated on order confirmation</li>
+    <li><b>Auto Create Invoice</b>: Invoice auto-created on order confirmation</li>
+    <li><b>Auto Post Invoice</b>: Invoice auto-posted without manual intervention</li>
+    <li><b>Auto Return Delivery on Cancel</b>: Return transfer auto-created and validated</li>
+    <li><b>Auto Cancel Invoice on Cancel</b>: Credit note created and invoice reversed</li>
+    <li><b>Sequence Prefix</b>: Configurable prefix for Instant Sale order sequences</li>
+    <li><b>User Rights</b>: Instant Sales User and Manager access groups</li>
+</ul>
+
+<h2>Configuration</h2>
+<p>
+    Go to <b>Sales → Configuration → Settings → Instant Sale Automation</b>
+    to enable/disable each automation option.
+</p>
+<p>
+    Go to <b>Settings → Users → User → Other → Instant Sales</b>
+    to assign Instant Sale Manager rights.
+</p>
+</body>
+</html>
