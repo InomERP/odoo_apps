@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="res_config_settings_view_form_quick_sale" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.quick.sale</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="sale.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//form" position="inside">
+
+                    <app string="Inom Quick Sale"
+                         name="quick_sale_automation">
+
+                        <block title="Inom Quick Sale">
+
+                            <!-- Sequence -->
+                            <setting string="Quick Sale Sequence Prefix">
+                                <field name="quick_sale_sequence_prefix"/>
+                            </setting>
+
+                            <!-- Delivery -->
+                            <setting string="Auto Validate Delivery">
+                                <field name="auto_validate_delivery"/>
+                            </setting>
+
+                            <!-- Invoice -->
+                            <setting string="Auto Create Invoice">
+                                <field name="auto_create_invoice"/>
+                            </setting>
+
+                            <setting string="Auto Post Invoice">
+                                <field name="auto_post_invoice"/>
+                            </setting>
+
+                            <!-- Payment -->
+                            <setting string="Auto Register Payment">
+                                <field name="auto_register_payment"/>
+                            </setting>
+
+                            <!-- Cancel Flow -->
+                            <setting string="Auto Return Delivery On Cancel">
+                                <field name="auto_return_delivery_on_cancel"/>
+                            </setting>
+
+                            <setting string="Auto Cancel Invoice On Cancel">
+                                <field name="auto_cancel_invoice_on_cancel"/>
+                            </setting>
+
+                            <!-- Stock -->
+                            <setting string="Allow Negative Stock"
+                                     help="Enable to allow delivery even if stock is zero or negative.">
+
+                                <field name="allow_negative_stock"/>
+
+                            </setting>
+
+                            <!-- Partial Delivery -->
+                            <setting string="Allow Partial Delivery"
+                                     help="Allow partial delivery and create backorder for remaining quantity.">
+
+                                <field name="allow_partial_delivery"/>
+
+                            </setting>
+
+                        </block>
+
+                    </app>
+
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>
