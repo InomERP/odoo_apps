@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <!-- SALE ORDER FORM -->
+
+        <record id="view_order_form_quick_sale"
+                model="ir.ui.view">
+
+            <field name="name">sale.order.form.quick.sale</field>
+
+            <field name="model">sale.order</field>
+
+            <field name="inherit_id"
+                   ref="sale.view_order_form"/>
+
+            <field name="arch"
+                   type="xml">
+
+                <xpath expr="//field[@name='payment_term_id']"
+                       position="after">
+
+                    <field name="quick_sale_type"
+                           groups="inom_quick_sale.group_quick_sale_user"/>
+
+                    <field name="source_location_id"
+                           invisible="quick_sale_type != 'quick_sale'"
+                           groups="inom_quick_sale.group_quick_sale_user"/>
+
+                </xpath>
+
+            </field>
+
+        </record>
+
+        <!-- ACTION -->
+
+        <record id="action_quick_sale_quotations"
+                model="ir.actions.act_window">
+
+            <field name="name">Quick Sale</field>
+
+            <field name="res_model">sale.order</field>
+
+            <field name="view_mode">tree,form</field>
+
+            <field name="domain">
+                [('quick_sale_type', '=', 'quick_sale')]
+            </field>
+
+            <field name="context">
+                {'default_quick_sale_type': 'quick_sale'}
+            </field>
+
+            <field name="help"
+                   type="html">
+
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first Quick Sale order!
+                </p>
+
+            </field>
+
+        </record>
+
+        <!-- MENU -->
+
+        <menuitem
+            id="menu_quick_sale"
+            name="Quick Sale"
+            parent="sale.sale_order_menu"
+            action="action_quick_sale_quotations"
+            sequence="2"
+            groups="inom_quick_sale.group_quick_sale_user"/>
+
+    </data>
+
+</odoo>

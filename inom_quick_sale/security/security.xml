@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <!-- Module Category -->
+        <record id="module_category_quick_sale"
+                model="ir.module.category">
+
+            <field name="name">Inom Quick Sale</field>
+
+            <field name="description">Manage Inom Quick Sale automation rights</field>
+
+            <field name="sequence">
+                100
+            </field>
+
+        </record>
+
+        <!-- User Group -->
+        <record id="group_quick_sale_user"
+                model="res.groups">
+
+            <field name="name">
+                Quick Sale User
+            </field>
+
+        </record>
+
+        <!-- Manager Group -->
+        <record id="group_quick_sale_manager"
+                model="res.groups">
+
+            <field name="name">
+                Quick Sale Manager
+            </field>
+
+            <field name="implied_ids"
+                   eval="[
+                       (4, ref('group_quick_sale_user')),
+                       (4, ref('base.group_system'))
+                   ]"/>
+
+        </record>
+
+    </data>
+</odoo>
