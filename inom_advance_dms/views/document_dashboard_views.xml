@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_edm_dashboard_form" model="ir.ui.view">
+        <field name="name">edm.dashboard.form</field>
+        <field name="model">edm.dashboard</field>
+        <field name="arch" type="xml">
+            <form string="Document Dashboard" create="0" edit="0" delete="0">
+                <sheet>
+                    <h1>Document Dashboard</h1>
+
+                    <group string="Documents">
+                        <button name="action_open_all_documents" type="object"
+                                class="oe_stat_button"
+                                icon="fa-files-o">
+                            <field name="total_documents" widget="statinfo" string="Total Documents"/>
+                        </button>
+
+                        <button name="action_open_draft_documents" type="object"
+                                class="oe_stat_button text-warning"
+                                icon="fa-pencil">
+                            <field name="draft_documents" widget="statinfo" string="Draft"/>
+                        </button>
+
+                        <button name="action_open_waiting_documents" type="object"
+                                class="oe_stat_button text-info"
+                                icon="fa-clock-o">
+                            <field name="waiting_documents" widget="statinfo" string="Waiting"/>
+                        </button>
+
+                        <button name="action_open_approved_documents" type="object"
+                                class="oe_stat_button text-success"
+                                icon="fa-check">
+                            <field name="approved_documents" widget="statinfo" string="Approved"/>
+                        </button>
+
+                        <button name="action_open_rejected_documents" type="object"
+                                class="oe_stat_button text-danger"
+                                icon="fa-times">
+                            <field name="rejected_documents" widget="statinfo" string="Rejected"/>
+                        </button>
+
+                        <button name="action_open_favorite_documents" type="object"
+                                class="oe_stat_button text-primary"
+                                icon="fa-star">
+                            <field name="favorite_documents" widget="statinfo" string="Favorites"/>
+                        </button>
+
+                        <button name="action_open_expired_documents" type="object"
+                                class="oe_stat_button text-danger"
+                                icon="fa-calendar-times-o">
+                            <field name="expired_documents" widget="statinfo" string="Expired"/>
+                        </button>
+
+                        <button name="action_open_expiring_soon_documents" type="object"
+                                class="oe_stat_button text-warning"
+                                icon="fa-exclamation-triangle">
+                            <field name="expiring_soon_documents" widget="statinfo" string="Expiring Soon"/>
+                        </button>
+                    </group>
+
+                    <separator string="File Requests"/>
+
+                    <group>
+                        <button name="action_open_all_requests" type="object"
+                                class="oe_stat_button text-primary"
+                                icon="fa-list">
+                            <field name="total_requests" widget="statinfo" string="Total Requests"/>
+                        </button>
+
+                        <button name="action_open_accepted_requests" type="object"
+                                class="oe_stat_button text-success"
+                                icon="fa-check-circle">
+                            <field name="accepted_requests" widget="statinfo" string="Approved"/>
+                        </button>
+
+                        <button name="action_open_rejected_requests" type="object"
+                                class="oe_stat_button text-danger"
+                                icon="fa-times-circle">
+                            <field name="rejected_requests" widget="statinfo" string="Declined"/>
+                        </button>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edm_dashboard" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">edm.dashboard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_edm_dashboard_form"/>
+        <field name="target">current</field>
+    </record>
+
+</odoo>

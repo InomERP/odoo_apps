@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Document User Group -->
+    <record id="group_edm_user" model="res.groups">
+        <field name="name">Document User</field>
+    </record>
+
+    <!-- Document Manager Group -->
+    <record id="group_edm_manager" model="res.groups">
+        <field name="name">Document Manager</field>
+        <field name="implied_ids" eval="[(4, ref('group_edm_user'))]"/>
+    </record>
+
+    <!-- ============ RECORD RULES (enforce access_type) ============ -->
+    <!-- Regular users: own documents + documents shared to them -->
+    <record id="rule_edm_document_user" model="ir.rule">
+        <field name="name">Document: own and shared with me</field>
+        <field name="model_id" ref="model_edm_document"/>
+        <field name="groups" eval="[(4, ref('group_edm_user'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="domain_force">['|', ('owner_id', '=', user.id), '&amp;', ('access_type', '=', 'users'), ('allowed_user_ids', 'in', user.id)]</field>
+    </record>
+
+    <!-- Document Managers: also see "Managers &amp; Owner" and "Specific Users" documents -->
+    <record id="rule_edm_document_manager" model="ir.rule">
+        <field name="name">Document: manager visibility</field>
+        <field name="model_id" ref="model_edm_document"/>
+        <field name="groups" eval="[(4, ref('group_edm_manager'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="domain_force">[('access_type', 'in', ('manager', 'users'))]</field>
+    </record>
+
+</odoo>
+
