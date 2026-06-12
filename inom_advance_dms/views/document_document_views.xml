@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_edm_document_search" model="ir.ui.view">
+        <field name="name">edm.document.search</field>
+        <field name="model">edm.document</field>
+        <field name="arch" type="xml">
+            <search string="Search Documents">
+                <field name="name"/>
+                <field name="owner_id"/>
+                <field name="workspace_id"/>
+                <field name="folder_id"/>
+                <field name="tag_ids"/>
+
+                <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Waiting" name="waiting" domain="[('state','=','waiting')]"/>
+                <filter string="Approved" name="approved" domain="[('state','=','approved')]"/>
+                <filter string="Rejected" name="rejected" domain="[('state','=','rejected')]"/>
+                <filter string="Favorites" name="favorites" domain="[('is_favorite','=',True)]"/>
+                <separator/>
+                <filter string="PDF" name="ft_pdf" domain="[('file_extension','=','pdf')]"/>
+                <filter string="Images" name="ft_img" domain="[('file_extension','in',['png','jpg','jpeg','gif','svg','webp'])]"/>
+                <filter string="Documents" name="ft_doc" domain="[('file_extension','in',['doc','docx','txt','odt'])]"/>
+                <filter string="Spreadsheets" name="ft_xls" domain="[('file_extension','in',['xls','xlsx','csv','ods'])]"/>
+                <filter string="Presentations" name="ft_ppt" domain="[('file_extension','in',['ppt','pptx','odp'])]"/>
+                <filter string="Archives" name="ft_zip" domain="[('file_extension','in',['zip','rar','7z','tar','gz'])]"/>
+                <filter string="Links" name="ft_url" domain="[('file_extension','=','url')]"/>
+                <filter string="Recycle Bin" name="trash" domain="[('is_trashed','=',True)]"/>
+                <filter string="Expired" name="expired" domain="[('expiry_status','=','expired')]"/>
+                <filter string="Expiring Soon" name="expiring" domain="[('expiry_status','=','expiring_soon')]"/>
+
+                <separator/>
+
+                <filter string="Workspace" name="group_workspace" context="{'group_by':'workspace_id'}"/>
+                <filter string="File Type" name="group_filetype" context="{'group_by':'file_extension'}"/>
+                <filter string="Folder" name="group_folder" context="{'group_by':'folder_id'}"/>
+                <filter string="Owner" name="group_owner" context="{'group_by':'owner_id'}"/>
+                <filter string="State" name="group_state" context="{'group_by':'state'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_edm_document_list" model="ir.ui.view">
+        <field name="name">edm.document.list</field>
+        <field name="model">edm.document</field>
+        <field name="arch" type="xml">
+            <list string="Documents">
+                <field name="name"/>
+                <field name="state"/>
+                <field name="document_type"/>
+                <field name="file_extension"/>
+                <field name="version_no"/>
+                <field name="expiry_status"/>
+                <field name="workspace_id"/>
+                <field name="folder_id"/>
+                <field name="tag_ids" widget="many2many_tags"/>
+                <field name="owner_id"/>
+                <field name="is_favorite"/>
+                <field name="create_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edm_document_kanban" model="ir.ui.view">
+        <field name="name">edm.document.kanban</field>
+        <field name="model">edm.document</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="name"/>
+                <field name="state"/>
+                <field name="workspace_id"/>
+                <field name="folder_id"/>
+                <field name="tag_ids"/>
+                <field name="owner_id"/>
+                <field name="is_favorite"/>
+                <field name="document_type"/>
+                <field name="file_extension"/>
+                <field name="url"
+                    widget="url"
+                    options="{'website_path': true}"/>
+
+
+
+
+                <field name="version_no"/>
+                <field name="expiry_status"/>
+                <field name="create_date"/>
+
+                <searchpanel>
+                    <field name="workspace_id" string="WORKSPACES"/>
+                    <field name="folder_id" string="FOLDERS"/>
+                    <field name="owner_id" string="OWNERS"/>
+                    <field name="tag_ids" string="TAGS"/>
+                </searchpanel>
+
+                <templates>
+                    <t t-name="card">
+                        <div class="o_kanban_record edm-kb-card"
+                             style="display:flex; align-items:center; gap:14px; border:1px solid #e6e8f0; border-radius:12px; padding:14px 18px; background:#fff; min-height:64px; overflow:visible;">
+                            <widget name="edm_doc_popup"/>
+                            <div style="flex-shrink:0; display:flex; align-items:center; gap:6px; margin-left:auto;">
+                                <a type="object" name="action_toggle_favorite" class="btn btn-sm btn-link p-0 me-1" role="button" title="Favorite">
+                                    <t t-if="record.is_favorite.raw_value"><i class="fa fa-star" style="color:#f5b50a;font-size:15px;"/></t>
+                                    <t t-else=""><i class="fa fa-star-o" style="color:#b8bcc8;font-size:15px;"/></t>
+                                </a>
+                                <t t-if="record.state.raw_value == 'approved'"><span style="background:#e6f7ec;color:#1f9d57;padding:2px 9px;border-radius:50px;font-size:11px;font-weight:600;">Approved</span></t>
+                                <t t-elif="record.state.raw_value == 'rejected'"><span style="background:#fdeaea;color:#d33;padding:2px 9px;border-radius:50px;font-size:11px;font-weight:600;">Rejected</span></t>
+                                <t t-elif="record.state.raw_value == 'waiting'"><span style="background:#fff5e0;color:#c98a00;padding:2px 9px;border-radius:50px;font-size:11px;font-weight:600;">Waiting</span></t>
+                                <t t-else=""><span style="background:#f0f1f6;color:#5a6072;padding:2px 9px;border-radius:50px;font-size:11px;font-weight:600;">Draft</span></t>
+                                <span style="background:#eef0f6;color:#5a6072;padding:2px 8px;border-radius:50px;font-size:10px;text-transform:uppercase;"><field name="file_extension"/></span>
+                                <div class="dropdown">
+                                    <a href="#" class="btn btn-sm btn-link text-muted p-0 ms-1" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="Actions"><i class="fa fa-ellipsis-v"/></a>
+                                    <ul class="dropdown-menu dropdown-menu-end" role="menu">
+
+                                        <li>
+                                            <a type="object" name="action_generate_share_link" class="dropdown-item">
+                                                <i class="fa fa-share-alt me-2"/>
+                                                Share Access
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a type="object" name="action_create_lead" class="dropdown-item">
+                                                <i class="fa fa-user-plus me-2"/>
+                                                Generate Lead
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a type="object" name="action_create_task" class="dropdown-item">
+                                                <i class="fa fa-tasks me-2"/>
+                                                New Task
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a type="object" name="action_create_mail" class="dropdown-item">
+                                                <i class="fa fa-envelope me-2"/>
+                                                Send Email
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a type="object" name="action_copy_move_document" class="dropdown-item">
+                                                <i class="fa fa-copy me-2"/>
+                                                Duplicate / Move
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a type="object" name="action_archive_unarchive_document" class="dropdown-item">
+                                                <i class="fa fa-archive me-2"/>
+                                                Archive / Restore
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a type="object" name="action_lock_document" class="dropdown-item">
+                                                <i class="fa fa-lock me-2"/>
+                                                Lock File
+                                            </a>
+                                        </li>
+
+                                        <li><hr class="dropdown-divider"/></li>
+
+                                        <li>
+                                            <a type="object" name="action_quick_trash" class="dropdown-item text-danger">
+                                                <i class="fa fa-trash me-2"/>
+                                                Delete
+                                            </a>
+                                        </li>
+
+                                        <li><hr class="dropdown-divider"/></li>
+
+                                        <li>
+                                            <span class="dropdown-item text-muted">
+                                                <i class="fa fa-code-fork me-2"/>
+                                                Version: v<t t-esc="record.version_no.value"/>
+                                            </span>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    
+<record id="view_edm_document_form" model="ir.ui.view">
+    <field name="name">edm.document.form</field>
+    <field name="model">edm.document</field>
+    <field name="arch" type="xml">
+        <form string="Document">
+
+            <header>
+
+                <button name="action_submit_approval"
+                        string="Submit for Approval"
+                        type="object"
+                        class="btn-primary"
+                        invisible="state != 'draft' or is_trashed"/>
+
+                <button name="action_approve_document"
+                        string="Approve"
+                        type="object"
+                        class="btn-success"
+                        invisible="state != 'waiting' or is_trashed"/>
+
+                <button name="action_reject_document"
+                        string="Reject"
+                        type="object"
+                        class="btn-danger"
+                        invisible="state != 'waiting' or is_trashed"/>
+
+                <button name="action_reset_to_draft"
+                        string="Reset to Draft"
+                        type="object"
+                        invisible="state not in ['approved','rejected'] or is_trashed"/>
+
+                <button name="action_restore_document"
+                        string="Restore"
+                        type="object"
+                        class="btn-success"
+                        invisible="is_trashed == False"/>
+
+                <button name="unlink"
+                        string="Delete Permanently"
+                        type="object"
+                        class="btn-danger"
+                        confirm="Are you sure?"
+                        invisible="is_trashed == False"/>
+
+                <button name="action_schedule_reminder"
+                        string="Schedule Reminder"
+                        type="object"
+                        class="btn-info"
+                        invisible="not expiry_date"/>
+
+                <button name="action_send_expiry_email"
+                        string="Send Expiry Email"
+                        type="object"
+                        class="btn-warning"
+                        invisible="not expiry_date"/>
+
+                <button name="action_open_url"
+                        string="Open URL"
+                        type="object"
+                        class="btn-secondary"
+                        invisible="document_type != 'url'"/>
+
+                <field name="state"
+                       widget="statusbar"
+                       statusbar_visible="draft,waiting,approved,rejected"
+                       statusbar_colors='{
+                       "draft":"warning",
+                       "waiting":"primary",
+                       "approved":"success",
+                       "rejected":"danger"
+                       }'/>
+
+            </header>
+
+            <sheet>
+                <group>
+
+                    <field name="name"/>
+
+                    <field name="document_type"/>
+
+                    <field name="file"
+                           filename="file_name"
+                           invisible="document_type == 'url'"/>
+
+                    <field name="file_name"
+                           invisible="document_type == 'url'"/>
+
+                    <field name="url"
+                           widget="url"
+                           invisible="document_type != 'url'"/>
+
+                    <field name="workspace_id"/>
+
+                    <field name="folder_id"/>
+
+                    <field name="tag_ids"
+                           widget="many2many_tags"/>
+
+                    <field name="owner_id"/>
+
+                    <field name="expiry_date"/>
+
+                    <field name="expiry_status"
+                           readonly="1"/>
+
+                    <field name="version_no"
+                           readonly="1"/>
+
+                    <field name="is_favorite"/>
+
+                </group>
+
+                <notebook>
+                    <page string="Description" name="description_tab">
+                        <field name="annotation_description"
+                               placeholder="Description added from the annotator appears here. You can also edit it directly."
+                               nolabel="1"/>
+                    </page>
+                    <page string="Version History" name="versions_tab">
+                        <field name="version_ids" readonly="1">
+                            <list string="Versions" create="0" delete="0">
+                                <field name="version_no"/>
+                                <field name="file_name"/>
+                                <field name="uploaded_by"/>
+                                <field name="uploaded_date"/>
+                                <button name="action_restore_version" type="object" string="Restore" icon="fa-undo" class="btn-link"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="Annotations" name="annotations_tab"
+                          invisible="file_extension != 'pdf'">
+                        <div class="mb-2 text-muted" style="font-size:12px;">
+                            ℹ️ Click <b>📝 Annotate PDF</b> above to open the full annotation editor.
+                            Saved annotations appear in the list below.
+                        </div>
+                        <field name="annotation_ids"
+                               readonly="1">
+                            <list string="Saved Annotations" create="0" delete="0">
+                                <field name="page_number" string="Page"/>
+                                <field name="annotation_type" string="Type"/>
+                                <field name="color" widget="color" string="Color"/>
+                                <field name="content" string="Note"/>
+                                <field name="user_id" string="Author"/>
+                                <field name="is_resolved" string="Resolved"/>
+                            </list>
+                        </field>
+                    </page>
+                </notebook>
+            </sheet>
+
+            <chatter/>
+
+        </form>
+    </field>
+</record>
+
+
+
+    <record id="action_edm_document" model="ir.actions.act_window">
+        <field name="name">Documents</field>
+        <field name="res_model">edm.document</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('is_trashed','=',False)]</field>
+        <field name="search_view_id" ref="view_edm_document_search"/>
+    </record>
+
+    <record id="action_edm_document_trash" model="ir.actions.act_window">
+        <field name="name">Recycle Bin</field>
+        <field name="res_model">edm.document</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('is_trashed','=',True)]</field>
+        <field name="context">{'active_test': False}</field>
+        <field name="search_view_id" ref="view_edm_document_search"/>
+    </record>
+
+</odoo>

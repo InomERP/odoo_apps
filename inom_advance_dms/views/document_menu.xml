@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- ROOT APP -->
+    <menuitem id="menu_edm_root"
+              name="Advanced DMS"
+              action="action_edm_dashboard_pro"
+              web_icon="inom_advance_dms,static/description/icon.png"
+              sequence="1"/>
+
+    <!-- DASHBOARD (professional analytics) -->
+    <menuitem id="menu_edm_dashboard"
+              name="Dashboard"
+              parent="menu_edm_root"
+              action="action_edm_dashboard_pro"
+              sequence="1"/>
+
+    <!-- DOCUMENTS -->
+    <menuitem id="menu_edm_documents"
+              name="Documents"
+              parent="menu_edm_root"
+              action="action_edm_document"
+              sequence="2"/>
+
+    <!-- WORKSPACES -->
+    <menuitem id="menu_edm_workspace"
+              name="Workspaces"
+              parent="menu_edm_root"
+              action="action_edm_workspace"
+              sequence="3"/>
+
+    <!-- FOLDERS -->
+    <menuitem id="menu_edm_folder"
+              name="Folders"
+              parent="menu_edm_root"
+              action="action_edm_folder"
+              sequence="4"/>
+
+    <!-- REQUESTS -->
+    <menuitem id="menu_edm_document_request"
+              name="File Requests"
+              parent="menu_edm_root"
+              action="action_edm_document_request"
+              sequence="5"/>
+
+    <!-- CREATE REQUEST -->
+    <menuitem id="menu_edm_create_request"
+              name="New File Request"
+              parent="menu_edm_root"
+              action="action_edm_document_request_wizard"
+              sequence="6"/>
+
+
+    <!-- ADD URL -->
+    <menuitem id="menu_edm_add_url"
+              name="Add Link"
+              parent="menu_edm_root"
+              action="action_edm_add_url_wizard"
+              sequence="8"/>
+
+    <!-- MULTI UPLOAD -->
+    <menuitem id="menu_edm_multi_upload"
+              name="Bulk Upload"
+              parent="menu_edm_root"
+              action="action_edm_multi_upload_document_wizard"
+              sequence="9"/>
+
+    <!-- TAGS -->
+    <menuitem id="menu_edm_tag"
+              name="Tags"
+              parent="menu_edm_root"
+              action="action_edm_tag"
+              sequence="10"/>
+
+    <!-- TRASH -->
+    <menuitem id="menu_edm_trash"
+              name="Recycle Bin"
+              parent="menu_edm_root"
+              action="action_edm_document_trash"
+              sequence="99"/>
+
+</odoo>
+

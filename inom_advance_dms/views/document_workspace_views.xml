@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_edm_workspace_list" model="ir.ui.view">
+        <field name="name">edm.workspace.list</field>
+        <field name="model">edm.workspace</field>
+        <field name="arch" type="xml">
+            <list string="Workspaces">
+                <field name="name"/>
+                <field name="company_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edm_workspace_form" model="ir.ui.view">
+        <field name="name">edm.workspace.form</field>
+        <field name="model">edm.workspace</field>
+        <field name="arch" type="xml">
+            <form string="Workspace">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="company_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edm_workspace" model="ir.actions.act_window">
+        <field name="name">Workspaces</field>
+        <field name="res_model">edm.workspace</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

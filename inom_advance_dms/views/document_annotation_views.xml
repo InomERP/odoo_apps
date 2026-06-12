@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- ============================================================
+         ANNOTATION LIST VIEW (embedded in document form)
+    ============================================================ -->
+    <record id="view_edm_annotation_list_inline" model="ir.ui.view">
+        <field name="name">edm.document.annotation.list.inline</field>
+        <field name="model">edm.document.annotation</field>
+        <field name="arch" type="xml">
+            <list string="Annotations" editable="bottom" delete="1">
+                <field name="page_number" string="Page"/>
+                <field name="annotation_type" string="Type"/>
+                <field name="color" widget="color" string="Color"/>
+                <field name="content" string="Note"/>
+                <field name="user_id" string="Author" readonly="1"/>
+                <field name="is_resolved" string="Resolved"/>
+                <button name="action_resolve" string="Resolve" type="object"
+                        icon="fa-check" title="Mark as Resolved"
+                        invisible="is_resolved == True"/>
+                <button name="action_unresolve" string="Reopen" type="object"
+                        icon="fa-undo" title="Reopen Annotation"
+                        invisible="is_resolved == False"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         STANDALONE ANNOTATION ACTION (optional)
+    ============================================================ -->
+    <record id="action_edm_document_annotations" model="ir.actions.act_window">
+        <field name="name">Annotations</field>
+        <field name="res_model">edm.document.annotation</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>
