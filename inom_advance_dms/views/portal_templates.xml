@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Portal Home Documents Menu -->
+    <template id="portal_my_home_documents"
+              inherit_id="portal.portal_my_home"
+              name="Portal Documents Menu"
+              priority="20">
+
+        <xpath expr="//div[hasclass('row')]" position="inside">
+
+            <div class="col-xl-3 col-lg-4 col-md-6 mb-3">
+
+                <a href="/my/documents"
+                   class="btn btn-light border w-100 text-start shadow-sm d-flex flex-column justify-content-start"
+                   style="border-radius: 10px;
+                          padding: 18px;
+                          min-height: 185px;">
+
+                    <i class="fa fa-file-text-o fa-2x mb-3"
+                       style="color:#714B67;"/>
+
+                    <h5 class="mb-2">My Documents</h5>
+
+                    <p class="mb-0 text-muted">
+                        View and download your documents
+                    </p>
+
+                </a>
+
+            </div>
+
+        </xpath>
+
+    </template>
+
+    <!-- Portal Home Upload Request Menu -->
+    <template id="portal_my_home_upload_requests"
+              inherit_id="portal.portal_my_home"
+              name="Portal Upload Requests Menu"
+              priority="30">
+
+        <xpath expr="//div[hasclass('row')]" position="inside">
+
+            <div class="col-xl-3 col-lg-4 col-md-6 mb-3">
+
+                <a href="/my/upload-requests"
+                   class="btn btn-light border w-100 text-start shadow-sm d-flex flex-column justify-content-start"
+                   style="border-radius: 10px;
+                          padding: 18px;
+                          min-height: 185px;">
+
+                    <i class="fa fa-upload fa-2x mb-3"
+                       style="color:#714B67;"/>
+
+                    <h5 class="mb-2">Upload Requests</h5>
+
+                    <p class="mb-0 text-muted">
+                        Accept or reject upload requests
+                    </p>
+
+                </a>
+
+            </div>
+
+        </xpath>
+
+    </template>
+
+    <!-- Portal Documents Page -->
+    <template id="portal_my_documents" name="My Documents">
+        <t t-call="portal.portal_layout">
+            <div class="container mt-4 mb-5">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active">Documents</li>
+                </ol>
+
+                <table class="table table-sm table-striped">
+                    <thead>
+                        <tr>
+                            <th>Document Name</th>
+                            <th>User Name</th>
+                            <th>Create Date</th>
+                            <th>Related User</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <t t-foreach="documents" t-as="doc">
+                            <tr>
+                                <td><strong t-esc="doc.name"/></td>
+                                <td><span t-esc="doc.create_uid.name"/></td>
+                                <td><span t-field="doc.create_date"/></td>
+                                <td><span t-esc="doc.owner_id.name if doc.owner_id else doc.create_uid.name"/></td>
+                                <td class="text-center">
+                                    <a t-att-href="'/my/document/view/%s' % doc.id" target="_blank"
+                                       class="btn btn-sm btn-outline-secondary me-1" title="View">
+                                        <i class="fa fa-eye"/>
+                                    </a>
+                                    <a t-if="doc.owner_id.id == user.id or doc.share_access_level in ('download', 'annotate')"
+                                       t-att-href="'/my/document/download/%s' % doc.id"
+                                       class="btn btn-sm btn-outline-primary" title="Download">
+                                        <i class="fa fa-download"/>
+                                    </a>
+                                </td>
+                            </tr>
+                        </t>
+
+                        <t t-if="not documents">
+                            <tr>
+                                <td colspan="5" class="text-center text-muted">
+                                    No documents found.
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+
+    <!-- Portal Upload Requests Page -->
+    <template id="portal_upload_requests" name="Upload Requests">
+        <t t-call="portal.portal_layout">
+            <div class="container mt-4 mb-5">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active">Upload Request</li>
+                </ol>
+
+                <table class="table table-sm table-striped">
+                    <thead>
+                        <tr>
+                            <th>Request Date</th>
+                            <th>Requested By</th>
+                            <th>Document Needed</th>
+                            <th>Workspace</th>
+                            <th>Status</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <t t-foreach="upload_requests" t-as="req">
+                            <tr>
+                                <td><span t-field="req.request_date"/></td>
+                                <td><span t-esc="req.requested_by.name"/></td>
+                                <td><span t-esc="req.name"/></td>
+                                <td><span t-esc="req.workspace_id.name"/></td>
+                                <td>
+                                    <span t-if="req.state == 'requested'" class="badge text-bg-warning">Pending</span>
+                                    <span t-if="req.state == 'accepted'" class="badge text-bg-success">Approved</span>
+                                    <span t-if="req.state == 'rejected'" class="badge text-bg-danger">Declined</span>
+                                </td>
+                                <td class="text-center">
+                                    <t t-if="req.state == 'requested'">
+                                        <a t-att-href="'/my/upload-request/%s/accept' % req.id"
+                                           class="btn btn-sm btn-outline-success">
+                                            <i class="fa fa-check"/>
+                                        </a>
+
+                                        <a t-att-href="'/my/upload-request/%s/refuse' % req.id"
+                                           class="btn btn-sm btn-outline-danger ms-1">
+                                            <i class="fa fa-times"/>
+                                        </a>
+                                    </t>
+
+                                    <t t-if="req.state != 'requested'">
+                                        <span class="text-muted">Done</span>
+                                    </t>
+                                </td>
+                            </tr>
+                        </t>
+
+                        <t t-if="not upload_requests">
+                            <tr>
+                                <td colspan="6" class="text-center text-muted">
+                                    No upload requests found.
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+
+    <!-- Shared Document Page -->
+    <template id="portal_shared_document" name="Shared Document">
+        <t t-call="website.layout">
+            <div class="container mt-5 mb-5">
+                <div class="card shadow-sm p-4"
+                     style="border-radius: 12px;">
+
+                    <h2>
+                        <t t-esc="document.name"/>
+                    </h2>
+
+                    <hr/>
+
+                    <p><strong>Workspace:</strong> <t t-esc="document.workspace_id.name"/></p>
+                    <p><strong>Folder:</strong> <t t-esc="document.folder_id.name"/></p>
+                    <p><strong>Owner:</strong> <t t-esc="document.owner_id.name"/></p>
+
+                    <a t-att-href="'/documents/share/%s/download' % document.share_token"
+                       class="btn btn-primary">
+                        Download
+                    </a>
+
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

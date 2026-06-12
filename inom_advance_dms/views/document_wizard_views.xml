@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Single Upload Wizard -->
+    <record id="view_edm_upload_document_wizard_form" model="ir.ui.view">
+        <field name="name">edm.upload.document.wizard.form</field>
+        <field name="model">edm.upload.document.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Upload Document">
+                <group>
+                    <field name="name"/>
+
+                    <div class="alert alert-info" role="alert">
+                        Drag &amp; Drop file here or click below to upload.
+                    </div>
+
+                    <field name="file" filename="file_name"/>
+                    <field name="file_name"/>
+                    <field name="workspace_id"/>
+                    <field name="is_favorite"/>
+                </group>
+
+                <footer>
+                    <button name="action_upload_document"
+                            string="Upload"
+                            type="object"
+                            class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edm_upload_document_wizard" model="ir.actions.act_window">
+        <field name="name">Upload Document</field>
+        <field name="res_model">edm.upload.document.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Multi Upload Wizard -->
+    <record id="view_edm_multi_upload_document_wizard_form" model="ir.ui.view">
+        <field name="name">edm.multi.upload.document.wizard.form</field>
+        <field name="model">edm.multi.upload.document.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Bulk Upload Documents">
+                <group>
+                    <field name="workspace_id"/>
+                    <field name="is_favorite"/>
+
+                    <div class="alert alert-info" role="alert">
+                        Select multiple files. Each file creates a separate document record.
+                    </div>
+
+                    <field name="attachment_ids" widget="many2many_binary"/>
+                </group>
+
+                <footer>
+                    <button name="action_multi_upload_document"
+                            string="Upload Files"
+                            type="object"
+                            class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edm_multi_upload_document_wizard" model="ir.actions.act_window">
+        <field name="name">Bulk Upload</field>
+        <field name="res_model">edm.multi.upload.document.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Add URL Wizard -->
+    <record id="view_edm_add_url_wizard_form" model="ir.ui.view">
+        <field name="name">edm.add.url.wizard.form</field>
+        <field name="model">edm.add.url.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Add Link">
+                <group>
+                    <field name="url"/>
+                    <field name="name"/>
+                    <field name="workspace_id"/>
+                </group>
+
+                <footer>
+                    <button name="action_add_url"
+                            string="Add Link"
+                            type="object"
+                            class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edm_add_url_wizard" model="ir.actions.act_window">
+        <field name="name">Add Link</field>
+        <field name="res_model">edm.add.url.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+   <record id="view_edm_document_version_wizard_form" model="ir.ui.view">
+    <field name="name">edm.document.version.wizard.form</field>
+    <field name="model">edm.document.version.wizard</field>
+    <field name="arch" type="xml">
+        <form string="Upload New Version">
+            <group>
+                <field name="document_id" readonly="1"/>
+                <field name="file" filename="file_name"/>
+                <field name="file_name"/>
+            </group>
+
+            <footer>
+                <button name="action_upload_new_version"
+                        string="Upload Version"
+                        type="object"
+                        class="btn-primary"/>
+                <button string="Cancel" special="cancel"/>
+            </footer>
+        </form>
+    </field>
+</record>
+
+</odoo>

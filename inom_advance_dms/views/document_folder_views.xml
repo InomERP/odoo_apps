@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_edm_folder_list" model="ir.ui.view">
+        <field name="name">edm.folder.list</field>
+        <field name="model">edm.folder</field>
+        <field name="arch" type="xml">
+            <tree string="Folders">
+                <field name="complete_name"/>
+                <field name="workspace_id"/>
+                <field name="parent_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_edm_folder_form" model="ir.ui.view">
+        <field name="name">edm.folder.form</field>
+        <field name="model">edm.folder</field>
+        <field name="arch" type="xml">
+            <form string="Folder">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="workspace_id"/>
+                        <field name="parent_id"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Subfolders">
+                            <field name="child_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="workspace_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edm_folder" model="ir.actions.act_window">
+        <field name="name">Folders</field>
+        <field name="res_model">edm.folder</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>
