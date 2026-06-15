@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Order form: buttons, banner, smart button and versioning page -->
+    <record id="view_order_form_inom_versioning" model="ir.ui.view">
+        <field name="name">sale.order.form.inom.versioning</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Header buttons -->
+            <xpath expr="//header/field[@name='state']" position="before">
+                <button name="action_inom_open_create_wizard"
+                        type="object"
+                        string="Create Version"
+                        class="btn-secondary"
+                        invisible="state != 'sale'"/>
+                <button name="action_inom_compare_versions"
+                        type="object"
+                        string="Compare Versions"
+                        class="btn-secondary"
+                        invisible="inom_version_count &lt;= 1"/>
+            </xpath>
+
+            <!-- Smart button -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_inom_view_versions"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-history"
+                        invisible="inom_version_count &lt;= 1">
+                    <field name="inom_version_count"
+                           widget="statinfo"
+                           string="Versions"/>
+                </button>
+            </xpath>
+
+            <!-- Not-latest warning banner -->
+            <xpath expr="//div[@name='button_box']" position="before">
+                <field name="inom_is_version" invisible="1"/>
+                <field name="inom_is_latest_version" invisible="1"/>
+                <div class="alert alert-warning mb-0" role="alert"
+                     invisible="inom_is_latest_version or inom_version_count &lt;= 1">
+                    <i class="fa fa-exclamation-triangle me-1"/>
+                    This is not the latest version of this order. Latest version:
+                    <field name="inom_latest_version_id" readonly="1"
+                           class="oe_inline" options="{'no_create': True}"/>
+                    <button name="action_inom_open_latest" type="object"
+                            string="Open Latest Version"
+                            class="btn-link p-0 align-baseline"/>
+                </div>
+            </xpath>
+
+            <!-- Versioning info page -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Versioning" name="inom_versioning"
+                      invisible="not inom_is_version">
+                    <group>
+                        <group>
+                            <field name="inom_root_order_id" readonly="1"/>
+                            <field name="inom_version_no" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="inom_version_reason_type" readonly="1"/>
+                            <field name="inom_version_reason" readonly="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- Search view: filters for versions -->
+    <record id="view_sales_order_filter_inom_versioning" model="ir.ui.view">
+        <field name="name">sale.order.search.inom.versioning</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <separator/>
+                <filter name="inom_latest_versions"
+                        string="Latest Versions"
+                        domain="[('inom_is_latest_version', '=', True)]"/>
+                <filter name="inom_revised_orders"
+                        string="Revised Orders"
+                        domain="[('inom_is_version', '=', True)]"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

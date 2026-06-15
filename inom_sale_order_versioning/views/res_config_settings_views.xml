@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form_inom_versioning" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inom.versioning</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//setting[@id='no_edit_order']" position="after">
+                <setting id="inom_version_display_setting"
+                         string="Order Versions Display"
+                         help="Control how order versions appear in the quotation and order lists.">
+                    <field name="inom_version_display_mode" widget="radio"/>
+                </setting>
+                <setting id="inom_auto_cancel_setting"
+                         string="Auto-cancel Previous Version"
+                         help="Cancel earlier confirmed versions automatically when a newer version is confirmed.">
+                    <field name="inom_auto_cancel_previous"/>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
