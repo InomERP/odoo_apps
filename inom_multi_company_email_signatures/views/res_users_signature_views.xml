@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Standalone List View -->
+    <record id="res_users_signature_view_list" model="ir.ui.view">
+        <field name="name">res.users.signature.list</field>
+        <field name="model">res.users.signature</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="company_id" readonly="1"/>
+                <field name="signature" widget="html"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Standalone Form View with custom signature widget -->
+    <record id="res_users_signature_view_form" model="ir.ui.view">
+        <field name="name">res.users.signature.form</field>
+        <field name="model">res.users.signature</field>
+        <field name="arch" type="xml">
+            <form string="Email Signature">
+                <sheet>
+                    <group>
+                        <field name="user_id"    readonly="1"/>
+                        <field name="company_id" readonly="1"/>
+                    </group>
+
+                    <!-- Hidden field stores the actual value -->
+                    <field name="signature" invisible="1"/>
+
+                    <!-- Custom Draw/Type/Upload widget -->
+                    <div class="inom-signature-root" id="inomSigWidget">
+
+                        <div class="inom-sig-tabs">
+                            <div role="button" class="inom-sig-tab active" data-mode="draw">
+                                <i class="fa fa-pencil"/> Draw
+                            </div>
+                            <div role="button" class="inom-sig-tab" data-mode="type">
+                                <i class="fa fa-keyboard-o"/> Type
+                            </div>
+                            <div role="button" class="inom-sig-tab" data-mode="upload">
+                                <i class="fa fa-upload"/> Upload
+                            </div>
+                        </div>
+
+                        <!-- Panels -->
+                        <div class="inom-sig-panels">
+
+                            <!-- Draw Panel -->
+                            <div class="inom-sig-panel" data-panel="draw">
+                                <canvas class="inom-sig-canvas"
+                                        width="600" height="180"/>
+                                <div class="inom-sig-hint">
+                                    Use your mouse or finger to sign above.
+                                </div>
+                            </div>
+
+                            <!-- Type Panel -->
+                            <div class="inom-sig-panel"
+                                 data-panel="type"
+                                 style="display:none;">
+                                <input type="text"
+                                       class="inom-sig-typed o_input"
+                                       placeholder="Type your full name..."
+                                       maxlength="80"/>
+                                <div class="inom-sig-typed-preview"/>
+                            </div>
+
+                            <!-- Upload Panel -->
+                            <div class="inom-sig-panel"
+                                 data-panel="upload"
+                                 style="display:none;">
+                                <input type="file"
+                                       class="inom-sig-upload"
+                                       accept="image/png,image/jpeg"/>
+                                <div class="inom-sig-upload-preview">
+                                    <span class="inom-sig-hint">
+                                        No file selected.
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                       <!-- Controls -->
+                            <div class="inom-sig-controls">
+                                <div role="button" class="btn btn-sm btn-secondary inom-sig-clear">
+                                    <i class="fa fa-eraser"/> Clear
+                                </div>
+                                <span class="inom-sig-status"/>
+                            </div>
+
+                        <!-- Hidden input holds base64 value -->
+                        <input type="hidden"
+                               class="inom-sig-value"
+                               name="inom_signature_data"
+                               value=""/>
+
+                    </div>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>
