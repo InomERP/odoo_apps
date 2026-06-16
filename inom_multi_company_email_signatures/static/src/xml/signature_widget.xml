@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+<t t-name="inom_multi_company_email_signatures.SignatureWidget">
+    <div class="inom-signature-root">
+
+        <!-- Tabs -->
+        <div class="inom-sig-tabs">
+            <button type="button"
+                    t-att-class="'inom-sig-tab' + (state.activeTab === 'draw' ? ' active' : '')"
+                    t-on-click="switchTab.bind(this, 'draw')">
+                <i class="fa fa-pencil"/> Draw
+            </button>
+            <button type="button"
+                    t-att-class="'inom-sig-tab' + (state.activeTab === 'type' ? ' active' : '')"
+                    t-on-click="switchTab.bind(this, 'type')">
+                <i class="fa fa-keyboard-o"/> Type
+            </button>
+            <button type="button"
+                    t-att-class="'inom-sig-tab' + (state.activeTab === 'upload' ? ' active' : '')"
+                    t-on-click="switchTab.bind(this, 'upload')">
+                <i class="fa fa-upload"/> Upload
+            </button>
+        </div>
+
+        <!-- Draw Panel -->
+        <div t-if="state.activeTab === 'draw'" class="inom-sig-panel">
+            <canvas class="inom-sig-canvas"
+                    width="600" height="180"
+                    t-ref="canvas"/>
+            <div class="inom-sig-hint">Use your mouse or finger to sign above.</div>
+        </div>
+
+        <!-- Type Panel -->
+        <div t-if="state.activeTab === 'type'" class="inom-sig-panel">
+            <input type="text"
+                   class="inom-sig-typed o_input"
+                   placeholder="Type your full name..."
+                   maxlength="80"
+                   t-att-value="state.typedText"
+                   t-on-input="onTyped"/>
+            <div class="inom-sig-typed-preview">
+                <t t-if="currentValue.startsWith('typed:') and displaySrc">
+                    <img t-att-src="displaySrc" style="max-height:100px;"/>
+                </t>
+            </div>
+        </div>
+
+        <!-- Upload Panel -->
+        <div t-if="state.activeTab === 'upload'" class="inom-sig-panel">
+            <input type="file"
+                   class="inom-sig-upload"
+                   accept="image/png,image/jpeg"
+                   t-on-change="onUpload"/>
+            <div class="inom-sig-upload-preview">
+                <t t-if="currentValue.startsWith('upload:') and displaySrc">
+                    <img t-att-src="displaySrc" alt="signature"/>
+                </t>
+                <t t-else="">
+                    <span class="inom-sig-hint">No file selected.</span>
+                </t>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="inom-sig-controls">
+            <button type="button"
+                    class="btn btn-sm btn-secondary"
+                    t-on-click="clearSignature">
+                <i class="fa fa-eraser"/> Clear
+            </button>
+            <t t-if="hasSavedValue">
+                <span class="inom-sig-status inom-sig-status-success">
+                    ✓ Signature saved
+                </span>
+            </t>
+        </div>
+
+    </div>
+</t>
+
+</templates>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- F-04: Settings → Users & Companies → Users form -->
+    <record id="view_users_form_signature_tab" model="ir.ui.view">
+        <field name="name">res.users.form.signature.tab</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Signature List" name="signature_list">
+                    <field name="signature_ids"
+                           context="{'default_user_id': id}">
+                        <tree editable="bottom">
+                            <field name="company_id" required="1" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="signature" widget="inom_signature"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- F-05: My Profile view -->
+    <record id="res_users_view_form_profile_signature" model="ir.ui.view">
+        <field name="name">res.users.profile.signature.tab</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Signature List" name="signature_list_profile">
+                    <field name="signature_ids"
+                           context="{'default_user_id': id}">
+                        <tree editable="bottom">
+                            <field name="company_id" required="1" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="signature" widget="inom_signature"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

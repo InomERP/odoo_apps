@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Regular users: read/write only their own signature records -->
+    <record id="rule_users_signature_own" model="ir.rule">
+        <field name="name">User: own signatures only</field>
+        <field name="model_id" ref="model_res_users_signature"/>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+        <field name="perm_read">True</field>
+        <field name="perm_write">True</field>
+        <field name="perm_create">True</field>
+        <field name="perm_unlink">True</field>
+    </record>
+
+    <!-- Admins: access all users' signatures (no domain restriction) -->
+    <record id="rule_users_signature_admin" model="ir.rule">
+        <field name="name">Admin: all signatures</field>
+        <field name="model_id" ref="model_res_users_signature"/>
+        <field name="groups" eval="[(4, ref('base.group_system'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read">True</field>
+        <field name="perm_write">True</field>
+        <field name="perm_create">True</field>
+        <field name="perm_unlink">True</field>
+    </record>
+
+</odoo>
