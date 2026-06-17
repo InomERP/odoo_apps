@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="inom_mrp_production_form_force_cancel" model="ir.ui.view">
+        <field name="name">mrp.production.form.inom.force.cancel</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="inom_can_force_cancel" invisible="1"/>
+                <button name="action_inom_force_cancel"
+                        type="object"
+                        string="Force Cancel"
+                        class="btn-secondary"
+                        confirm="This will cancel the manufacturing order, its work orders and stock moves, and revert the produced quantity back to stock. Do you want to continue?"
+                        invisible="state in ('draft', 'cancel') or not inom_can_force_cancel"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
