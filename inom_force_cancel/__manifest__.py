@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Force Cancel Sale & Manufacturing Orders',
+    'name': 'Force Cancel Sale & Manufacturing Orders | Automatic Sales and Manufacturing Order Cancellation',
     'version': '18.0.1.0.0',
     'category': 'Sales',
     'summary': 'Force cancel confirmed sale orders and completed manufacturing '
