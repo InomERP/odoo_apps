@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Inom Intercompany Transfer - Auto-Synced Stock Transfers for Odoo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
+    <style>
+        :root {
+            --primary-color: #7f54b3;
+            --primary-color-dark: #5e3a91;
+            --bg-white: #fff;
+            --text-color: #121212;
+            --text-color-light: #64728f;
+            --accent-soft: #f3eefb;
+        }
+
+        body {
+            font-family: "Montserrat", sans-serif;
+        }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+            color: #121212;
+            font-family: Montserrat;
+            font-size: 16px !important;
+            font-weight: 500 !important;
+            border-radius: 30px;
+            line-height: normal;
+            text-transform: capitalize;
+            background-color: #F5F5F5;
+            border: none;
+            margin-bottom: 0;
+            padding: 8px 20px;
+        }
+
+        .nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
+            border-color: transparent;
+            isolation: isolate;
+        }
+
+        .nav-tabs .nav-link:focus-visible {
+            border-color: transparent;
+            box-shadow: none;
+        }
+
+        /* owl-carousel */
+        .owl-carousel .owl-nav {
+            position: absolute;
+            top: 42%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-42%);
+        }
+
+        .owl-carousel .owl-nav button.owl-prev {
+            position: absolute;
+            right: -36px;
+            font-size: 28px;
+            background-color: #e4e4e4;
+            border-radius: 20px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .owl-carousel .owl-nav button.owl-next {
+            position: absolute;
+            left: -36px;
+            font-size: 28px;
+            background-color: #e4e4e4;
+            border-radius: 20px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+<!-- ============================================================
+     HERO / OVERVIEW
+     ============================================================ -->
+<div class="container">
+    <div class="my-5">
+
+        <!-- version pills -->
+        <div class="my-3 d-flex align-items-center justify-content-end">
+            <div class="text-center"
+                 style="background-color:#017E84 !important; font-size:0.8rem !important; color:#fff !important; font-weight:500 !important; padding:4px !important; margin:0 3px !important; border-radius:50px !important; min-width:120px !important">
+                Community
+            </div>
+            <div class="text-center"
+                 style="background-color:#875A7B !important; color:#fff !important; font-size:0.8rem !important; font-weight:500 !important; padding:4px !important; margin:0 3px !important; border-radius:50px !important; min-width:120px !important">
+                Enterprise
+            </div>
+            <div class="text-center"
+                 style="background-color:#7C7BAD !important; color:#fff !important; font-size:0.8rem !important; font-weight:500 !important; padding:4px !important; margin:0 3px !important; border-radius:50px !important; min-width:120px !important">
+                Odoo.sh
+            </div>
+        </div>
+
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+                <div class="position-relative" style="border-radius: 16px; background: #f8f8f8; padding: 20px 0;">
+                    <div class="row" style="padding: 2rem 0rem 0 !important;">
+
+                        <div class="col-lg-8 mx-auto gap-4 d-flex flex-column align-items-center">
+                            <p class="my-1 text-center text-uppercase"
+                               style="letter-spacing: 4px; color: #7f54b3; font-weight: 600; font-size: 14px;">
+                                ODOO 17 · 18 · 19 · INTERCOMPANY STOCK TRANSFER MODULE
+                            </p>
+                            <h1 class="text-center text-uppercase my-0"
+                                style="color: #121212; font-size: 46px; font-weight: 700;">
+                                Inom Intercompany Transfer
+                            </h1>
+                        </div>
+
+                        <div class="col-lg-12 d-flex justify-content-center align-items-center"
+                             style="margin: 1rem 0;">
+                            <img src="./assets/icons/logo.png"
+                                 style="width: 30%; height: auto;"
+                                 class="img-responsive"/>
+                        </div>
+
+                        <div class="col-md-12 text-center">
+                            <a href="mailto:info@inomerp.in"
+                               target="_blank"
+                               style="background-color: transparent;
+                                      border-radius: 35px;
+                                      padding: 7px 23px;
+                                      border: 1px solid #7f54b3;
+                                      color: #7f54b3;
+                                      text-decoration: none;"
+                               class="mx-1 mb-2">
+                                <img style="width: 24px" src="./assets/icons/mail.svg"/>
+                                <span style="font-size: 16px;">Email Us</span>
+                            </a>
+                        </div>
+
+                        <div class="d-flex justify-content-center mt-2">
+                            <img src="./assets/icons/InomERP dashboard and global connections.png"
+                                 class="w-100"
+                                 style="z-index: 3; height: auto; border-radius: 12px; padding: 0 20px;">
+                        </div>
+                    </div>
+
+                    <div class="position-absolute bottom-0" style="z-index: 1; width: 100%;">
+                        <img src="./assets/icons/banner-bg.svg" class="img-fluid w-100">
+                    </div>
+
+                    <div class="position-absolute bottom-0 end-0" style="z-index: 2;">
+                        <img src="./assets/icons/patter.svg">
+                    </div>
+                </div>
+
+                <!-- ============================================================
+                     KEY HIGHLIGHTS
+                     ============================================================ -->
+                <div style="border-radius: 16px; padding: 60px 40px; border: 1px solid #EBEEF2; background: #F5F5F7; box-shadow: 0px 5px 20px -11px rgba(0,0,0,0.25); margin-top: 2rem;">
+                    <div class="row">
+                        <div class="col-lg-12 d-flex flex-column justify-content-center align-items-center">
+                            <h2 style="color: #121212; text-align: center; font-size: 40px; font-weight: 700; text-transform: uppercase; padding-bottom: 50px;">
+                                Key Highlights
+                            </h2>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="mb-4 d-flex flex-column justify-content-center gap-3"
+                                 style="border-radius: 12px; border: 1px solid #B6BCCD; background: #FFF; padding: 32px;">
+                                <div class="d-flex justify-content-center align-items-center"
+                                     style="background-color:#7847D9 !important; border-radius:8px !important; height:42px; width:42px">
+                                    <img src="./assets/icons/feature-icon.svg" class="img-responsive" height="26px" width="26px">
+                                </div>
+                                <h5 class="m-0" style="color:#000 !important; font-weight:bold">Automatic Resupply Route Sync</h5>
+                                <p class="m-0" style="color:var(--text-color-light); font-size: 16px; font-weight: 400;">
+                                    Configure a warehouse to "Resupply From" another company's warehouse and every transfer between the two is generated and linked automatically — no manual duplicate entry on either side.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="mb-4 d-flex flex-column justify-content-center gap-3"
+                                 style="border-radius: 12px; border: 1px solid #B6BCCD; background: #FFF; padding: 32px;">
+                                <div class="d-flex justify-content-center align-items-center"
+                                     style="background-color:#7847D9 !important; border-radius:8px !important; height:42px; width:42px">
+                                    <img src="./assets/icons/feature-icon.svg" class="img-responsive" height="26px" width="26px">
+                                </div>
+                                <h5 class="m-0" style="color:#000 !important; font-weight:bold">Two-Way Delivery ↔ Receipt Linking</h5>
+                                <p class="m-0" style="color:var(--text-color-light); font-size: 16px; font-weight: 400;">
+                                    Every receipt created on the destination company stays tied to its matching delivery on the source company, so both sides of the transfer are always in sync.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="mb-4 d-flex flex-column justify-content-center gap-3"
+                                 style="border-radius: 12px; border: 1px solid #B6BCCD; background: #FFF; padding: 32px;">
+                                <div class="d-flex justify-content-center align-items-center"
+                                     style="background-color:#7847D9; border-radius:8px !important; height:42px; width:42px">
+                                    <img src="./assets/icons/feature-icon.svg" class="img-responsive" height="26px" width="26px">
+                                </div>
+                                <h5 class="m-0" style="color:#000 !important; font-weight:bold">Smart Partial Transfer &amp; Backorder Handling</h5>
+                                <p class="m-0" style="color:var(--text-color-light); font-size: 16px; font-weight: 400;">
+                                    Receive or deliver less than the original demand and the module creates a backorder for the remaining quantity, keeping the link across companies intact for the rest of the transfer.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="mb-4 d-flex flex-column justify-content-center gap-3"
+                                 style="border-radius: 12px; border: 1px solid #B6BCCD; background: #FFF; padding: 32px;">
+                                <div class="d-flex justify-content-center align-items-center"
+                                     style="background-color:#7847D9; border-radius:8px !important; height:42px; width:42px">
+                                    <img src="./assets/icons/feature-icon.svg" class="img-responsive" height="26px" width="26px">
+                                </div>
+                                <h5 class="m-0" style="color:#000 !important; font-weight:bold">Multi-Warehouse, Multi-Company Ready</h5>
+                                <p class="m-0" style="color:var(--text-color-light); font-size: 16px; font-weight: 400;">
+                                    Works across unlimited companies and warehouses, including multi-step shipment configurations such as Receive &amp; Store, Pick &amp; Deliver, or Pick, Pack &amp; Deliver.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="mb-4 d-flex flex-column justify-content-center gap-3"
+                                 style="border-radius: 12px; border: 1px solid #B6BCCD; background: #FFF; padding: 32px;">
+                                <div class="d-flex justify-content-center align-items-center"
+                                     style="background-color:#7847D9; border-radius:8px !important; height:42px; width:42px">
+                                    <img src="./assets/icons/feature-icon.svg" class="img-responsive" height="26px" width="26px">
+                                </div>
+                                <h5 class="m-0" style="color:#000 !important; font-weight:bold">Complete Operations Visibility</h5>
+                                <p class="m-0" style="color:var(--text-color-light); font-size: 16px; font-weight: 400;">
+                                    Track every step — Draft → Waiting → Ready → Done — directly from Receipts, Deliveries and the Inventory Operations menu, with a full chatter log of every status change.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="mb-4 d-flex flex-column justify-content-center gap-3"
+                                 style="border-radius: 12px; border: 1px solid #B6BCCD; background: #FFF; padding: 32px;">
+                                <div class="d-flex justify-content-center align-items-center"
+                                     style="background-color:#7847D9; border-radius:8px !important; height:42px; width:42px">
+                                    <img src="./assets/icons/feature-icon.svg" class="img-responsive" height="26px" width="26px">
+                                </div>
+                                <h5 class="m-0" style="color:#000 !important; font-weight:bold">Seamless Native Inventory Integration</h5>
+                                <p class="m-0" style="color:var(--text-color-light); font-size: 16px; font-weight: 400;">
+                                    Built entirely on Odoo's standard Inventory Operations menu — Transfers, Adjustments, Procurement. No separate app or duplicate screens to learn.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- ============================================================
+                     INFO BANNER
+                     ============================================================ -->
+                <div class="my-5">
+                    <div style=" padding: 5rem 4rem 5rem 4rem; background-color: #0A1425; border-radius: 12px; position: relative;">
+                        <div class="wrapper-info"
+                             style="display: flex; flex-direction: column; gap: 20px;">
+                            <span class="wrapper-subtitle"
+                                  style="font-size: 40px; font-weight: 700; color: #fff;line-height: 60px; text-transform: capitalize; width: 450px;">Inom Intercompany Transfer</span>
+                            <h3 class="wrapper-details"
+                                style="font-size: 20px; font-weight: 400; color: #fff; line-height: 32px; ">
+                                Automatic, two-way synced stock transfers between companies for Odoo 17, 18 &amp; 19.<br>
+                                No duplicate entries · No manual matching.<br>
+                                Configure the resupply route once — every transfer links itself.
+                            </h3>
+                        </div>
+                        <div style="position: absolute; bottom: 0; right: 0;">
+                            <img src="./assets/icons/banner-pattern.svg" style="width: 540px;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================================
+                     FEATURES DETAIL
+                     ============================================================ -->
+                <div style="border-radius: 16px; border: 1px solid #EBEEF2; background: #FFF; padding: 60px 40px; box-shadow: 0px 5px 20px -11px rgba(0,0,0,0.25);">
+                    <div class="row">
+                        <div class="col-lg-12 d-flex justify-content-center">
+                            <h2 style="color:#121212; text-align:center; font-size:40px; font-weight:700; text-transform:uppercase; padding-bottom:50px;">
+                                Features
+                            </h2>
+                        </div>
+
+                        <div class="col-lg-6 mb-5">
+                            <div class="d-flex gap-3">
+                                <div class="flex-shrink-0 d-flex justify-content-center align-items-center"
+                                     style="background-color:#f3eefb; border-radius:10px; height:52px; width:52px; min-width:52px;">
+                                    <img src="./assets/icons/feat-canvas.svg" width="22" height="22" alt="">
+                                </div>
+                                <div>
+                                    <h5 style="font-weight:700; color:#121212;">One Resupply Route, Fully Automated</h5>
+                                    <p style="color:var(--text-color-light); font-size:15px; line-height:1.7;">
+                                        Configure the standard Odoo "Resupply From" route once on a warehouse. Every replenishment that flows through it automatically generates the matching intercompany transfer with the correct source and destination warehouse.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mb-5">
+                            <div class="d-flex gap-3">
+                                <div class="flex-shrink-0 d-flex justify-content-center align-items-center"
+                                     style="background-color:#f3eefb; border-radius:10px; height:52px; width:52px; min-width:52px;">
+                                    <img src="./assets/icons/feat-fields.svg" width="22" height="22" alt="">
+                                </div>
+                                <div>
+                                    <h5 style="font-weight:700; color:#121212;">All Standard Stock Move Details Carried Over</h5>
+                                    <p style="color:var(--text-color-light); font-size:15px; line-height:1.7;">
+                                        Product, demand quantity, unit of measure and variant details carry over correctly between the linked receipt and delivery, so nothing is lost in translation between companies.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mb-5">
+                            <div class="d-flex gap-3">
+                                <div class="flex-shrink-0 d-flex justify-content-center align-items-center"
+                                     style="background-color:#f3eefb; border-radius:10px; height:52px; width:52px; min-width:52px;">
+                                    <img src="./assets/icons/feat-print.svg" width="22" height="22" alt="">
+                                </div>
+                                <div>
+                                    <h5 style="font-weight:700; color:#121212;">Real-Time Status Mirroring</h5>
+                                    <p style="color:var(--text-color-light); font-size:15px; line-height:1.7;">
+                                        Draft → Waiting → Ready → Done status on one company's transfer reflects on the linked document on the other company, so both warehouse teams always see the live state.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mb-5">
+                            <div class="d-flex gap-3">
+                                <div class="flex-shrink-0 d-flex justify-content-center align-items-center"
+                                     style="background-color:#f3eefb; border-radius:10px; height:52px; width:52px; min-width:52px;">
+                                    <img src="./assets/icons/feat-search.svg" width="22" height="22" alt="">
+                                </div>
+                                <div>
+                                    <h5 style="font-weight:700; color:#121212;">Backorder-Aware Linking</h5>
+                                    <p style="color:var(--text-color-light); font-size:15px; line-height:1.7;">
+                                        Validate fewer units than the original demand and Odoo's backorder flow kicks in as usual — the module keeps the intercompany link between the original transfer and its backorder intact.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mb-5">
+                            <div class="d-flex gap-3">
+                                <div class="flex-shrink-0 d-flex justify-content-center align-items-center"
+                                     style="background-color:#f3eefb; border-radius:10px; height:52px; width:52px; min-width:52px;">
+                                    <img src="./assets/icons/feat-roles.svg" width="22" height="22" alt="">
+                                </div>
+                                <div>
+                                    <h5 style="font-weight:700; color:#121212;">Multi-Company Security Respected</h5>
+                                    <p style="color:var(--text-color-light); font-size:15px; line-height:1.7;">
+                                        Runs fully within Odoo's multi-company security rules — users only ever see the transfers and warehouses belonging to companies they have access to.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mb-5">
+                            <div class="d-flex gap-3">
+                                <div class="flex-shrink-0 d-flex justify-content-center align-items-center"
+                                     style="background-color:#f3eefb; border-radius:10px; height:52px; width:52px; min-width:52px;">
+                                    <img src="./assets/icons/feat-speed.svg" width="22" height="22" alt="">
+                                </div>
+                                <div>
+                                    <h5 style="font-weight:700; color:#121212;">Zero Extra Configuration Overhead</h5>
+                                    <p style="color:var(--text-color-light); font-size:15px; line-height:1.7;">
+                                        No new screens to learn. Set up the resupply route from <strong>Inventory → Configuration → Warehouses</strong> exactly like you normally would — the module handles the linking in the background.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================================
+                     SCREENSHOTS
+                     ============================================================ -->
+                <div class="my-5" style="border-radius: 16px; border: 1px solid #EBEEF2; background: #F5F5F7; padding: 60px 40px; box-shadow: 0px 5px 20px -11px rgba(0,0,0,0.25);">
+                    <h2 style="color:#121212; text-align:center; font-size:40px; font-weight:700; text-transform:uppercase; padding-bottom:14px;">
+                        Screenshots
+                    </h2>
+                    <p style="color:var(--text-color-light); text-align:center; max-width:720px; margin:0 auto 50px; font-size:15px; line-height:1.6;">
+                        From route configuration to a fully completed, linked transfer — a full walkthrough of Inom Intercompany Transfer.
+                    </p>
+
+                    <!-- 1. Configure Resupply Route -->
+                    <div class="mb-5">
+                        <h4 style="font-weight:700; color:#7f54b3; font-size:18px; border-left:4px solid #7f54b3; padding-left:12px; margin-bottom:24px;">Step 1 — Configure the Resupply Route</h4>
+                        <p style="color:var(--text-color-light); font-size:14px; margin:0 0 24px 0; line-height:1.6; max-width:760px;">
+                            On the destination warehouse, enable <strong>Resupply From</strong> and select the source company's warehouse. Both warehouses keep their own Incoming/Outgoing shipment steps — the module reads the route and links transfers between them automatically.
+                        </p>
+                        <div class="row g-4">
+                            <div class="col-lg-6">
+                                <div style="border-radius:12px; overflow:hidden; border:1px solid #EBEEF2; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+                                    <img src="./Screenshot1.png" class="img-fluid w-100" style="display:block;" alt="Destination warehouse configuration with Resupply From option">
+                                </div>
+                                <p style="text-align:center; color:var(--text-color-light); font-size:14px; margin-top:10px;">
+                                    Destination warehouse — <strong>Resupply From</strong> the Chicago warehouse.
+                                </p>
+                            </div>
+                            <div class="col-lg-6">
+                                <div style="border-radius:12px; overflow:hidden; border:1px solid #EBEEF2; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+                                    <img src="./Screenshot2.png" class="img-fluid w-100" style="display:block;" alt="Source company warehouse configuration">
+                                </div>
+                                <p style="text-align:center; color:var(--text-color-light); font-size:14px; margin-top:10px;">
+                                    Source company's warehouse — same Incoming/Outgoing step configuration, no extra setup needed.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Auto-created draft receipt -->
+                    <div class="mb-5">
+                        <h4 style="font-weight:700; color:#7f54b3; font-size:18px; border-left:4px solid #7f54b3; padding-left:12px; margin-bottom:24px;">Step 2 — Resupply Demand Creates a Draft Receipt Automatically</h4>
+                        <p style="color:var(--text-color-light); font-size:14px; margin:0 0 24px 0; line-height:1.6; max-width:760px;">
+                            As soon as demand is triggered on the resupply route, a new <strong>Receipt</strong> is created automatically with <em>Receive From</em> already set to the source company and the correct demand quantity — ready for the warehouse team to process.
+                        </p>
+                        <div class="row g-4">
+                            <div class="col-lg-12">
+                                <div style="border-radius:12px; overflow:hidden; border:1px solid #EBEEF2; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+                                    <img src="./Screenshot8.png" class="img-fluid w-100" style="display:block;" alt="New Receipt draft auto-created with Receive From set to source company">
+                                </div>
+                                <p style="text-align:center; color:var(--text-color-light); font-size:14px; margin-top:10px;">
+                                    New Receipt, Draft state — <strong>Receive From: My Company (Chicago)</strong>, Demand 20.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Process the transfer -->
+                    <div class="mb-5">
+                        <h4 style="font-weight:700; color:#7f54b3; font-size:18px; border-left:4px solid #7f54b3; padding-left:12px; margin-bottom:24px;">Step 3 — Process the Incoming Transfer</h4>
+                        <p style="color:var(--text-color-light); font-size:14px; margin:0 0 24px 0; line-height:1.6; max-width:760px;">
+                            Mark the receipt as ready and enter the quantity actually received. Here only 12 of the 20 demanded units are available — the rest will automatically be handled as a backorder in the next step.
+                        </p>
+                        <div class="row g-4">
+                            <div class="col-lg-12">
+                                <div style="border-radius:12px; overflow:hidden; border:1px solid #EBEEF2; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+                                    <img src="./Screenshot3.png" class="img-fluid w-100" style="display:block;" alt="Receipt in Ready state with partial quantity entered">
+                                </div>
+                                <p style="text-align:center; color:var(--text-color-light); font-size:14px; margin-top:10px;">
+                                    Receipt <strong>WH/IN/00007</strong> — Demand 20, Quantity 12 — ready to validate.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Backorder dialog -->
+                    <div class="mb-5">
+                        <h4 style="font-weight:700; color:#7f54b3; font-size:18px; border-left:4px solid #7f54b3; padding-left:12px; margin-bottom:24px;">Step 4 — Partial Quantity Triggers a Backorder Automatically</h4>
+                        <p style="color:var(--text-color-light); font-size:14px; margin:0 0 24px 0; line-height:1.6; max-width:760px;">
+                            Validating a transfer with fewer units than demanded prompts the standard <strong>Create Backorder?</strong> dialog. Choosing <em>Create Backorder</em> keeps the remaining 8 units linked across both companies for later processing.
+                        </p>
+                        <div class="row g-4">
+                            <div class="col-lg-12">
+                                <div style="border-radius:12px; overflow:hidden; border:1px solid #EBEEF2; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+                                    <img src="./Screenshot4.png" class="img-fluid w-100" style="display:block;" alt="Create Backorder confirmation dialog">
+                                </div>
+                                <p style="text-align:center; color:var(--text-color-light); font-size:14px; margin-top:10px;">
+                                    "You have processed less products than the initial demand" — create a backorder to track the remaining units.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5. Done -->
+                    <div class="mb-5">
+                        <h4 style="font-weight:700; color:#7f54b3; font-size:18px; border-left:4px solid #7f54b3; padding-left:12px; margin-bottom:24px;">Step 5 — Transfer Completed &amp; Linked</h4>
+                        <p style="color:var(--text-color-light); font-size:14px; margin:0 0 24px 0; line-height:1.6; max-width:760px;">
+                            Once validated, the transfer moves to <strong>Done</strong> with a recorded effective date, and the linked document on the source company's side is updated to match — fully traceable in the chatter log.
+                        </p>
+                        <div class="row g-4">
+                            <div class="col-lg-12">
+                                <div style="border-radius:12px; overflow:hidden; border:1px solid #EBEEF2; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+                                    <img src="./Screenshot5.png" class="img-fluid w-100" style="display:block;" alt="Receipt marked as Done with effective date">
+                                </div>
+                                <p style="text-align:center; color:var(--text-color-light); font-size:14px; margin-top:10px;">
+                                    Receipt <strong>WH/IN/00007</strong> — status <em>Done</em>, Effective Date logged automatically.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 6. Visible from both companies -->
+                    <div class="mb-5">
+                        <h4 style="font-weight:700; color:#7f54b3; font-size:18px; border-left:4px solid #7f54b3; padding-left:12px; margin-bottom:24px;">Step 6 — Same Transfer, Visible From Both Companies</h4>
+                        <p style="color:var(--text-color-light); font-size:14px; margin:0 0 24px 0; line-height:1.6; max-width:760px;">
+                            The completed transfer is reachable from the standard Inventory <strong>Operations</strong> menu on either side, and shows up correctly under <strong>Receipts</strong> for the destination company and under <strong>Deliveries</strong> for the source company — fully linked, with no duplicate manual entry required.
+                        </p>
+                        <div class="row g-4">
+                            <div class="col-lg-6">
+                                <div style="border-radius:12px; overflow:hidden; border:1px solid #EBEEF2; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+                                    <img src="./Screenshot6.png" class="img-fluid w-100" style="display:block;" alt="Inventory Operations menu showing Transfers, Adjustments and Procurement">
+                                </div>
+                                <p style="text-align:center; color:var(--text-color-light); font-size:14px; margin-top:10px;">
+                                    Standard Inventory <strong>Operations</strong> menu — Transfers, Adjustments, Procurement.
+                                </p>
+                            </div>
+                            <div class="col-lg-6">
+                                <div style="border-radius:12px; overflow:hidden; border:1px solid #EBEEF2; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+                                    <img src="./Screenshot7.png" class="img-fluid w-100" style="display:block;" alt="Same transfer visible under Deliveries on the source company side">
+                                </div>
+                                <p style="text-align:center; color:var(--text-color-light); font-size:14px; margin-top:10px;">
+                                    The same completed transfer, now visible under <strong>Deliveries</strong> on the source company's side.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- ============================================================
+                     OUR SERVICES
+                     ============================================================ -->
+                <section id="services" class="mt-5" style="border-radius: 16px;
+                                                          border: 1px solid #EBEEF2;
+                                                          background: var(--Neutral-N0, #FFF);
+                                                          padding: 30px 20px;
+                                                          box-shadow: 0px 5px 20px -11px rgba(0, 0, 0, 0.25);">
+                    <div class="text-center mt-4">
+                        <h3 class="mb-0" style="color: #000;
+                                                text-align: center;
+                                                font-family: Montserrat;
+                                                font-size: 40px;
+                                                font-style: normal;
+                                                font-weight: 700;
+                                                line-height: normal;
+                                                text-transform: uppercase;
+                                                padding-bottom: 50px;">
+                            Our Services
+                        </h3>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold; background-color:#FFE2E5; margin:auto; gap: 16px; border-radius: 8px;">
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#FA5A7D; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/gear.svg" class="img-responsive" height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px; color: var(--text-color); font-weight: 600;">Odoo Customization</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold; background-color:#FFF4DE; margin:auto; gap: 16px; border-radius: 8px;">
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#FF947A; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/wrench-icon.svg" class="img-responsive" height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px; color: var(--text-color); font-weight: 600;">Odoo Implementation</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold; background-color:#DCFCE7; margin:auto; gap: 16px; border-radius: 8px;">
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#3CD856; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/life-ring-icon.svg" class="img-responsive" height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px; color: var(--text-color); font-weight: 600;">Odoo Support</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold; background-color:#F3E8FF; margin:auto; gap: 16px; border-radius: 8px;">
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#BF83FF; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/arrows-repeat.svg" class="img-responsive" height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px; color: var(--text-color); font-weight: 600;">Odoo Migration</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold; background-color:#F1F9FF; margin:auto; gap: 16px; border-radius: 8px;">
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#01649C; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/puzzle-piece-icon.svg" class="img-responsive" height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px; color: var(--text-color); font-weight: 600;">Odoo Integration</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold; background-color:#EDF8ED; margin:auto; gap: 16px; border-radius: 8px;">
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#69CC70; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/odoo-consultancy.svg" class="img-responsive" height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px; color: var(--text-color); font-weight: 600;">Odoo Consultancy</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold; background-color:#F1F6FF; margin:auto; gap: 16px; border-radius: 8px;">
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#2E4556; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/odoo-licencing.svg" class="img-responsive" height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px; color: var(--text-color); font-weight: 600;">Odoo Licensing</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold; background-color:#FAF6EA; margin:auto; gap: 16px; border-radius: 8px;">
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#FCD12C; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/hire-odoo.svg" class="img-responsive" height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px; color: var(--text-color); font-weight: 600;">Hire Odoo Developer</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================
+     SUPPORT & CUSTOMIZATION CARD
+     ============================================================ -->
+<div style="max-width:850px; margin:10px auto; padding:35px 25px;
+            border-radius:16px; background-color:#0f172a; color:#fff;
+            font-family: 'Segoe UI', sans-serif;
+            box-shadow:0 10px 30px rgba(0,0,0,0.2);">
+
+    <div style="text-align:center; margin-bottom:20px;">
+        <h2 style="margin:0; font-size:26px; font-weight:600;">Support &amp; Customization</h2>
+        <p style="color:#94a3b8; font-size:14px; margin-top:6px;">
+            We're here to help you with setup, customization &amp; support
+        </p>
+    </div>
+
+    <div style="text-align:center; margin-bottom:25px;">
+        <a href="mailto:info@inomerp.in"
+           style="background:linear-gradient(135deg,#7f54b3,#9b6cff);
+                  color:#fff; padding:10px 22px; border-radius:30px;
+                  text-decoration:none; font-size:14px; font-weight:500;
+                  display:inline-block;
+                  box-shadow:0 4px 10px rgba(127,84,179,0.4);">
+            📩 info@inomerp.in
+        </a>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.05); padding:18px 20px;
+                border-radius:12px; border:1px solid rgba(255,255,255,0.08);
+                backdrop-filter: blur(6px);">
+        <h4 style="color:#f87171; font-size:17px; margin-bottom:6px;">🚀 Free Installation Support</h4>
+        <p style="font-size:13px; color:#e2e8f0; margin-bottom:6px;">
+            One-time free setup on Odoo server with proper configuration.
+        </p>
+        <p style="font-size:12px; color:#94a3b8; margin:0;">
+            Third-party or custom development requests may be chargeable.
+        </p>
+    </div>
+
+    <div style="text-align:center; margin-top:25px;">
+        <a href="https://inomerp.in" target="_blank"
+           style="border:1px solid #7f54b3; color:#fff;
+                  padding:9px 22px; border-radius:30px;
+                  text-decoration:none; font-size:13px; transition:0.3s;">
+            🌐 Visit Website
+        </a>
+    </div>
+
+    <div style="text-align:center; margin-top:30px;
+                border-top:1px solid rgba(255,255,255,0.1);
+                padding-top:15px;">
+        <strong style="font-size:14px; letter-spacing:1px;">INOM ERP</strong>
+        <p style="font-size:12px; color:#94a3b8; margin-top:5px;">
+            Odoo Experts | ERP Solutions | Custom Development
+        </p>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script>
+    $('.owl-carousel').owlCarousel({
+        rtl: true,
+        loop: true,
+        margin: 10,
+        nav: true,
+        responsive: {
+            0: { items: 1 },
+            600: { items: 3 },
+            1000: { items: 3 }
+        }
+    });
+</script>
+</body>
+</html>
