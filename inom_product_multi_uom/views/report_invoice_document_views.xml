@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        F-11: Show "Secondary Qty" and "Secondary UoM" columns on the
+        customer invoice PDF, right after the base Quantity column.
+
+        Columns appear only when at least one invoice line carries a
+        secondary UoM (display_secondary). Section / note rows already span
+        all columns (colspan="99") in Odoo 17, so alignment is preserved
+        automatically without any colspan adjustment.
+    -->
+    <template id="report_invoice_document_inom_secondary_uom"
+              inherit_id="account.report_invoice_document">
+
+        <xpath expr="//t[@t-set='display_discount']" position="after">
+            <t t-set="display_secondary"
+               t-value="any(l.secondary_uom_id for l in o.invoice_line_ids)"/>
+        </xpath>
+
+        <xpath expr="//th[@name='th_quantity']" position="after">
+            <th name="th_secondary_qty" t-if="display_secondary" class="text-end">
+                <span>Secondary Qty</span>
+            </th>
+            <th name="th_secondary_uom" t-if="display_secondary" class="text-end">
+                <span>Secondary UoM</span>
+            </th>
+        </xpath>
+
+        <xpath expr="//td[@name='td_quantity']" position="after">
+            <td name="td_secondary_qty" t-if="display_secondary" class="text-end">
+                <span t-if="line.secondary_uom_id" class="text-nowrap"
+                      t-field="line.secondary_qty"/>
+            </td>
+            <td name="td_secondary_uom" t-if="display_secondary" class="text-end">
+                <span t-if="line.secondary_uom_id"
+                      t-out="line.secondary_uom_id.display_name"/>
+            </td>
+        </xpath>
+
+    </template>
+
+</odoo>
