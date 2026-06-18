@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_picking_form_intercompany_transfer" model="ir.ui.view">
+        <field name="name">stock.picking.form.intercompany.transfer</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="intercompany_source_picking_id"
+                       readonly="1"
+                       invisible="not intercompany_source_picking_id"/>
+                <field name="intercompany_dest_picking_id"
+                       readonly="1"
+                       invisible="not intercompany_dest_picking_id"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
