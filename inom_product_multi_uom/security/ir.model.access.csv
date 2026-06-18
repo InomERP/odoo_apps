@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_secondary_uom_user,product.secondary.uom.user,model_product_secondary_uom,base.group_user,1,0,0,0
+access_product_secondary_uom_manager,product.secondary.uom.manager,model_product_secondary_uom,sales_team.group_sale_manager,1,1,1,1
+access_secondary_uom_wizard_user,secondary.uom.wizard.user,model_secondary_uom_wizard,base.group_user,1,1,1,1

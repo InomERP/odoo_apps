@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_template_form_view_inom_secondary_uom" model="ir.ui.view">
+        <field name="name">product.template.form.inherit.inom.secondary.uom</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//page[@name='general_information']/group[1]" position="after">
+
+                <!-- F-02: Need Secondary UoMs boolean toggle -->
+                <group>
+                    <group>
+                        <field name="need_secondary_uom" widget="boolean"/>
+                    </group>
+                </group>
+
+                <!-- F-03, F-04, F-05: Secondary UoM lines table -->
+                <group string="Secondary UoM's"
+                       invisible="not need_secondary_uom">
+                    <field name="secondary_uom_ids"
+                           string="Secondary UoM's"
+                           nolabel="1">
+                        <list editable="bottom" create="0" delete="1">
+                            <field name="uom_id" string="Secondary UoM" readonly="1"/>
+                            <field name="ratio_display" string="Ratio" readonly="1"/>
+                        </list>
+                    </field>
+                    <!-- Add a line: opens wizard using id field instead of active_id -->
+                    <div class="mt-1">
+                        <button
+                            name="action_open_secondary_uom_wizard"
+                            string="Add a line"
+                            type="object"
+                            class="btn-link"
+                        />
+                    </div>
+                </group>
+
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

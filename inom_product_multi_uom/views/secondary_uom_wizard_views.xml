@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Popup form view for Add Secondary UoM wizard (F-04) -->
+    <!-- Matches reference module: two columns layout -->
+    <!-- Left: Secondary UoM, Secondary UoM Ratio | Right: Product (readonly), Ratio (computed display) -->
+    <record id="secondary_uom_wizard_form_view" model="ir.ui.view">
+        <field name="name">secondary.uom.wizard.form</field>
+        <field name="model">secondary.uom.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Create Secondary UoM's">
+                <group>
+                    <group>
+                        <field name="uom_id" required="1"/>
+                        <field name="ratio" string="Secondary UoM Ratio" required="1"/>
+                    </group>
+                    <group>
+                        <field name="product_tmpl_id" readonly="1"/>
+                        <field name="ratio_display" string="Ratio" readonly="1"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_save_close"
+                            string="Save &amp; Close"
+                            type="object"
+                            class="btn-primary"/>
+                    <button name="action_save_new"
+                            string="Save &amp; New"
+                            type="object"
+                            class="btn-secondary"/>
+                    <button string="Discard"
+                            class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action to open wizard as dialog popup -->
+    <record id="action_secondary_uom_wizard" model="ir.actions.act_window">
+        <field name="name">Create Secondary UoM's</field>
+        <field name="res_model">secondary.uom.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="secondary_uom_wizard_form_view"/>
+        <field name="target">new</field>
+        <field name="context">{
+            'default_product_tmpl_id': active_id,
+        }</field>
+    </record>
+
+</odoo>

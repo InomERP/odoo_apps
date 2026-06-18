@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_order_form_inom_secondary_uom" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.inom.secondary.uom</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <!-- F-06 to F-09: Secondary UoM + Secondary Qty columns placed
+                 right after the base Unit column (matching the reference
+                 module). The base Quantity / Unit columns keep showing the
+                 converted base values for reference. -->
+            <xpath expr="//field[@name='order_line']/list/field[@name='product_uom'][@groups='uom.group_uom']"
+                   position="after">
+                <field name="need_secondary_uom" column_invisible="1"/>
+                <field name="inom_product_tmpl_id" column_invisible="1"/>
+                <field name="inom_allowed_secondary_uom_ids" column_invisible="1"/>
+                <field name="secondary_qty"
+                       string="Secondary Qty"
+                       readonly="not need_secondary_uom"/>
+                <field name="secondary_uom_id"
+                       string="Secondary UoM"
+                       readonly="not need_secondary_uom"
+                       options="{'no_create': True, 'no_open': True}"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>
