@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Phase 1 intentionally defines NO settings records.
+
+        The UoM Configuration Toggle (F-01) is provided by Odoo's native
+        "Units of Measure" setting (group_uom). This module does not add a
+        custom toggle, so no view record is defined.
+
+        The file is kept and referenced in the manifest so the module
+        installs/upgrades cleanly regardless of any older manifest still
+        present on disk.
+    -->
+</odoo>
