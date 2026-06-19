@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'InomERP Warehouse Access Control',
+    'name': 'Inom Warehouse Access Control',
     'version': '18.0.1.0.0',
     'category': 'Inventory/Inventory',
     'summary': 'Restrict users to authorized warehouse locations with automatic child-location inheritance and Super Warehouse Manager access.',
