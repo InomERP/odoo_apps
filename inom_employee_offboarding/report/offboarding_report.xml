@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_offboarding_request" model="ir.actions.report">
+        <field name="name">Offboarding Request</field>
+        <field name="model">inom.offboarding.request</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inom_employee_offboarding.report_offboarding_request</field>
+        <field name="report_file">inom_employee_offboarding.report_offboarding_request</field>
+        <field name="binding_model_id" ref="model_inom_offboarding_request"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>
