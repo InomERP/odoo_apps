@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_offboarding_request">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="text-center mb-4">
+                            <h2>Employee Offboarding Request</h2>
+                            <h4><span t-field="doc.name"/></h4>
+                        </div>
+
+                        <table class="table table-sm table-borderless">
+                            <tr>
+                                <td style="width:25%;"><strong>Employee</strong></td>
+                                <td style="width:25%;"><span t-field="doc.employee_id"/></td>
+                                <td style="width:25%;"><strong>Department</strong></td>
+                                <td style="width:25%;"><span t-field="doc.department_id"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Job Position</strong></td>
+                                <td><span t-field="doc.job_id"/></td>
+                                <td><strong>Reporting Manager</strong></td>
+                                <td><span t-field="doc.manager_id"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Offboarding Type</strong></td>
+                                <td><span t-field="doc.offboarding_type"/></td>
+                                <td><strong>Reason</strong></td>
+                                <td><span t-field="doc.reason_id"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Request Date</strong></td>
+                                <td><span t-field="doc.request_date"/></td>
+                                <td><strong>Proposed Last Day</strong></td>
+                                <td><span t-field="doc.proposed_last_day"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Notice Period</strong></td>
+                                <td><span t-field="doc.notice_period_days"/> day(s)</td>
+                                <td><strong>Relieving Date</strong></td>
+                                <td><span t-field="doc.relieving_date"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Status</strong></td>
+                                <td colspan="3"><span t-field="doc.state"/></td>
+                            </tr>
+                        </table>
+
+                        <t t-if="doc.checklist_line_ids">
+                            <h4 class="mt-4">Clearance Checklist</h4>
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Task</th>
+                                        <th>Responsible</th>
+                                        <th class="text-center">Completed</th>
+                                        <th>Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="doc.checklist_line_ids" t-as="line">
+                                        <td><span t-field="line.name"/></td>
+                                        <td><span t-field="line.responsible"/></td>
+                                        <td class="text-center">
+                                            <span t-if="line.is_done">Yes</span>
+                                            <span t-else="">No</span>
+                                        </td>
+                                        <td><span t-field="line.remarks"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </t>
+
+                        <t t-if="doc.employee_remarks">
+                            <h4 class="mt-4">Employee Remarks</h4>
+                            <p><span t-field="doc.employee_remarks"/></p>
+                        </t>
+
+                        <t t-if="doc.state == 'rejected' and doc.rejection_reason">
+                            <h4 class="mt-4">Rejection Reason</h4>
+                            <p><span t-field="doc.rejection_reason"/></p>
+                        </t>
+
+                        <div class="row mt-5">
+                            <div class="col-6 text-center">
+                                <p>_______________________</p>
+                                <p>Employee Signature</p>
+                            </div>
+                            <div class="col-6 text-center">
+                                <p>_______________________</p>
+                                <p>HR Signature</p>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>
