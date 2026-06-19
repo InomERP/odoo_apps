@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Employee Offboarding Management',
+    'name': 'Inom Employee Offboarding Management',
     'version': '17.0.1.0.0',
     'category': 'Human Resources',
     'summary': 'Manage employee offboarding with a multi-level resignation '
