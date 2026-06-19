@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="0">
+
+    <!-- Category shown in the user access rights screen -->
+    <record id="module_category_inom_warehouse_access" model="ir.module.category">
+        <field name="name">Warehouse Access Control</field>
+        <field name="description">Manage user access to warehouse locations and related stock.</field>
+        <field name="sequence">25</field>
+    </record>
+
+    <!-- Odoo 19 group privilege (replaces res.groups.category_id) -->
+    <record id="inom_warehouse_access_privilege" model="res.groups.privilege">
+        <field name="name">Warehouse Access Control</field>
+        <field name="sequence">100</field>
+        <field name="category_id" ref="module_category_inom_warehouse_access"/>
+    </record>
+
+    <!-- Users with this right bypass every location restriction -->
+    <record id="inom_group_super_warehouse_manager" model="res.groups">
+        <field name="name">Super Warehouse Manager</field>
+        <field name="privilege_id" ref="inom_warehouse_access_privilege"/>
+        <field name="implied_ids" eval="[(4, ref('stock.group_stock_user'))]"/>
+        <field name="comment">Users with this right access every location, stock,
+            transfer and operation regardless of the access settings.</field>
+    </record>
+
+    <!-- The Administrator is always a Super Warehouse Manager -->
+    <record id="base.group_system" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('inom_group_super_warehouse_manager'))]"/>
+    </record>
+
+</odoo>

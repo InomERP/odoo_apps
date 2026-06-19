@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_users_form_inom_access" model="ir.ui.view">
+        <field name="name">res.users.form.inom.access</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Warehouse Access" name="inom_warehouse_access">
+                    <group>
+                        <field name="inom_warehouse_location_ids"
+                               widget="many2many_tags"
+                               options="{'no_create_edit': True, 'no_quick_create': True}"/>
+                        <div colspan="2" class="text-muted">
+                            Locations listed here are accessible to this user
+                            together with all of their child locations.
+                        </div>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

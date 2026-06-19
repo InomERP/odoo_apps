@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="0">
+
+    <!--
+        Logic
+        =====
+        * A location is global when its effective authorized users set is empty.
+        * Otherwise the record is visible only to its effective authorized users
+          (own authorized users + the ones inherited from all parents).
+        * Restriction rules are bound to "Inventory User" (stock.group_stock_user).
+        * The "Super Warehouse Manager" group also receives an unrestricted rule.
+          Because record rules of the groups a user belongs to are OR-combined,
+          a super manager (or the administrator) always gets full access.
+        * perm_create is left to standard behaviour to avoid blocking normal
+          document creation; restrictions cover read / write / unlink.
+    -->
+
+    <!-- ============================ LOCATIONS ============================ -->
+    <record id="rule_inom_location_restricted" model="ir.rule">
+        <field name="name">Warehouse Access: Locations (restricted users)</field>
+        <field name="model_id" ref="stock.model_stock_location"/>
+        <field name="groups" eval="[(4, ref('stock.group_stock_user'))]"/>
+        <field name="domain_force">['|', ('inom_effective_user_ids', '=', False), ('inom_effective_user_ids', 'in', user.ids)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="rule_inom_location_full" model="ir.rule">
+        <field name="name">Warehouse Access: Locations (super manager)</field>
+        <field name="model_id" ref="stock.model_stock_location"/>
+        <field name="groups" eval="[(4, ref('inom_group_super_warehouse_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- ============================== QUANTS ============================= -->
+    <record id="rule_inom_quant_restricted" model="ir.rule">
+        <field name="name">Warehouse Access: On-hand quantities (restricted users)</field>
+        <field name="model_id" ref="stock.model_stock_quant"/>
+        <field name="groups" eval="[(4, ref('stock.group_stock_user'))]"/>
+        <field name="domain_force">['|', ('location_id.inom_effective_user_ids', '=', False), ('location_id.inom_effective_user_ids', 'in', user.ids)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="rule_inom_quant_full" model="ir.rule">
+        <field name="name">Warehouse Access: On-hand quantities (super manager)</field>
+        <field name="model_id" ref="stock.model_stock_quant"/>
+        <field name="groups" eval="[(4, ref('inom_group_super_warehouse_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- ============================= PICKINGS =========================== -->
+    <record id="rule_inom_picking_restricted" model="ir.rule">
+        <field name="name">Warehouse Access: Transfers (restricted users)</field>
+        <field name="model_id" ref="stock.model_stock_picking"/>
+        <field name="groups" eval="[(4, ref('stock.group_stock_user'))]"/>
+        <field name="domain_force">['|', '|', '&amp;', ('location_id.inom_effective_user_ids', '=', False), ('location_dest_id.inom_effective_user_ids', '=', False), ('location_id.inom_effective_user_ids', 'in', user.ids), ('location_dest_id.inom_effective_user_ids', 'in', user.ids)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="rule_inom_picking_full" model="ir.rule">
+        <field name="name">Warehouse Access: Transfers (super manager)</field>
+        <field name="model_id" ref="stock.model_stock_picking"/>
+        <field name="groups" eval="[(4, ref('inom_group_super_warehouse_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- ========================= OPERATION TYPES ======================== -->
+    <record id="rule_inom_picking_type_restricted" model="ir.rule">
+        <field name="name">Warehouse Access: Operation types (restricted users)</field>
+        <field name="model_id" ref="stock.model_stock_picking_type"/>
+        <field name="groups" eval="[(4, ref('stock.group_stock_user'))]"/>
+        <field name="domain_force">['|', '|', '&amp;', ('default_location_src_id.inom_effective_user_ids', '=', False), ('default_location_dest_id.inom_effective_user_ids', '=', False), ('default_location_src_id.inom_effective_user_ids', 'in', user.ids), ('default_location_dest_id.inom_effective_user_ids', 'in', user.ids)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="rule_inom_picking_type_full" model="ir.rule">
+        <field name="name">Warehouse Access: Operation types (super manager)</field>
+        <field name="model_id" ref="stock.model_stock_picking_type"/>
+        <field name="groups" eval="[(4, ref('inom_group_super_warehouse_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- ============================== MOVES ============================= -->
+    <record id="rule_inom_move_restricted" model="ir.rule">
+        <field name="name">Warehouse Access: Stock moves (restricted users)</field>
+        <field name="model_id" ref="stock.model_stock_move"/>
+        <field name="groups" eval="[(4, ref('stock.group_stock_user'))]"/>
+        <field name="domain_force">['|', '|', '&amp;', ('location_id.inom_effective_user_ids', '=', False), ('location_dest_id.inom_effective_user_ids', '=', False), ('location_id.inom_effective_user_ids', 'in', user.ids), ('location_dest_id.inom_effective_user_ids', 'in', user.ids)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="rule_inom_move_full" model="ir.rule">
+        <field name="name">Warehouse Access: Stock moves (super manager)</field>
+        <field name="model_id" ref="stock.model_stock_move"/>
+        <field name="groups" eval="[(4, ref('inom_group_super_warehouse_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- ============================ MOVE LINES ========================== -->
+    <record id="rule_inom_move_line_restricted" model="ir.rule">
+        <field name="name">Warehouse Access: Detailed operations (restricted users)</field>
+        <field name="model_id" ref="stock.model_stock_move_line"/>
+        <field name="groups" eval="[(4, ref('stock.group_stock_user'))]"/>
+        <field name="domain_force">['|', '|', '&amp;', ('location_id.inom_effective_user_ids', '=', False), ('location_dest_id.inom_effective_user_ids', '=', False), ('location_id.inom_effective_user_ids', 'in', user.ids), ('location_dest_id.inom_effective_user_ids', 'in', user.ids)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="rule_inom_move_line_full" model="ir.rule">
+        <field name="name">Warehouse Access: Detailed operations (super manager)</field>
+        <field name="model_id" ref="stock.model_stock_move_line"/>
+        <field name="groups" eval="[(4, ref('inom_group_super_warehouse_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+</odoo>
