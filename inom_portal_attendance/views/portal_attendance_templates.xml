@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================= -->
+    <!-- Card on the portal home ("My Account")                        -->
+    <!-- ============================================================= -->
+    <template id="portal_my_home_inom_attendance"
+              name="Portal My Home : Attendance"
+              inherit_id="portal.portal_my_home"
+              customize_show="True"
+              priority="40">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
+            <t t-set="portal_client_category_enable"
+               t-value="portal_client_category_enable or inom_attendance_show_card"/>
+        </xpath>
+        <div id="portal_client_category" position="inside">
+            <t t-if="inom_attendance_show_card" t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/inom_portal_attendance/static/description/icon.png'"/>
+                <t t-set="title">Attendance</t>
+                <t t-set="text">Check in, check out and review your attendance</t>
+                <t t-set="url" t-value="'/my/attendance'"/>
+                <t t-set="config_card" t-value="True"/>
+                <t t-set="placeholder_count" t-value="'inom_attendance_count'"/>
+            </t>
+        </div>
+    </template>
+
+    <!-- ============================================================= -->
+    <!-- Attendance list page                                          -->
+    <!-- ============================================================= -->
+    <template id="portal_my_attendance" name="My Attendance">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Attendance</t>
+            </t>
+
+            <!-- No employee linked to this portal user -->
+            <t t-if="no_employee">
+                <div class="alert alert-warning mt-3" role="alert">
+                    Your user account is not linked to an employee record yet.
+                    Please contact your administrator to use the attendance portal.
+                </div>
+            </t>
+
+            <t t-else="">
+                <!-- Check in / Check out controls -->
+                <div class="card mb-3 mt-2">
+                    <div class="card-body d-flex flex-wrap align-items-center justify-content-between gap-2">
+                        <div>
+                            <h5 class="mb-1" t-esc="employee.name"/>
+                            <span t-if="open_attendance" class="badge text-bg-success">
+                                Checked in
+                            </span>
+                            <span t-else="" class="badge text-bg-secondary">
+                                Checked out
+                            </span>
+                        </div>
+                        <div>
+                            <form t-if="not open_attendance"
+                                  action="/my/attendance/check_in" method="post">
+                                <input type="hidden" name="csrf_token"
+                                       t-att-value="request.csrf_token()"/>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-sign-in me-1"/> Check In
+                                </button>
+                            </form>
+                            <form t-else=""
+                                  action="/my/attendance/check_out" method="post">
+                                <input type="hidden" name="csrf_token"
+                                       t-att-value="request.csrf_token()"/>
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="fa fa-sign-out me-1"/> Check Out
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Date range filter -->
+                <form action="/my/attendance" method="get"
+                      class="row g-2 align-items-end mb-3">
+                    <input type="hidden" name="sortby" t-att-value="sortby"/>
+                    <input type="hidden" name="groupby" t-att-value="groupby"/>
+                    <div class="col-auto">
+                        <label for="date_begin" class="form-label mb-0 small">From</label>
+                        <input type="date" name="date_begin" id="date_begin"
+                               class="form-control" t-att-value="date_begin"/>
+                    </div>
+                    <div class="col-auto">
+                        <label for="date_end" class="form-label mb-0 small">To</label>
+                        <input type="date" name="date_end" id="date_end"
+                               class="form-control" t-att-value="date_end"/>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-secondary">Apply</button>
+                    </div>
+                    <div class="col-auto" t-if="date_begin or date_end">
+                        <a href="/my/attendance" class="btn btn-link">Clear</a>
+                    </div>
+                </form>
+
+                <!-- Records -->
+                <t t-if="not attendances">
+                    <div class="alert alert-info" role="alert">
+                        There are no attendance records to display.
+                    </div>
+                </t>
+                <t t-else="">
+                    <t t-foreach="grouped_attendances" t-as="group">
+                        <h6 t-if="group['label']" class="mt-3 text-muted"
+                            t-esc="group['label']"/>
+                        <t t-call="portal.portal_table">
+                            <thead>
+                                <tr>
+                                    <th>Check In</th>
+                                    <th>Check Out</th>
+                                    <th class="text-end">Worked Hours</th>
+                                    <th class="text-end">Extra Hours</th>
+                                    <th/>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="group['lines']" t-as="line">
+                                    <td t-esc="line['check_in']"/>
+                                    <td>
+                                        <span t-if="line['check_out']"
+                                              t-esc="line['check_out']"/>
+                                        <span t-else="" class="badge text-bg-success">
+                                            Running
+                                        </span>
+                                    </td>
+                                    <td class="text-end" t-esc="line['worked_hours']"/>
+                                    <td class="text-end" t-esc="line['extra_hours']"/>
+                                    <td class="text-end">
+                                        <a t-attf-href="/my/attendance/#{line['record'].id}"
+                                           class="btn btn-sm btn-link">
+                                            View <i class="fa fa-angle-right"/>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </t>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- ============================================================= -->
+    <!-- Attendance detail page                                        -->
+    <!-- ============================================================= -->
+    <template id="portal_attendance_detail" name="Attendance Detail">
+        <t t-call="portal.portal_layout">
+            <div class="row mt-2">
+                <div class="col-12">
+                    <a href="/my/attendance" class="btn btn-link ps-0">
+                        <i class="fa fa-angle-left me-1"/> Back to attendance
+                    </a>
+                </div>
+            </div>
+            <div class="card mt-2">
+                <div class="card-header">
+                    <h5 class="mb-0">Attendance Detail</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tbody>
+                            <tr>
+                                <th style="width: 35%;">Employee</th>
+                                <td t-esc="employee.name"/>
+                            </tr>
+                            <tr>
+                                <th>Check In</th>
+                                <td t-esc="line['check_in']"/>
+                            </tr>
+                            <tr>
+                                <th>Check Out</th>
+                                <td>
+                                    <span t-if="line['check_out']"
+                                          t-esc="line['check_out']"/>
+                                    <span t-else="" class="badge text-bg-success">
+                                        Running
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Worked Hours</th>
+                                <td t-esc="line['worked_hours']"/>
+                            </tr>
+                            <tr>
+                                <th>Extra Hours</th>
+                                <td t-esc="line['extra_hours']"/>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_inom_portal_attendance" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inom.portal.attendance</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="hr_attendance.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@name='overtime_settings']" position="after">
+                <block title="Employee Portal Attendance"
+                       name="inom_portal_attendance_block">
+                    <setting id="inom_portal_attendance_setting"
+                             string="Portal Attendance"
+                             help="Let employees check in, check out and review their attendance from the website portal.">
+                        <field name="inom_portal_attendance_enabled"/>
+                        <div class="content-group mt-2"
+                             invisible="not inom_portal_attendance_enabled">
+                            <div class="row mt16">
+                                <label string="Time Format"
+                                       for="inom_portal_attendance_time_format"
+                                       class="col-lg-4 o_light_label"/>
+                                <field name="inom_portal_attendance_time_format"/>
+                            </div>
+                            <div class="row mt16">
+                                <label string="Extra Hours Calculation"
+                                       for="inom_portal_attendance_calc_method"
+                                       class="col-lg-4 o_light_label"/>
+                                <field name="inom_portal_attendance_calc_method"/>
+                            </div>
+                        </div>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>
