@@ -1,0 +1,12 @@
+// Styling for the employee portal attendance pages.
+.o_portal {
+    .inom_attendance_status {
+        font-weight: 500;
+    }
+
+    table.o_portal_my_doc_table {
+        td, th {
+            vertical-align: middle;
+        }
+    }
+}
