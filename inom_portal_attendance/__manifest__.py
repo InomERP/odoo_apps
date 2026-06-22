@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    "name": "Website Self-Service Attendance",
+    "name": "Inom Website Self-Service Attendance",
     "version": "19.0.1.0.0",
     "category": "Human Resources/Attendances",
     "summary": "Employees record and review their own attendance from the "
