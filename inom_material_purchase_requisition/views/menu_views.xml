@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Window Action -->
+    <record id="action_material_requisition" model="ir.actions.act_window">
+        <field name="name">Material Requisitions</field>
+        <field name="res_model">material.requisition</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_material_requisition_search"/>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Material Requisition!
+            </p>
+            <p>
+                Employees can request materials or products through this workflow.
+            </p>
+        </field>
+    </record>
+
+    <!-- Top-level App Menu - NO action on root -->
+    <menuitem id="menu_material_requisition_root"
+              name="Material Requisition"
+              sequence="50"
+              groups="base.group_user"
+              web_icon="inom_material_purchase_requisition,static/description/icon.png"/>
+
+    <!-- Sub Menu -->
+    <menuitem id="menu_material_requisition_list"
+              name="Requisitions"
+              parent="menu_material_requisition_root"
+              action="action_material_requisition"
+              sequence="10"
+              groups="base.group_user"/>
+
+</odoo>

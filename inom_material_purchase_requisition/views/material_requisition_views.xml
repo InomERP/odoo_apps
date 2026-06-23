@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ================================================================
+         Feature 6: List View
+         ================================================================ -->
+    <record id="view_material_requisition_tree" model="ir.ui.view">
+        <field name="name">material.requisition.tree</field>
+        <field name="model">material.requisition</field>
+        <field name="arch" type="xml">
+            <tree string="Material Requisitions">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <field name="request_date"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="state" widget="badge"
+                       decoration-success="state in ('done','received')"
+                       decoration-warning="state in ('confirm','manager_approved','user_approved')"
+                       decoration-danger="state == 'rejected'"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ================================================================
+         Feature 6: Form View
+         ================================================================ -->
+    <record id="view_material_requisition_form" model="ir.ui.view">
+        <field name="name">material.requisition.form</field>
+        <field name="model">material.requisition</field>
+        <field name="arch" type="xml">
+            <form string="Material Requisition">
+                <header>
+                    <button name="%(inom_material_purchase_requisition.action_report_material_requisition)d"
+                            type="action"
+                            string="Print"
+                            class="btn-secondary"
+                            icon="fa-print"/>
+                    <!-- Feature 7: Employee confirms -->
+                    <button name="action_confirm" type="object"
+                            string="Request for Approval" class="btn-primary"
+                            invisible="state != 'draft'"/>
+
+                    <!-- Feature 10/11: Department approval -->
+                    <button name="action_manager_approve" type="object"
+                            string="Department Approve" class="btn-primary"
+                            groups="inom_material_purchase_requisition.group_material_requisition_manager"
+                            invisible="state != 'confirm'"/>
+                    <button name="action_manager_reject" type="object"
+                            string="Reject"
+                            groups="inom_material_purchase_requisition.group_material_requisition_manager"
+                            invisible="state != 'confirm'"/>
+
+                    <!-- Feature 12/13: Requisition User approval -->
+                    <button name="action_user_approve" type="object"
+                            string="Manager Approve" class="btn-primary"
+                            groups="inom_material_purchase_requisition.group_material_requisition_user"
+                            invisible="state != 'manager_approved'"/>
+                    <button name="action_user_reject" type="object"
+                            string="Reject"
+                            groups="inom_material_purchase_requisition.group_material_requisition_user"
+                            invisible="state != 'manager_approved'"/>
+
+                    <!-- Feature 16/17: Process into picking / purchase order -->
+                    <button name="action_process" type="object"
+                            string="Process" class="btn-primary"
+                            invisible="state != 'user_approved'"/>
+
+                    <!-- Feature 18: Received -->
+                    <button name="action_received" type="object"
+                            string="Mark as Received" class="btn-primary"
+                            invisible="state != 'done'"/>
+
+                    <button name="action_reset_to_draft" type="object"
+                            string="Reset to Draft"
+                            
+                            invisible="state != 'received'"
+                            confirm="This will reset the requisition to Draft and restart the entire process. Continue?"/>
+
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,confirm,manager_approved,user_approved,done,received"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_pickings" type="object"
+                                class="oe_stat_button" icon="fa-truck"
+                                invisible="picking_count == 0">
+                            <field name="picking_count" widget="statinfo"
+                                   string="Internal Picking"/>
+                        </button>
+                        <button name="action_view_purchase_orders" type="object"
+                                class="oe_stat_button" icon="fa-shopping-cart"
+                                invisible="purchase_count == 0">
+                            <field name="purchase_count" widget="statinfo"
+                                   string="Purchase Order"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Employee Details">
+                            <field name="employee_id"/>
+                            <field name="department_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="requisition_responsible_id"/>
+                        </group>
+                        <group string="Request Info">
+                            <field name="request_date"/>
+                            <field name="received_date"/>
+                            <field name="requisition_deadline"/>
+                            <field name="analytic_account_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Requisition Lines" name="lines">
+                            <field name="requisition_line_ids">
+                                <tree editable="bottom">
+                                    <field name="requisition_action"/>
+                                    <field name="product_id"/>
+                                    <field name="description"/>
+                                    <field name="product_uom_qty"/>
+                                    <field name="product_uom_id"/>
+                                    <field name="vendor_id"
+                                           readonly="requisition_action != 'purchase_order'"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Picking Details" name="picking_details">
+                            <group>
+                                <group string="Source">
+                                    <field name="source_location_id"/>
+                                    <field name="picking_type_id"/>
+                                </group>
+                                <group string="Destination">
+                                    <field name="dest_location_id"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Other Information" name="other_info">
+                            <group>
+                                <field name="company_id"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- ================================================================
+         Feature 6: Search View
+         ================================================================ -->
+    <record id="view_material_requisition_search" model="ir.ui.view">
+        <field name="name">material.requisition.search</field>
+        <field name="model">material.requisition</field>
+        <field name="arch" type="xml">
+            <search string="Search Requisitions">
+                <field name="name" string="Requisition No."/>
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <filter name="filter_draft" string="New" domain="[('state','=','draft')]"/>
+                <filter name="filter_confirmed" string="Waiting Department Approval" domain="[('state','=','confirm')]"/>
+                <filter name="filter_manager_approved" string="Waiting User Approval" domain="[('state','=','manager_approved')]"/>
+                <filter name="filter_user_approved" string="Approved" domain="[('state','=','user_approved')]"/>
+                <filter name="filter_done" string="Processed" domain="[('state','=','done')]"/>
+                <filter name="filter_received" string="Received" domain="[('state','=','received')]"/>
+                <filter name="filter_rejected" string="Rejected" domain="[('state','=','rejected')]"/>
+                <separator/>
+                <filter name="group_department" string="Department" context="{'group_by': 'department_id'}"/>
+                <filter name="group_employee" string="Employee" context="{'group_by': 'employee_id'}"/>
+                <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+            </search>
+        </field>
+    </record>
+
+</odoo>

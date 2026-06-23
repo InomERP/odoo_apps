@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Feature 5: Employee group can only see their own requisition records.
+         Manager and Requisition User groups have NO rule here, so they see all records. -->
+    <record id="rule_material_requisition_employee_own" model="ir.rule">
+        <field name="name">Material Requisition: Employee own records only</field>
+        <field name="model_id" ref="model_material_requisition"/>
+        <field name="domain_force">[('employee_id.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_material_requisition_employee'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+</odoo>
