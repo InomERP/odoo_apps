@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Pivot View -->
+    <record id="view_user_statistic_report_pivot" model="ir.ui.view">
+        <field name="name">stock.inventory.session.line.report.pivot</field>
+        <field name="model">stock.inventory.session.line</field>
+        <field name="arch" type="xml">
+            <pivot string="User Statistic Report">
+                <field name="user_id" type="row"/>
+                <field name="mistake_count" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Graph View -->
+    <record id="view_user_statistic_report_graph" model="ir.ui.view">
+        <field name="name">stock.inventory.session.line.report.graph</field>
+        <field name="model">stock.inventory.session.line</field>
+        <field name="arch" type="xml">
+            <graph string="User Statistic Report" type="bar">
+                <field name="user_id"/>
+                <field name="mistake_count" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="view_user_statistic_report_list" model="ir.ui.view">
+        <field name="name">stock.inventory.session.line.report.list</field>
+        <field name="model">stock.inventory.session.line</field>
+        <field name="arch" type="xml">
+            <list string="User Statistic Report" create="0" edit="0">
+                <field name="user_id"/>
+                <field name="session_id"/>
+                <field name="product_id"/>
+                <field name="location_id"/>
+                <field name="counted_qty" sum="Counted"/>
+                <field name="user_calculation_mistake"/>
+                <field name="mistake_count" sum="Mistakes" optional="hide"/>
+                <field name="company_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_user_statistic_report_search" model="ir.ui.view">
+        <field name="name">stock.inventory.session.line.report.search</field>
+        <field name="model">stock.inventory.session.line</field>
+        <field name="arch" type="xml">
+            <search string="User Statistic Report">
+                <field name="user_id"/>
+                <field name="session_id"/>
+                <field name="product_id"/>
+                <filter name="filter_mistakes" string="Calculation Mistakes"
+                        domain="[('user_calculation_mistake', '=', True)]"/>
+                <group>
+                    <filter name="group_user" string="Assigned User"
+                            context="{'group_by': 'user_id'}"/>
+                    <filter name="group_session" string="Session"
+                            context="{'group_by': 'session_id'}"/>
+                    <filter name="group_product" string="Product"
+                            context="{'group_by': 'product_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_user_statistic_report" model="ir.actions.act_window">
+        <field name="name">User Statistic Report</field>
+        <field name="res_model">stock.inventory.session.line</field>
+        <field name="view_mode">pivot,list,graph</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'pivot', 'view_id': ref('view_user_statistic_report_pivot')}),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('view_user_statistic_report_list')}),
+            (0, 0, {'view_mode': 'graph', 'view_id': ref('view_user_statistic_report_graph')})]"/>
+        <field name="search_view_id" ref="view_user_statistic_report_search"/>
+        <field name="context">{'search_default_group_user': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No counting activity yet
+            </p>
+            <p>
+                Per-user counting volume and calculation-mistake statistics
+                appear here once sessions have counting lines.
+            </p>
+        </field>
+    </record>
+
+</odoo>

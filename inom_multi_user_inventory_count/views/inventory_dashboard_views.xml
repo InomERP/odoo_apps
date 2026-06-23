@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Dashboard Kanban View -->
+    <record id="view_inventory_dashboard_kanban" model="ir.ui.view">
+        <field name="name">stock.inventory.count.session.dashboard.kanban</field>
+        <field name="model">stock.inventory.count.session</field>
+        <field name="priority">30</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_small_column"
+                    create="false" group_create="false">
+                <field name="state"/>
+                <templates>
+                    <t t-name="card">
+                        <div t-attf-class="oe_kanban_content ps-2 border-start border-4 #{record.state.raw_value == 'draft' ? 'border-secondary' : (record.state.raw_value == 'in_progress' ? 'border-info' : 'border-success')}">
+                            <div class="d-flex justify-content-between mb-1">
+                                <strong class="o_kanban_record_title">
+                                    <field name="name"/>
+                                </strong>
+                                <span t-attf-class="badge #{record.state.raw_value == 'draft' ? 'text-bg-secondary' : (record.state.raw_value == 'in_progress' ? 'text-bg-info' : 'text-bg-success')}">
+                                    <field name="state"/>
+                                </span>
+                            </div>
+                            <div>
+                                <i class="fa fa-file-text-o me-1"/>
+                                <field name="inventory_count_id"/>
+                            </div>
+                            <div>
+                                <i class="fa fa-user me-1"/>
+                                <field name="user_id"/>
+                                <span class="text-muted ms-2">
+                                    Approver: <field name="approver_id"/>
+                                </span>
+                            </div>
+                            <div>
+                                <i class="fa fa-map-marker me-1"/>
+                                <field name="location_id"/>
+                                <span class="text-muted ms-2">
+                                    <field name="warehouse_id"/>
+                                </span>
+                            </div>
+                            <div class="mt-1">
+                                <span class="badge text-bg-secondary me-1">
+                                    Products: <field name="total_products"/>
+                                </span>
+                                <span class="badge text-bg-success me-1">
+                                    Scanned: <field name="total_scanned_products"/>
+                                </span>
+                                <span class="badge text-bg-warning">
+                                    Remaining: <field name="to_be_scanned"/>
+                                </span>
+                            </div>
+                            <div class="mt-1 text-muted">
+                                <i class="fa fa-play me-1"/>
+                                Started: <field name="timer_start"/>
+                            </div>
+                            <div class="text-muted">
+                                <i class="fa fa-flag-checkered me-1"/>
+                                Submitted: <field name="submit_date"/>
+                            </div>
+                            <div class="text-muted">
+                                <i class="fa fa-clock-o me-1"/>
+                                Time: <field name="time_consumed_display"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Dashboard Action -->
+    <record id="action_inventory_dashboard" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">stock.inventory.count.session</field>
+        <field name="view_mode">kanban,list</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('view_inventory_dashboard_kanban')}),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('view_stock_inventory_count_session_list')})]"/>
+        <field name="search_view_id"
+               ref="view_stock_inventory_count_session_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No sessions to monitor yet
+            </p>
+            <p>
+                This dashboard shows the live status of all counting sessions.
+            </p>
+        </field>
+    </record>
+
+</odoo>

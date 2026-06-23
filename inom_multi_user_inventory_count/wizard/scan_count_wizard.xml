@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_scan_count_wizard_form" model="ir.ui.view">
+        <field name="name">stock.inventory.scan.wizard.form</field>
+        <field name="model">stock.inventory.scan.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Scan &amp; Count">
+                <field name="session_id" invisible="1"/>
+                <div class="alert alert-info d-flex justify-content-around text-center" role="status">
+                    <span>Total: <strong><field name="total_count"/></strong></span>
+                    <span>Scanned: <strong><field name="scanned_count"/></strong></span>
+                    <span>Remaining: <strong><field name="remaining_count"/></strong></span>
+                </div>
+                <group>
+                    <label for="barcode" string="Scan Barcode"/>
+                    <div class="d-flex align-items-center gap-2">
+                        <field name="barcode" nolabel="1"
+                               placeholder="Scan with camera / gun, or type..."/>
+                        <widget name="inom_barcode_scan_button"/>
+                    </div>
+                </group>
+                <div invisible="not info_message" class="text-muted mb-2">
+                    <field name="info_message" nolabel="1"/>
+                </div>
+                <group invisible="not current_line_id" string="Current Product">
+                    <field name="current_line_id" invisible="1"/>
+                    <field name="current_product_id"/>
+                    <field name="current_location_id"/>
+                    <field name="current_qty"/>
+                </group>
+                <footer>
+                    <button name="action_save_next" string="Save &amp; Next"
+                            type="object" class="btn-primary"
+                            invisible="not current_line_id"/>
+                    <button string="Close" class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>
