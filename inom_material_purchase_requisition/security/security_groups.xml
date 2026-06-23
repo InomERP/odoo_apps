@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Module category, referenced by the groups below via category_id to
+         group them under their own named section on the Users form
+         (Settings > Users & Companies > Users > a user > Other tab). -->
+    <record id="module_category_material_purchase_requisition" model="ir.module.category">
+        <field name="name">Material Purchase Requisition</field>
+        <field name="description">Access rights for the Material Purchase Requisition module.</field>
+        <field name="sequence">20</field>
+    </record>
+
+    <record id="group_material_requisition_employee" model="res.groups">
+        <field name="name">Material Purchase Requisition Employee</field>
+        <field name="category_id" ref="module_category_material_purchase_requisition"/>
+    </record>
+
+    <record id="group_material_requisition_manager" model="res.groups">
+        <field name="name">Material Purchase Requisition Department </field>
+        <field name="category_id" ref="module_category_material_purchase_requisition"/>
+    </record>
+
+    <record id="group_material_requisition_user" model="res.groups">
+        <field name="name">Material Purchase Requisition Manager</field>
+        <field name="category_id" ref="module_category_material_purchase_requisition"/>
+    </record>
+
+
+</odoo>
