@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Form View -->
+    <record id="view_inventory_planner_form" model="ir.ui.view">
+        <field name="name">stock.inventory.count.planner.form</field>
+        <field name="model">stock.inventory.count.planner</field>
+        <field name="arch" type="xml">
+            <form string="Inventory Count Planner">
+                <header>
+                    <button name="action_run_now" string="Run Now"
+                            type="object" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_counts" type="object"
+                                class="oe_stat_button" icon="fa-list"
+                                invisible="count_count == 0">
+                            <field name="count_count" widget="statinfo"
+                                   string="Counts"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger"
+                            invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Monthly Main Warehouse Count"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="active" invisible="1"/>
+                            <field name="company_id"
+                                   groups="base.group_multi_company"/>
+                            <field name="approver_id"/>
+                            <field name="warehouse_id"/>
+                            <field name="allowed_location_ids" invisible="1"/>
+                            <field name="location_id"/>
+                        </group>
+                        <group>
+                            <field name="frequency_days"/>
+                            <field name="session_type"/>
+                            <field name="use_barcode_scanner"/>
+                            <field name="last_run"/>
+                        </group>
+                    </group>
+                    <group string="Products">
+                        <field name="product_ids" nolabel="1"
+                               widget="many2many_tags"
+                               options="{'no_create': True}"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="view_inventory_planner_list" model="ir.ui.view">
+        <field name="name">stock.inventory.count.planner.list</field>
+        <field name="model">stock.inventory.count.planner</field>
+        <field name="arch" type="xml">
+            <list string="Inventory Count Planners">
+                <field name="name"/>
+                <field name="warehouse_id"/>
+                <field name="location_id"/>
+                <field name="session_type"/>
+                <field name="frequency_days"/>
+                <field name="last_run"/>
+                <field name="count_count" string="Counts"/>
+                <field name="company_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_inventory_planner_search" model="ir.ui.view">
+        <field name="name">stock.inventory.count.planner.search</field>
+        <field name="model">stock.inventory.count.planner</field>
+        <field name="arch" type="xml">
+            <search string="Planners">
+                <field name="name"/>
+                <field name="warehouse_id"/>
+                <filter name="filter_active" string="Active"
+                        domain="[('active', '=', True)]"/>
+                <filter name="filter_archived" string="Archived"
+                        domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_warehouse" string="Warehouse"
+                            context="{'group_by': 'warehouse_id'}"/>
+                    <filter name="group_session_type" string="Count Type"
+                            context="{'group_by': 'session_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_inventory_planner" model="ir.actions.act_window">
+        <field name="name">Planner</field>
+        <field name="res_model">stock.inventory.count.planner</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_inventory_planner_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first inventory count planner
+            </p>
+            <p>
+                A planner automatically creates inventory counts for a
+                warehouse at a chosen frequency.
+            </p>
+        </field>
+    </record>
+
+</odoo>

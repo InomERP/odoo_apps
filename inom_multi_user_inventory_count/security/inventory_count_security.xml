@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="stock_inventory_count_company_rule" model="ir.rule">
+        <field name="name">Inventory Count: multi-company</field>
+        <field name="model_id" ref="model_stock_inventory_count"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">
+            ['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]
+        </field>
+    </record>
+
+    <!-- Inventory User: sirf apni sessions dekhe -->
+    <record id="rule_session_own_user" model="ir.rule">
+        <field name="name">Session: User sees own sessions only</field>
+        <field name="model_id" ref="model_stock_inventory_count_session"/>
+        <field name="domain_force">
+            ['|', ('user_id', '=', user.id), ('approver_id', '=', user.id)]
+        </field>
+        <field name="groups" eval="[(4, ref('stock.group_stock_user'))]"/>
+    </record>
+
+    <!-- Inventory Manager: saari sessions dekhe -->
+    <record id="rule_session_manager_all" model="ir.rule">
+        <field name="name">Session: Manager sees all sessions</field>
+        <field name="model_id" ref="model_stock_inventory_count_session"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('stock.group_stock_manager'))]"/>
+    </record>
+
+    <!-- Multi-company rule for Session -->
+    <record id="stock_inventory_count_session_company_rule" model="ir.rule">
+        <field name="name">Inventory Session: multi-company</field>
+        <field name="model_id" ref="model_stock_inventory_count_session"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">
+            ['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]
+        </field>
+    </record>
+
+</odoo>
