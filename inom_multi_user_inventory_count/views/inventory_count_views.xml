@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Form View -->
+    <record id="view_stock_inventory_count_form" model="ir.ui.view">
+        <field name="name">stock.inventory.count.form</field>
+        <field name="model">stock.inventory.count</field>
+        <field name="arch" type="xml">
+            <form string="Inventory Count">
+                <header>
+                    <button name="action_open_create_session_wizard"
+                            string="Create Session" type="object"
+                            class="btn-primary"
+                            groups="stock.group_stock_manager"
+                            invisible="state not in ('draft', 'in_progress') or (state == 'in_progress' and session_type != 'multi')"/>
+                    <button name="action_complete_counting"
+                            string="Complete Counting" type="object"
+                            class="btn-primary"
+                            groups="stock.group_stock_manager"
+                            invisible="state != 'in_progress'"
+                            confirm="Complete the counting? No new sessions can be created afterwards."/>
+                    <button name="action_validate"
+                            string="Validate" type="object"
+                            class="btn-primary"
+                            groups="stock.group_stock_manager"
+                            invisible="state != 'to_be_approved'"
+                            confirm="Validate this inventory count? Stock quantities will be updated."/>
+                    <button name="action_reject"
+                            string="Reject" type="object"
+                            groups="stock.group_stock_manager"
+                            invisible="state != 'to_be_approved'"/>
+                    <button name="action_reset_to_progress"
+                            string="Reset to In Progress" type="object"
+                            groups="stock.group_stock_manager"
+                            invisible="state != 'rejected'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,in_progress,to_be_approved"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_sessions" type="object"
+                                class="oe_stat_button" icon="fa-tasks"
+                                invisible="session_count == 0">
+                            <field name="session_count" widget="statinfo"
+                                   string="Sessions"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="approver_id"/>
+                            <field name="date"/>
+                            <field name="company_id"
+                                   groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="warehouse_id"/>
+                            <field name="allowed_location_ids" invisible="1"/>
+                            <field name="location_id"/>
+                            <field name="session_type"/>
+                            <field name="use_barcode_scanner"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Inventory Count Lines" name="count_lines"
+                              invisible="not count_line_ids">
+                            <field name="count_line_ids" readonly="1">
+                                <tree string="Inventory Count Lines">
+                                    <field name="product_id"/>
+                                    <field name="location_id"/>
+                                    <field name="theoretical_qty"/>
+                                    <field name="counted_qty"/>
+                                    <field name="discrepancy"
+                                           decoration-danger="discrepancy &lt; 0"
+                                           decoration-success="discrepancy &gt; 0"/>
+                                    <field name="user_calculation_mistake"/>
+                                    <field name="company_id"
+                                           column_invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Products" name="products">
+                            <field name="product_line_ids">
+                                <tree editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="default_code"
+                                           string="Internal Reference"/>
+                                    <field name="barcode"/>
+                                    <field name="company_id"
+                                           column_invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="view_stock_inventory_count_list" model="ir.ui.view">
+        <field name="name">stock.inventory.count.list</field>
+        <field name="model">stock.inventory.count</field>
+        <field name="arch" type="xml">
+            <tree string="Inventory Counts">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="warehouse_id"/>
+                <field name="location_id"/>
+                <field name="session_type"/>
+                <field name="approver_id"/>
+                <field name="product_count" string="Products"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-warning="state == 'to_be_approved'"
+                       decoration-success="state == 'validated'"
+                       decoration-danger="state == 'rejected'"/>
+                <field name="company_id" column_invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_stock_inventory_count_search" model="ir.ui.view">
+        <field name="name">stock.inventory.count.search</field>
+        <field name="model">stock.inventory.count</field>
+        <field name="arch" type="xml">
+            <search string="Inventory Counts">
+                <field name="name"/>
+                <field name="warehouse_id"/>
+                <field name="location_id"/>
+                <field name="approver_id"/>
+                <filter name="filter_draft" string="Draft"
+                        domain="[('state', '=', 'draft')]"/>
+                <filter name="filter_in_progress" string="In Progress"
+                        domain="[('state', '=', 'in_progress')]"/>
+                <filter name="filter_to_be_approved" string="To Be Approved"
+                        domain="[('state', '=', 'to_be_approved')]"/>
+                <separator/>
+                <filter name="filter_my_counts" string="My Counts"
+                        domain="[('approver_id', '=', uid)]"/>
+                <group>
+                    <filter name="group_warehouse" string="Warehouse"
+                            context="{'group_by': 'warehouse_id'}"/>
+                    <filter name="group_state" string="Status"
+                            context="{'group_by': 'state'}"/>
+                    <filter name="group_session_type" string="Count Type"
+                            context="{'group_by': 'session_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Window Action -->
+    <record id="action_stock_inventory_count" model="ir.actions.act_window">
+        <field name="name">Inventory Count</field>
+        <field name="res_model">stock.inventory.count</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_stock_inventory_count_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first inventory count
+            </p>
+            <p>
+                Define the warehouse, location and products to be counted,
+                then build the counting sessions for your team.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_pending_progress" model="ir.actions.act_window">
+        <field name="name">Pending Progress</field>
+        <field name="res_model">stock.inventory.count</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', '=', 'in_progress')]</field>
+        <field name="search_view_id" ref="view_stock_inventory_count_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No counts in progress
+            </p>
+            <p>
+                Inventory counts currently being counted appear here for
+                quick monitoring.
+            </p>
+        </field>
+    </record>
+
+</odoo>

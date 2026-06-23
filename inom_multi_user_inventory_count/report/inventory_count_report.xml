@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Pivot View -->
+    <record id="view_inventory_count_report_pivot" model="ir.ui.view">
+        <field name="name">stock.inventory.count.line.report.pivot</field>
+        <field name="model">stock.inventory.count.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Inventory Count Report">
+                <field name="product_id" type="row"/>
+                <field name="theoretical_qty" type="measure"/>
+                <field name="counted_qty" type="measure"/>
+                <field name="discrepancy" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Graph View -->
+    <record id="view_inventory_count_report_graph" model="ir.ui.view">
+        <field name="name">stock.inventory.count.line.report.graph</field>
+        <field name="model">stock.inventory.count.line</field>
+        <field name="arch" type="xml">
+            <graph string="Inventory Count Report" type="bar">
+                <field name="product_id"/>
+                <field name="discrepancy" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="view_inventory_count_report_list" model="ir.ui.view">
+        <field name="name">stock.inventory.count.line.report.list</field>
+        <field name="model">stock.inventory.count.line</field>
+        <field name="arch" type="xml">
+            <tree string="Inventory Count Report" create="0" edit="0">
+                <field name="count_id"/>
+                <field name="product_id"/>
+                <field name="location_id"/>
+                <field name="warehouse_id"/>
+                <field name="date"/>
+                <field name="theoretical_qty" sum="Theoretical"/>
+                <field name="counted_qty" sum="Counted"/>
+                <field name="discrepancy" sum="Discrepancy"
+                       decoration-danger="discrepancy &lt; 0"
+                       decoration-success="discrepancy &gt; 0"/>
+                <field name="company_id" column_invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_inventory_count_report_search" model="ir.ui.view">
+        <field name="name">stock.inventory.count.line.report.search</field>
+        <field name="model">stock.inventory.count.line</field>
+        <field name="arch" type="xml">
+            <search string="Inventory Count Report">
+                <field name="count_id"/>
+                <field name="product_id"/>
+                <field name="location_id"/>
+                <field name="warehouse_id"/>
+                <filter name="filter_discrepancy" string="With Discrepancy"
+                        domain="[('discrepancy', '!=', 0)]"/>
+                <separator/>
+                <filter name="filter_last_30_days" string="Last 30 Days"
+                        domain="[('date', '&gt;=', (context_today() - relativedelta(days=30)).strftime('%Y-%m-%d'))]"/>
+                <group>
+                    <filter name="group_count" string="Inventory Count"
+                            context="{'group_by': 'count_id'}"/>
+                    <filter name="group_product" string="Product"
+                            context="{'group_by': 'product_id'}"/>
+                    <filter name="group_location" string="Location"
+                            context="{'group_by': 'location_id'}"/>
+                    <filter name="group_warehouse" string="Warehouse"
+                            context="{'group_by': 'warehouse_id'}"/>
+                    <filter name="group_date" string="Count Date"
+                            context="{'group_by': 'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_inventory_count_report" model="ir.actions.act_window">
+        <field name="name">Inventory Count Report</field>
+        <field name="res_model">stock.inventory.count.line</field>
+        <field name="view_mode">tree,pivot,graph</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('view_inventory_count_report_list')}),
+            (0, 0, {'view_mode': 'pivot', 'view_id': ref('view_inventory_count_report_pivot')}),
+            (0, 0, {'view_mode': 'graph', 'view_id': ref('view_inventory_count_report_graph')})]"/>
+        <field name="search_view_id" ref="view_inventory_count_report_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No inventory count data yet
+            </p>
+            <p>
+                Count lines appear here once the counting of an inventory
+                count has been completed.
+            </p>
+        </field>
+    </record>
+
+</odoo>

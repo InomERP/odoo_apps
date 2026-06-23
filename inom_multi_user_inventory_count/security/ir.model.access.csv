@@ -1,0 +1,16 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_stock_inventory_count_user,stock.inventory.count.user,model_stock_inventory_count,stock.group_stock_user,1,1,1,0
+access_stock_inventory_count_manager,stock.inventory.count.manager,model_stock_inventory_count,stock.group_stock_manager,1,1,1,1
+access_stock_inventory_count_product_line_user,stock.inventory.count.product.line.user,model_stock_inventory_count_product_line,stock.group_stock_user,1,1,1,1
+access_stock_inventory_count_product_line_manager,stock.inventory.count.product.line.manager,model_stock_inventory_count_product_line,stock.group_stock_manager,1,1,1,1
+access_stock_inventory_count_session_user,stock.inventory.count.session.user,model_stock_inventory_count_session,stock.group_stock_user,1,1,1,0
+access_stock_inventory_count_session_manager,stock.inventory.count.session.manager,model_stock_inventory_count_session,stock.group_stock_manager,1,1,1,1
+access_stock_inventory_session_line_user,stock.inventory.session.line.user,model_stock_inventory_session_line,stock.group_stock_user,1,1,1,1
+access_stock_inventory_session_line_manager,stock.inventory.session.line.manager,model_stock_inventory_session_line,stock.group_stock_manager,1,1,1,1
+access_stock_inventory_count_session_wizard_user,stock.inventory.count.session.wizard.user,model_stock_inventory_count_session_wizard,stock.group_stock_user,1,1,1,1
+access_stock_inventory_count_session_wizard_manager,stock.inventory.count.session.wizard.manager,model_stock_inventory_count_session_wizard,stock.group_stock_manager,1,1,1,1
+access_stock_inventory_count_line_user,stock.inventory.count.line.user,model_stock_inventory_count_line,stock.group_stock_user,1,1,1,1
+access_stock_inventory_count_line_manager,stock.inventory.count.line.manager,model_stock_inventory_count_line,stock.group_stock_manager,1,1,1,1
+access_stock_inventory_count_planner_manager,stock.inventory.count.planner.manager,model_stock_inventory_count_planner,stock.group_stock_manager,1,1,1,1
+access_stock_inventory_scan_wizard_user,stock.inventory.scan.wizard.user,model_stock_inventory_scan_wizard,stock.group_stock_user,1,1,1,1
+access_stock_inventory_scan_wizard_manager,stock.inventory.scan.wizard.manager,model_stock_inventory_scan_wizard,stock.group_stock_manager,1,1,1,1
