@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Branch document sequences are created on demand per branch
+        (see inom.branch._ensure_sequence). This file is kept so the data
+        section stays stable and future shared sequences can be added here.
+    -->
+</odoo>

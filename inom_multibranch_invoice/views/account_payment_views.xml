@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="inom_view_account_payment_form_branch" model="ir.ui.view">
+        <field name="name">account.payment.form.inom.branch</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <field name="journal_id" position="after">
+                <field name="inom_branch_id"
+                       options="{'no_create_edit': True}"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="inom_view_account_payment_tree_branch" model="ir.ui.view">
+        <field name="name">account.payment.list.inom.branch</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_tree"/>
+        <field name="arch" type="xml">
+            <field name="journal_id" position="after">
+                <field name="inom_branch_id" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="inom_view_account_payment_search_branch" model="ir.ui.view">
+        <field name="name">account.payment.search.inom.branch</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_search"/>
+        <field name="arch" type="xml">
+            <field name="journal_id" position="after">
+                <field name="inom_branch_id"/>
+            </field>
+            <filter name="journal" position="after">
+                <filter string="Branch" name="group_branch"
+                        domain="[]" context="{'group_by': 'inom_branch_id'}"/>
+            </filter>
+        </field>
+    </record>
+
+</odoo>

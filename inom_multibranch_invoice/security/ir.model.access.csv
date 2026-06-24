@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_inom_branch_user,inom.branch user,model_inom_branch,group_inom_branch_user,1,0,0,0
+access_inom_branch_multi,inom.branch multi,model_inom_branch,group_inom_branch_multi,1,0,0,0
+access_inom_branch_manager,inom.branch manager,model_inom_branch,group_inom_branch_manager,1,1,1,1
+access_inom_branch_account_user,inom.branch account user,model_inom_branch,account.group_account_user,1,0,0,0
+access_inom_branch_account_manager,inom.branch account manager,model_inom_branch,account.group_account_manager,1,1,1,1

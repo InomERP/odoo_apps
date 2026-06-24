@@ -1,0 +1,197 @@
+.o_inom_dash {
+    $navy: #1B2850;
+    $navy2: #2e4a82;
+    $amber: #FFD94A;
+    $sales: #2e6da4;
+    $purchase: #9b59b6;
+    $pos: #117a4d;
+    $neg: #d9534f;
+    $due: #e08e0b;
+
+    padding: 18px;
+    background: #f4f6fb;
+    height: 100%;
+    overflow-y: auto;
+    font-size: 14px;
+
+    .text-pos { color: $pos !important; }
+    .text-neg { color: $neg !important; }
+    .text-due { color: $due !important; }
+
+    .o_inom_dash_loading {
+        display: flex; align-items: center; justify-content: center;
+        gap: 12px; padding: 80px 0; color: #8a93a6; font-size: 16px;
+        .fa { font-size: 26px; }
+    }
+
+    .o_inom_hero {
+        display: flex; align-items: center; justify-content: space-between;
+        background: linear-gradient(120deg, $navy 0%, $navy2 100%);
+        color: #fff; border-radius: 16px; padding: 26px 30px; margin-bottom: 20px;
+        box-shadow: 0 10px 26px rgba(27, 40, 80, 0.25);
+        position: relative; overflow: hidden;
+        &:after {
+            content: ""; position: absolute; right: -40px; top: -40px;
+            width: 180px; height: 180px; background: rgba(255, 217, 74, 0.14);
+            border-radius: 50%;
+        }
+        .o_inom_hero_eyebrow { font-size: 11px; letter-spacing: 2px; color: $amber; font-weight: 700; margin-bottom: 4px; }
+        h1 { margin: 0; font-size: 28px; font-weight: 800; }
+        p { margin: 6px 0 0; opacity: 0.8; font-size: 14px; }
+        .o_inom_refresh {
+            border: none; background: rgba(255, 255, 255, 0.14); color: #fff;
+            width: 44px; height: 44px; border-radius: 12px; cursor: pointer;
+            transition: background 0.15s ease; z-index: 1;
+            &:hover { background: rgba(255, 255, 255, 0.26); }
+            &:active .fa { transform: rotate(180deg); }
+            .fa { font-size: 18px; transition: transform 0.3s ease; }
+        }
+    }
+
+    .o_inom_kpis {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+        gap: 16px; margin-bottom: 20px;
+    }
+    .o_inom_kpi {
+        display: flex; align-items: center; gap: 14px; background: #fff;
+        border-radius: 14px; padding: 18px 20px; border: 1px solid #edf0f7;
+        box-shadow: 0 4px 14px rgba(27, 40, 80, 0.06);
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+        &:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(27, 40, 80, 0.12); }
+        .o_inom_kpi_icon {
+            width: 48px; height: 48px; border-radius: 12px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 20px;
+        }
+        .o_inom_kpi_label { font-size: 12px; color: #8a93a6; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+        .o_inom_kpi_value { font-size: 21px; font-weight: 800; color: $navy; margin-top: 2px; }
+        &.kpi_sales .o_inom_kpi_icon { background: linear-gradient(135deg, #2e6da4, #4a90c2); }
+        &.kpi_purchase .o_inom_kpi_icon { background: linear-gradient(135deg, #9b59b6, #b07cc6); }
+        &.kpi_due .o_inom_kpi_icon { background: linear-gradient(135deg, #d9821a, #f0a83e); }
+        &.kpi_net .o_inom_kpi_icon { background: linear-gradient(135deg, #117a4d, #1abc7b); }
+        &.kpi_branches .o_inom_kpi_icon { background: linear-gradient(135deg, #c79100, #FFD94A); color: $navy; }
+    }
+
+    .o_inom_grid {
+        display: grid; grid-template-columns: 1.3fr 1fr; gap: 18px;
+    }
+    @media (max-width: 1100px) { .o_inom_grid { grid-template-columns: 1fr; } }
+
+    .o_inom_panel {
+        background: #fff; border-radius: 16px; padding: 20px 22px;
+        border: 1px solid #edf0f7; box-shadow: 0 4px 14px rgba(27, 40, 80, 0.05);
+    }
+    .o_inom_panel_head {
+        display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;
+        h2 { margin: 0; font-size: 17px; font-weight: 700; color: $navy; }
+    }
+    .o_inom_legend {
+        display: flex; gap: 14px; font-size: 12px; color: #6b7280;
+        span { display: flex; align-items: center; gap: 5px; }
+        .dot { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+        .dot_sales { background: $sales; }
+        .dot_purchase { background: $purchase; }
+    }
+
+    .o_inom_bar_row { margin-bottom: 16px; &:last-child { margin-bottom: 0; } }
+    .o_inom_bar_name {
+        font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 6px;
+        display: flex; align-items: center; gap: 8px;
+    }
+    .o_inom_bar_tag {
+        color: #fff; font-size: 10px; font-weight: 800; padding: 2px 7px;
+        border-radius: 5px; letter-spacing: 0.4px;
+    }
+    .o_inom_bar_share { margin-left: auto; color: #8a93a6; font-weight: 700; font-size: 12px; }
+    .o_inom_bar_track { display: flex; flex-direction: column; gap: 6px; }
+    .o_inom_bar {
+        height: 26px; border-radius: 7px; display: flex; align-items: center;
+        min-width: 36px; transition: width 0.5s ease;
+        &.bar_sales { background: linear-gradient(90deg, #2e6da4, #5b9bd1); }
+        &.bar_purchase { background: linear-gradient(90deg, #9b59b6, #c08fd6); }
+        .o_inom_bar_val { color: #fff; font-size: 11px; font-weight: 700; padding: 0 8px; white-space: nowrap; }
+    }
+
+    .o_inom_cards { display: flex; flex-direction: column; gap: 12px; }
+    .o_inom_card {
+        border: 1px solid #edf0f7; border-radius: 12px; padding: 14px 16px; cursor: pointer;
+        transition: box-shadow 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+        &:hover { box-shadow: 0 8px 18px rgba(27, 40, 80, 0.12); transform: translateY(-2px); border-color: #d8def0; }
+        .o_inom_card_top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .o_inom_card_avatar {
+            width: 40px; height: 34px; border-radius: 9px; color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 12px; flex-shrink: 0; letter-spacing: 0.4px;
+        }
+        .o_inom_card_title { font-weight: 700; color: $navy; flex: 1; }
+        .o_inom_card_go { color: #b6bdcc; font-size: 18px; }
+        .o_inom_card_metric {
+            display: flex; justify-content: space-between; padding: 2px 0; font-size: 13px;
+            .o_inom_card_metric_label { color: #8a93a6; }
+            .o_inom_card_metric_val { font-weight: 700; color: #374151; }
+        }
+        .o_inom_card_share {
+            height: 6px; background: #eef1f7; border-radius: 4px; margin: 10px 0 8px; overflow: hidden;
+            .o_inom_card_share_bar { height: 100%; border-radius: 4px; transition: width 0.5s ease; min-width: 2px; }
+        }
+        .o_inom_card_pills { display: flex; gap: 8px; flex-wrap: wrap; }
+        .o_inom_pill {
+            font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px;
+            &.pill_inv { background: #e7f1fa; color: #2e6da4; }
+            &.pill_bill { background: #f3e9fa; color: #9b59b6; }
+            &.pill_share { background: #eef7f0; color: #117a4d; }
+        }
+    }
+
+    .o_inom_empty {
+        text-align: center; padding: 50px 20px; color: #9aa2b1;
+        .fa { font-size: 40px; opacity: 0.4; }
+        p { margin-top: 14px; font-size: 14px; }
+    }
+
+    .o_inom_summary { margin-bottom: 18px; }
+    .o_inom_collect_badge {
+        font-size: 12px; font-weight: 700; color: #117a4d;
+        background: #eaf6ef; padding: 4px 12px; border-radius: 20px;
+    }
+    .o_inom_collect_bar {
+        height: 12px; background: #fbe9d0; border-radius: 8px; overflow: hidden; margin-bottom: 16px;
+        .o_inom_collect_fill {
+            height: 100%;
+            background: linear-gradient(90deg, #117a4d, #1abc7b);
+            border-radius: 8px; transition: width 0.6s ease; min-width: 2px;
+        }
+    }
+    .o_inom_summary_tiles {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 14px;
+    }
+    .o_inom_tile {
+        background: #f7f9fc; border: 1px solid #edf0f7; border-radius: 12px; padding: 14px 16px;
+        .o_inom_tile_label { font-size: 12px; color: #8a93a6; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+        .o_inom_tile_val { font-size: 19px; font-weight: 800; color: $navy; margin-top: 4px; }
+        &.tile_in .o_inom_tile_val { color: $pos; }
+        &.tile_due .o_inom_tile_val { color: $due; }
+        &.tile_paid .o_inom_tile_val { color: $pos; }
+        &.tile_payable .o_inom_tile_val { color: $purchase; }
+        .o_inom_tile_counts {
+            display: flex; gap: 14px; margin-top: 6px; font-size: 13px; font-weight: 700;
+            .cnt_paid { color: $pos; }
+            .cnt_due { color: $due; }
+            .cnt_payable { color: $purchase; }
+        }
+    }
+
+    .o_inom_pay_badge {
+        font-size: 12px; font-weight: 700; color: #7a3f95;
+        background: #f3e9fa; padding: 4px 12px; border-radius: 20px;
+    }
+    .o_inom_collect_bar.pay_bar { background: #f3e9fa; }
+    .o_inom_pay_fill {
+        height: 100%;
+        background: linear-gradient(90deg, #7a3f95, #b07cc6);
+        border-radius: 8px; transition: width 0.6s ease; min-width: 2px;
+    }
+}
