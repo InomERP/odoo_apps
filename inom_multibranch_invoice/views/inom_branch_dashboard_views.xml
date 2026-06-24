@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="inom_branch_dashboard_action" model="ir.actions.client">
+        <field name="name">Branch Dashboard</field>
+        <field name="tag">inom_branch_dashboard</field>
+    </record>
+
+</odoo>

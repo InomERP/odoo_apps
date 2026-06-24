@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="module_category_inom_branch" model="ir.module.category">
+        <field name="name">Branch Invoicing</field>
+        <field name="description">Access level for branch wise invoicing and accounting.</field>
+        <field name="sequence">90</field>
+    </record>
+
+    <record id="group_inom_branch_user" model="res.groups">
+        <field name="name">Branch User</field>
+        <field name="category_id" ref="module_category_inom_branch"/>
+        <field name="comment">Can access only the records of its own allowed branches.</field>
+    </record>
+
+    <record id="group_inom_branch_multi" model="res.groups">
+        <field name="name">Multi Branches</field>
+        <field name="category_id" ref="module_category_inom_branch"/>
+        <field name="implied_ids" eval="[(4, ref('group_inom_branch_user'))]"/>
+        <field name="comment">Can work with and switch between several allowed branches.</field>
+    </record>
+
+    <record id="group_inom_branch_manager" model="res.groups">
+        <field name="name">Branch Manager</field>
+        <field name="category_id" ref="module_category_inom_branch"/>
+        <field name="implied_ids" eval="[(4, ref('group_inom_branch_multi'))]"/>
+        <field name="comment">Full access to every branch and its records.</field>
+    </record>
+
+    <record id="inom_branch_company_rule" model="ir.rule">
+        <field name="name">Branch: multi-company</field>
+        <field name="model_id" ref="model_inom_branch"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="inom_branch_user_rule" model="ir.rule">
+        <field name="name">Branch: own branches only</field>
+        <field name="model_id" ref="model_inom_branch"/>
+        <field name="groups" eval="[(4, ref('group_inom_branch_user'))]"/>
+        <field name="domain_force">[('id', 'in', user.inom_allowed_branch_ids.ids)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="inom_branch_manager_rule" model="ir.rule">
+        <field name="name">Branch: manager full access</field>
+        <field name="model_id" ref="model_inom_branch"/>
+        <field name="groups" eval="[(4, ref('group_inom_branch_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <record id="inom_move_branch_global_rule" model="ir.rule">
+        <field name="name">Journal Entry: branch access filter</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|', ('inom_branch_id', '=', False), ('inom_branch_id', 'in', user.inom_branch_filter_ids.ids)]</field>
+    </record>
+
+    <record id="inom_payment_branch_global_rule" model="ir.rule">
+        <field name="name">Payment: branch access filter</field>
+        <field name="model_id" ref="account.model_account_payment"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|', ('inom_branch_id', '=', False), ('inom_branch_id', 'in', user.inom_branch_filter_ids.ids)]</field>
+    </record>
+
+</odoo>

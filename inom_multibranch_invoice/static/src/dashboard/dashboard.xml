@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="inom_multibranch_invoice.Dashboard">
+        <div class="o_inom_dash">
+
+            <!-- Loading -->
+            <div t-if="state.loading" class="o_inom_dash_loading">
+                <i class="fa fa-circle-o-notch fa-spin"/>
+                <span>Loading branch data...</span>
+            </div>
+
+            <div t-else="">
+
+                <!-- Hero header -->
+                <div class="o_inom_hero">
+                    <div class="o_inom_hero_text">
+                        <div class="o_inom_hero_eyebrow">MULTI BRANCH ANALYTICS</div>
+                        <h1>Branch Performance</h1>
+                        <p>Sales, purchase and activity across all your operating units.</p>
+                    </div>
+                    <button class="o_inom_refresh" t-on-click="() => this.loadData()" title="Refresh">
+                        <i class="fa fa-refresh"/>
+                    </button>
+                </div>
+
+                <!-- KPI row -->
+                <div class="o_inom_kpis">
+                    <div class="o_inom_kpi kpi_sales">
+                        <div class="o_inom_kpi_icon"><i class="fa fa-arrow-up"/></div>
+                        <div class="o_inom_kpi_body">
+                            <div class="o_inom_kpi_label">Total Sales</div>
+                            <div class="o_inom_kpi_value"><t t-esc="formatAmount(state.data.total_sales)"/></div>
+                        </div>
+                    </div>
+                    <div class="o_inom_kpi kpi_purchase">
+                        <div class="o_inom_kpi_icon"><i class="fa fa-arrow-down"/></div>
+                        <div class="o_inom_kpi_body">
+                            <div class="o_inom_kpi_label">Total Purchase</div>
+                            <div class="o_inom_kpi_value"><t t-esc="formatAmount(state.data.total_purchase)"/></div>
+                        </div>
+                    </div>
+                    <div class="o_inom_kpi kpi_net">
+                        <div class="o_inom_kpi_icon"><i class="fa fa-balance-scale"/></div>
+                        <div class="o_inom_kpi_body">
+                            <div class="o_inom_kpi_label">Net (Sales - Purchase)</div>
+                            <div class="o_inom_kpi_value"><t t-esc="formatAmount(netTotal)"/></div>
+                        </div>
+                    </div>
+                    <div class="o_inom_kpi kpi_branches">
+                        <div class="o_inom_kpi_icon"><i class="fa fa-code-fork"/></div>
+                        <div class="o_inom_kpi_body">
+                            <div class="o_inom_kpi_label">Active Branches</div>
+                            <div class="o_inom_kpi_value"><t t-esc="state.data.total_branches"/></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Empty state -->
+                <div t-if="!state.data.branches.length" class="o_inom_empty">
+                    <i class="fa fa-pie-chart"/>
+                    <p>No branch data yet. Create branches and post some invoices to see analytics here.</p>
+                </div>
+
+                <div t-else="" class="o_inom_grid">
+
+                    <!-- Comparison bars -->
+                    <div class="o_inom_panel o_inom_compare">
+                        <div class="o_inom_panel_head">
+                            <h2>Branch Comparison</h2>
+                            <div class="o_inom_legend">
+                                <span><i class="dot dot_sales"/> Sales</span>
+                                <span><i class="dot dot_purchase"/> Purchase</span>
+                            </div>
+                        </div>
+                        <div class="o_inom_bars">
+                            <div class="o_inom_bar_row" t-foreach="state.data.branches" t-as="b" t-key="b.id">
+                                <div class="o_inom_bar_name" t-esc="b.name"/>
+                                <div class="o_inom_bar_track">
+                                    <div class="o_inom_bar bar_sales" t-att-style="'width:' + barWidth(b.sales)">
+                                        <span class="o_inom_bar_val" t-esc="formatAmount(b.sales)"/>
+                                    </div>
+                                    <div class="o_inom_bar bar_purchase" t-att-style="'width:' + barWidth(b.purchase)">
+                                        <span class="o_inom_bar_val" t-esc="formatAmount(b.purchase)"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Branch cards -->
+                    <div class="o_inom_panel o_inom_cards_panel">
+                        <div class="o_inom_panel_head">
+                            <h2>Branches</h2>
+                        </div>
+                        <div class="o_inom_cards">
+                            <div class="o_inom_card"
+                                 t-foreach="state.data.branches" t-as="b" t-key="b.id"
+                                 t-on-click="() => this.openBranchInvoices(b.id)">
+                                <div class="o_inom_card_top">
+                                    <div class="o_inom_card_avatar" t-esc="b.name.substring(0,1).toUpperCase()"/>
+                                    <div class="o_inom_card_title" t-esc="b.name"/>
+                                    <i class="fa fa-angle-right o_inom_card_go"/>
+                                </div>
+                                <div class="o_inom_card_metric">
+                                    <span class="o_inom_card_metric_label">Sales</span>
+                                    <span class="o_inom_card_metric_val" t-esc="formatAmount(b.sales)"/>
+                                </div>
+                                <div class="o_inom_card_metric">
+                                    <span class="o_inom_card_metric_label">Purchase</span>
+                                    <span class="o_inom_card_metric_val" t-esc="formatAmount(b.purchase)"/>
+                                </div>
+                                <div class="o_inom_card_pills">
+                                    <span class="o_inom_pill pill_inv"><t t-esc="b.invoice_count"/> invoices</span>
+                                    <span class="o_inom_pill pill_bill"><t t-esc="b.bill_count"/> bills</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>
