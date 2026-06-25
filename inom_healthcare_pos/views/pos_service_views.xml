@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- ============ SERVICES ============ -->
+    <record id="view_pos_service_list" model="ir.ui.view">
+        <field name="name">healthcare.pos.service.list</field>
+        <field name="model">healthcare.pos.service</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="category_id"/>
+                <field name="service_type"/>
+                <field name="list_price"/>
+                <field name="tax_percent"/>
+                <field name="pharmacy_id"/>
+                <field name="available_in_pos" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_pos_service_form" model="ir.ui.view">
+        <field name="name">healthcare.pos.service.form</field>
+        <field name="model">healthcare.pos.service</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <field name="image_1920" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="Service name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="category_id"/>
+                            <field name="service_type"/>
+                            <field name="available_in_pos"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="list_price"/>
+                            <field name="tax_percent"/>
+                            <field name="pharmacy_id"/>
+                            <field name="track_stock"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pos_service" model="ir.actions.act_window">
+        <field name="name">Services</field>
+        <field name="res_model">healthcare.pos.service</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- ============ CATEGORIES ============ -->
+    <record id="view_pos_category_list" model="ir.ui.view">
+        <field name="name">healthcare.pos.category.list</field>
+        <field name="model">healthcare.pos.category</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="icon"/>
+                <field name="color" widget="color"/>
+                <field name="service_count"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_pos_category" model="ir.actions.act_window">
+        <field name="name">Categories</field>
+        <field name="res_model">healthcare.pos.category</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- ============ PAYMENT METHODS ============ -->
+    <record id="view_pos_payment_method_list" model="ir.ui.view">
+        <field name="name">healthcare.pos.payment.method.list</field>
+        <field name="model">healthcare.pos.payment.method</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="method_type"/>
+                <field name="is_cash"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_pos_payment_method" model="ir.actions.act_window">
+        <field name="name">Payment Methods</field>
+        <field name="res_model">healthcare.pos.payment.method</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

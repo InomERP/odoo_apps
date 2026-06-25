@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_pos_session_list" model="ir.ui.view">
+        <field name="name">healthcare.pos.session.list</field>
+        <field name="model">healthcare.pos.session</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="state == 'opened'" decoration-muted="state == 'closed'">
+                <field name="name"/>
+                <field name="config_id"/>
+                <field name="user_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="start_at"/>
+                <field name="stop_at"/>
+                <field name="order_count"/>
+                <field name="total_sales" widget="monetary"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'opened'"
+                       decoration-info="state == 'opening_control'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_pos_session_form" model="ir.ui.view">
+        <field name="name">healthcare.pos.session.form</field>
+        <field name="model">healthcare.pos.session</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_open_session" type="object" string="Open Session"
+                            class="btn-primary" invisible="state != 'opening_control'"/>
+                    <button name="action_open_ui" type="object" string="Resume POS"
+                            class="btn-primary" invisible="state != 'opened'" icon="fa-play"/>
+                    <button name="action_set_closing_control" type="object" string="Closing Control"
+                            invisible="state != 'opened'"/>
+                    <button name="action_close_session" type="object" string="Close Session"
+                            class="btn-primary" invisible="state != 'closing_control'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="opening_control,opened,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_orders" type="object"
+                                class="oe_stat_button" icon="fa-shopping-cart">
+                            <field name="order_count" widget="statinfo" string="Orders"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Terminal">
+                            <field name="config_id"/>
+                            <field name="user_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="currency_id"/>
+                        </group>
+                        <group string="Timing">
+                            <field name="start_at"/>
+                            <field name="stop_at"/>
+                        </group>
+                        <group string="Cash Control">
+                            <field name="opening_balance" widget="monetary"/>
+                            <field name="cash_sales" widget="monetary"/>
+                            <field name="theoretical_cash" widget="monetary"/>
+                            <field name="closing_balance" widget="monetary"/>
+                            <field name="cash_difference" widget="monetary"/>
+                        </group>
+                        <group string="Sales">
+                            <field name="total_sales" widget="monetary"/>
+                            <field name="order_count"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Orders">
+                            <field name="order_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="date_order"/>
+                                    <field name="patient_id"/>
+                                    <field name="amount_total" widget="monetary"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                    <field name="state" widget="badge"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pos_session" model="ir.actions.act_window">
+        <field name="name">Sessions</field>
+        <field name="res_model">healthcare.pos.session</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>
