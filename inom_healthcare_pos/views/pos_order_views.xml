@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_pos_order_list" model="ir.ui.view">
+        <field name="name">healthcare.pos.order.list</field>
+        <field name="model">healthcare.pos.order</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="date_order"/>
+                <field name="patient_id"/>
+                <field name="doctor_id"/>
+                <field name="config_id"/>
+                <field name="amount_total" widget="monetary"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="state" widget="badge"
+                       decoration-success="state in ('paid','done','invoiced')"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_pos_order_form" model="ir.ui.view">
+        <field name="name">healthcare.pos.order.form</field>
+        <field name="model">healthcare.pos.order</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state == 'cancel'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="patient_id"/>
+                            <field name="doctor_id"/>
+                            <field name="date_order"/>
+                        </group>
+                        <group>
+                            <field name="session_id"/>
+                            <field name="config_id"/>
+                            <field name="user_id"/>
+                            <field name="billing_id"/>
+                            <field name="currency_id" groups="base.group_multi_currency"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Lines">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="service_id"/>
+                                    <field name="name"/>
+                                    <field name="qty"/>
+                                    <field name="price_unit" widget="monetary"/>
+                                    <field name="discount"/>
+                                    <field name="tax_percent"/>
+                                    <field name="price_subtotal" widget="monetary"/>
+                                    <field name="price_total" widget="monetary"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                </list>
+                            </field>
+                            <group class="oe_subtotal_footer" colspan="2">
+                                <field name="amount_untaxed" widget="monetary"/>
+                                <field name="amount_tax" widget="monetary"/>
+                                <field name="amount_total" widget="monetary"/>
+                                <field name="amount_paid" widget="monetary"/>
+                                <field name="amount_due" widget="monetary"/>
+                            </group>
+                        </page>
+                        <page string="Payments">
+                            <field name="payment_ids">
+                                <list>
+                                    <field name="payment_method_id"/>
+                                    <field name="amount" widget="monetary"/>
+                                    <field name="payment_date"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Note">
+                            <field name="note"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pos_order" model="ir.actions.act_window">
+        <field name="name">Orders</field>
+        <field name="res_model">healthcare.pos.order</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

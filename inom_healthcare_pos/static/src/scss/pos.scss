@@ -1,0 +1,551 @@
+// ============================================================
+//  Healthcare POS — clinical, refined UI
+// ============================================================
+.o_hcpos {
+    --hc-teal: #0d9488;
+    --hc-teal-d: #0f766e;
+    --hc-ink: #0f172a;
+    --hc-slate: #475569;
+    --hc-line: #e2e8f0;
+    --hc-bg: #f1f5f9;
+    --hc-card: #ffffff;
+    --hc-amber: #d97706;
+    --hc-red: #dc2626;
+    --hc-green: #059669;
+
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    background: var(--hc-bg);
+    color: var(--hc-ink);
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    overflow: hidden;
+
+    * { box-sizing: border-box; }
+    button { font-family: inherit; cursor: pointer; }
+
+    // ---------- loading ----------
+    .o_hcpos_loading {
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+        color: var(--hc-slate);
+        font-size: 16px;
+    }
+
+    // ---------- top bar ----------
+    .o_hcpos_topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 18px;
+        height: 56px;
+        background: linear-gradient(100deg, var(--hc-teal-d), var(--hc-teal));
+        color: #fff;
+        box-shadow: 0 2px 10px rgba(13, 148, 136, 0.25);
+        z-index: 5;
+    }
+    .o_hcpos_brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 18px;
+        .fa { font-size: 22px; }
+    }
+    .o_hcpos_brand_name { font-weight: 700; letter-spacing: 0.3px; }
+    .o_hcpos_terminal {
+        margin-left: 6px;
+        padding: 3px 10px;
+        background: rgba(255, 255, 255, 0.18);
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 500;
+    }
+    .o_hcpos_typebadge {
+        margin-left: 8px;
+        padding: 3px 11px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+        color: #fff;
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,0.25);
+        .fa { margin-right: 5px; }
+    }
+    .o_hcpos_topinfo { display: flex; align-items: center; gap: 8px; }
+    .o_hcpos_chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 11px;
+        background: rgba(255, 255, 255, 0.14);
+        border-radius: 8px;
+        font-size: 12.5px;
+        white-space: nowrap;
+    }
+    .o_hcpos_chip_live .fa { color: #4ade80; font-size: 9px; animation: hcpulse 2s infinite; }
+    .o_hcpos_exit {
+        border: none;
+        background: rgba(255, 255, 255, 0.16);
+        color: #fff;
+        width: 36px; height: 36px;
+        border-radius: 8px;
+        transition: background 0.15s;
+        &:hover { background: rgba(255, 255, 255, 0.3); }
+    }
+    @keyframes hcpulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    .o_hcpos_body { flex: 1; min-height: 0; display: flex; }
+
+    // ---------- config picker ----------
+    .o_hcpos_config { flex: 1; overflow: auto; padding: 40px; }
+    .o_hcpos_config_head {
+        max-width: 720px; margin: 0 auto 30px;
+        h1 { font-size: 28px; font-weight: 700; margin: 0 0 8px; }
+        p { color: var(--hc-slate); margin: 0; line-height: 1.5; }
+    }
+    .o_hcpos_config_grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 18px;
+        max-width: 980px;
+        margin: 0 auto;
+    }
+    .o_hcpos_config_card {
+        background: var(--hc-card);
+        border: 1px solid var(--hc-line);
+        border-radius: 14px;
+        padding: 22px;
+        cursor: pointer;
+        transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+        &:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+            border-color: var(--hc-teal);
+        }
+    }
+    .o_hcpos_config_icon {
+        width: 48px; height: 48px; border-radius: 12px;
+        background: rgba(13, 148, 136, 0.1); color: var(--hc-teal);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 22px; margin-bottom: 14px;
+    }
+    .o_hcpos_config_name { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
+    .o_hcpos_config_meta {
+        display: flex; flex-wrap: wrap; gap: 12px;
+        color: var(--hc-slate); font-size: 13px;
+        .fa { margin-right: 4px; }
+    }
+    .o_hcpos_config_state {
+        margin-top: 14px; font-size: 12px; font-weight: 600;
+        color: var(--hc-slate);
+        &.is_open { color: var(--hc-green); }
+    }
+
+    // ---------- centered panels ----------
+    .o_hcpos_centered { flex: 1; display: flex; align-items: center; justify-content: center; padding: 30px; overflow: auto; }
+    .o_hcpos_panel {
+        background: var(--hc-card); border: 1px solid var(--hc-line);
+        border-radius: 16px; padding: 34px; width: 100%; max-width: 440px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+        h2 { margin: 0 0 6px; font-size: 22px; .fa { color: var(--hc-teal); margin-right: 8px; } }
+        label { display: block; font-size: 13px; font-weight: 600; color: var(--hc-slate); margin: 18px 0 6px; }
+    }
+    .o_hcpos_muted { color: var(--hc-slate); font-size: 14px; }
+    .o_hcpos_pad { padding: 16px; }
+
+    .o_hcpos_money_input {
+        display: flex; align-items: center; gap: 8px;
+        border: 2px solid var(--hc-line); border-radius: 10px;
+        padding: 10px 14px; font-size: 22px; font-weight: 600;
+        &:focus-within { border-color: var(--hc-teal); }
+        input { border: none; outline: none; font-size: 22px; font-weight: 600; width: 100%; background: transparent; }
+        &.small { padding: 6px 10px; font-size: 16px; input { font-size: 16px; } }
+    }
+
+    // ---------- buttons ----------
+    .o_hcpos_btn {
+        border: 1px solid var(--hc-line); background: #fff; color: var(--hc-ink);
+        padding: 10px 18px; border-radius: 10px; font-size: 14px; font-weight: 600;
+        display: inline-flex; align-items: center; gap: 8px;
+        transition: background 0.15s, transform 0.1s;
+        &:hover { background: #f8fafc; }
+        &:active { transform: scale(0.98); }
+    }
+    .o_hcpos_btn_primary {
+        background: var(--hc-teal); border-color: var(--hc-teal); color: #fff;
+        &:hover { background: var(--hc-teal-d); }
+        &:disabled { opacity: 0.45; cursor: not-allowed; }
+    }
+    .o_hcpos_btn_block { width: 100%; justify-content: center; margin-top: 22px; padding: 14px; font-size: 16px; }
+    .o_hcpos_iconbtn {
+        border: none; background: transparent; color: var(--hc-slate);
+        width: 30px; height: 30px; border-radius: 8px;
+        &:hover { background: var(--hc-line); color: var(--hc-ink); }
+    }
+
+    // ============================================================
+    //  MAIN (product) SCREEN
+    // ============================================================
+    .o_hcpos_main { flex: 1; display: flex; min-height: 0; }
+
+    // ---- cart (left) ----
+    .o_hcpos_cart {
+        width: 380px; min-width: 340px;
+        background: var(--hc-card);
+        border-right: 1px solid var(--hc-line);
+        display: flex; flex-direction: column;
+    }
+    .o_hcpos_patientbar {
+        display: flex; align-items: center; gap: 6px;
+        padding: 12px; border-bottom: 1px solid var(--hc-line);
+    }
+    .o_hcpos_patientbtn {
+        flex: 1; display: flex; align-items: center; gap: 10px;
+        border: 1px dashed var(--hc-teal); background: rgba(13, 148, 136, 0.06);
+        color: var(--hc-teal-d); padding: 10px 14px; border-radius: 10px;
+        font-size: 14px; font-weight: 600; text-align: left;
+        small { color: var(--hc-slate); font-weight: 500; }
+        &:hover { background: rgba(13, 148, 136, 0.12); }
+    }
+    .o_hcpos_doctorbar {
+        display: flex; align-items: center; gap: 10px;
+        padding: 10px 12px; border-bottom: 1px solid var(--hc-line);
+        color: var(--hc-slate);
+        select {
+            flex: 1; border: 1px solid var(--hc-line); border-radius: 8px;
+            padding: 7px 10px; font-size: 13px; color: var(--hc-ink); background: #fff;
+        }
+    }
+
+    .o_hcpos_lines { flex: 1; overflow-y: auto; padding: 8px; }
+    .o_hcpos_emptycart {
+        height: 100%; display: flex; flex-direction: column; gap: 12px;
+        align-items: center; justify-content: center; color: #94a3b8;
+        .fa { font-size: 38px; }
+    }
+    .o_hcpos_line {
+        display: flex; align-items: center; gap: 10px;
+        padding: 10px 12px; border-radius: 10px; margin-bottom: 4px;
+        border: 1px solid transparent; transition: background 0.12s;
+        &:hover { background: #f8fafc; }
+        &.is_selected { background: rgba(13, 148, 136, 0.08); border-color: var(--hc-teal); }
+    }
+    .o_hcpos_line_main { flex: 1; min-width: 0; }
+    .o_hcpos_line_name { font-weight: 600; font-size: 14px; }
+    .o_hcpos_line_sub { font-size: 12px; color: var(--hc-slate); margin-top: 2px; }
+    .o_hcpos_line_total { font-weight: 700; font-size: 14px; }
+    .o_hcpos_line_del {
+        border: none; background: transparent; color: #cbd5e1;
+        width: 28px; height: 28px; border-radius: 6px;
+        &:hover { color: var(--hc-red); background: #fef2f2; }
+    }
+
+    .o_hcpos_totals { padding: 12px 16px; border-top: 1px solid var(--hc-line); background: #fbfdfd; }
+    .o_hcpos_total_row {
+        display: flex; justify-content: space-between; font-size: 13px;
+        color: var(--hc-slate); padding: 3px 0;
+        &.o_hcpos_grand { font-size: 18px; font-weight: 700; color: var(--hc-ink); padding-top: 8px; }
+    }
+
+    // ---- numpad ----
+    .o_hcpos_numpad { padding: 10px 12px; border-top: 1px solid var(--hc-line); }
+    .o_hcpos_numpad_modes {
+        display: flex; gap: 6px; margin-bottom: 8px;
+        button {
+            flex: 1; border: 1px solid var(--hc-line); background: #fff;
+            padding: 7px; border-radius: 8px; font-size: 12px; font-weight: 600; color: var(--hc-slate);
+            &.active { background: var(--hc-ink); color: #fff; border-color: var(--hc-ink); }
+        }
+    }
+    .o_hcpos_numpad_keys {
+        display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+        button {
+            border: 1px solid var(--hc-line); background: #fff;
+            padding: 12px; border-radius: 8px; font-size: 17px; font-weight: 600;
+            &:hover { background: #f1f5f9; }
+            &:active { background: var(--hc-line); }
+        }
+    }
+
+    .o_hcpos_btn_pay {
+        margin: 10px 12px 14px; padding: 15px 18px;
+        display: flex; justify-content: space-between; align-items: center;
+        font-size: 16px; border-radius: 12px;
+    }
+
+    // ---- catalogue (right) ----
+    .o_hcpos_catalogue { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+    .o_hcpos_workflowbar {
+        display: flex; flex-wrap: wrap; gap: 8px;
+        margin: 14px 18px 0;
+    }
+    .o_hcpos_wfbtn {
+        display: inline-flex; align-items: center; gap: 7px;
+        padding: 9px 14px;
+        background: #fff;
+        border: 1px solid var(--hc-line);
+        border-radius: 10px;
+        font-size: 13px; font-weight: 600;
+        color: var(--hc-ink);
+        cursor: pointer;
+        transition: transform .08s ease, border-color .15s ease, background .15s ease;
+        .fa { color: var(--hc-teal); font-size: 14px; }
+        &:hover {
+            border-color: var(--hc-teal);
+            background: rgba(13, 148, 136, 0.06);
+            transform: translateY(-1px);
+        }
+        &:active { transform: translateY(0); }
+    }
+    .o_hcpos_search {
+        display: flex; align-items: center; gap: 10px;
+        margin: 14px 18px 0; padding: 11px 16px;
+        background: #fff; border: 1px solid var(--hc-line); border-radius: 12px;
+        color: var(--hc-slate);
+        &:focus-within { border-color: var(--hc-teal); }
+        input { flex: 1; border: none; outline: none; font-size: 15px; background: transparent; }
+    }
+    .o_hcpos_cats {
+        display: flex; gap: 8px; padding: 14px 18px; overflow-x: auto;
+        button.o_hcpos_cat {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 9px 16px; border-radius: 999px; white-space: nowrap;
+            border: 1px solid var(--hc-line); background: #fff;
+            font-size: 13.5px; font-weight: 600; color: var(--hc-slate);
+            transition: all 0.15s;
+            &.active { color: #fff; }
+            &:not(.active):hover { border-color: var(--hc-teal); color: var(--hc-teal-d); }
+        }
+    }
+    .o_hcpos_products {
+        flex: 1; overflow-y: auto; padding: 4px 18px 18px;
+        display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 12px; align-content: start;
+    }
+    .o_hcpos_product {
+        background: var(--hc-card); border: 1px solid var(--hc-line);
+        border-radius: 14px; padding: 16px; cursor: pointer;
+        display: flex; flex-direction: column; gap: 10px;
+        transition: transform 0.12s, box-shadow 0.12s, border-color 0.12s;
+        &:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(15,23,42,0.1); border-color: var(--hc-teal); }
+        &:active { transform: scale(0.98); }
+    }
+    .o_hcpos_product_icon { font-size: 26px; }
+    .o_hcpos_product_name { font-size: 14px; font-weight: 600; line-height: 1.3; flex: 1; }
+    .o_hcpos_product_foot { display: flex; align-items: center; justify-content: space-between; }
+    .o_hcpos_product_price { font-weight: 700; color: var(--hc-teal-d); }
+    .o_hcpos_stock {
+        font-size: 11px; font-weight: 600; color: var(--hc-slate);
+        background: #f1f5f9; padding: 2px 7px; border-radius: 6px;
+        &.out { color: var(--hc-red); background: #fef2f2; }
+    }
+    .o_hcpos_empty { color: #94a3b8; padding: 30px; text-align: center; grid-column: 1 / -1; }
+
+    // ============================================================
+    //  PAYMENT SCREEN
+    // ============================================================
+    .o_hcpos_payment { flex: 1; display: flex; min-height: 0; }
+    .o_hcpos_pay_left { flex: 1; padding: 22px 28px; overflow: auto; }
+    .o_hcpos_back {
+        border: none; background: transparent; color: var(--hc-slate);
+        font-size: 14px; font-weight: 600; padding: 6px 0; margin-bottom: 10px;
+        &:hover { color: var(--hc-teal-d); }
+    }
+    .o_hcpos_pay_left h3 { margin: 4px 0 14px; }
+    .o_hcpos_methods { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+    .o_hcpos_method {
+        border: 1px solid var(--hc-line); background: #fff; border-radius: 12px;
+        padding: 18px; display: flex; flex-direction: column; align-items: center; gap: 10px;
+        font-size: 14px; font-weight: 600; color: var(--hc-ink);
+        .fa { font-size: 24px; color: var(--hc-teal); }
+        &:hover { border-color: var(--hc-teal); background: rgba(13,148,136,0.05); }
+    }
+    .o_hcpos_paylines { margin-top: 22px; }
+    .o_hcpos_payline {
+        display: flex; align-items: center; gap: 12px;
+        padding: 10px 0; border-bottom: 1px solid var(--hc-line);
+    }
+    .o_hcpos_payline_name { flex: 1; font-weight: 600; }
+
+    .o_hcpos_pay_right {
+        width: 340px; background: var(--hc-card); border-left: 1px solid var(--hc-line);
+        padding: 24px; display: flex; flex-direction: column;
+    }
+    .o_hcpos_pay_summary { flex: 1; }
+    .o_hcpos_pay_patient {
+        background: rgba(13,148,136,0.08); color: var(--hc-teal-d);
+        padding: 12px 14px; border-radius: 10px; font-weight: 600; margin-bottom: 18px;
+        .fa { margin-right: 8px; }
+    }
+    .o_hcpos_pay_row {
+        display: flex; justify-content: space-between; padding: 10px 0;
+        font-size: 15px; color: var(--hc-slate); border-bottom: 1px dashed var(--hc-line);
+        strong { font-size: 20px; color: var(--hc-ink); }
+    }
+    .o_hcpos_due { color: var(--hc-amber); font-weight: 700; }
+    .o_hcpos_change { color: var(--hc-green); font-weight: 700; }
+    .o_hcpos_validate { margin-top: 18px; padding: 16px; font-size: 17px; }
+
+    // ============================================================
+    //  RECEIPT
+    //  Typography/alignment come from the canonical Odoo
+    //  static/src/css/pos_receipts.css (shipped verbatim with this
+    //  module). Here we only style the on-screen "paper" wrapper so
+    //  the preview matches what prints. Print rules live at the
+    //  bottom of this file (outside .o_hcpos).
+    // ============================================================
+    .o_hcpos_receipt_wrapper {
+        display: flex; flex-direction: column; align-items: center; gap: 18px;
+    }
+
+    // White paper card holding the receipt on screen (Odoo's
+    // .pos-receipt-container: white bg, black text).
+    .pos-receipt-container {
+        direction: ltr;
+        background: #fff;
+        border: 1px solid var(--hc-line);
+        border-radius: 8px;
+        box-shadow: 0 12px 36px rgba(15, 23, 42, 0.12);
+        padding: 16px;
+        > div { background-color: #fff; color: #000; }
+    }
+
+    // The receipt itself: thermal width, same as the printed result
+    // so the on-screen preview is WYSIWYG.
+    .pos-receipt {
+        width: 266px;
+        margin: 0 auto;
+        font-size: 14px;
+        line-height: 1.3;
+        color: #000;
+
+        .pos-receipt-logo { width: 50%; display: block; margin: 0 auto; }
+    }
+
+    .o_hcpos_receipt_actions {
+        display: flex; gap: 10px; width: 300px; max-width: 100%;
+        button { flex: 1; justify-content: center; }
+    }
+
+    // ---------- closing ----------
+    .o_hcpos_closesummary {
+        margin: 16px 0;
+        div { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px dashed var(--hc-line); font-size: 14px; color: var(--hc-slate); b { color: var(--hc-ink); } }
+        .diff.ok b { color: var(--hc-green); }
+        .diff.bad b { color: var(--hc-red); }
+    }
+
+    // ============================================================
+    //  PATIENT MODAL
+    // ============================================================
+    .o_hcpos_modal_backdrop {
+        position: fixed; inset: 0; background: rgba(15, 23, 42, 0.45);
+        display: flex; align-items: center; justify-content: center; z-index: 1000;
+        backdrop-filter: blur(2px);
+    }
+    .o_hcpos_modal {
+        background: #fff; border-radius: 16px; width: 92%; max-width: 560px;
+        max-height: 86vh; display: flex; flex-direction: column; overflow: hidden;
+        box-shadow: 0 24px 60px rgba(15,23,42,0.3);
+    }
+    .o_hcpos_modal_head {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 18px 22px; border-bottom: 1px solid var(--hc-line);
+        h3 { margin: 0; font-size: 18px; .fa { color: var(--hc-teal); margin-right: 8px; } }
+    }
+    .o_hcpos_modal_search {
+        display: flex; align-items: center; gap: 10px; padding: 16px 22px;
+        border-bottom: 1px solid var(--hc-line); color: var(--hc-slate);
+        input { flex: 1; border: 1px solid var(--hc-line); border-radius: 10px; padding: 10px 14px; font-size: 14px; outline: none; &:focus { border-color: var(--hc-teal); } }
+    }
+    .o_hcpos_patientlist { overflow-y: auto; padding: 8px; }
+    .o_hcpos_patientrow {
+        display: flex; align-items: center; gap: 14px; padding: 12px 14px;
+        border-radius: 10px; cursor: pointer;
+        &:hover { background: rgba(13,148,136,0.07); }
+        .fa-angle-right { color: #cbd5e1; }
+    }
+    .o_hcpos_avatar {
+        width: 40px; height: 40px; border-radius: 50%;
+        background: rgba(13,148,136,0.12); color: var(--hc-teal);
+        display: flex; align-items: center; justify-content: center; font-size: 17px;
+    }
+    .o_hcpos_patientinfo { flex: 1; }
+    .o_hcpos_patientname { font-weight: 600; font-size: 14.5px; }
+    .o_hcpos_patientmeta {
+        display: flex; gap: 12px; font-size: 12px; color: var(--hc-slate); margin-top: 2px;
+        text-transform: capitalize;
+        .fa { margin-right: 3px; }
+    }
+    .o_hcpos_form {
+        padding: 20px 22px; overflow-y: auto;
+        label { display: block; font-size: 12.5px; font-weight: 600; color: var(--hc-slate); margin: 12px 0 5px; }
+        input, select, textarea {
+            width: 100%; border: 1px solid var(--hc-line); border-radius: 10px;
+            padding: 10px 12px; font-size: 14px; outline: none; font-family: inherit;
+            &:focus { border-color: var(--hc-teal); }
+        }
+    }
+    .o_hcpos_form_row { display: flex; gap: 12px; > div { flex: 1; } }
+    .o_hcpos_form_actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 22px; }
+
+}
+
+// ============================================================
+//  PRINT  —  thermal receipt output, faithful to Odoo POS.
+//  Mirrors point_of_sale/static/src/app/screens/receipt_screen/
+//  receipt_screen.scss: receipt is 266px wide, centered with
+//  margin auto, black on white, and the whole app is forced to
+//  `position: static` so it stops creating a full A4 canvas
+//  (which is what causes the left-aligned receipt + big white
+//  space / "browser print page" look).
+// ============================================================
+@media print {
+    // Thermal page geometry: 80mm roll, height follows content.
+    // This removes A4 paper behaviour and the large surrounding
+    // white space. Use 58mm here for a 58mm printer.
+    @page { size: 80mm auto; margin: 0; }
+
+    // Kill absolute/fixed positioning across the POS app so no
+    // A4-sized canvas is generated for the print.
+    .o_hcpos,
+    .o_hcpos * { position: static !important; }
+
+    // Hide everything, then reveal only the receipt subtree.
+    body * { visibility: hidden !important; }
+    .o_hcpos .pos-receipt,
+    .o_hcpos .pos-receipt * { visibility: visible !important; }
+
+    // Strip the on-screen paper-card chrome.
+    .o_hcpos .pos-receipt-container {
+        position: static !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        box-shadow: none !important;
+        background: transparent !important;
+    }
+
+    // The receipt: exact Odoo print width, centered, no border.
+    .o_hcpos .pos-receipt {
+        position: absolute !important;
+        top: 0; left: 0; right: 0;
+        margin: 0 auto !important;
+        width: 266px !important;
+        font-size: 14px !important;
+        border: none !important;
+        background: #fff !important;
+        color: #000 !important;
+    }
+    .o_hcpos .pos-receipt * {
+        background-color: transparent !important;
+        color: #000 !important;
+    }
+
+    // Never print the on-screen buttons or POS chrome.
+    .o_hcpos_topbar,
+    .o_hcpos_receipt_actions { display: none !important; }
+}
