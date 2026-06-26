@@ -2,6 +2,7 @@
 {
     "name": "Inom Website Self-Service Attendance",
     "version": "19.0.1.0.0",
+    'live_test_url': 'https://www.youtube.com/watch?v=ptL6m0BTh8k',
     "category": "Human Resources/Attendances",
     "summary": "Employees record and review their own attendance from the "
                "website, with worked and extra hours.",
