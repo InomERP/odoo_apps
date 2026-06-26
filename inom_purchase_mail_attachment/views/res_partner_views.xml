@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form_inherit_purchase_mail" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.purchase.mail</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Purchase Documents"
+                      name="purchase_mail_documents">
+                    <group>
+                        <field name="disable_purchase_mail_attachment"/>
+                    </group>
+                    <separator string="Documents to attach on Purchase emails"/>
+                    <field name="purchase_mail_attachment_ids"
+                           widget="many2many_binary"
+                           invisible="disable_purchase_mail_attachment"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
