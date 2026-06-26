@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        The smart button is declared once on the product TEMPLATE form. Because
+        the product VARIANT form (product.product_normal_form_view) inherits the
+        template form, this button automatically appears on both. On the
+        template form it resolves against product.template (aggregate count);
+        on the variant form it resolves against product.product (variant count),
+        since both models expose the same field and action names.
+    -->
+    <record id="product_template_form_view_inom_alternatives" model="ir.ui.view">
+        <field name="name">product.template.form.inherit.inom.alternatives</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button type="object"
+                        name="action_inom_view_alternatives"
+                        class="oe_stat_button"
+                        icon="fa-exchange"
+                        invisible="inom_alternative_product_count == 0">
+                    <field name="inom_alternative_product_count"
+                           widget="statinfo"
+                           string="Alternatives"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

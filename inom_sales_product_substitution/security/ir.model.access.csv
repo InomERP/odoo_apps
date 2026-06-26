@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_inom_alt_wizard_salesman,inom.alternative.product.wizard salesman,model_inom_alternative_product_wizard,sales_team.group_sale_salesman,1,1,1,0
+access_inom_alt_wizard_manager,inom.alternative.product.wizard manager,model_inom_alternative_product_wizard,sales_team.group_sale_manager,1,1,1,0
+access_inom_alt_wizard_line_salesman,inom.alternative.product.wizard.line salesman,model_inom_alternative_product_wizard_line,sales_team.group_sale_salesman,1,1,1,0
+access_inom_alt_wizard_line_manager,inom.alternative.product.wizard.line manager,model_inom_alternative_product_wizard_line,sales_team.group_sale_manager,1,1,1,0
+access_inom_subst_history_salesman,inom.product.substitution.history salesman,model_inom_product_substitution_history,sales_team.group_sale_salesman,1,0,0,0
+access_inom_subst_history_manager,inom.product.substitution.history manager,model_inom_product_substitution_history,sales_team.group_sale_manager,1,0,0,0
+access_inom_subst_history_admin,inom.product.substitution.history admin,model_inom_product_substitution_history,base.group_system,1,1,1,1
