@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- ============================================================ -->
+    <!-- Components (created as product.product so their variant can   -->
+    <!-- be referenced directly on BoM lines)                         -->
+    <!-- ============================================================ -->
+    <record id="product_pl_resin" model="product.product">
+        <field name="name">Laminate Resin Sheet</field>
+        <field name="default_code">PL-RESIN</field>
+        <field name="type">product</field>
+        <field name="list_price">15.0</field>
+        <field name="standard_price">8.0</field>
+    </record>
+
+    <record id="product_pl_mdf_core" model="product.product">
+        <field name="name">MDF Core Board</field>
+        <field name="default_code">PL-MDF</field>
+        <field name="type">product</field>
+        <field name="list_price">20.0</field>
+        <field name="standard_price">12.0</field>
+    </record>
+
+    <record id="product_pl_teak_core" model="product.product">
+        <field name="name">Teak Core Board</field>
+        <field name="default_code">PL-TEAK</field>
+        <field name="type">product</field>
+        <field name="list_price">45.0</field>
+        <field name="standard_price">30.0</field>
+    </record>
+
+    <record id="product_tc_leg" model="product.product">
+        <field name="name">Table Leg</field>
+        <field name="default_code">TC-LEG</field>
+        <field name="type">product</field>
+        <field name="list_price">10.0</field>
+        <field name="standard_price">5.0</field>
+    </record>
+
+    <record id="product_tc_top" model="product.product">
+        <field name="name">Table Top Panel</field>
+        <field name="default_code">TC-TOP</field>
+        <field name="type">product</field>
+        <field name="list_price">40.0</field>
+        <field name="standard_price">25.0</field>
+    </record>
+
+    <record id="product_tc_hardware" model="product.product">
+        <field name="name">Hardware Fitting Pack</field>
+        <field name="default_code">TC-HW</field>
+        <field name="type">product</field>
+        <field name="list_price">6.0</field>
+        <field name="standard_price">3.0</field>
+    </record>
+
+    <record id="product_tc_finish_kit" model="product.product">
+        <field name="name">Premium Finish Kit</field>
+        <field name="default_code">TC-FINISH</field>
+        <field name="type">product</field>
+        <field name="list_price">12.0</field>
+        <field name="standard_price">7.0</field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Finished good A: Plastic Laminate (Manufacture type)         -->
+    <!-- Two normal BoMs: Economy (MDF) and Premium (Teak)            -->
+    <!-- ============================================================ -->
+    <record id="product_tmpl_plastic_laminate" model="product.template">
+        <field name="name">Plastic Laminate</field>
+        <field name="default_code">PLASTIC-LAMINATE</field>
+        <field name="type">product</field>
+        <field name="list_price">120.0</field>
+        <field name="route_ids" eval="[(4, ref('mrp.route_warehouse0_manufacture'))]"/>
+    </record>
+
+    <record id="bom_pl_economy" model="mrp.bom">
+        <field name="product_tmpl_id" ref="product_tmpl_plastic_laminate"/>
+        <field name="code">PL_BOM001</field>
+        <field name="type">normal</field>
+        <field name="product_qty">1.0</field>
+    </record>
+    <record id="bom_line_pl_economy_resin" model="mrp.bom.line">
+        <field name="bom_id" ref="bom_pl_economy"/>
+        <field name="product_id" ref="product_pl_resin"/>
+        <field name="product_qty">2.0</field>
+    </record>
+    <record id="bom_line_pl_economy_core" model="mrp.bom.line">
+        <field name="bom_id" ref="bom_pl_economy"/>
+        <field name="product_id" ref="product_pl_mdf_core"/>
+        <field name="product_qty">1.0</field>
+    </record>
+
+    <record id="bom_pl_premium" model="mrp.bom">
+        <field name="product_tmpl_id" ref="product_tmpl_plastic_laminate"/>
+        <field name="code">PL_BOM002</field>
+        <field name="type">normal</field>
+        <field name="product_qty">1.0</field>
+    </record>
+    <record id="bom_line_pl_premium_resin" model="mrp.bom.line">
+        <field name="bom_id" ref="bom_pl_premium"/>
+        <field name="product_id" ref="product_pl_resin"/>
+        <field name="product_qty">3.0</field>
+    </record>
+    <record id="bom_line_pl_premium_core" model="mrp.bom.line">
+        <field name="bom_id" ref="bom_pl_premium"/>
+        <field name="product_id" ref="product_pl_teak_core"/>
+        <field name="product_qty">1.0</field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Finished good B: Table Kit (Kit / phantom type)              -->
+    <!-- Two phantom BoMs: Basic Kit and Deluxe Kit                   -->
+    <!-- ============================================================ -->
+    <record id="product_tmpl_table_kit" model="product.template">
+        <field name="name">Table Kit</field>
+        <field name="default_code">TABLE-KIT</field>
+        <field name="type">product</field>
+        <field name="list_price">150.0</field>
+    </record>
+
+    <record id="bom_tc_basic" model="mrp.bom">
+        <field name="product_tmpl_id" ref="product_tmpl_table_kit"/>
+        <field name="code">TC_BOM001</field>
+        <field name="type">phantom</field>
+        <field name="product_qty">1.0</field>
+    </record>
+    <record id="bom_line_tc_basic_leg" model="mrp.bom.line">
+        <field name="bom_id" ref="bom_tc_basic"/>
+        <field name="product_id" ref="product_tc_leg"/>
+        <field name="product_qty">4.0</field>
+    </record>
+    <record id="bom_line_tc_basic_top" model="mrp.bom.line">
+        <field name="bom_id" ref="bom_tc_basic"/>
+        <field name="product_id" ref="product_tc_top"/>
+        <field name="product_qty">1.0</field>
+    </record>
+    <record id="bom_line_tc_basic_hw" model="mrp.bom.line">
+        <field name="bom_id" ref="bom_tc_basic"/>
+        <field name="product_id" ref="product_tc_hardware"/>
+        <field name="product_qty">1.0</field>
+    </record>
+
+    <record id="bom_tc_deluxe" model="mrp.bom">
+        <field name="product_tmpl_id" ref="product_tmpl_table_kit"/>
+        <field name="code">TC_BOM002</field>
+        <field name="type">phantom</field>
+        <field name="product_qty">1.0</field>
+    </record>
+    <record id="bom_line_tc_deluxe_leg" model="mrp.bom.line">
+        <field name="bom_id" ref="bom_tc_deluxe"/>
+        <field name="product_id" ref="product_tc_leg"/>
+        <field name="product_qty">4.0</field>
+    </record>
+    <record id="bom_line_tc_deluxe_top" model="mrp.bom.line">
+        <field name="bom_id" ref="bom_tc_deluxe"/>
+        <field name="product_id" ref="product_tc_top"/>
+        <field name="product_qty">1.0</field>
+    </record>
+    <record id="bom_line_tc_deluxe_hw" model="mrp.bom.line">
+        <field name="bom_id" ref="bom_tc_deluxe"/>
+        <field name="product_id" ref="product_tc_hardware"/>
+        <field name="product_qty">2.0</field>
+    </record>
+    <record id="bom_line_tc_deluxe_finish" model="mrp.bom.line">
+        <field name="bom_id" ref="bom_tc_deluxe"/>
+        <field name="product_id" ref="product_tc_finish_kit"/>
+        <field name="product_qty">1.0</field>
+    </record>
+
+</odoo>
