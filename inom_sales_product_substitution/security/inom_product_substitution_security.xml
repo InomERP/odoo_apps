@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Multi-company record rule (audit log).
+
+        Global rule applied to every user (including Sales Managers and the
+        Administrator group): they may only see substitution history that
+        belongs to a company they are currently allowed to access. The
+        canonical "company_id = False OR company_id in company_ids" form is
+        used; since company_id is mandatory on this model the False branch
+        never matches in practice but follows Odoo multi-company convention.
+
+        The technical superuser bypasses record rules, which is why the
+        automatic, sudo-driven creation of history records in the wizard is
+        never restricted by this rule.
+    -->
+    <record id="inom_substitution_history_company_rule" model="ir.rule">
+        <field name="name">Product Substitution History: multi-company</field>
+        <field name="model_id"
+               ref="model_inom_product_substitution_history"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        <field name="global" eval="True"/>
+    </record>
+
+</odoo>

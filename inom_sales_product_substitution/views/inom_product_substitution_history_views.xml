@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- List View -->
+    <record id="inom_product_substitution_history_view_list" model="ir.ui.view">
+        <field name="name">inom.product.substitution.history.list</field>
+        <field name="model">inom.product.substitution.history</field>
+        <field name="arch" type="xml">
+            <list string="Substitution History"
+                  create="false" delete="false" edit="false">
+                <field name="replacement_date"/>
+                <field name="order_id"/>
+                <field name="original_product_id"/>
+                <field name="replacement_product_id"/>
+                <field name="product_uom_qty"/>
+                <field name="user_id"/>
+                <field name="company_id"
+                       optional="show"
+                       groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View (read-only audit record) -->
+    <record id="inom_product_substitution_history_view_form" model="ir.ui.view">
+        <field name="name">inom.product.substitution.history.form</field>
+        <field name="model">inom.product.substitution.history</field>
+        <field name="arch" type="xml">
+            <form string="Substitution History" create="false" edit="false">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="order_id"/>
+                            <field name="order_line_id"/>
+                            <field name="original_product_id"/>
+                            <field name="replacement_product_id"/>
+                        </group>
+                        <group>
+                            <field name="product_uom_qty"/>
+                            <field name="user_id"/>
+                            <field name="replacement_date"/>
+                            <field name="company_id"
+                                   groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="inom_product_substitution_history_view_search" model="ir.ui.view">
+        <field name="name">inom.product.substitution.history.search</field>
+        <field name="model">inom.product.substitution.history</field>
+        <field name="arch" type="xml">
+            <search string="Substitution History">
+                <field name="order_id"/>
+                <field name="original_product_id"/>
+                <field name="replacement_product_id"/>
+                <field name="user_id"/>
+                <filter name="inom_my_substitutions"
+                        string="My Substitutions"
+                        domain="[('user_id', '=', uid)]"/>
+                <group>
+                    <filter name="inom_group_order"
+                            string="Sale Order"
+                            context="{'group_by': 'order_id'}"/>
+                    <filter name="inom_group_user"
+                            string="Performed By"
+                            context="{'group_by': 'user_id'}"/>
+                    <filter name="inom_group_original"
+                            string="Original Product"
+                            context="{'group_by': 'original_product_id'}"/>
+                    <filter name="inom_group_replacement"
+                            string="Replacement Product"
+                            context="{'group_by': 'replacement_product_id'}"/>
+                    <filter name="inom_group_date"
+                            string="Date"
+                            context="{'group_by': 'replacement_date'}"/>
+                    <filter name="inom_group_company"
+                            string="Company"
+                            context="{'group_by': 'company_id'}"
+                            groups="base.group_multi_company"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="inom_product_substitution_history_action" model="ir.actions.act_window">
+        <field name="name">Substitution History</field>
+        <field name="res_model">inom.product.substitution.history</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id"
+               ref="inom_product_substitution_history_view_search"/>
+        <field name="context">{'create': False}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No product substitutions recorded yet
+            </p>
+            <p>
+                Replacement history is created automatically when a product is
+                replaced through the Alternative Products wizard.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="inom_product_substitution_history_menu"
+              name="Substitution History"
+              parent="sale.menu_sale_report"
+              action="inom_product_substitution_history_action"
+              sequence="90"
+              groups="sales_team.group_sale_salesman"/>
+
+</odoo>

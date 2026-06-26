@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_order_form_inom_alternatives" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.inom.alternatives</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <!--
+                Substitution History smart button. Opens the audit-log records
+                of product replacements performed on this order.
+            -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button type="object"
+                        name="action_inom_view_substitution_history"
+                        class="oe_stat_button"
+                        icon="fa-history"
+                        invisible="inom_substitution_history_count == 0">
+                    <field name="inom_substitution_history_count"
+                           widget="statinfo"
+                           string="Substitution History"/>
+                </button>
+            </xpath>
+
+            <!--
+                Primary entry point + diagnostic column placed right after the
+                Quantity column. The "Alt. Count" field renders reliably in the
+                order line list (sol_o2m widget) and lets you confirm the
+                computed alternative count for each line's product.
+            -->
+            <xpath expr="//field[@name='order_line']/list/field[@name='product_uom_qty']"
+                   position="after">
+                <field name="inom_alternative_product_count"
+                       string="Alt. Count"
+                       optional="show"/>
+                <button name="action_inom_show_alternatives"
+                        type="object"
+                        string="Alternatives"
+                        icon="fa-exchange"
+                        invisible="inom_alternative_product_count == 0"
+                        help="Show alternative products for this line."/>
+            </xpath>
+
+            <!--
+                Guaranteed fallback: the same button inside the order line form
+                (the expanded line view), which always renders even when the
+                inline list renderer omits row buttons.
+            -->
+            <xpath expr="//field[@name='order_line']/form/group[1]" position="after">
+                <field name="inom_alternative_product_count" invisible="1"/>
+                <div class="mt-2 mb-2"
+                     invisible="inom_alternative_product_count == 0 or display_type">
+                    <button name="action_inom_show_alternatives"
+                            type="object"
+                            string="Show Alternatives"
+                            class="btn btn-secondary"
+                            icon="fa-exchange"
+                            help="Show alternative products for this line."/>
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>
