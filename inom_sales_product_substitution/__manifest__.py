@@ -80,6 +80,7 @@ Phase 4.1 - Security Hardening
         "views/inom_product_substitution_history_views.xml",
         "views/sale_order_views.xml",
     ],
+    'images': ['static/description/banner.png'],
     "installable": True,
     "application": False,
     "auto_install": False,
