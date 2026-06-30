@@ -25,6 +25,7 @@ Key points
 * Full audit trail via the tracked ``set_to_draft`` flag and chatter logging.
 """,
     'website': 'https://inomerp.in',
+    'live_test_url': 'https://www.youtube.com/watch?v=08-g52tjTwQ&t=3s',
     'author': 'InomERP',
     'license': 'LGPL-3',
     # mrp transitively brings in `stock` and `mail` (chatter). `stock` is kept
