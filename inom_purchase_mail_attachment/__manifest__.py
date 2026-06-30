@@ -29,6 +29,7 @@ Key features
     'company': 'InomERP Pvt Ltd',
     'maintainer': 'InomERP Pvt Ltd',
     'website': 'https://inomerp.in',
+    'live_test_url': 'https://www.youtube.com/watch?v=uc-9kkMzFl8&t=14s',
     'support': 'info@inomerp.in',
     'license': 'OPL-1',
     'depends': [
