@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Add financial impact preview and approval status to the editable
+         Physical Inventory list (standard inventory adjustment screen). -->
+    <record id="view_stock_quant_inventory_editable_adjust" model="ir.ui.view">
+        <field name="name">stock.quant.inventory.editable.adjust</field>
+        <field name="model">stock.quant</field>
+        <field name="inherit_id" ref="stock.view_stock_quant_tree_inventory_editable"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='inventory_diff_quantity']" position="after">
+                <field name="adjust_currency_id" column_invisible="1"/>
+                <field name="adjust_preview_value" string="Financial Impact"
+                       widget="monetary" optional="show"/>
+                <field name="adjust_approval_state" string="Approval"
+                       widget="badge"
+                       decoration-warning="adjust_approval_state == 'to_approve'"
+                       decoration-success="adjust_approval_state == 'approved'"
+                       decoration-danger="adjust_approval_state == 'rejected'"
+                       optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Dedicated list of adjustment approval requests. -->
+    <record id="view_stock_quant_adjust_list" model="ir.ui.view">
+        <field name="name">stock.quant.adjust.list</field>
+        <field name="model">stock.quant</field>
+        <field name="arch" type="xml">
+            <tree string="Adjustment Approvals" create="0" edit="0"
+                  decoration-warning="adjust_approval_state == 'to_approve'"
+                  decoration-success="adjust_approval_state == 'approved'"
+                  decoration-danger="adjust_approval_state == 'rejected'">
+                <header>
+                    <button name="action_adjust_approve" type="object"
+                            string="Approve"
+                            groups="inom_stock_adjust_control.group_stock_adjust_approver"/>
+                    <button name="action_adjust_open_reject" type="object"
+                            string="Reject"
+                            groups="inom_stock_adjust_control.group_stock_adjust_approver"/>
+                </header>
+                <field name="adjust_currency_id" column_invisible="1"/>
+                <field name="company_id" column_invisible="1"/>
+                <field name="product_id"/>
+                <field name="location_id"/>
+                <field name="quantity" string="On Hand"/>
+                <field name="adjust_pending_qty" string="Counted"/>
+                <field name="adjust_diff_qty" string="Difference"/>
+                <field name="adjust_value_impact" string="Value Impact"
+                       widget="monetary"/>
+                <field name="adjust_requester_id"/>
+                <field name="adjust_request_date"/>
+                <field name="adjust_approver_id" optional="show"/>
+                <field name="adjust_approval_state" string="Status" widget="badge"
+                       decoration-warning="adjust_approval_state == 'to_approve'"
+                       decoration-success="adjust_approval_state == 'approved'"
+                       decoration-danger="adjust_approval_state == 'rejected'"/>
+                <button name="action_adjust_approve" type="object"
+                        string="Approve" icon="fa-check" title="Approve"
+                        invisible="adjust_approval_state != 'to_approve'"
+                        groups="inom_stock_adjust_control.group_stock_adjust_approver"/>
+                <button name="action_adjust_open_reject" type="object"
+                        string="Reject" icon="fa-times" title="Reject"
+                        invisible="adjust_approval_state != 'to_approve'"
+                        groups="inom_stock_adjust_control.group_stock_adjust_approver"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Approval request form with chatter audit trail. -->
+    <record id="view_stock_quant_adjust_form" model="ir.ui.view">
+        <field name="name">stock.quant.adjust.form</field>
+        <field name="model">stock.quant</field>
+        <field name="arch" type="xml">
+            <form string="Inventory Adjustment Approval" create="0" edit="0">
+                <header>
+                    <button name="action_adjust_approve" type="object"
+                            string="Approve" class="btn-primary"
+                            invisible="adjust_approval_state != 'to_approve'"
+                            groups="inom_stock_adjust_control.group_stock_adjust_approver"/>
+                    <button name="action_adjust_open_reject" type="object"
+                            string="Reject"
+                            invisible="adjust_approval_state != 'to_approve'"
+                            groups="inom_stock_adjust_control.group_stock_adjust_approver"/>
+                    <field name="adjust_approval_state" widget="statusbar"
+                           statusbar_visible="to_approve,approved,rejected"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Adjustment">
+                            <field name="adjust_currency_id" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="product_id"/>
+                            <field name="location_id"/>
+                            <field name="quantity" string="On Hand"/>
+                            <field name="adjust_pending_qty" string="Counted"/>
+                            <field name="adjust_diff_qty" string="Difference"/>
+                        </group>
+                        <group string="Impact &amp; Tracking">
+                            <field name="adjust_value_impact" string="Value Impact"
+                                   widget="monetary"/>
+                            <field name="adjust_requester_id"/>
+                            <field name="adjust_request_date"/>
+                            <field name="adjust_approver_id"/>
+                        </group>
+                    </group>
+                    <group string="Rejection Reason"
+                           invisible="adjust_approval_state != 'rejected'">
+                        <field name="adjust_reject_reason" nolabel="1"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search view for the approvals action. -->
+    <record id="view_stock_quant_adjust_search" model="ir.ui.view">
+        <field name="name">stock.quant.adjust.search</field>
+        <field name="model">stock.quant</field>
+        <field name="arch" type="xml">
+            <search string="Adjustment Approvals">
+                <field name="company_id" invisible="1"/>
+                <field name="product_id"/>
+                <field name="location_id"/>
+                <field name="adjust_requester_id"/>
+                <filter name="to_approve" string="To Approve"
+                        domain="[('adjust_approval_state', '=', 'to_approve')]"/>
+                <filter name="approved" string="Approved"
+                        domain="[('adjust_approval_state', '=', 'approved')]"/>
+                <filter name="rejected" string="Rejected"
+                        domain="[('adjust_approval_state', '=', 'rejected')]"/>
+                <separator/>
+                <filter name="group_status" string="Status"
+                        context="{'group_by': 'adjust_approval_state'}"/>
+                <filter name="group_requester" string="Requested By"
+                        context="{'group_by': 'adjust_requester_id'}"/>
+                <filter name="group_location" string="Location"
+                        context="{'group_by': 'location_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action + explicit view bindings. -->
+    <record id="action_stock_adjust_approvals" model="ir.actions.act_window">
+        <field name="name">Adjustment Approvals</field>
+        <field name="res_model">stock.quant</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_stock_quant_adjust_search"/>
+        <field name="domain">[('adjust_approval_state', '!=', 'no_need')]</field>
+        <field name="context">{'create': False, 'search_default_to_approve': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No inventory adjustment is waiting for approval.
+            </p>
+            <p>
+                Adjustments above the configured thresholds appear here for review.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_stock_adjust_approvals_list" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_stock_quant_adjust_list"/>
+        <field name="act_window_id" ref="action_stock_adjust_approvals"/>
+    </record>
+
+    <record id="action_stock_adjust_approvals_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_stock_quant_adjust_form"/>
+        <field name="act_window_id" ref="action_stock_adjust_approvals"/>
+    </record>
+
+    <menuitem id="menu_stock_adjust_approvals"
+              name="Adjustment Approvals"
+              parent="stock.menu_stock_warehouse_mgmt"
+              action="action_stock_adjust_approvals"
+              groups="stock.group_stock_user"
+              sequence="95"/>
+
+</odoo>
