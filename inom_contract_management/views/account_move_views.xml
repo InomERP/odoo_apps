@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- <odoo>
+
+    <record id="view_move_form_inom_contract" model="ir.ui.view">
+        <field name="name">account.move.form.inom.contract</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="before">
+                <group invisible="move_type not in ('out_invoice', 'in_invoice')">
+                    <group>
+                        <field name="contract_id" string="Contract Reference"
+                               domain="[('is_template', '=', False)]"
+                               options="{'no_create': True}"/>
+                    </group>
+                    <group>
+                        <button name="action_apply_contract" type="object"
+                                string="Apply Contract" class="btn-secondary"
+                                invisible="not contract_id or state != 'draft'"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo> -->
+
+<odoo>
+
+    <record id="view_move_form_inom_contract" model="ir.ui.view">
+        <field name="name">account.move.form.inom.contract</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']/ancestor::group[2]" position="before">
+                <group invisible="move_type not in ('out_invoice', 'in_invoice')">
+                    <group>
+                        <field name="contract_id" string="Contract"
+                               domain="[('is_template', '=', False)]"
+                               options="{'no_create': True}"/>
+                    </group>
+                    <group>
+                        <button name="action_apply_contract" type="object"
+                                string="Apply Contract" class="btn-secondary"
+                                invisible="not contract_id or state != 'draft'"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
