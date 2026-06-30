@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="module_category_contract" model="ir.module.category">
+            <field name="name">Contract Management</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <record id="group_contract_user" model="res.groups">
+            <field name="name">Contract Management / User: Own Contracts</field>
+            <field name="comment">
+                Normal user. Can create and read contracts they are
+                responsible for.
+            </field>
+        </record>
+
+        <record id="group_contract_team_leader" model="res.groups">
+            <field name="name">Contract Management / Team Leader: Manage Approval Teams</field>
+            <field name="implied_ids" eval="[(4, ref('group_contract_user'))]"/>
+            <field name="comment">
+                Team Leader. Can manage approval teams and steps.
+            </field>
+        </record>
+
+        <record id="group_contract_manager" model="res.groups">
+            <field name="name">Contract Management / Manager: All Contracts</field>
+            <field name="implied_ids" eval="[(4, ref('group_contract_team_leader'))]"/>
+            <field name="comment">
+                Manager. Full access to all contracts, teams and settings.
+            </field>
+        </record>
+
+    </data>
+</odoo>

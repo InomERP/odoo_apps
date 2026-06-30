@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_inom_contract" model="ir.actions.report">
+        <field name="name">Contract</field>
+        <field name="model">inom.contract</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inom_contract_management.report_inom_contract_document</field>
+        <field name="report_file">inom_contract_management.report_inom_contract_document</field>
+        <field name="binding_model_id" ref="model_inom_contract"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Contract - %s' % (object.name)</field>
+    </record>
+
+    <template id="report_inom_contract_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>
+                            Contract <span t-field="o.name"/>
+                        </h2>
+                        <div class="row mt-3">
+                            <div class="col-6">
+                                <strong>Partner:</strong>
+                                <span t-field="o.partner_id"/>
+                            </div>
+                            <div class="col-3">
+                                <strong>Type:</strong>
+                                <span t-field="o.contract_type"/>
+                            </div>
+                            <div class="col-3">
+                                <strong>Status:</strong>
+                                <span t-field="o.state"/>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-3">
+                                <strong>Start Date:</strong>
+                                <span t-field="o.date_start"/>
+                            </div>
+                            <div class="col-3">
+                                <strong>End Date:</strong>
+                                <span t-field="o.date_end"/>
+                            </div>
+                            <div class="col-3">
+                                <strong>Last Payment Date:</strong>
+                                <span t-field="o.last_payment_date"/>
+                            </div>
+                            <div class="col-3">
+                                <strong>Responsible:</strong>
+                                <span t-field="o.user_id"/>
+                            </div>
+                        </div>
+
+                        <table class="table table-sm mt-4">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Description</th>
+                                    <th class="text-end">Qty</th>
+                                    <th class="text-end">Unit Price</th>
+                                    <th class="text-end">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.line_ids" t-as="line">
+                                    <td><span t-field="line.product_id"/></td>
+                                    <td><span t-field="line.name"/></td>
+                                    <td class="text-end"><span t-field="line.quantity"/></td>
+                                    <td class="text-end"><span t-field="line.price_unit"/></td>
+                                    <td class="text-end"><span t-field="line.price_subtotal"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="row">
+                            <div class="col-4 offset-8">
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td>Untaxed Amount</td>
+                                        <td class="text-end"><span t-field="o.amount_untaxed"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Taxes</td>
+                                        <td class="text-end"><span t-field="o.amount_tax"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Total</strong></td>
+                                        <td class="text-end"><strong><span t-field="o.amount_total"/></strong></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <t t-if="o.approver_ids">
+                            <h4 class="mt-4">Approval History</h4>
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Step</th>
+                                        <th>Approver</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.approver_ids" t-as="ap">
+                                        <td><span t-field="ap.step_name"/></td>
+                                        <td><span t-field="ap.user_id"/></td>
+                                        <td><span t-field="ap.status"/></td>
+                                        <td><span t-field="ap.date"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

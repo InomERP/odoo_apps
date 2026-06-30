@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============ LIST VIEW ============ -->
+    <record id="view_inom_contract_list" model="ir.ui.view">
+        <field name="name">inom.contract.list</field>
+        <field name="model">inom.contract</field>
+        <field name="arch" type="xml">
+            <list string="Contracts" sample="1"
+                  decoration-muted="state in ('closed', 'cancelled')"
+                  decoration-success="state == 'running'"
+                  decoration-info="state == 'confirm'"
+                  decoration-danger="state == 'blocked'">
+                <field name="name" string="Reference"/>
+                <field name="partner_id"/>
+                <field name="contract_type"/>
+                <field name="user_id" widget="many2one_avatar_user"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="amount_total" sum="Total" widget="monetary"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'running'"
+                       decoration-info="state == 'confirm'"
+                       decoration-danger="state == 'blocked'"
+                       decoration-muted="state in ('closed', 'cancelled')"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ============ FORM VIEW ============ -->
+    <record id="view_inom_contract_form" model="ir.ui.view">
+        <field name="name">inom.contract.form</field>
+        <field name="model">inom.contract</field>
+        <field name="arch" type="xml">
+            <form string="Contract">
+                <header>
+                    <button name="action_confirm" type="object" string="Confirm"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_approve" type="object" string="Approve"
+                            class="btn-primary"
+                            invisible="not can_approve"/>
+                    <button name="action_return_correction" type="object"
+                            string="Return for Correction"
+                            invisible="not can_approve"/>
+                    <button name="action_start" type="object" string="Set Running"
+                            class="btn-primary"
+                            groups="inom_contract_management.group_contract_manager"
+                            invisible="state not in ('confirm', 'blocked')"/>
+                    <button name="action_create_invoice" type="object"
+                            string="Create Invoice"
+                            class="btn-primary"
+                            groups="inom_contract_management.group_contract_manager"
+                            invisible="state != 'running' or contract_type != 'sale'"/>
+                    <button name="action_create_invoice" type="object"
+                            string="Create Bill"
+                            class="btn-primary"
+                            groups="inom_contract_management.group_contract_manager"
+                            invisible="state != 'running' or contract_type == 'sale'"/>
+                    <button name="action_renew" type="object"
+                            string="Renew"
+                            groups="inom_contract_management.group_contract_manager"
+                            invisible="state not in ('blocked', 'closed')"/>
+                    <button name="action_block" type="object" string="Block"
+                            groups="inom_contract_management.group_contract_manager"
+                            invisible="state != 'running'"/>
+                    <button name="action_close" type="object" string="Close"
+                            groups="inom_contract_management.group_contract_manager"
+                            invisible="state not in ('running', 'blocked')"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state in ('cancelled', 'closed')"/>
+                    <button name="action_draft" type="object" string="Reset to Draft"
+                            groups="inom_contract_management.group_contract_manager"
+                            invisible="state in ('draft', 'running')"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,confirm,running,closed"/>
+                    <field name="can_approve" invisible="1"/>
+                    <field name="current_step" invisible="1"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_invoices" type="object"
+                                class="oe_stat_button" icon="fa-pencil-square-o"
+                                invisible="invoice_count == 0 or contract_type != 'sale'">
+                            <field name="invoice_count" widget="statinfo"
+                                   string="Invoices"/>
+                        </button>
+                        <button name="action_view_invoices" type="object"
+                                class="oe_stat_button" icon="fa-pencil-square-o"
+                                invisible="invoice_count == 0 or contract_type == 'sale'">
+                            <field name="invoice_count" widget="statinfo"
+                                   string="Bills"/>
+                        </button>
+
+                        <button name="%(action_report_inom_contract)d" type="action" class="oe_stat_button" icon="fa-print">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Print</span>
+                            </div>
+                        </button>
+                        
+                    </div>
+                    <widget name="web_ribbon" title="Template"
+                            bg_color="text-bg-info" invisible="not is_template"/>
+                    <widget name="web_ribbon" title="Under Approval"
+                            bg_color="text-bg-warning"
+                            invisible="state != 'approval'"/>
+                    <widget name="web_ribbon" title="Running"
+                            bg_color="text-bg-success"
+                            invisible="state != 'running'"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <div class="o_row">
+                        <field name="use_lines"/>
+                        <label for="use_lines" string="Use Lines"/>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="contract_type"/>
+                            <field name="partner_id"/>
+                            <field name="user_id" widget="many2one_avatar_user"/>
+                            <field name="approval_team_id"
+                                   domain="['|', ('contract_type', '=', 'all'), ('contract_type', '=', contract_type)]"/>
+                        </group>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="last_payment_date"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Lines" name="lines" invisible="not use_lines">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id"/>
+                                    <field name="name"/>
+                                    <field name="quantity"/>
+                                    <field name="price_unit"/>
+                                    <field name="tax_ids" widget="many2many_tags"
+                                           options="{'no_create': True}"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                    <field name="price_subtotal" widget="monetary"/>
+                                </list>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="amount_untaxed" widget="monetary"/>
+                                <field name="amount_tax" widget="monetary"/>
+                                <field name="amount_total" widget="monetary"
+                                       class="oe_subtotal_footer_separator"/>
+                            </group>
+                        </page>
+                        <page string="Terms and Conditions" name="terms">
+                            <group>
+                                <field name="payment_term_id"/>
+                            </group>
+                            <field name="description"
+                                   placeholder="Terms and conditions..."/>
+                        </page>
+                        <page string="Approval" name="approvers">
+                            <field name="approver_ids" readonly="1">
+                                <list string="Approval"
+                                      decoration-success="status == 'approved'"
+                                      decoration-danger="status == 'returned'"
+                                      decoration-muted="status == 'pending'">
+                                    <field name="user_id"/>
+                                    <field name="role"/>
+                                    <field name="status" widget="badge"
+                                           decoration-success="status == 'approved'"
+                                           decoration-danger="status == 'returned'"/>
+                                    <field name="step" optional="hide"/>
+                                    <field name="step_name" optional="hide"/>
+                                    <field name="date" optional="hide"/>
+                                    <field name="comment" optional="hide"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Settings" name="settings">
+                            <group>
+                                <group>
+                                    <field name="visibility"/>
+                                    
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============ KANBAN VIEW ============ -->
+    <record id="view_inom_contract_kanban" model="ir.ui.view">
+        <field name="name">inom.contract.kanban</field>
+        <field name="model">inom.contract</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" sample="1">
+                <field name="state"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="o_kanban_record_top mb-1 d-flex align-items-center">
+                            <field name="name" class="fw-bold fs-5"/>
+                            <field name="state" widget="badge"
+                                   decoration-success="state == 'running'"
+                                   decoration-info="state == 'confirm'"
+                                   decoration-warning="state == 'approval'"
+                                   decoration-danger="state == 'blocked'"
+                                   decoration-muted="state in ('closed', 'cancelled')"
+                                   class="ms-auto"/>
+                        </div>
+                        <field name="partner_id"/>
+                        <div class="text-muted">
+                            <field name="contract_type"/>
+                        </div>
+                        <footer class="pt-2">
+                            <field name="amount_total" widget="monetary"
+                                   class="fw-bold"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="user_id" widget="many2one_avatar_user"
+                                   class="ms-auto"/>
+                        </footer>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ============ SEARCH VIEW ============ -->
+    <record id="view_inom_contract_search" model="ir.ui.view">
+        <field name="name">inom.contract.search</field>
+        <field name="model">inom.contract</field>
+        <field name="arch" type="xml">
+            <search string="Contracts">
+                <field name="name" string="Contract"
+                       filter_domain="['|', ('name', 'ilike', self), ('partner_id', 'ilike', self)]"/>
+                <field name="partner_id"/>
+                <field name="user_id"/>
+                <filter name="my_contracts" string="My Contracts"
+                        domain="[('user_id', '=', uid)]"/>
+                <separator/>
+          
+                <filter name="expiring_soon" string="Expiring Soon"
+                        domain="[('state', '=', 'running'),
+                                 ('date_end', '&lt;=', (context_today() + relativedelta(days=30)).strftime('%Y-%m-%d'))]"/>
+                <filter name="pending_approval" string="Pending Approval"
+                        domain="[('state', '=', 'confirm'), ('can_approve', '=', True)]"/>
+                <filter name="type_sale" string="Sale"
+                        domain="[('contract_type', '=', 'sale')]"/>
+                <filter name="type_purchase" string="Purchase"
+                        domain="[('contract_type', '=', 'purchase')]"/>
+                
+                <filter name="state_draft" string="Draft"
+                        domain="[('state', '=', 'draft')]"/>
+                <filter name="state_running" string="Running"
+                        domain="[('state', '=', 'running')]"/>
+                <filter name="state_closed" string="Closed"
+                        domain="[('state', '=', 'closed')]"/>
+                <separator/>
+                <filter name="filter_date_start" string="Start Date"
+                        date="date_start"/>
+                <filter name="filter_date_end" string="End Date"
+                        date="date_end"/>
+                <group>
+                    <filter name="group_state" string="Status"
+                            context="{'group_by': 'state'}"/>
+                    <filter name="group_type" string="Type"
+                            context="{'group_by': 'contract_type'}"/>
+                    <filter name="group_partner" string="Partner"
+                            context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_user" string="Responsible"
+                            context="{'group_by': 'user_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ============ ACTIONS ============ -->
+    <record id="action_inom_contract" model="ir.actions.act_window">
+        <field name="name">All Contracts</field>
+        <field name="res_model">inom.contract</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="search_view_id" ref="view_inom_contract_search"/>
+        <field name="domain">[('is_template', '=', False)]</field>
+        <field name="context">{'search_default_state_draft': 0}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first contract
+            </p>
+            <p>
+                Track sales and purchase contracts, their lifecycle and linked
+                invoices or bills.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_inom_contract_my" model="ir.actions.act_window">
+        <field name="name">My Contracts</field>
+        <field name="res_model">inom.contract</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="search_view_id" ref="view_inom_contract_search"/>
+        <field name="domain">[('is_template', '=', False), ('user_id', '=', uid)]</field>
+        <field name="context">{'default_user_id': uid}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                You have no contracts yet
+            </p>
+        </field>
+    </record>
+
+    <record id="action_inom_contract_template" model="ir.actions.act_window">
+        <field name="name">Templates</field>
+        <field name="res_model">inom.contract</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('is_template', '=', True)]</field>
+        <field name="context">{'default_is_template': True}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a contract template
+            </p>
+            <p>
+                Templates let you quickly create new contracts with predefined
+                lines and terms.
+            </p>
+        </field>
+    </record>
+
+    <!-- ============ APPROVAL TEAM ============ -->
+    <record id="view_inom_approval_team_list" model="ir.ui.view">
+        <field name="name">inom.approval.team.list</field>
+        <field name="model">inom.approval.team</field>
+        <field name="arch" type="xml">
+            <list string="Approval Teams">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="contract_type"/>
+                <field name="team_leader_id"/>
+                <field name="member_ids" widget="many2many_tags"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_inom_approval_team_form" model="ir.ui.view">
+        <field name="name">inom.approval.team.form</field>
+        <field name="model">inom.approval.team</field>
+        <field name="arch" type="xml">
+            <form string="Approval Team">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Team"/>
+                        <h1><field name="name" placeholder="e.g. Legal Team"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="team_leader_id"/>
+                            <field name="company_id"
+                                   groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="contract_type"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Approvers" name="approvers">
+                            <field name="approver_line_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="user_id"/>
+                                    <field name="role"/>
+                                    <field name="can_edit"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                    <field name="min_amount"/>
+                                    <field name="max_amount"/>
+                                    <field name="condition_code"/>
+                                </list>
+                            </field>
+                        </page>
+                        <!-- <page string="Approval Steps" name="approval_steps">
+                            <field name="step_ids" nolabel="1">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="approver_ids"
+                                           widget="many2many_tags"/>
+                                </list>
+                            </field>
+                        </page> -->
+                        <!-- <page string="Members" name="members">
+                            <field name="member_ids" widget="many2many_tags"
+                                   nolabel="1"/>
+                        </page> -->
+                        <page string="Help" name="help">
+                            <div class="oe_grey">
+                                <p>
+                                    Configure the approvers for this team in the
+                                    Approvers tab. The contract approval workflow
+                                    is driven by the Approval Steps tab.
+                                </p>
+                            </div>
+                        </page>
+                    </notebook>
+                    <group string="Notes">
+                        <field name="note" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_inom_approval_team" model="ir.actions.act_window">
+        <field name="name">Approval Teams</field>
+        <field name="res_model">inom.approval.team</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create an approval team
+            </p>
+        </field>
+    </record>
+
+</odoo>
