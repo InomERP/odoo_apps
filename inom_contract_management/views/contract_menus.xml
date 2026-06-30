@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Main App Menu (Grid icon) -->
+    <menuitem
+    id="menu_contract_root"
+    name="Contracts"
+    web_icon="inom_contract_management,static/description/icon.png"
+    sequence="80"
+    groups="inom_contract_management.group_contract_user"/>
+
+    <!-- Top bar menus -->
+    <menuitem id="menu_contracts_main" name="Contracts"
+              parent="menu_contract_root" sequence="10"/>
+
+    <menuitem id="menu_all_contracts" name="All Contracts"
+              parent="menu_contracts_main" sequence="10"
+              action="action_inom_contract"/>
+
+    <menuitem id="menu_my_contracts" name="My Contracts"
+              parent="menu_contracts_main" sequence="20"
+              action="action_inom_contract_my"/>
+
+    <menuitem id="menu_contract_templates" name="Templates"
+              parent="menu_contracts_main" sequence="30"
+              action="action_inom_contract_template"
+              groups="inom_contract_management.group_contract_manager"/>
+
+    <!-- Configuration -->
+    <menuitem id="menu_contract_config" name="Configuration"
+              parent="menu_contract_root" sequence="50"
+              groups="inom_contract_management.group_contract_manager"/>
+
+    <menuitem id="menu_approval_teams" name="Approval Teams"
+              parent="menu_contract_config" sequence="10"
+              action="action_inom_approval_team"/>
+
+    <record id="action_contract_config_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'module': 'inom_contract_management'}</field>
+    </record>
+
+    <menuitem id="menu_contract_settings" name="Settings"
+              parent="menu_contract_config" sequence="20"
+              action="action_contract_config_settings"
+              groups="inom_contract_management.group_contract_manager"/>
+
+<!-- Reports -->
+    <menuitem id="menu_contract_reports" name="Reports"
+              parent="menu_contract_root" sequence="60"
+              groups="inom_contract_management.group_contract_manager"/>
+
+    <menuitem id="menu_contract_dashboard" name="Dashboard"
+              parent="menu_contract_reports" sequence="10"
+              action="action_inom_contract_dashboard"/>
+
+    <menuitem id="menu_contract_print" name="Contracts Report"
+              parent="menu_contract_reports" sequence="20"
+              action="action_inom_contract_report_print"/>
+
+</odoo>

@@ -1,0 +1,17 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_inom_contract_user,inom.contract.user,model_inom_contract,group_contract_user,1,1,1,0
+access_inom_contract_manager,inom.contract.manager,model_inom_contract,group_contract_manager,1,1,1,1
+access_inom_contract_line_user,inom.contract.line.user,model_inom_contract_line,group_contract_user,1,1,1,1
+access_inom_contract_line_manager,inom.contract.line.manager,model_inom_contract_line,group_contract_manager,1,1,1,1
+access_inom_approval_team_user,inom.approval.team.user,model_inom_approval_team,group_contract_user,1,0,0,0
+access_inom_approval_team_leader,inom.approval.team.leader,model_inom_approval_team,group_contract_team_leader,1,1,1,0
+access_inom_approval_team_manager,inom.approval.team.manager,model_inom_approval_team,group_contract_manager,1,1,1,1
+access_inom_approval_step_user,inom.approval.step.user,model_inom_approval_step,group_contract_user,1,0,0,0
+access_inom_approval_step_leader,inom.approval.step.leader,model_inom_approval_step,group_contract_team_leader,1,1,1,1
+access_inom_approval_step_manager,inom.approval.step.manager,model_inom_approval_step,group_contract_manager,1,1,1,1
+access_inom_contract_approver_user,inom.contract.approver.user,model_inom_contract_approver,group_contract_user,1,1,1,0
+access_inom_contract_approver_manager,inom.contract.approver.manager,model_inom_contract_approver,group_contract_manager,1,1,1,1
+access_inom_contract_return_wizard_user,inom.contract.return.wizard.user,model_inom_contract_return_wizard,group_contract_user,1,1,1,1
+access_inom_approval_team_approver_user,inom.approval.team.approver.user,model_inom_approval_team_approver,group_contract_user,1,0,0,0
+access_inom_approval_team_approver_leader,inom.approval.team.approver.leader,model_inom_approval_team_approver,group_contract_team_leader,1,1,1,1
+access_inom_approval_team_approver_manager,inom.approval.team.approver.manager,model_inom_approval_team_approver,group_contract_manager,1,1,1,1

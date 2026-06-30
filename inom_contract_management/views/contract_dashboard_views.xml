@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_inom_contract_pivot" model="ir.ui.view">
+        <field name="name">inom.contract.pivot</field>
+        <field name="model">inom.contract</field>
+        <field name="arch" type="xml">
+            <pivot string="Contracts Analysis">
+                <field name="contract_type" type="row"/>
+                <field name="state" type="col"/>
+                <field name="amount_total" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_inom_contract_graph" model="ir.ui.view">
+        <field name="name">inom.contract.graph</field>
+        <field name="model">inom.contract</field>
+        <field name="arch" type="xml">
+            <graph string="Contracts Analysis" type="bar">
+                <field name="state"/>
+                <field name="amount_total" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_inom_contract_dashboard" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">inom.contract</field>
+        <field name="view_mode">graph,pivot,tree</field>
+        <field name="domain">[('is_template', '=', False)]</field>
+        <field name="context">{'search_default_group_state': 1}</field>
+    </record>
+
+    <record id="action_inom_contract_report_print" model="ir.actions.act_window">
+        <field name="name">Contracts</field>
+        <field name="res_model">inom.contract</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('is_template', '=', False)]</field>
+    </record>
+
+</odoo>
