@@ -43,7 +43,7 @@ Key Features
         'views/contract_menus.xml',
     ],
     
-    #'images': ['static/description/banner.png'],
+    'images': ['static/description/banner.png'],
     'installable': True,
     'application': True,
     'auto_install': False,
