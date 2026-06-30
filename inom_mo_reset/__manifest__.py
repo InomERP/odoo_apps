@@ -26,6 +26,7 @@ Key points
 """,
     'website': 'https://inomerp.in',
     'author': 'InomERP',
+    'live_test_url': 'https://www.youtube.com/watch?v=08-g52tjTwQ&t=3s',
     'license': 'LGPL-3',
     # mrp transitively brings in `stock` and `mail` (chatter). `stock` is kept
     # explicit per the functional specification. The spec's "discuss" dependency
