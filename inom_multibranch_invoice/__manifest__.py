@@ -18,6 +18,7 @@ wise document numbering, a branch performance dashboard and full audit tracking.
     "company": "InomERP Pvt Ltd",
     "maintainer": "InomERP Pvt Ltd",
     "website": "https://www.inomerp.in",
+    'live_test_url': 'https://www.youtube.com/watch?v=ONpP4FAHbkA',
     "license": "LGPL-3",
     "depends": ["account", "mail"],
     "data": [
