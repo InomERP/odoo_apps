@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_bill_history_wizard_form" model="ir.ui.view">
+        <field name="name">bill.history.wizard.form</field>
+        <field name="model">bill.history.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Bill Price History">
+                <group>
+                    <group>
+                        <field name="product_id" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="partner_id" readonly="1"/>
+                    </group>
+                </group>
+                <field name="line_ids" nolabel="1">
+                    <tree string="Bill History"
+                          create="false" edit="false" delete="false">
+                        <field name="move_id" string="Bill No."/>
+                        <field name="invoice_date" string="Date"/>
+                        <field name="quantity" string="Qty"/>
+                        <field name="currency_id" column_invisible="1"/>
+                        <field name="price_unit" string="Unit Price"
+                               widget="monetary"/>
+                        <field name="price_subtotal" string="Subtotal"
+                               widget="monetary"/>
+                        <field name="state" string="Status"
+                               widget="badge"
+                               decoration-success="state == 'posted'"
+                               decoration-info="state == 'draft'"
+                               decoration-danger="state == 'cancel'"/>
+                    </tree>
+                </field>
+                <footer>
+                    <button string="Close" class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

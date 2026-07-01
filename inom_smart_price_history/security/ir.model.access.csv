@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_invoice_history_wizard_user,access.invoice.history.wizard.user,model_invoice_history_wizard,base.group_user,1,1,1,1
+access_invoice_history_wizard_line_user,access.invoice.history.wizard.line.user,model_invoice_history_wizard_line,base.group_user,1,1,1,1
+access_bill_history_wizard_user,access.bill.history.wizard.user,model_bill_history_wizard,base.group_user,1,1,1,1
+access_bill_history_wizard_line_user,access.bill.history.wizard.line.user,model_bill_history_wizard_line,base.group_user,1,1,1,1
+access_inom_price_change_log_user,access.inom.price.change.log.user,model_inom_price_change_log,base.group_user,1,0,0,0
+access_inom_price_change_log_manager,access.inom.price.change.log.manager,model_inom_price_change_log,base.group_system,1,1,1,1
+access_inom_sale_price_log_user,access.inom.sale.price.log.user,model_inom_sale_price_log,base.group_user,1,0,0,0
+access_inom_sale_price_log_manager,access.inom.sale.price.log.manager,model_inom_sale_price_log,base.group_system,1,1,1,1
+access_product_price_history_report_wizard_user,access.product.price.history.report.wizard.user,model_product_price_history_report_wizard,base.group_user,1,1,1,1
+access_inom_price_history_graph_user,access.inom.price.history.graph.user,model_inom_price_history_graph,base.group_user,1,0,0,0

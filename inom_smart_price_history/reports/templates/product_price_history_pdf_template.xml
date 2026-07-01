@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="price_history_tmpl">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <div class="row mb32">
+                        <div class="col-6">
+                            <img t-if="company.logo"
+                                 t-att-src="image_data_uri(company.logo)"
+                                 style="max-height: 60px;"/>
+                            <h3 t-esc="company.name"/>
+                        </div>
+                        <div class="col-6 text-end">
+                            <h2>Product Price History Report</h2>
+                            <span t-if="docs.supplier_id">
+                                Supplier: <span t-field="docs.supplier_id.name"/><br/>
+                            </span>
+                            <span t-if="docs.product_id">
+                                Product: <span t-field="docs.product_id.display_name"/><br/>
+                            </span>
+                            <span t-if="docs.date_from">
+                                From: <span t-field="docs.date_from"/>
+                            </span>
+                            <span t-if="docs.date_to">
+                                To: <span t-field="docs.date_to"/>
+                            </span>
+                        </div>
+                    </div>
+
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Purchase Order Number</th>
+                                <th>Order Date</th>
+                                <th>Vendor name</th>
+                                <th class="text-end">Qty</th>
+                                <th class="text-end">Unit Price</th>
+                                <th class="text-end">Subtotal</th>
+                                <th class="text-end">Tax</th>
+                                <th class="text-end">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="lines" t-as="line">
+                                <td><span t-esc="line['document']"/></td>
+                                <td><span t-esc="line['date']"/></td>
+                                <td><span t-esc="line['vendor']"/></td>
+                                <td class="text-end"><span t-esc="line['qty']"/></td>
+                                <td class="text-end">
+                                    <span t-esc="'%.2f' % line['price_unit']"/>
+                                    <span t-esc="line['currency'].symbol"/>
+                                </td>
+                                <td class="text-end"><span t-esc="'%.2f' % line['price_subtotal']"/></td>
+                                <td class="text-end"><span t-esc="'%.2f' % line['price_tax']"/></td>
+                                <td class="text-end"><span t-esc="'%.2f' % line['price_total']"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p t-if="not lines" class="text-muted">
+                        No price history records found for the selected filters.
+                    </p>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

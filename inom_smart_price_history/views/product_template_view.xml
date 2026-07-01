@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_template_form_inom_price_history" model="ir.ui.view">
+        <field name="name">product.template.form.inom.price.history</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+
+                <!-- F-05: Customer Invoice History (accounting read users only) -->
+                <page name="inom_invoice_history" string="Invoice History"
+                      groups="account.group_account_invoice,account.group_account_readonly">
+                    <group>
+                        <group>
+                            <field name="invoice_history_date_from"/>
+                            <field name="invoice_history_date_to"/>
+                        </group>
+                    </group>
+                    <field name="invoice_history_line_ids" nolabel="1" readonly="1">
+                        <tree string="Customer Invoice History"
+                              create="false" edit="false" delete="false">
+                            <field name="partner_id" string="Customer"/>
+                            <field name="move_id" string="Invoice No."/>
+                            <field name="date" string="Date"/>
+                            <field name="quantity" string="Qty"/>
+                            <field name="currency_id" column_invisible="1"/>
+                            <field name="price_unit" string="Unit Price"
+                                   widget="monetary"/>
+                            <field name="price_subtotal" string="Subtotal"
+                                   widget="monetary"/>
+                        </tree>
+                    </field>
+                </page>
+
+                <!-- F-06: Vendor Bill History (accounting read users only) -->
+                <page name="inom_bill_history" string="Bill History"
+                      groups="account.group_account_invoice,account.group_account_readonly">
+                    <group>
+                        <group>
+                            <field name="bill_history_date_from"/>
+                            <field name="bill_history_date_to"/>
+                        </group>
+                    </group>
+                    <field name="bill_history_line_ids" nolabel="1" readonly="1">
+                        <tree string="Vendor Bill History"
+                              create="false" edit="false" delete="false">
+                            <field name="partner_id" string="Vendor"/>
+                            <field name="move_id" string="Bill No."/>
+                            <field name="date" string="Date"/>
+                            <field name="quantity" string="Qty"/>
+                            <field name="currency_id" column_invisible="1"/>
+                            <field name="price_unit" string="Unit Price"
+                                   widget="monetary"/>
+                            <field name="price_subtotal" string="Subtotal"
+                                   widget="monetary"/>
+                        </tree>
+                    </field>
+                </page>
+
+                <!-- F-07/F-08: Price Change Log -->
+                <page name="inom_price_change_log" string="Price History">
+                    <field name="price_change_log_ids" nolabel="1" readonly="1">
+                        <tree string="Price Change Log"
+                              create="false" edit="false" delete="false">
+                            <field name="change_date" string="Date"/>
+                            <field name="source" string="Source"/>
+                            <field name="partner_id" string="Partner"/>
+                            <field name="reference" string="Reference"/>
+                            <field name="company_id" string="Company"
+                                   groups="base.group_multi_company"/>
+                            <field name="currency_id" column_invisible="1"/>
+                            <field name="old_price" widget="monetary"/>
+                            <field name="new_price" widget="monetary"/>
+                            <field name="user_id" string="Changed By"/>
+                        </tree>
+                    </field>
+                </page>
+
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
