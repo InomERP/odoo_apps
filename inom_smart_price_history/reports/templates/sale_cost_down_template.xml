@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_sale_cost_down_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Quotation Cost Down Report</h2>
+                        <div class="row mt32 mb32">
+                            <div class="col-6">
+                                <strong>Quotation No:</strong>
+                                <span t-field="doc.name"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Customer:</strong>
+                                <span t-field="doc.partner_id.name"/>
+                            </div>
+                        </div>
+
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th class="text-end">Original Price</th>
+                                    <th class="text-end">Revised Price</th>
+                                    <th class="text-end">Cost-Down %</th>
+                                    <th class="text-end">Revisions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="cost_down_lines" t-value="get_cost_down_lines(doc)"/>
+                                <tr t-foreach="cost_down_lines" t-as="line">
+                                    <td><span t-esc="line['product']"/></td>
+                                    <td class="text-end">
+                                        <span t-esc="'%.2f' % line['original_price']"/>
+                                        <span t-esc="line['currency'].symbol"/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-esc="'%.2f' % line['revised_price']"/>
+                                        <span t-esc="line['currency'].symbol"/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-esc="'%.2f' % line['cost_down_percent']"/>%
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-esc="line['revision_count']"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <p t-if="not cost_down_lines" class="text-muted">
+                            No product lines found on this quotation.
+                        </p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

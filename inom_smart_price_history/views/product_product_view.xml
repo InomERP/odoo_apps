@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_normal_form_inom_price_history" model="ir.ui.view">
+        <field name="name">product.product.form.inom.price.history</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="inom_product_price_history" string="Product Price History">
+                    <field name="price_change_log_ids" nolabel="1" readonly="1">
+                        <list string="Product Price History"
+                              create="false" edit="false" delete="false">
+                            <field name="change_date" string="Date"/>
+                            <field name="source" string="Source"/>
+                            <field name="partner_id" string="Partner"/>
+                            <field name="reference" string="Reference"/>
+                            <field name="currency_id" column_invisible="1"/>
+                            <field name="old_price" widget="monetary"/>
+                            <field name="new_price" widget="monetary"/>
+                            <field name="user_id" string="Changed By"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

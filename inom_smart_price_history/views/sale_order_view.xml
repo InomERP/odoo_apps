@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_order_form_inom_price_history" model="ir.ui.view">
+        <field name="name">sale.order.form.inom.price.history</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/list/field[@name='product_uom_qty']"
+                   position="before">
+                <button name="action_view_invoice_price_history"
+                        type="object"
+                        icon="fa-history"
+                        title="Invoice Price History"
+                        invisible="not product_id"/>
+            </xpath>
+
+            <!-- F-11: Quotation Cost Down PDF report button -->
+            <xpath expr="//header" position="inside">
+                <button name="%(inom_smart_price_history.action_report_sale_cost_down)d"
+                        type="action"
+                        string="Quotation Cost Down"
+                        class="btn-secondary"/>
+            </xpath>
+
+            <!-- F-09: Price History tab -->
+            <xpath expr="//notebook" position="inside">
+                <page name="inom_sale_price_history" string="Price History">
+                    <field name="price_history_ids" nolabel="1" readonly="1">
+                        <list string="Sale Price History"
+                              create="false" edit="false" delete="false">
+                            <field name="product_id" string="Product"/>
+                            <field name="company_id" string="Company"
+                                   groups="base.group_multi_company"/>
+                            <field name="currency_id" column_invisible="1"/>
+                            <field name="old_price" widget="monetary"/>
+                            <field name="new_price" widget="monetary"/>
+                            <field name="user_id" string="Changed By"/>
+                            <field name="change_date" string="Changed On"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

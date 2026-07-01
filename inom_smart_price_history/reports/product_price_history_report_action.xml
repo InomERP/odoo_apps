@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="price_history_report" model="ir.actions.report">
+        <field name="name">Product Price History Report</field>
+        <field name="model">product.price.history.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inom_smart_price_history.price_history_tmpl</field>
+        <field name="report_file">inom_smart_price_history.price_history_tmpl</field>
+        <field name="print_report_name">'Product Price History Report'</field>
+    </record>
+
+</odoo>
