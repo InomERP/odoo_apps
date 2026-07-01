@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- F-13: Product Price History Report (wizard) -->
+    <menuitem id="menu_inom_product_price_history_report"
+              name="Product Price History Report"
+              parent="stock.menu_warehouse_report"
+              action="inom_smart_price_history.action_product_price_history_report_wizard"
+              sequence="100"/>
+
+    <!-- F-16: Product Price History Graph Report -->
+    <menuitem id="menu_inom_product_price_history_graph"
+              name="Product Price History Graph Report"
+              parent="stock.menu_warehouse_report"
+              action="inom_smart_price_history.action_inom_price_history_graph"
+              sequence="101"/>
+
+</odoo>
