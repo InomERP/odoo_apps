@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Add a dedicated button next to the native "Create Bill" action.
+         The standard action is left completely untouched. -->
+    <record id="view_purchase_order_form_receipt_billing" model="ir.ui.view">
+        <field name="name">purchase.order.form.receipt.billing</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="has_billable_receipt" invisible="1"/>
+                <button name="action_open_receipt_bill_wizard"
+                        type="object"
+                        string="Bill from Receipts"
+                        class="btn-secondary"
+                        invisible="not has_billable_receipt"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Action available from the purchase order list "Action" dropdown so
+         several orders of the same vendor can be billed together. -->
+    <record id="action_purchase_receipt_bill_multi" model="ir.actions.server">
+        <field name="name">Create Bill from Receipts</field>
+        <field name="model_id" ref="purchase.model_purchase_order"/>
+        <field name="binding_model_id" ref="purchase.model_purchase_order"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_open_receipt_bill_wizard()</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_purchase_receipt_bill_wizard_form" model="ir.ui.view">
+        <field name="name">purchase.receipt.bill.wizard.form</field>
+        <field name="model">purchase.receipt.bill.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Create Bill from Receipts">
+                <group>
+                    <group>
+                        <field name="partner_id" readonly="1"/>
+                        <field name="purchase_order_ids" widget="many2many_tags" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                        <field name="currency_id" readonly="1"/>
+                    </group>
+                </group>
+                <field name="line_ids">
+                    <tree editable="bottom" create="false" delete="false">
+                        <field name="move_id" column_invisible="1"/>
+                        <field name="purchase_line_id" column_invisible="1"/>
+                        <field name="selected" widget="boolean_toggle"/>
+                        <field name="picking_id" readonly="1"/>
+                        <field name="product_id" readonly="1"/>
+                        <field name="qty_received" readonly="1"/>
+                        <field name="qty_billed_already" readonly="1"/>
+                        <field name="qty_remaining" readonly="1"/>
+                        <field name="product_uom_id" readonly="1" optional="show"/>
+                        <field name="qty_to_bill" readonly="not selected"/>
+                        <field name="price_unit"/>
+                        <field name="tax_ids" widget="many2many_tags"
+                               optional="hide"/>
+                    </tree>
+                </field>
+                <footer>
+                    <button name="action_create_bill" type="object"
+                            string="Create Draft Bill" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>
