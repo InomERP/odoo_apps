@@ -31,6 +31,7 @@ Key features
     'website': 'https://inomerp.in',
     'support': 'info@inomerp.in',
     'license': 'LGPL-3',
+    'live_test_url': 'https://www.youtube.com/watch?v=qkIkN3gL6FM',
     'depends': [
         'purchase',
         'purchase_stock',
