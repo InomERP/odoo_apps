@@ -5,6 +5,8 @@
     "category": "User Reply",
     "author": "InomERP",
     "website": "https://inomerp.in",
+    'live_test_url': 'https://www.youtube.com/watch?v=5wUMZ7a-B7s',
+
     "license": "LGPL-3",
     "depends": ["mail", "base"],
     "data": [
