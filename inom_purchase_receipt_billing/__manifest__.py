@@ -30,6 +30,8 @@ Key features
     'maintainer': 'InomERP',
     'website': 'https://inomerp.in',
     'support': 'info@inomerp.in',
+    'live_test_url': 'https://www.youtube.com/watch?v=qkIkN3gL6FM',
+
     'license': 'LGPL-3',
     'depends': [
         'purchase',
