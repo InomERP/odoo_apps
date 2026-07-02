@@ -6,6 +6,8 @@
     "author": "InomERP",
     "website": "https://inomerp.in",
     "license": "LGPL-3",
+    'live_test_url': 'https://www.youtube.com/watch?v=5wUMZ7a-B7s',
+
     "depends": ["mail", "base"],
     "data": [
         "security/ir.model.access.csv",
