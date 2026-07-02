@@ -21,6 +21,7 @@ the list view indicator, the form view badge and the search filter.
     'website': 'https://inomerp.in',
     'support': 'info@inomerp.in',
     'license': 'OPL-1',
+    'live_test_url': 'https://www.youtube.com/watch?v=D_G_aw3V3Og',
     'depends': [
         'purchase',
         'stock',
