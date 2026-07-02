@@ -17,7 +17,7 @@ has been fully validated.
 This release provides the complete feature set: the backorder status field,
 the list view indicator, the form view badge and the search filter.
     """,
-    'author': 'Inomerp',
+    'author': 'InomErp',
     'website': 'https://inomerp.in',
     'support': 'info@inomerp.in',
     'license': 'OPL-1',
