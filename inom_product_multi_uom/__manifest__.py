@@ -4,6 +4,8 @@
     "version": "19.0.4.4.0",
     "category": "Sales/Inventory",
     "summary": "Sell and manage a single product in multiple Units of Measure.",
+    'live_test_url': 'https://www.youtube.com/watch?v=CACc7URSdV4',
+
     "description": """
 Product Multi Unit of Measure
 =============================
