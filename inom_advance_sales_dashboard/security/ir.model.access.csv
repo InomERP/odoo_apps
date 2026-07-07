@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_inom_sales_target_user,inom.sales.target.user,model_inom_sales_target,sales_team.group_sale_salesman,1,0,0,0
+access_inom_sales_target_manager,inom.sales.target.manager,model_inom_sales_target,sales_team.group_sale_manager,1,1,1,1
+access_inom_report_monthly_growth,inom.sales.report.monthly.growth.read,model_inom_sales_report_monthly_growth,sales_team.group_sale_salesman,1,0,0,0
+access_inom_report_category,inom.sales.report.category.read,model_inom_sales_report_category,sales_team.group_sale_salesman,1,0,0,0
+access_inom_report_top_products,inom.sales.report.top.products.read,model_inom_sales_report_top_products,sales_team.group_sale_salesman,1,0,0,0
+access_inom_report_clv,inom.sales.report.clv.read,model_inom_sales_report_clv,sales_team.group_sale_salesman,1,0,0,0
+access_inom_report_new_repeat,inom.sales.report.new.repeat.read,model_inom_sales_report_new_repeat,sales_team.group_sale_salesman,1,0,0,0
+access_inom_sales_report_detail,inom.sales.report.detail.read,model_inom_sales_report_detail,sales_team.group_sale_salesman,1,0,0,0
+access_inom_sales_report_wizard,inom.sales.report.wizard.user,model_inom_sales_report_wizard,sales_team.group_sale_salesman,1,1,1,1
