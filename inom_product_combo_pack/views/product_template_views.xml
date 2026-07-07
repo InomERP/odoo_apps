@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_template_combo_pack_form" model="ir.ui.view">
+        <field name="name">product.template.form.combo.pack</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Combo Pack" name="combo_pack">
+                    <group>
+                        <group string="Pricing">
+                            <field name="is_combo_pack"/>
+                            <field name="auto_pack_price"
+                                   invisible="not is_combo_pack"/>
+                            <field name="pack_items_price"
+                                   invisible="not is_combo_pack"/>
+                        </group>
+                        <group string="Availability &amp; Margin"
+                               invisible="not is_combo_pack">
+                            <field name="available_pack_qty"/>
+                            <field name="pack_availability_state"
+                                   widget="badge"
+                                   decoration-success="pack_availability_state == 'available'"
+                                   decoration-warning="pack_availability_state == 'partial'"
+                                   decoration-danger="pack_availability_state == 'out'"/>
+                            <field name="pack_total_cost"/>
+                            <field name="pack_margin"/>
+                            <field name="pack_margin_percent"/>
+                        </group>
+                    </group>
+                    <field name="pack_line_ids"
+                           invisible="not is_combo_pack">
+                        <tree editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="product_id"/>
+                            <field name="quantity"/>
+                            <field name="uom_id"/>
+                            <field name="unit_price"/>
+                            <field name="subtotal"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_template_combo_pack_search" model="ir.ui.view">
+        <field name="name">product.template.search.combo.pack</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <separator/>
+                <filter string="Combo Packs" name="combo_packs"
+                        domain="[('is_combo_pack', '=', True)]"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
