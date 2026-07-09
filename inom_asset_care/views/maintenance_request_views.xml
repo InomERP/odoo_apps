@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_inom_maintenance_request_form" model="ir.ui.view">
+        <field name="name">inom.maintenance.request.form</field>
+        <field name="model">inom.maintenance.request</field>
+        <field name="arch" type="xml">
+            <form string="Maintenance Request">
+                <header>
+                    <button name="action_approve" string="Approve" type="object"
+                            class="btn-primary" invisible="state != 'new'"
+                            groups="inom_asset_care.group_asset_manager"/>
+                    <button name="action_create_work_order" string="Create Work Order" type="object"
+                            class="btn-primary" invisible="state not in ('approved', 'in_progress')"/>
+                    <button name="action_mark_done" string="Mark Done" type="object"
+                            invisible="state != 'in_progress'"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            invisible="state in ('done', 'cancelled')"/>
+                    <button name="action_reset" string="Reset" type="object"
+                            invisible="state != 'cancelled'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="new,approved,in_progress,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_work_orders" type="object"
+                                class="oe_stat_button" icon="fa-wrench">
+                            <field name="work_order_count" widget="statinfo" string="Work Orders"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h3><field name="name" readonly="1"/></h3>
+                        <h1><field name="title" placeholder="Short problem summary..."/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="asset_id"/>
+                            <field name="location_id"/>
+                            <field name="request_type"/>
+                            <field name="priority" widget="priority"/>
+                        </group>
+                        <group>
+                            <field name="requested_by_id"/>
+                            <field name="request_date"/>
+                            <field name="downtime_expected"/>
+                            <field name="plan_id" invisible="not plan_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <field name="description" placeholder="Describe the problem in detail..."/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_inom_maintenance_request_list" model="ir.ui.view">
+        <field name="name">inom.maintenance.request.list</field>
+        <field name="model">inom.maintenance.request</field>
+        <field name="arch" type="xml">
+            <list string="Maintenance Requests">
+                <field name="name"/>
+                <field name="title"/>
+                <field name="asset_id"/>
+                <field name="request_type"/>
+                <field name="priority" widget="priority"/>
+                <field name="request_date"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'new'"
+                       decoration-warning="state == 'in_progress'"
+                       decoration-success="state == 'done'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_inom_maintenance_request_kanban" model="ir.ui.view">
+        <field name="name">inom.maintenance.request.kanban</field>
+        <field name="model">inom.maintenance.request</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" quick_create="false">
+                <templates>
+                    <t t-name="card">
+                        <strong><field name="title"/></strong>
+                        <div class="text-muted"><field name="name"/></div>
+                        <div><field name="asset_id"/></div>
+                        <div class="d-flex justify-content-between mt-1">
+                            <field name="request_type" widget="badge"/>
+                            <field name="priority" widget="priority"/>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_inom_maintenance_request_search" model="ir.ui.view">
+        <field name="name">inom.maintenance.request.search</field>
+        <field name="model">inom.maintenance.request</field>
+        <field name="arch" type="xml">
+            <search string="Requests">
+                <field name="name" filter_domain="['|', ('name', 'ilike', self), ('title', 'ilike', self)]"/>
+                <field name="asset_id"/>
+                <filter string="My Requests" name="filter_my" domain="[('requested_by_id', '=', uid)]"/>
+                <filter string="Open" name="filter_open" domain="[('state', 'not in', ('done', 'cancelled'))]"/>
+                <filter string="Urgent" name="filter_urgent" domain="[('priority', '=', '3')]"/>
+                <group>
+                    <filter string="Asset" name="group_asset" context="{'group_by': 'asset_id'}"/>
+                    <filter string="Type" name="group_type" context="{'group_by': 'request_type'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_inom_maintenance_request_pivot" model="ir.ui.view">
+        <field name="name">inom.maintenance.request.pivot</field>
+        <field name="model">inom.maintenance.request</field>
+        <field name="arch" type="xml">
+            <pivot string="Request Analysis">
+                <field name="asset_id" type="row"/>
+                <field name="request_type" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_inom_maintenance_request" model="ir.actions.act_window">
+        <field name="name">Maintenance Requests</field>
+        <field name="res_model">inom.maintenance.request</field>
+        <field name="view_mode">list,kanban,form,pivot,activity</field>
+        <field name="context">{'search_default_filter_open': 1}</field>
+    </record>
+</odoo>

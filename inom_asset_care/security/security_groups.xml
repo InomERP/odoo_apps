@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="privilege_asset_care" model="res.groups.privilege">
+        <field name="name">AssetCare</field>
+        <field name="sequence">60</field>
+    </record>
+
+    <record id="group_asset_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="privilege_id" ref="privilege_asset_care"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="comment">Can manage assets, raise requests, execute work orders and record readings.</field>
+    </record>
+
+    <record id="group_asset_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="privilege_id" ref="privilege_asset_care"/>
+        <field name="implied_ids" eval="[(4, ref('group_asset_user'))]"/>
+        <field name="user_ids" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        <field name="comment">Full access including approvals, permits authorization, depreciation and configuration.</field>
+    </record>
+
+    <record id="rule_asset_company" model="ir.rule">
+        <field name="name">Asset: multi-company</field>
+        <field name="model_id" ref="model_inom_asset"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_transfer_company" model="ir.rule">
+        <field name="name">Asset Transfer: multi-company</field>
+        <field name="model_id" ref="model_inom_asset_transfer"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_request_company" model="ir.rule">
+        <field name="name">Maintenance Request: multi-company</field>
+        <field name="model_id" ref="model_inom_maintenance_request"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_work_order_company" model="ir.rule">
+        <field name="name">Work Order: multi-company</field>
+        <field name="model_id" ref="model_inom_work_order"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

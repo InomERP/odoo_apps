@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_inom_asset_transfer_form" model="ir.ui.view">
+        <field name="name">inom.asset.transfer.form</field>
+        <field name="model">inom.asset.transfer</field>
+        <field name="arch" type="xml">
+            <form string="Asset Transfer">
+                <header>
+                    <button name="action_submit" string="Submit For Approval" type="object"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_approve" string="Approve" type="object"
+                            class="btn-primary" invisible="state != 'waiting'"
+                            groups="inom_asset_care.group_asset_manager"/>
+                    <button name="action_complete" string="Complete Transfer" type="object"
+                            class="btn-primary" invisible="state != 'approved'"/>
+                    <button name="action_notify_whatsapp" string="WhatsApp Recipient" type="object"
+                            icon="fa-whatsapp" invisible="state not in ('approved', 'done')"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            invisible="state in ('done', 'cancelled')"/>
+                    <button name="action_reset_draft" string="Reset To Draft" type="object"
+                            invisible="state != 'cancelled'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,waiting,approved,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="What">
+                            <field name="asset_id" readonly="state != 'draft'"/>
+                            <field name="transfer_type" readonly="state != 'draft'"/>
+                            <field name="transfer_date" readonly="state != 'draft'"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Approval">
+                            <field name="approved_by_id"/>
+                            <field name="approved_on"/>
+                        </group>
+                        <group string="From">
+                            <field name="source_location_id" readonly="1"/>
+                            <field name="source_employee_id" readonly="1"/>
+                        </group>
+                        <group string="To">
+                            <field name="destination_location_id"
+                                   readonly="state not in ('draft', 'waiting')"
+                                   invisible="transfer_type == 'custody'"/>
+                            <field name="destination_employee_id"
+                                   readonly="state not in ('draft', 'waiting')"
+                                   invisible="transfer_type == 'location'"/>
+                        </group>
+                    </group>
+                    <field name="reason" placeholder="Why is this asset being moved?"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_inom_asset_transfer_list" model="ir.ui.view">
+        <field name="name">inom.asset.transfer.list</field>
+        <field name="model">inom.asset.transfer</field>
+        <field name="arch" type="xml">
+            <list string="Asset Transfers">
+                <field name="name"/>
+                <field name="asset_id"/>
+                <field name="transfer_type"/>
+                <field name="destination_location_id"/>
+                <field name="destination_employee_id"/>
+                <field name="transfer_date"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'waiting'"
+                       decoration-warning="state == 'approved'"
+                       decoration-success="state == 'done'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_inom_asset_transfer_search" model="ir.ui.view">
+        <field name="name">inom.asset.transfer.search</field>
+        <field name="model">inom.asset.transfer</field>
+        <field name="arch" type="xml">
+            <search string="Transfers">
+                <field name="name"/>
+                <field name="asset_id"/>
+                <filter string="Waiting Approval" name="filter_waiting" domain="[('state', '=', 'waiting')]"/>
+                <filter string="Completed" name="filter_done" domain="[('state', '=', 'done')]"/>
+                <group>
+                    <filter string="Asset" name="group_asset" context="{'group_by': 'asset_id'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_inom_asset_transfer" model="ir.actions.act_window">
+        <field name="name">Asset Transfers</field>
+        <field name="res_model">inom.asset.transfer</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

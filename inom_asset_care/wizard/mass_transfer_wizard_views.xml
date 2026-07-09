@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_inom_mass_transfer_wizard_form" model="ir.ui.view">
+        <field name="name">inom.mass.transfer.wizard.form</field>
+        <field name="model">inom.mass.transfer.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Mass Asset Transfer">
+                <group>
+                    <group>
+                        <field name="transfer_type" widget="radio"/>
+                        <field name="transfer_date"/>
+                        <field name="auto_submit"/>
+                    </group>
+                    <group>
+                        <field name="destination_location_id"
+                               invisible="transfer_type == 'custody'"
+                               required="transfer_type in ('location', 'both')"/>
+                        <field name="destination_employee_id"
+                               invisible="transfer_type == 'location'"
+                               required="transfer_type in ('custody', 'both')"/>
+                    </group>
+                </group>
+                <field name="asset_ids" widget="many2many_tags"/>
+                <field name="reason" placeholder="Reason for this bulk movement..."/>
+                <footer>
+                    <button name="action_create_transfers" string="Create Transfers"
+                            type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_inom_mass_transfer_wizard" model="ir.actions.act_window">
+        <field name="name">Mass Transfer</field>
+        <field name="res_model">inom.mass.transfer.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_inom_asset"/>
+        <field name="binding_view_types">list</field>
+        <field name="context">{'default_asset_ids': active_ids}</field>
+    </record>
+</odoo>
