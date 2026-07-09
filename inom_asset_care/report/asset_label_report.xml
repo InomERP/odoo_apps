@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="paperformat_asset_label" model="report.paperformat">
+        <field name="name">Asset Label 4x6</field>
+        <field name="format">custom</field>
+        <field name="page_width">100</field>
+        <field name="page_height">60</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">3</field>
+        <field name="margin_bottom">3</field>
+        <field name="margin_left">3</field>
+        <field name="margin_right">3</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_report_asset_label" model="ir.actions.report">
+        <field name="name">Asset QR Label</field>
+        <field name="model">inom.asset</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inom_asset_care.report_asset_label</field>
+        <field name="report_file">inom_asset_care.report_asset_label</field>
+        <field name="paperformat_id" ref="paperformat_asset_label"/>
+        <field name="binding_model_id" ref="model_inom_asset"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_asset_label">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="asset">
+                <div class="page" style="page-break-after: always;">
+                    <table style="width: 100%; border: 2px solid #000; border-collapse: collapse;">
+                        <tr>
+                            <td style="width: 40%; text-align: center; padding: 4px; border-right: 1px solid #000;">
+                                <div t-out="asset.reference_no"
+                                     t-options="{'widget': 'barcode', 'symbology': 'QR', 'img_style': 'width:30mm;height:30mm'}"/>
+                            </td>
+                            <td style="padding: 6px; vertical-align: top;">
+                                <div style="font-size: 14px; font-weight: bold;">
+                                    <span t-field="asset.reference_no"/>
+                                </div>
+                                <div style="font-size: 12px;">
+                                    <span t-field="asset.name"/>
+                                </div>
+                                <div style="font-size: 10px; margin-top: 4px;">
+                                    <span t-field="asset.category_id.name"/>
+                                </div>
+                                <div style="font-size: 10px;" t-if="asset.serial_no">
+                                    SN: <span t-field="asset.serial_no"/>
+                                </div>
+                                <div style="font-size: 10px;" t-if="asset.location_id">
+                                    <span t-field="asset.location_id.complete_name"/>
+                                </div>
+                                <div style="font-size: 9px; margin-top: 4px; color: #555;">
+                                    <span t-field="asset.company_id.name"/>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

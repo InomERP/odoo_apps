@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_asset_care_root" name="AssetCare"
+              web_icon="inom_asset_care,static/description/icon.png"
+              sequence="45"/>
+
+    <menuitem id="menu_asset_care_assets" name="Assets"
+              parent="menu_asset_care_root" sequence="10"/>
+    <menuitem id="menu_asset" name="Assets"
+              parent="menu_asset_care_assets" action="action_inom_asset" sequence="10"/>
+    <menuitem id="menu_asset_transfer" name="Transfers"
+              parent="menu_asset_care_assets" action="action_inom_asset_transfer" sequence="20"/>
+    <menuitem id="menu_asset_meter" name="Meters"
+              parent="menu_asset_care_assets" action="action_inom_asset_meter" sequence="30"/>
+    <menuitem id="menu_meter_reading" name="Meter Readings"
+              parent="menu_asset_care_assets" action="action_inom_meter_reading" sequence="40"/>
+
+    <menuitem id="menu_asset_care_maintenance" name="Maintenance"
+              parent="menu_asset_care_root" sequence="20"/>
+    <menuitem id="menu_maintenance_request" name="Requests"
+              parent="menu_asset_care_maintenance" action="action_inom_maintenance_request" sequence="10"/>
+    <menuitem id="menu_work_order" name="Work Orders"
+              parent="menu_asset_care_maintenance" action="action_inom_work_order" sequence="20"/>
+    <menuitem id="menu_maintenance_plan" name="Preventive Plans"
+              parent="menu_asset_care_maintenance" action="action_inom_maintenance_plan" sequence="30"/>
+
+    <menuitem id="menu_asset_care_safety" name="Safety"
+              parent="menu_asset_care_root" sequence="30"/>
+    <menuitem id="menu_work_permit" name="Work Permits"
+              parent="menu_asset_care_safety" action="action_inom_work_permit" sequence="10"/>
+    <menuitem id="menu_asset_inspection" name="Inspections"
+              parent="menu_asset_care_safety" action="action_inom_asset_inspection" sequence="20"/>
+
+    <menuitem id="menu_asset_care_finance" name="Depreciation"
+              parent="menu_asset_care_root" sequence="40"
+              groups="inom_asset_care.group_asset_manager"/>
+    <menuitem id="menu_depreciation_board" name="Depreciation Board"
+              parent="menu_asset_care_finance" action="action_inom_depreciation_line" sequence="10"/>
+
+    <menuitem id="menu_asset_care_config" name="Configuration"
+              parent="menu_asset_care_root" sequence="90"
+              groups="inom_asset_care.group_asset_manager"/>
+    <menuitem id="menu_asset_category" name="Asset Categories"
+              parent="menu_asset_care_config" action="action_inom_asset_category" sequence="10"/>
+    <menuitem id="menu_asset_location" name="Asset Locations"
+              parent="menu_asset_care_config" action="action_inom_asset_location" sequence="20"/>
+    <menuitem id="menu_maintenance_team" name="Maintenance Teams"
+              parent="menu_asset_care_config" action="action_inom_maintenance_team" sequence="30"/>
+    <menuitem id="menu_inspection_template" name="Inspection Templates"
+              parent="menu_asset_care_config" action="action_inom_inspection_template" sequence="40"/>
+</odoo>
