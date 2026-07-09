@@ -20,6 +20,8 @@
     'author': 'InomERP',
     'support': 'info@inomerp.in',
     'website': 'https://inomerp.in',
+    'live_test_url': 'https://www.youtube.com/watch?v=77z8l5a-cBk',
+
     'license': 'LGPL-3',
     'category': 'Productivity/Email',
     'depends': ['mail'],
