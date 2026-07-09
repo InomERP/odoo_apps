@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_inom_asset_form" model="ir.ui.view">
+        <field name="name">inom.asset.form</field>
+        <field name="model">inom.asset</field>
+        <field name="arch" type="xml">
+            <form string="Asset">
+                <header>
+                    <button name="action_set_in_use" string="Set In Use" type="object"
+                            class="btn-primary" invisible="state in ('in_use', 'scrapped')"/>
+                    <button name="action_set_in_store" string="Move To Store" type="object"
+                            invisible="state in ('in_store', 'scrapped')"/>
+                    <button name="action_scrap" string="Scrap Asset" type="object"
+                            confirm="Scrap this asset? This marks the end of its life."
+                            invisible="state == 'scrapped'"
+                            groups="inom_asset_care.group_asset_manager"/>
+                    <button name="action_reset_draft" string="Reset To Draft" type="object"
+                            invisible="state != 'scrapped'"
+                            groups="inom_asset_care.group_asset_manager"/>
+                    <button name="action_send_whatsapp" string="WhatsApp Custodian" type="object"
+                            icon="fa-whatsapp" invisible="not assigned_employee_id"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,in_use,under_maintenance"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Scrapped" bg_color="text-bg-danger"
+                            invisible="state != 'scrapped'"/>
+                    <widget name="web_ribbon" title="Under Maintenance" bg_color="text-bg-warning"
+                            invisible="state != 'under_maintenance'"/>
+                    <field name="image_1920" widget="image" class="oe_avatar"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_work_orders" type="object"
+                                class="oe_stat_button" icon="fa-wrench">
+                            <field name="work_order_count" widget="statinfo" string="Work Orders"/>
+                        </button>
+                        <button name="action_view_requests" type="object"
+                                class="oe_stat_button" icon="fa-life-ring">
+                            <field name="maintenance_request_count" widget="statinfo" string="Requests"/>
+                        </button>
+                        <button name="action_view_transfers" type="object"
+                                class="oe_stat_button" icon="fa-exchange">
+                            <field name="transfer_count" widget="statinfo" string="Transfers"/>
+                        </button>
+                        <button name="action_view_inspections" type="object"
+                                class="oe_stat_button" icon="fa-check-square-o">
+                            <field name="inspection_count" widget="statinfo" string="Inspections"/>
+                        </button>
+                        <button name="action_view_meters" type="object"
+                                class="oe_stat_button" icon="fa-tachometer">
+                            <field name="meter_count" widget="statinfo" string="Meters"/>
+                        </button>
+                        <button name="action_view_children" type="object"
+                                class="oe_stat_button" icon="fa-sitemap"
+                                invisible="child_count == 0">
+                            <field name="child_count" widget="statinfo" string="Components"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h3><field name="reference_no" readonly="1"/></h3>
+                        <h1><field name="name" placeholder="e.g. CNC Milling Machine #2"/></h1>
+                    </div>
+                    <group>
+                        <group string="Classification">
+                            <field name="category_id"/>
+                            <field name="criticality" widget="badge"
+                                   decoration-danger="criticality == 'critical'"
+                                   decoration-warning="criticality == 'high'"/>
+                            <field name="parent_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Custody &amp; Location">
+                            <field name="location_id"/>
+                            <field name="assigned_employee_id"/>
+                            <field name="department_id"/>
+                        </group>
+                        <group string="Identity">
+                            <field name="serial_no"/>
+                            <field name="model_no"/>
+                            <field name="manufacturer_id"/>
+                            <field name="product_id"/>
+                        </group>
+                        <group string="Health &amp; Reliability">
+                            <field name="health_score" widget="progressbar"/>
+                            <field name="mtbf_days"/>
+                            <field name="mttr_hours"/>
+                            <field name="total_maintenance_cost"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Procurement &amp; Warranty" name="procurement">
+                            <group>
+                                <group>
+                                    <field name="vendor_id"/>
+                                    <field name="purchase_date"/>
+                                    <field name="commissioning_date"/>
+                                    <field name="purchase_value"/>
+                                </group>
+                                <group>
+                                    <field name="warranty_expiry_date"/>
+                                    <field name="warranty_state" widget="badge"
+                                           decoration-success="warranty_state == 'valid'"
+                                           decoration-danger="warranty_state == 'expired'"/>
+                                    <field name="currency_id" invisible="1"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Depreciation" name="depreciation">
+                            <group>
+                                <group>
+                                    <field name="enable_depreciation"/>
+                                    <field name="depreciation_method" invisible="not enable_depreciation"/>
+                                    <field name="depreciation_years" invisible="not enable_depreciation"/>
+                                    <field name="declining_factor"
+                                           invisible="not enable_depreciation or depreciation_method != 'declining'"/>
+                                </group>
+                                <group invisible="not enable_depreciation">
+                                    <field name="depreciation_start_date"/>
+                                    <field name="salvage_value"/>
+                                    <field name="accumulated_depreciation"/>
+                                    <field name="book_value" class="fw-bold"/>
+                                </group>
+                            </group>
+                            <button name="action_compute_depreciation_schedule" type="object"
+                                    string="Compute Schedule" class="btn-secondary"
+                                    invisible="not enable_depreciation"
+                                    groups="inom_asset_care.group_asset_manager"/>
+                            <field name="depreciation_line_ids" invisible="not enable_depreciation">
+                                <tree decoration-muted="state == 'posted'">
+                                    <field name="depreciation_date"/>
+                                    <field name="amount"/>
+                                    <field name="accumulated_amount"/>
+                                    <field name="remaining_value"/>
+                                    <field name="state" widget="badge"
+                                           decoration-success="state == 'posted'"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Components" name="components">
+                            <field name="child_ids">
+                                <tree>
+                                    <field name="reference_no"/>
+                                    <field name="name"/>
+                                    <field name="category_id"/>
+                                    <field name="state" widget="badge"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="IoT Access" name="iot" groups="inom_asset_care.group_asset_manager">
+                            <group>
+                                <field name="iot_token" readonly="1" password="True"/>
+                            </group>
+                            <button name="action_generate_iot_token" type="object"
+                                    string="Generate New Token" class="btn-secondary"/>
+                            <div class="text-muted mt-2">
+                                Devices push readings to <code>/asset_care/iot/push</code>
+                                with JSON body: token, meter, value.
+                            </div>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="note" placeholder="Internal notes about this asset..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_inom_asset_list" model="ir.ui.view">
+        <field name="name">inom.asset.list</field>
+        <field name="model">inom.asset</field>
+        <field name="arch" type="xml">
+            <tree string="Assets" multi_edit="1">
+                <field name="reference_no"/>
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="location_id"/>
+                <field name="assigned_employee_id"/>
+                <field name="health_score" widget="progressbar" optional="show"/>
+                <field name="book_value" optional="hide"/>
+                <field name="warranty_state" widget="badge" optional="hide"
+                       decoration-success="warranty_state == 'valid'"
+                       decoration-danger="warranty_state == 'expired'"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'in_use'"
+                       decoration-warning="state == 'under_maintenance'"
+                       decoration-danger="state == 'scrapped'"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_inom_asset_kanban" model="ir.ui.view">
+        <field name="name">inom.asset.kanban</field>
+        <field name="model">inom.asset</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" quick_create="false">
+                <field name="state"/>
+                <field name="health_score"/>
+                <field name="location_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click d-flex">
+                            <div class="o_kanban_image me-2">
+                                <img t-att-src="kanban_image('inom.asset', 'image_1920', record.id.raw_value)"
+                                     alt="Asset" class="o_image_64_cover"/>
+                            </div>
+                            <div class="oe_kanban_details flex-grow-1">
+                                <strong class="o_kanban_record_title"><field name="name"/></strong>
+                                <div class="text-muted"><field name="reference_no"/></div>
+                                <div><field name="category_id"/></div>
+                                <div t-if="record.location_id.raw_value">
+                                    <i class="fa fa-map-marker me-1" title="Location"/><field name="location_id"/>
+                                </div>
+                                <div class="mt-1 text-muted">
+                                    Health: <field name="health_score"/>%
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_inom_asset_search" model="ir.ui.view">
+        <field name="name">inom.asset.search</field>
+        <field name="model">inom.asset</field>
+        <field name="arch" type="xml">
+            <search string="Assets">
+                <field name="name" filter_domain="['|', '|', ('name', 'ilike', self), ('reference_no', 'ilike', self), ('serial_no', 'ilike', self)]"/>
+                <field name="category_id"/>
+                <field name="location_id"/>
+                <field name="assigned_employee_id"/>
+                <filter string="In Use" name="filter_in_use" domain="[('state', '=', 'in_use')]"/>
+                <filter string="Under Maintenance" name="filter_maintenance" domain="[('state', '=', 'under_maintenance')]"/>
+                <filter string="In Store" name="filter_store" domain="[('state', '=', 'in_store')]"/>
+                <filter string="Critical Assets" name="filter_critical" domain="[('criticality', '=', 'critical')]"/>
+                <filter string="Warranty Expired" name="filter_warranty_expired" domain="[('warranty_expiry_date', '&lt;', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter string="Depreciation Enabled" name="filter_depreciation" domain="[('enable_depreciation', '=', True)]"/>
+                <separator/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter string="Category" name="group_category" context="{'group_by': 'category_id'}"/>
+                    <filter string="Location" name="group_location" context="{'group_by': 'location_id'}"/>
+                    <filter string="Custodian" name="group_custodian" context="{'group_by': 'assigned_employee_id'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Criticality" name="group_criticality" context="{'group_by': 'criticality'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_inom_asset_pivot" model="ir.ui.view">
+        <field name="name">inom.asset.pivot</field>
+        <field name="model">inom.asset</field>
+        <field name="arch" type="xml">
+            <pivot string="Asset Analysis">
+                <field name="category_id" type="row"/>
+                <field name="state" type="col"/>
+                <field name="purchase_value" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_inom_asset_graph" model="ir.ui.view">
+        <field name="name">inom.asset.graph</field>
+        <field name="model">inom.asset</field>
+        <field name="arch" type="xml">
+            <graph string="Assets" type="bar">
+                <field name="category_id"/>
+                <field name="purchase_value" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_inom_asset" model="ir.actions.act_window">
+        <field name="name">Assets</field>
+        <field name="res_model">inom.asset</field>
+        <field name="view_mode">tree,kanban,form,pivot,graph,activity</field>
+        <field name="search_view_id" ref="view_inom_asset_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Register your first asset</p>
+            <p>Track custody, location, maintenance history, depreciation and health of every asset.</p>
+        </field>
+    </record>
+</odoo>

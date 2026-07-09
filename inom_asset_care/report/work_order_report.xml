@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_work_order" model="ir.actions.report">
+        <field name="name">Work Order</field>
+        <field name="model">inom.work.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inom_asset_care.report_work_order</field>
+        <field name="report_file">inom_asset_care.report_work_order</field>
+        <field name="binding_model_id" ref="model_inom_work_order"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_work_order">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Work Order <span t-field="o.name"/></h2>
+                        <div class="row mt-3">
+                            <div class="col-6">
+                                <strong>Asset:</strong> <span t-field="o.asset_id.display_name"/><br/>
+                                <strong>Location:</strong> <span t-field="o.location_id.complete_name"/><br/>
+                                <strong>Type:</strong> <span t-field="o.wo_type"/><br/>
+                                <strong>Team:</strong> <span t-field="o.team_id.name"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Planned Start:</strong> <span t-field="o.planned_start_date"/><br/>
+                                <strong>Planned End:</strong> <span t-field="o.planned_end_date"/><br/>
+                                <strong>Status:</strong> <span t-field="o.state"/><br/>
+                                <strong>Priority:</strong> <span t-field="o.priority"/>
+                            </div>
+                        </div>
+                        <h4 class="mt-3">Work Summary</h4>
+                        <p t-field="o.title"/>
+                        <div t-field="o.instruction"/>
+                        <t t-if="o.checklist_line_ids">
+                            <h4 class="mt-3">Checklist</h4>
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr><th>Task</th><th>Mandatory</th><th>Done</th><th>Remarks</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.checklist_line_ids" t-as="line">
+                                        <td><span t-field="line.name"/></td>
+                                        <td><span t-if="line.is_mandatory">Yes</span><span t-else="">No</span></td>
+                                        <td><span t-if="line.is_done">Yes</span><span t-else="">No</span></td>
+                                        <td><span t-field="line.remarks"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </t>
+                        <t t-if="o.labor_line_ids">
+                            <h4 class="mt-3">Labor</h4>
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr><th>Technician</th><th>Date</th><th class="text-end">Hours</th><th class="text-end">Rate</th><th class="text-end">Cost</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.labor_line_ids" t-as="line">
+                                        <td><span t-field="line.employee_id.name"/></td>
+                                        <td><span t-field="line.work_date"/></td>
+                                        <td class="text-end"><span t-field="line.hours_spent"/></td>
+                                        <td class="text-end"><span t-field="line.hourly_rate"/></td>
+                                        <td class="text-end"><span t-field="line.cost_subtotal"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </t>
+                        <t t-if="o.part_line_ids">
+                            <h4 class="mt-3">Spare Parts</h4>
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr><th>Part</th><th class="text-end">Qty</th><th class="text-end">Unit Cost</th><th class="text-end">Cost</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.part_line_ids" t-as="line">
+                                        <td><span t-field="line.product_id.display_name"/></td>
+                                        <td class="text-end"><span t-field="line.quantity"/></td>
+                                        <td class="text-end"><span t-field="line.unit_cost"/></td>
+                                        <td class="text-end"><span t-field="line.cost_subtotal"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </t>
+                        <div class="row mt-3">
+                            <div class="col-6 offset-6">
+                                <table class="table table-sm">
+                                    <tr><td><strong>Labor Cost</strong></td><td class="text-end"><span t-field="o.labor_cost"/></td></tr>
+                                    <tr><td><strong>Parts Cost</strong></td><td class="text-end"><span t-field="o.part_cost"/></td></tr>
+                                    <tr class="border-top"><td><strong>Total Cost</strong></td><td class="text-end"><strong t-field="o.total_cost"/></td></tr>
+                                </table>
+                            </div>
+                        </div>
+                        <t t-if="o.failure_code">
+                            <h4 class="mt-3">Failure Analysis</h4>
+                            <p><strong>Failure Code:</strong> <span t-field="o.failure_code"/></p>
+                            <p><strong>Root Cause:</strong> <span t-field="o.root_cause"/></p>
+                            <p><strong>Action Taken:</strong> <span t-field="o.corrective_action"/></p>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

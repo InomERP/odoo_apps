@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_inom_maintenance_plan_form" model="ir.ui.view">
+        <field name="name">inom.maintenance.plan.form</field>
+        <field name="model">inom.maintenance.plan</field>
+        <field name="arch" type="xml">
+            <form string="Preventive Maintenance Plan">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_requests" type="object"
+                                class="oe_stat_button" icon="fa-life-ring">
+                            <field name="request_count" widget="statinfo" string="Requests"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. Quarterly Compressor Service"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="asset_id"/>
+                            <field name="trigger_type" widget="radio"/>
+                            <field name="priority" widget="priority"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Time Trigger" invisible="trigger_type != 'time'">
+                            <label for="interval_number" string="Repeat Every"/>
+                            <div class="o_row">
+                                <field name="interval_number"/>
+                                <field name="interval_unit"/>
+                            </div>
+                            <field name="next_due_date"/>
+                            <field name="lead_days"/>
+                        </group>
+                        <group string="Meter Trigger" invisible="trigger_type != 'meter'">
+                            <field name="meter_id"/>
+                            <field name="meter_interval"/>
+                            <field name="last_triggered_value"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="work_summary"/>
+                    </group>
+                    <field name="instruction" placeholder="Standard service instructions..."/>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_inom_maintenance_plan_list" model="ir.ui.view">
+        <field name="name">inom.maintenance.plan.list</field>
+        <field name="model">inom.maintenance.plan</field>
+        <field name="arch" type="xml">
+            <tree string="Maintenance Plans">
+                <field name="name"/>
+                <field name="asset_id"/>
+                <field name="trigger_type"/>
+                <field name="next_due_date"/>
+                <field name="meter_id" optional="hide"/>
+                <field name="request_count"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_inom_maintenance_plan" model="ir.actions.act_window">
+        <field name="name">Preventive Plans</field>
+        <field name="res_model">inom.maintenance.plan</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

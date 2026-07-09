@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_inom_work_order_form" model="ir.ui.view">
+        <field name="name">inom.work.order.form</field>
+        <field name="model">inom.work.order</field>
+        <field name="arch" type="xml">
+            <form string="Work Order">
+                <header>
+                    <button name="action_ready" string="Mark Ready" type="object"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_start" string="Start Work" type="object"
+                            class="btn-primary" invisible="state != 'ready'"/>
+                    <button name="action_pause" string="Hold" type="object"
+                            invisible="state != 'in_progress'"/>
+                    <button name="action_resume" string="Resume" type="object"
+                            class="btn-primary" invisible="state != 'paused'"/>
+                    <button name="action_done" string="Finish Work" type="object"
+                            class="btn-primary" invisible="state != 'in_progress'"/>
+                    <button name="action_close" string="Close &amp; Consume Parts" type="object"
+                            class="btn-primary" invisible="state != 'done'"
+                            groups="inom_asset_care.group_asset_manager"/>
+                    <button name="action_notify_whatsapp" string="WhatsApp Technician" type="object"
+                            icon="fa-whatsapp" invisible="not technician_ids"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            invisible="state in ('closed', 'cancelled')"/>
+                    <button name="action_reset_draft" string="Reset To Draft" type="object"
+                            invisible="state != 'cancelled'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,ready,in_progress,done,closed"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Permit Required" bg_color="text-bg-danger"
+                            invisible="not permit_required or state not in ('draft', 'ready')"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(action_inom_work_permit)d" type="action"
+                                class="oe_stat_button" icon="fa-shield"
+                                context="{'search_default_work_order_id': id, 'default_work_order_id': id}">
+                            <field name="permit_count" widget="statinfo" string="Permits"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h3><field name="name" readonly="1"/></h3>
+                        <h1><field name="title" placeholder="Work summary..."/></h1>
+                    </div>
+                    <group>
+                        <group string="Job">
+                            <field name="asset_id"/>
+                            <field name="location_id"/>
+                            <field name="request_id"/>
+                            <field name="wo_type"/>
+                            <field name="priority" widget="priority"/>
+                            <field name="permit_required"/>
+                        </group>
+                        <group string="Assignment">
+                            <field name="team_id"/>
+                            <field name="technician_ids" widget="many2many_tags"/>
+                            <field name="supervisor_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Schedule">
+                            <field name="planned_start_date"/>
+                            <field name="planned_end_date"/>
+                        </group>
+                        <group string="Execution">
+                            <field name="actual_start_date"/>
+                            <field name="actual_end_date"/>
+                            <field name="actual_duration"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Instructions" name="instructions">
+                            <field name="instruction" placeholder="Step by step work instructions..."/>
+                        </page>
+                        <page string="Checklist" name="checklist">
+                            <field name="checklist_progress" widget="progressbar"/>
+                            <field name="checklist_line_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="is_mandatory"/>
+                                    <field name="is_done"/>
+                                    <field name="done_by_id"/>
+                                    <field name="remarks"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Labor" name="labor">
+                            <field name="labor_line_ids">
+                                <tree editable="bottom">
+                                    <field name="employee_id"/>
+                                    <field name="work_date"/>
+                                    <field name="hours_spent"/>
+                                    <field name="hourly_rate"/>
+                                    <field name="cost_subtotal"/>
+                                    <field name="remarks"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Spare Parts" name="parts">
+                            <group>
+                                <field name="source_warehouse_id"/>
+                                <field name="picking_id"/>
+                            </group>
+                            <field name="part_line_ids">
+                                <tree editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="quantity"/>
+                                    <field name="unit_cost"/>
+                                    <field name="cost_subtotal"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Failure Analysis" name="failure"
+                              invisible="wo_type != 'corrective'">
+                            <group>
+                                <field name="failure_code"/>
+                            </group>
+                            <group>
+                                <field name="root_cause" placeholder="Why did the failure happen?"/>
+                                <field name="corrective_action" placeholder="What was done to fix and prevent it?"/>
+                            </group>
+                        </page>
+                        <page string="Costs" name="costs">
+                            <group>
+                                <group>
+                                    <field name="labor_cost"/>
+                                    <field name="part_cost"/>
+                                    <field name="total_cost" class="fw-bold"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_inom_work_order_list" model="ir.ui.view">
+        <field name="name">inom.work.order.list</field>
+        <field name="model">inom.work.order</field>
+        <field name="arch" type="xml">
+            <tree string="Work Orders">
+                <field name="name"/>
+                <field name="title"/>
+                <field name="asset_id"/>
+                <field name="wo_type"/>
+                <field name="team_id" optional="show"/>
+                <field name="planned_start_date"/>
+                <field name="total_cost" optional="show" sum="Total"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'ready'"
+                       decoration-warning="state == 'in_progress'"
+                       decoration-success="state in ('done', 'closed')"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_inom_work_order_kanban" model="ir.ui.view">
+        <field name="name">inom.work.order.kanban</field>
+        <field name="model">inom.work.order</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" quick_create="false">
+                <field name="state"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <strong class="o_kanban_record_title"><field name="title"/></strong>
+                            <div class="text-muted"><field name="name"/></div>
+                            <div><field name="asset_id"/></div>
+                            <div class="d-flex justify-content-between mt-1">
+                                <span class="badge text-bg-secondary"><field name="wo_type"/></span>
+                                <field name="priority" widget="priority"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_inom_work_order_calendar" model="ir.ui.view">
+        <field name="name">inom.work.order.calendar</field>
+        <field name="model">inom.work.order</field>
+        <field name="arch" type="xml">
+            <calendar string="Work Orders" date_start="planned_start_date"
+                      date_stop="planned_end_date" color="team_id" mode="month">
+                <field name="title"/>
+                <field name="asset_id"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="view_inom_work_order_search" model="ir.ui.view">
+        <field name="name">inom.work.order.search</field>
+        <field name="model">inom.work.order</field>
+        <field name="arch" type="xml">
+            <search string="Work Orders">
+                <field name="name" filter_domain="['|', ('name', 'ilike', self), ('title', 'ilike', self)]"/>
+                <field name="asset_id"/>
+                <field name="team_id"/>
+                <filter string="Open" name="filter_open" domain="[('state', 'not in', ('closed', 'cancelled'))]"/>
+                <filter string="Corrective" name="filter_corrective" domain="[('wo_type', '=', 'corrective')]"/>
+                <filter string="Preventive" name="filter_preventive" domain="[('wo_type', '=', 'preventive')]"/>
+                <filter string="Permit Required" name="filter_permit" domain="[('permit_required', '=', True)]"/>
+                <group>
+                    <filter string="Asset" name="group_asset" context="{'group_by': 'asset_id'}"/>
+                    <filter string="Team" name="group_team" context="{'group_by': 'team_id'}"/>
+                    <filter string="Type" name="group_type" context="{'group_by': 'wo_type'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_inom_work_order_pivot" model="ir.ui.view">
+        <field name="name">inom.work.order.pivot</field>
+        <field name="model">inom.work.order</field>
+        <field name="arch" type="xml">
+            <pivot string="Work Order Analysis">
+                <field name="asset_id" type="row"/>
+                <field name="wo_type" type="col"/>
+                <field name="total_cost" type="measure"/>
+                <field name="actual_duration" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_inom_work_order_graph" model="ir.ui.view">
+        <field name="name">inom.work.order.graph</field>
+        <field name="model">inom.work.order</field>
+        <field name="arch" type="xml">
+            <graph string="Maintenance Cost" type="bar">
+                <field name="asset_id"/>
+                <field name="total_cost" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_inom_work_order" model="ir.actions.act_window">
+        <field name="name">Work Orders</field>
+        <field name="res_model">inom.work.order</field>
+        <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+        <field name="context">{'search_default_filter_open': 1}</field>
+    </record>
+
+    <record id="view_inom_maintenance_team_list" model="ir.ui.view">
+        <field name="name">inom.maintenance.team.list</field>
+        <field name="model">inom.maintenance.team</field>
+        <field name="arch" type="xml">
+            <tree string="Maintenance Teams" editable="bottom">
+                <field name="name"/>
+                <field name="leader_id"/>
+                <field name="member_ids" widget="many2many_tags"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_inom_maintenance_team" model="ir.actions.act_window">
+        <field name="name">Maintenance Teams</field>
+        <field name="res_model">inom.maintenance.team</field>
+        <field name="view_mode">tree</field>
+    </record>
+</odoo>

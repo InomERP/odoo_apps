@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_inom_asset_location_form" model="ir.ui.view">
+        <field name="name">inom.asset.location.form</field>
+        <field name="model">inom.asset.location</field>
+        <field name="arch" type="xml">
+            <form string="Asset Location">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_assets" type="object"
+                                class="oe_stat_button" icon="fa-cubes">
+                            <field name="asset_count" widget="statinfo" string="Assets"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. Plant 1 / Assembly Bay"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="parent_id"/>
+                            <field name="responsible_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Geo Position">
+                            <field name="latitude"/>
+                            <field name="longitude"/>
+                        </group>
+                    </group>
+                    <field name="address" placeholder="Full address..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_inom_asset_location_list" model="ir.ui.view">
+        <field name="name">inom.asset.location.list</field>
+        <field name="model">inom.asset.location</field>
+        <field name="arch" type="xml">
+            <tree string="Asset Locations">
+                <field name="complete_name"/>
+                <field name="responsible_id"/>
+                <field name="asset_count"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_inom_asset_location" model="ir.actions.act_window">
+        <field name="name">Asset Locations</field>
+        <field name="res_model">inom.asset.location</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

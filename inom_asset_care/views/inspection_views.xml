@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_inom_inspection_template_form" model="ir.ui.view">
+        <field name="name">inom.inspection.template.form</field>
+        <field name="model">inom.inspection.template</field>
+        <field name="arch" type="xml">
+            <form string="Inspection Template">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. Monthly Compressor Check"/></h1>
+                    </div>
+                    <group>
+                        <field name="category_id"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                    <field name="line_ids">
+                        <tree editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="name"/>
+                            <field name="answer_type"/>
+                            <field name="min_value"/>
+                            <field name="max_value"/>
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_inom_inspection_template_list" model="ir.ui.view">
+        <field name="name">inom.inspection.template.list</field>
+        <field name="model">inom.inspection.template</field>
+        <field name="arch" type="xml">
+            <tree string="Inspection Templates">
+                <field name="name"/>
+                <field name="category_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_inom_inspection_template" model="ir.actions.act_window">
+        <field name="name">Inspection Templates</field>
+        <field name="res_model">inom.inspection.template</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="view_inom_asset_inspection_form" model="ir.ui.view">
+        <field name="name">inom.asset.inspection.form</field>
+        <field name="model">inom.asset.inspection</field>
+        <field name="arch" type="xml">
+            <form string="Asset Inspection">
+                <header>
+                    <button name="action_start" string="Start Inspection" type="object"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_complete" string="Complete" type="object"
+                            class="btn-primary" invisible="state != 'in_progress'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="asset_id"/>
+                            <field name="template_id"/>
+                            <field name="inspection_date"/>
+                        </group>
+                        <group>
+                            <field name="inspector_id"/>
+                            <field name="overall_result" widget="badge"
+                                   decoration-success="overall_result == 'pass'"
+                                   decoration-danger="overall_result == 'fail'"/>
+                            <field name="followup_request_id" invisible="not followup_request_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <field name="line_ids">
+                        <tree editable="bottom" decoration-danger="result == 'fail'">
+                            <field name="sequence" widget="handle"/>
+                            <field name="name"/>
+                            <field name="answer_type"/>
+                            <field name="numeric_value" invisible="answer_type != 'numeric'"/>
+                            <field name="min_value" invisible="answer_type != 'numeric'" optional="hide"/>
+                            <field name="max_value" invisible="answer_type != 'numeric'" optional="hide"/>
+                            <field name="observation"/>
+                            <field name="result"/>
+                        </tree>
+                    </field>
+                    <field name="remarks" placeholder="Inspector remarks..."/>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_inom_asset_inspection_list" model="ir.ui.view">
+        <field name="name">inom.asset.inspection.list</field>
+        <field name="model">inom.asset.inspection</field>
+        <field name="arch" type="xml">
+            <tree string="Inspections">
+                <field name="name"/>
+                <field name="asset_id"/>
+                <field name="template_id"/>
+                <field name="inspection_date"/>
+                <field name="inspector_id"/>
+                <field name="overall_result" widget="badge"
+                       decoration-success="overall_result == 'pass'"
+                       decoration-danger="overall_result == 'fail'"/>
+                <field name="state" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_inom_asset_inspection" model="ir.actions.act_window">
+        <field name="name">Asset Inspections</field>
+        <field name="res_model">inom.asset.inspection</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

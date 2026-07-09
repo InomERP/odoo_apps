@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_inom_asset" model="ir.sequence">
+            <field name="name">Asset Reference</field>
+            <field name="code">inom.asset</field>
+            <field name="prefix">AST/%(year)s/</field>
+            <field name="padding">5</field>
+        </record>
+        <record id="seq_inom_asset_transfer" model="ir.sequence">
+            <field name="name">Asset Transfer</field>
+            <field name="code">inom.asset.transfer</field>
+            <field name="prefix">TRF/%(year)s/</field>
+            <field name="padding">5</field>
+        </record>
+        <record id="seq_inom_maintenance_request" model="ir.sequence">
+            <field name="name">Maintenance Request</field>
+            <field name="code">inom.maintenance.request</field>
+            <field name="prefix">MRQ/%(year)s/</field>
+            <field name="padding">5</field>
+        </record>
+        <record id="seq_inom_work_order" model="ir.sequence">
+            <field name="name">Work Order</field>
+            <field name="code">inom.work.order</field>
+            <field name="prefix">WO/%(year)s/</field>
+            <field name="padding">5</field>
+        </record>
+        <record id="seq_inom_work_permit" model="ir.sequence">
+            <field name="name">Work Permit</field>
+            <field name="code">inom.work.permit</field>
+            <field name="prefix">PTW/%(year)s/</field>
+            <field name="padding">5</field>
+        </record>
+        <record id="seq_inom_asset_inspection" model="ir.sequence">
+            <field name="name">Asset Inspection</field>
+            <field name="code">inom.asset.inspection</field>
+            <field name="prefix">INS/%(year)s/</field>
+            <field name="padding">5</field>
+        </record>
+    </data>
+</odoo>
