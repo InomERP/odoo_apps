@@ -1,0 +1,10 @@
+<odoo>
+    <record id="seq_credit_approval_request" model="ir.sequence">
+        <field name="name">Credit Approval Request</field>
+        <field name="code">credit.approval.request</field>
+        <field name="prefix">CAR/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="number_increment">1</field>
+        <field name="implementation">standard</field>
+    </record>
+</odoo>
