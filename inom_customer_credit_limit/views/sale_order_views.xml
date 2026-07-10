@@ -1,0 +1,64 @@
+<odoo>
+    <record id="view_order_form_credit_limit" model="ir.ui.view">
+        <field name="name">sale.order.form.credit.limit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <!-- INOM_CREDIT_STAGE_MARKER -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <field name="partner_credit_limit" invisible="1"/>
+                <button name="action_view_credit_status" type="object"
+                        class="oe_stat_button" icon="fa-credit-card"
+                        invisible="partner_credit_limit == 0">
+                    <field name="partner_credit_available" widget="monetary"
+                        string="Available Credit"/>
+                </button>
+            </xpath>
+
+            <!-- Hide the default "Confirm" (sent state) when credit is exceeded
+                 and not yet approved, so the user cannot confirm directly. -->
+            <xpath expr="//button[@id='action_confirm']" position="attributes">
+                <attribute name="invisible">state != 'sent' or (is_credit_limit_exceeded and credit_approval_status != 'approved')</attribute>
+            </xpath>
+
+            <!-- Same for the draft-state "Confirm" button (it has no id) -->
+            <xpath expr="//button[@name='action_confirm' and not(@id)]" position="attributes">
+                <attribute name="invisible">state != 'draft' or (is_credit_limit_exceeded and credit_approval_status != 'approved')</attribute>
+            </xpath>
+
+            <!-- Request Approval + Approve/Reject buttons in the SO header -->
+            <xpath expr="//button[@id='action_confirm']" position="after">
+                <button name="action_request_credit_approval" type="object"
+                        string="Request Approval" class="btn-primary"
+                        invisible="not can_request_approval"/>
+                <button name="action_approve_credit_request" type="object"
+                        string="Approve" class="btn-success"
+                        invisible="credit_approval_status != 'pending'"
+                        groups="inom_customer_credit_limit.group_credit_approval_manager"
+                        confirm="Approve this credit request and confirm the sale order?"/>
+                <button name="action_reject_credit_request" type="object"
+                        string="Reject" class="btn-danger"
+                        invisible="credit_approval_status != 'pending'"
+                        groups="inom_customer_credit_limit.group_credit_approval_manager"/>
+            </xpath>
+
+            <!-- Replace the default state statusbar with the credit stage bar -->
+            <xpath expr="//header/field[@name='state']" position="replace">
+                <field name="state" invisible="1"/>
+                <field name="active_credit_approval_id" invisible="1"/>
+                <field name="credit_approval_count" invisible="1"/>
+                <field name="is_credit_limit_exceeded" invisible="1"/>
+                <field name="can_request_approval" invisible="1"/>
+                <field name="x_credit_stage" widget="statusbar"
+                       statusbar_visible="draft,sent,credit_limit,sale"/>
+                <field name="credit_approval_status" invisible="1"/>
+            </xpath>
+
+            <!-- Display the exceeded amount next to payment terms -->
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="x_credit_exceeded_amount"
+                       invisible="x_credit_exceeded_amount == 0"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
