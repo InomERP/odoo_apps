@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sale_credit_limit_wizard,sale.credit.limit.wizard,model_sale_credit_limit_wizard,base.group_user,1,1,1,1
+access_credit_approval_reject_wizard,credit.approval.reject.wizard,model_credit_approval_reject_wizard,base.group_user,1,1,1,1
+access_credit_approval_request_salesman,credit.approval.request.salesman,model_credit_approval_request,sales_team.group_sale_salesman,1,1,1,0
+access_credit_approval_request_manager,credit.approval.request.manager,model_credit_approval_request,sales_team.group_sale_manager,1,1,1,0
+access_credit_approval_request_credit_manager,credit.approval.request.credit.manager,model_credit_approval_request,inom_customer_credit_limit.group_credit_approval_manager,1,1,1,1

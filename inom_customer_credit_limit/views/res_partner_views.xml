@@ -1,0 +1,15 @@
+<odoo>
+    <record id="view_partner_form_credit_limit" model="ir.ui.view">
+        <field name="name">res.partner.form.credit.limit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='category_id']" position="after">
+                <field name="x_check_credit"/>
+                <field name="x_credit_limit"/>
+                <field name="x_credit_used"/>
+                <field name="x_credit_available"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
