@@ -22,8 +22,7 @@ orders and reports, improving accuracy and efficiency.
     'website': 'https://inomerp.in/',
     'author': 'InomERP',
     'depends': ['sale', 'product'],
-    'live_test_url': 'https://www.youtube.com/watch?v=lISaUizwuR4',
-
+    'live_test_url': 'https://www.youtube.com/embed/lISaUizwuR4',
     'data': [
         'views/sale_order_views.xml',
         'reports/sale_order_report.xml',
