@@ -1,6 +1,6 @@
 {
     'name': 'Inom List View Manager',
-    'version': '19.0.0.0',
+    'version': '17.0.1.0.0',
     'author': 'InomERP',
     'website': 'https://inomerp.in',
     'summary': 'Dynamic List: Hide/Show, Reorder, Rename, Search, Restore columns per user',
@@ -29,9 +29,13 @@
             'inom_list_view_manager/static/src/xml/list_serial_number.xml',
             'inom_list_view_manager/static/src/js/list_reload_button.js',
             'inom_list_view_manager/static/src/js/list_renderer_patch.js',
+
+            # 'inom_list_view_manager/static/src/xml/list_reload_button.xml',
+
         ],
     },
     'images': ['static/description/banner.png'],
+
     'installable': True,
     'auto_install': False,
     'license': 'LGPL-3',

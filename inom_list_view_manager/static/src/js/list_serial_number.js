@@ -1,7 +1,7 @@
 /** @odoo-module **/
 
 import { onWillStart, onMounted, onPatched } from "@odoo/owl";
-import { rpc } from "@web/core/network/rpc";
+import { useService } from "@web/core/utils/hooks";
 import { patch } from "@web/core/utils/patch";
 import { ListRenderer } from "@web/views/list/list_renderer";
 
@@ -12,19 +12,21 @@ patch(ListRenderer.prototype, {
 
         this.enableSerialNumber = false;
 
+        // CROSS-VERSION NOTE: Odoo 17 does NOT expose a standalone `rpc`
+        // function from "@web/core/network/rpc" (it only has the rpc *service*).
+        // The `orm` service exists and behaves identically in Odoo 17, 18 and
+        // 19, so we use it here to stay compatible across all three.
+        this.orm = useService("orm");
+
         // Loaded BEFORE the first render (onWillStart is awaited by OWL), so the
         // `t-if="this.enableSerialNumber"` guards in the header + row templates
         // have the correct value on the very first paint.
         onWillStart(async () => {
             try {
-                this.enableSerialNumber = await rpc(
-                    "/web/dataset/call_kw/inom.list.view.manager/get_serial_number_setting",
-                    {
-                        model: "inom.list.view.manager",
-                        method: "get_serial_number_setting",
-                        args: [],
-                        kwargs: {},
-                    }
+                this.enableSerialNumber = await this.orm.call(
+                    "inom.list.view.manager",
+                    "get_serial_number_setting",
+                    []
                 );
                 console.log("Serial Number Setting =", this.enableSerialNumber);
             } catch (error) {
