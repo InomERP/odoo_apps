@@ -39,7 +39,7 @@
 }
 .o_list_renderer .o_data_row:hover {
     background: #7c5474 !important;
-    color: white !important;
+    color: #1D4ED8 !important;
 
     transform: scale(1.01);
 
@@ -53,7 +53,7 @@
 }
 
 .o_list_renderer .o_data_row:hover td {
-    color: #FFD700 !important;   // Gold
+    color: #1D4ED8 !important;   // hover text now blue #1D4ED8 (clear & readable)
 }
 // ======================================
 // Copy Field Value Effect
@@ -71,7 +71,7 @@
 
     background-color: #f3e8ff !important;
 
-    color: #5f3b76 !important;
+    color: #1D4ED8 !important;
 }
 
 // Copied animation
@@ -247,4 +247,38 @@
     &.inom-drag-over-bottom {
         border-bottom: 2px solid #7B5EA7 !important;
     }
+}
+// ==========================================
+// Selected Row Highlight  (replaces the old yellow look)
+// Odoo 17 adds `.o_data_row_selected` to a checkbox-selected <tr>
+// (see ListRenderer.getRowClass). We paint ONLY that row blue.
+// Scoped to .o_list_renderer so Group By headers, Multi Edit,
+// Column Resize/Search and Dynamic Columns are untouched.
+// ==========================================
+.o_list_renderer .o_data_row.o_data_row_selected,
+.o_list_renderer .o_data_row.o_data_row_selected > td {
+    background-color: #1D4ED8 !important;   // clean professional blue
+    color: #FFFFFF !important;              // white text
+}
+
+// Border: 1px solid #1D4ED8 (top+bottom on cells so it renders reliably
+// even with the table's border-collapse; same colour = solid blue row edge).
+.o_list_renderer .o_data_row.o_data_row_selected > td {
+    border-top: 1px solid #1D4ED8 !important;
+    border-bottom: 1px solid #1D4ED8 !important;
+}
+
+// Selected row must WIN over the hover style when it is also hovered,
+// so it never flips back to the hover colours.
+.o_list_renderer .o_data_row.o_data_row_selected:hover,
+.o_list_renderer .o_data_row.o_data_row_selected:hover > td {
+    background-color: #1D4ED8 !important;
+    color: #FFFFFF !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+// Keep the record-selector checkbox visible/clean on the blue background.
+.o_list_renderer .o_data_row.o_data_row_selected > td.o_list_record_selector {
+    background-color: #1D4ED8 !important;
 }
