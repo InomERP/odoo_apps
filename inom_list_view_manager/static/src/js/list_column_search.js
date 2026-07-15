@@ -296,9 +296,49 @@ patch(ListRenderer.prototype, {
         renderTags();
     },
 
+    // True only when at least one column text box has text OR at least one m2x
+    // column has a selected tag. Used to decide whether the DOM-level row/group
+    // hiding pass should run at all.
+    _inomHasActiveAdvancedFilter() {
+        const textActive = Object.values(this._advancedFiltersByIndex || {}).some(
+            (v) => (v || "").trim() !== ""
+        );
+        if (textActive) return true;
+        const m2xActive = Object.values(this._m2xSelectedByIndex || {}).some(
+            (s) => s && s.size > 0
+        );
+        return m2xActive;
+    },
+
     _applyAdvancedFilters() {
         const table = document.querySelector(".o_list_renderer table");
         if (!table) return;
+
+        // ─────────────────────────────────────────────────────────────────────
+        // ROOT-CAUSE FIX (Group By went blank).
+        //
+        // This method runs on every onMounted/onPatched via _tryInitFilterRow.
+        // When NO per-column filter is active we must NOT touch row or group
+        // visibility at all. In grouped mode Odoo renders groups collapsed:
+        // the DOM has only `tr.o_group_header` rows and NO `tr.o_data_row`
+        // rows until a group is expanded. The old group-header pass walked each
+        // header's siblings, found no visible data rows (there are none while
+        // collapsed), and set every group header to display:none — blanking the
+        // whole list the instant Group By was applied.
+        //
+        // So: when no filter is active, clear any leftover display:none we may
+        // have set on a previous pass and return, leaving native rendering
+        // (flat OR grouped) completely untouched.
+        // ─────────────────────────────────────────────────────────────────────
+        if (!this._inomHasActiveAdvancedFilter()) {
+            table.querySelectorAll("tbody tr.o_data_row").forEach((r) => {
+                if (r.style.display === "none") r.style.display = "";
+            });
+            table.querySelectorAll("tbody tr.o_group_header").forEach((r) => {
+                if (r.style.display === "none") r.style.display = "";
+            });
+            return;
+        }
 
         const rows = table.querySelectorAll("tbody tr.o_data_row");
         rows.forEach((row) => {
@@ -328,16 +368,26 @@ patch(ListRenderer.prototype, {
             row.style.display = show ? "" : "none";
         });
 
-        // Group headers
+        // Group headers (only reached when a filter IS active).
+        //
+        // A COLLAPSED group has no data rows rendered in the DOM. We must NEVER
+        // hide it just because we can't see its (unrendered) children, or the
+        // grouped list goes blank. We therefore hide a group header ONLY when it
+        // is expanded (has data rows in the DOM) AND every one of those rows is
+        // filtered out. Collapsed groups always stay visible.
         table.querySelectorAll("tbody tr.o_group_header").forEach((groupRow) => {
             let sib = groupRow.nextElementSibling;
+            let hasDataRow = false;
             let hasVisible = false;
             while (sib && !sib.classList.contains("o_group_header")) {
-                if (sib.classList.contains("o_data_row") && sib.style.display !== "none")
-                    hasVisible = true;
+                if (sib.classList.contains("o_data_row")) {
+                    hasDataRow = true;
+                    if (sib.style.display !== "none") hasVisible = true;
+                }
                 sib = sib.nextElementSibling;
             }
-            groupRow.style.display = !hasVisible ? "none" : "";
+            // Expanded + all children filtered out -> hide. Otherwise show.
+            groupRow.style.display = (hasDataRow && !hasVisible) ? "none" : "";
         });
     },
 });
