@@ -249,36 +249,60 @@
     }
 }
 // ==========================================
-// Selected Row Highlight  (replaces the old yellow look)
-// Odoo 17 adds `.o_data_row_selected` to a checkbox-selected <tr>
-// (see ListRenderer.getRowClass). We paint ONLY that row blue.
-// Scoped to .o_list_renderer so Group By headers, Multi Edit,
-// Column Resize/Search and Dynamic Columns are untouched.
+// Selected Row Highlight (Fixed)
 // ==========================================
+
 .o_list_renderer .o_data_row.o_data_row_selected,
 .o_list_renderer .o_data_row.o_data_row_selected > td {
-    background-color: #1D4ED8 !important;   // clean professional blue
-    color: #FFFFFF !important;              // white text
+    background-color: #1D4ED8 !important;
+    color: #000000 !important;
 }
 
-// Border: 1px solid #1D4ED8 (top+bottom on cells so it renders reliably
-// even with the table's border-collapse; same colour = solid blue row edge).
 .o_list_renderer .o_data_row.o_data_row_selected > td {
+    background-color: #1D4ED8 !important;
     border-top: 1px solid #1D4ED8 !important;
     border-bottom: 1px solid #1D4ED8 !important;
+    color: #000000 !important;
 }
 
-// Selected row must WIN over the hover style when it is also hovered,
-// so it never flips back to the hover colours.
+/* Force every element inside selected row to stay black */
+.o_list_renderer .o_data_row.o_data_row_selected td,
+.o_list_renderer .o_data_row.o_data_row_selected td *,
+.o_list_renderer .o_data_row.o_data_row_selected .o_field_widget,
+.o_list_renderer .o_data_row.o_data_row_selected .o_field_widget *,
+.o_list_renderer .o_data_row.o_data_row_selected span,
+.o_list_renderer .o_data_row.o_data_row_selected div,
+.o_list_renderer .o_data_row.o_data_row_selected label,
+.o_list_renderer .o_data_row.o_data_row_selected a,
+.o_list_renderer .o_data_row.o_data_row_selected strong,
+.o_list_renderer .o_data_row.o_data_row_selected small,
+.o_list_renderer .o_data_row.o_data_row_selected button,
+.o_list_renderer .o_data_row.o_data_row_selected i,
+.o_list_renderer .o_data_row.o_data_row_selected svg {
+    color: #000000 !important;
+}
+
 .o_list_renderer .o_data_row.o_data_row_selected:hover,
 .o_list_renderer .o_data_row.o_data_row_selected:hover > td {
     background-color: #1D4ED8 !important;
-    color: #FFFFFF !important;
+    color: #000000 !important;
     box-shadow: none !important;
     transform: none !important;
 }
 
-// Keep the record-selector checkbox visible/clean on the blue background.
+.o_list_renderer .o_data_row.o_data_row_selected:hover td,
+.o_list_renderer .o_data_row.o_data_row_selected:hover td *,
+.o_list_renderer .o_data_row.o_data_row_selected:hover .o_field_widget,
+.o_list_renderer .o_data_row.o_data_row_selected:hover .o_field_widget *,
+.o_list_renderer .o_data_row.o_data_row_selected:hover span,
+.o_list_renderer .o_data_row.o_data_row_selected:hover div,
+.o_list_renderer .o_data_row.o_data_row_selected:hover label,
+.o_list_renderer .o_data_row.o_data_row_selected:hover a {
+    color: #000000 !important;
+}
+
+/* Keep checkbox cell consistent */
 .o_list_renderer .o_data_row.o_data_row_selected > td.o_list_record_selector {
     background-color: #1D4ED8 !important;
 }
+
