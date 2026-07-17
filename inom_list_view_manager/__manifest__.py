@@ -1,6 +1,6 @@
 {
     'name': 'Inom List View Manager',
-    'version': '17.0.1.0.0',
+    'version': '19.0.1.0.0',
     'author': 'InomERP',
     'website': 'https://inomerp.in',
     'summary': 'Dynamic List: Hide/Show, Reorder, Rename, Search, Restore columns per user',
