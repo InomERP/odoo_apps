@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Phase 2 - Master switch for outbound admission SMS. Disabled by
+         default; set to True in Settings > Technical > System Parameters once
+         an SMS gateway / IAP account is configured. -->
+    <data noupdate="1">
+        <record id="config_param_admission_sms_enabled" model="ir.config_parameter">
+            <field name="key">inom_university_admission.sms_enabled</field>
+            <field name="value">False</field>
+        </record>
+    </data>
+</odoo>

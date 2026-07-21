@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Backend applicant FORM: nationality + Parent/Guardian page (additive) -->
+    <record id="view_univ_applicant_form_phase1" model="ir.ui.view">
+        <field name="name">univ.applicant.form.phase1</field>
+        <field name="model">univ.applicant</field>
+        <field name="inherit_id" ref="inom_university_admission.view_univ_applicant_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='country_id']" position="after">
+                <field name="nationality"/>
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+                <page string="Parent / Guardian" name="guardian">
+                    <group>
+                        <group string="Father">
+                            <field name="father_name"/>
+                            <field name="father_phone"/>
+                            <field name="father_email"/>
+                            <field name="father_occupation"/>
+                        </group>
+                        <group string="Mother">
+                            <field name="mother_name"/>
+                            <field name="mother_phone"/>
+                            <field name="mother_email"/>
+                            <field name="mother_occupation"/>
+                        </group>
+                    </group>
+                    <group string="Guardian">
+                        <group>
+                            <field name="guardian_name"/>
+                            <field name="guardian_relationship"/>
+                            <field name="guardian_occupation"/>
+                        </group>
+                        <group>
+                            <field name="guardian_phone"/>
+                            <field name="guardian_email"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Backend applicant SEARCH: make nationality searchable (additive) -->
+    <record id="view_univ_applicant_search_phase1" model="ir.ui.view">
+        <field name="name">univ.applicant.search.phase1</field>
+        <field name="model">univ.applicant</field>
+        <field name="inherit_id" ref="inom_university_admission.view_univ_applicant_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='email']" position="after">
+                <field name="nationality"/>
+                <field name="guardian_name"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

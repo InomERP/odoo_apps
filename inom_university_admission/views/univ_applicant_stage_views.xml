@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_univ_applicant_stage_list" model="ir.ui.view">
+        <field name="name">univ.applicant.stage.list</field>
+        <field name="model">univ.applicant.stage</field>
+        <field name="arch" type="xml">
+            <list string="Pipeline Stages">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="program_id"/>
+                <field name="applicant_count" string="Applicants"/>
+                <field name="is_default"/>
+                <field name="is_won"/>
+                <field name="is_rejected"/>
+                <field name="fold"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_univ_applicant_stage_form" model="ir.ui.view">
+        <field name="name">univ.applicant.stage.form</field>
+        <field name="model">univ.applicant.stage</field>
+        <field name="arch" type="xml">
+            <form string="Pipeline Stage">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. Document Verification"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="sequence"/>
+                            <field name="program_id"/>
+                        </group>
+                        <group>
+                            <field name="is_default"/>
+                            <field name="is_won"/>
+                            <field name="is_rejected"/>
+                            <field name="fold"/>
+                        </group>
+                    </group>
+                    <field name="description" placeholder="Stage description..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_univ_applicant_stage" model="ir.actions.act_window">
+        <field name="name">Pipeline Stages</field>
+        <field name="res_model">univ.applicant.stage</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Define your admission pipeline stages</p>
+            <p>Global stages apply to every program; set a program to scope a stage.</p>
+        </field>
+    </record>
+
+</odoo>

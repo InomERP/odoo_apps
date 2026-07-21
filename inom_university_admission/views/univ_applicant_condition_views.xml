@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============ Conditional offer wizard ============ -->
+    <record id="view_univ_conditional_offer_wizard_form" model="ir.ui.view">
+        <field name="name">univ.conditional.offer.wizard.form</field>
+        <field name="model">univ.conditional.offer.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Issue Conditional Offer">
+                <field name="applicant_id" invisible="1"/>
+                <group>
+                    <field name="expiry_date"/>
+                </group>
+                <separator string="Conditions"/>
+                <field name="line_ids">
+                    <list editable="bottom">
+                        <field name="sequence" widget="handle"/>
+                        <field name="name" placeholder="e.g. Pending final transcript"/>
+                        <field name="instructions" placeholder="What must the applicant submit?"/>
+                    </list>
+                </field>
+                <footer>
+                    <button name="action_issue" type="object" string="Issue Conditional Offer"
+                            class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============ Condition list / form (backend) ============ -->
+    <record id="view_univ_applicant_condition_list" model="ir.ui.view">
+        <field name="name">univ.applicant.condition.list</field>
+        <field name="model">univ.applicant.condition</field>
+        <field name="arch" type="xml">
+            <list string="Conditions" editable="bottom"
+                  decoration-success="state == 'satisfied'"
+                  decoration-muted="state == 'waived'"
+                  decoration-warning="state == 'pending'">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="instructions" optional="show"/>
+                <field name="state"/>
+                <field name="satisfied_on" optional="hide"/>
+                <field name="satisfied_by" optional="hide"/>
+                <button name="action_mark_satisfied" type="object"
+                        string="Mark Satisfied" icon="fa-check"
+                        invisible="state == 'satisfied'"/>
+                <button name="action_waive" type="object"
+                        string="Waive" icon="fa-ban"
+                        invisible="state == 'waived'"/>
+                <button name="action_mark_pending" type="object"
+                        string="Reopen" icon="fa-undo"
+                        invisible="state == 'pending'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_univ_applicant_condition_form" model="ir.ui.view">
+        <field name="name">univ.applicant.condition.form</field>
+        <field name="model">univ.applicant.condition</field>
+        <field name="arch" type="xml">
+            <form string="Admission Condition">
+                <header>
+                    <button name="action_mark_satisfied" type="object"
+                            string="Mark Satisfied" class="oe_highlight"
+                            invisible="state == 'satisfied'"/>
+                    <button name="action_waive" type="object" string="Waive"
+                            invisible="state == 'waived'"/>
+                    <button name="action_mark_pending" type="object" string="Reopen"
+                            invisible="state == 'pending'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="pending,satisfied"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="applicant_id"/>
+                            <field name="offer_id"/>
+                        </group>
+                        <group>
+                            <field name="satisfied_on" readonly="1"/>
+                            <field name="satisfied_by" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="name"/>
+                        <field name="instructions"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============ Applicant form: header button + Conditions page ============ -->
+    <record id="view_univ_applicant_form_phase2" model="ir.ui.view">
+        <field name="name">univ.applicant.form.phase2</field>
+        <field name="model">univ.applicant</field>
+        <field name="inherit_id" ref="inom_university_admission.view_univ_applicant_form"/>
+        <field name="arch" type="xml">
+
+            <!-- New "Issue Conditional Offer" button next to "Issue Offer" -->
+            <xpath expr="//button[@name='action_issue_offer']" position="after">
+                <button name="action_issue_conditional_offer" type="object"
+                        string="Issue Conditional Offer"
+                        invisible="offer_state in ('sent', 'conditional', 'accepted') or stage_is_won or stage_is_rejected"/>
+            </xpath>
+
+            <!-- Allow "Issue Offer" / "Accept" to react to the conditional state -->
+            <xpath expr="//button[@name='action_issue_offer']" position="attributes">
+                <attribute name="invisible">offer_state in ('sent', 'conditional', 'accepted') or stage_is_won or stage_is_rejected</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_accept_offer']" position="attributes">
+                <attribute name="invisible">offer_state not in ('sent', 'conditional')</attribute>
+            </xpath>
+
+            <!-- Pending-conditions warning ribbon -->
+            <xpath expr="//widget[@name='web_ribbon'][1]" position="before">
+                <widget name="web_ribbon" title="Conditions Pending" bg_color="text-bg-warning"
+                        invisible="not has_pending_conditions"/>
+            </xpath>
+
+            <!-- Hidden flags used by the visibility expressions above -->
+            <xpath expr="//field[@name='is_enrolled']" position="after">
+                <field name="has_pending_conditions" invisible="1"/>
+                <field name="has_conditions" invisible="1"/>
+                <field name="pending_condition_count" invisible="1"/>
+            </xpath>
+
+            <!-- Conditions notebook page -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Conditions" name="conditions">
+                    <field name="condition_ids">
+                        <list editable="bottom"
+                              decoration-success="state == 'satisfied'"
+                              decoration-muted="state == 'waived'"
+                              decoration-warning="state == 'pending'">
+                            <field name="sequence" widget="handle"/>
+                            <field name="name"/>
+                            <field name="instructions" optional="show"/>
+                            <field name="state"/>
+                            <field name="satisfied_on" optional="hide"/>
+                            <field name="satisfied_by" optional="hide"/>
+                            <button name="action_mark_satisfied" type="object"
+                                    string="Mark Satisfied" icon="fa-check"
+                                    invisible="state == 'satisfied'"/>
+                            <button name="action_waive" type="object"
+                                    string="Waive" icon="fa-ban"
+                                    invisible="state == 'waived'"/>
+                            <button name="action_mark_pending" type="object"
+                                    string="Reopen" icon="fa-undo"
+                                    invisible="state == 'pending'"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Standalone conditions menu (operational view of all conditions) -->
+    <record id="action_univ_applicant_condition" model="ir.actions.act_window">
+        <field name="name">Admission Conditions</field>
+        <field name="res_model">univ.applicant.condition</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_pending': 1}</field>
+    </record>
+
+    <record id="view_univ_applicant_condition_search" model="ir.ui.view">
+        <field name="name">univ.applicant.condition.search</field>
+        <field name="model">univ.applicant.condition</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="applicant_id"/>
+                <filter name="pending" string="Pending" domain="[('state', '=', 'pending')]"/>
+                <filter name="satisfied" string="Cleared" domain="[('state', 'in', ['satisfied', 'waived'])]"/>
+                <separator/>
+                <group>
+                    <filter name="group_applicant" string="Applicant"
+                            context="{'group_by': 'applicant_id'}"/>
+                    <filter name="group_state" string="Status"
+                            context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+</odoo>

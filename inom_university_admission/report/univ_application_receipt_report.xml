@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_application_receipt_document">
+        <t t-call="web.external_layout">
+            <div class="page">
+                <h2 class="text-center">Application Acknowledgement</h2>
+                <p class="text-center text-muted">
+                    This receipt confirms that your application has been received.
+                </p>
+                <hr/>
+                <table class="table table-sm o_main_table mt-3">
+                    <tbody>
+                        <tr>
+                            <td><strong>Application No</strong></td>
+                            <td><span t-field="o.application_no"/></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Applicant</strong></td>
+                            <td><span t-field="o.name"/></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Program</strong></td>
+                            <td><span t-field="o.program_id.name"/></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Round</strong></td>
+                            <td><span t-field="o.round_id.name"/></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Applied On</strong></td>
+                            <td><span t-field="o.applied_date"/></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Current Stage</strong></td>
+                            <td><span t-field="o.stage_id.name"/></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Email</strong></td>
+                            <td><span t-field="o.email"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="mt-4 text-muted">
+                    Please retain this acknowledgement for your records. You can track
+                    your application status from the applicant portal.
+                </p>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_application_receipt">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="inom_university_admission.report_application_receipt_document"
+                   t-lang="o.partner_id.lang"/>
+            </t>
+        </t>
+    </template>
+
+</odoo>

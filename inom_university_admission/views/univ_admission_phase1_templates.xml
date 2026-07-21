@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============ WEBSITE FORM: add guardian/nationality + Save Draft ============ -->
+    <template id="website_admission_form_phase1"
+              inherit_id="inom_university_admission.website_admission_form">
+
+        <!-- Nationality + Parent/Guardian block + hidden resume token,
+             inserted right before the Submit button. All inputs read from the
+             existing `form` dict, so resume pre-fill works automatically. -->
+        <xpath expr="//button[@type='submit']" position="before">
+
+            <div class="mb-3">
+                <label class="form-label">Nationality</label>
+                <input type="text" name="nationality" class="form-control"
+                       t-att-value="form.get('nationality', '')"/>
+                <small class="text-muted">e.g. Indian — independent from Country.</small>
+            </div>
+
+            <h5 class="mt-4 mb-3">Parent / Guardian Information</h5>
+
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Father's Name</label>
+                    <input type="text" name="father_name" class="form-control"
+                           t-att-value="form.get('father_name', '')"/>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Father's Phone</label>
+                    <input type="text" name="father_phone" class="form-control"
+                           t-att-value="form.get('father_phone', '')"/>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Father's Email</label>
+                    <input type="email" name="father_email" class="form-control"
+                           t-att-value="form.get('father_email', '')"/>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Father's Occupation</label>
+                    <input type="text" name="father_occupation" class="form-control"
+                           t-att-value="form.get('father_occupation', '')"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Mother's Name</label>
+                    <input type="text" name="mother_name" class="form-control"
+                           t-att-value="form.get('mother_name', '')"/>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Mother's Phone</label>
+                    <input type="text" name="mother_phone" class="form-control"
+                           t-att-value="form.get('mother_phone', '')"/>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Mother's Email</label>
+                    <input type="email" name="mother_email" class="form-control"
+                           t-att-value="form.get('mother_email', '')"/>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Mother's Occupation</label>
+                    <input type="text" name="mother_occupation" class="form-control"
+                           t-att-value="form.get('mother_occupation', '')"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Guardian's Name</label>
+                    <input type="text" name="guardian_name" class="form-control"
+                           t-att-value="form.get('guardian_name', '')"/>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Relationship</label>
+                    <input type="text" name="guardian_relationship" class="form-control"
+                           t-att-value="form.get('guardian_relationship', '')"/>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Guardian's Phone</label>
+                    <input type="text" name="guardian_phone" class="form-control"
+                           t-att-value="form.get('guardian_phone', '')"/>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Guardian's Email</label>
+                    <input type="email" name="guardian_email" class="form-control"
+                           t-att-value="form.get('guardian_email', '')"/>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Guardian's Occupation</label>
+                    <input type="text" name="guardian_occupation" class="form-control"
+                           t-att-value="form.get('guardian_occupation', '')"/>
+                </div>
+            </div>
+
+            <input type="hidden" name="resume_token"
+                   t-att-value="form.get('resume_token', '')"/>
+        </xpath>
+
+        <!-- When resuming a draft, the Submit button finalises that draft
+             instead of creating a new application (no duplicates). On a fresh
+             form there is no resume_token, so formaction is omitted and the
+             original /admission/submit action is used unchanged. -->
+        <xpath expr="//button[@type='submit']" position="attributes">
+            <attribute name="t-att-formaction">form.get('resume_token') and '/admission/apply/finalize' or None</attribute>
+        </xpath>
+
+        <!-- Save Draft button + login hint, after the Submit button. -->
+        <xpath expr="//button[@type='submit']" position="after">
+            <button type="submit" class="btn btn-outline-secondary ms-2"
+                    formaction="/admission/apply/draft">
+                Save Draft
+            </button>
+            <a t-if="not form.get('resume_token')"
+               href="/web/login?redirect=/my/admission"
+               class="btn btn-link ms-2">
+                Log in to view your applications
+            </a>
+            <!-- Phase 1: self-service account creation. Rendered only when
+                 free sign up is enabled in Settings
+                 (auth_signup invitation_scope = 'b2c'). Uses Odoo's standard
+                 /web/signup route, so no custom authentication code is added
+                 and the page degrades silently when sign up is off. -->
+            <a t-if="not form.get('resume_token') and request.env['ir.config_parameter'].sudo().get_param('auth_signup.invitation_scope') == 'b2c'"
+               href="/web/signup?redirect=/my/admission"
+               class="btn btn-link ms-2">
+                Create an account
+            </a>
+        </xpath>
+    </template>
+
+    <!-- ============ DRAFT SAVED PAGE ============ -->
+    <template id="website_admission_draft_saved" name="Draft Saved">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="container py-5">
+                    <h1 class="text-primary">Draft saved</h1>
+                    <p class="lead">Your application has been saved as a draft. You can come back any time and finish it.</p>
+                    <p>Use this private link to continue your application:</p>
+                    <div class="input-group mb-3" style="max-width:680px;">
+                        <input type="text" class="form-control"
+                               t-att-value="request.httprequest.host_url.rstrip('/') + resume_url"
+                               readonly="readonly"/>
+                    </div>
+                    <a t-att-href="resume_url" class="btn btn-primary">Continue application</a>
+                    <a href="/my/admission" class="btn btn-link ms-2">View my applications</a>
+                    <!-- Phase 1: let a guest who saved a draft create an account
+                         to track it (standard /web/signup, only when free sign
+                         up is enabled). -->
+                    <a t-if="request.env['ir.config_parameter'].sudo().get_param('auth_signup.invitation_scope') == 'b2c'"
+                       href="/web/signup?redirect=/my/admission"
+                       class="btn btn-link ms-2">Create an account to track this</a>
+                    <p class="text-muted mt-3" t-if="applicant.email">
+                        Tip: keep this link safe. If you are logged in, this draft will also appear under <strong>My Admission</strong>.
+                    </p>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ PORTAL: list drafts with a Continue button ============ -->
+    <template id="portal_admission_home_phase1"
+              inherit_id="inom_university_admission.portal_admission_home">
+        <xpath expr="//h2[hasclass('mb-3')]" position="after">
+            <t t-foreach="applicants" t-as="a">
+                <div t-if="a.stage_id.code == 'draft'"
+                     class="alert alert-warning d-flex flex-wrap justify-content-between align-items-center">
+                    <span>
+                        <span class="badge text-bg-warning me-2">Draft</span>
+                        <strong t-esc="a.program_id.name or 'Application'"/>
+                        <span class="text-muted ms-1">(<t t-esc="a.application_no"/>)</span>
+                    </span>
+                    <a t-attf-href="/admission/resume/#{a.access_token}"
+                       class="btn btn-sm btn-primary">Continue</a>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>
