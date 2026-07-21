@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Phase 3 - Surface the registration-opening date on the round form. -->
+    <record id="view_univ_admission_round_form_phase3" model="ir.ui.view">
+        <field name="name">univ.admission.round.form.phase3</field>
+        <field name="model">univ.admission.round</field>
+        <field name="inherit_id" ref="inom_university_admission.view_univ_admission_round_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='end_date']" position="after">
+                <field name="registration_open_date"/>
+                <field name="registration_notified" readonly="1"
+                       invisible="not registration_open_date"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

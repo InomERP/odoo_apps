@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Req 4: Course-wise required document configuration -->
+    <record id="view_univ_program_form_documents" model="ir.ui.view">
+        <field name="name">univ.program.form.required.documents</field>
+        <field name="model">univ.program</field>
+        <field name="inherit_id" ref="inom_university_core.view_univ_program_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='subjects']" position="after">
+                <page string="Required Documents" name="required_documents">
+                    <div class="alert alert-info" role="alert">
+                        Define the documents an applicant must provide for this
+                        course. When a student applies to this course, these
+                        documents are generated automatically on the application
+                        for upload and verification.
+                    </div>
+                    <group>
+                        <group>
+                            <field name="document_template_id"
+                                   options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <button name="action_load_document_template"
+                                    type="object" class="btn-secondary"
+                                    string="Load Template"
+                                    icon="fa-download"
+                                    invisible="not document_template_id"/>
+                        </group>
+                    </group>
+                    <field name="document_requirement_ids">
+                        <tree editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="doc_type"/>
+                            <field name="mandatory"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

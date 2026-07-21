@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="quota_general" model="univ.quota">
+            <field name="name">General</field>
+            <field name="code">GEN</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="quota_obc" model="univ.quota">
+            <field name="name">OBC</field>
+            <field name="code">OBC</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="quota_sc" model="univ.quota">
+            <field name="name">SC</field>
+            <field name="code">SC</field>
+            <field name="sequence">30</field>
+        </record>
+        <record id="quota_st" model="univ.quota">
+            <field name="name">ST</field>
+            <field name="code">ST</field>
+            <field name="sequence">40</field>
+        </record>
+        <record id="quota_ews" model="univ.quota">
+            <field name="name">EWS</field>
+            <field name="code">EWS</field>
+            <field name="sequence">50</field>
+        </record>
+        <record id="quota_management" model="univ.quota">
+            <field name="name">Management</field>
+            <field name="code">MGMT</field>
+            <field name="sequence">60</field>
+        </record>
+        <record id="quota_sports" model="univ.quota">
+            <field name="name">Sports</field>
+            <field name="code">SPORT</field>
+            <field name="sequence">70</field>
+        </record>
+
+    </data>
+</odoo>

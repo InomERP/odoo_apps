@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_univ_document_preview_form" model="ir.ui.view">
+        <field name="name">univ.document.preview.form</field>
+        <field name="model">univ.document.preview</field>
+        <field name="arch" type="xml">
+            <form string="Document Preview">
+                <field name="document_id" invisible="1"/>
+                <div class="mb-2">
+                    <strong>File: </strong><field name="file_name" class="oe_inline" readonly="1"/>
+                </div>
+                <field name="preview_html" nolabel="1"/>
+                <footer>
+                    <button string="Close" class="btn-primary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

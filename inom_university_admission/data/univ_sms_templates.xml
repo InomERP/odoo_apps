@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Phase 2 - Configurable SMS templates for admission decisions.
+         All bodies are editable in Settings > Technical > SMS Templates.
+         No provider credentials are stored; sending uses the gateway/IAP
+         configured by the university and is gated by the
+         inom_university_admission.sms_enabled system parameter. -->
+    <data noupdate="1">
+
+        <record id="sms_template_offer_sent" model="sms.template">
+            <field name="name">Admission: Offer Sent</field>
+            <field name="model_id" ref="model_univ_applicant"/>
+            <field name="body">Dear {{ object.name or 'Applicant' }}, you have received a provisional admission offer for {{ object.program_id.name or 'your program' }}. Please accept it from your portal. - Admissions Office</field>
+        </record>
+
+        <record id="sms_template_offer_conditional" model="sms.template">
+            <field name="name">Admission: Conditional Offer</field>
+            <field name="model_id" ref="model_univ_applicant"/>
+            <field name="body">Dear {{ object.name or 'Applicant' }}, you have received a CONDITIONAL admission offer for {{ object.program_id.name or 'your program' }}. Please review the pending conditions in your portal. - Admissions Office</field>
+        </record>
+
+        <record id="sms_template_rejected" model="sms.template">
+            <field name="name">Admission: Application Update</field>
+            <field name="model_id" ref="model_univ_applicant"/>
+            <field name="body">Dear {{ object.name or 'Applicant' }}, there is an update on your application {{ object.application_no or '' }}. Please check your portal for details. - Admissions Office</field>
+        </record>
+
+        <record id="sms_template_welcome" model="sms.template">
+            <field name="name">Admission: Welcome / Confirmed</field>
+            <field name="model_id" ref="model_univ_applicant"/>
+            <field name="body">Dear {{ object.name or 'Student' }}, congratulations! Your admission to {{ object.program_id.name or 'the program' }} is confirmed. Welcome aboard. - Registrar Office</field>
+        </record>
+
+    </data>
+</odoo>

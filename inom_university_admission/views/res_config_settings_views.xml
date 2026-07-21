@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Phase 3 - Automation settings, added as a section on the standard
+         Settings page (no custom act_window, so no removed target="inline"). -->
+    <record id="res_config_settings_view_form_univ_admission" model="ir.ui.view">
+        <field name="name">res.config.settings.form.inherit.univ.admission</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app string="University Admissions" name="inom_university_admission">
+                    <block title="Automation &amp; Notifications"
+                           name="univ_admission_automation_block">
+
+                        <setting string="Incomplete Application Reminders"
+                                 help="Automatically e-mail applicants whose application is still in Draft.">
+                            <field name="univ_draft_reminder_enabled"/>
+                            <div class="mt-2" invisible="not univ_draft_reminder_enabled">
+                                <span class="o_form_label">Reminder cycle (days)</span>
+                                <field name="univ_draft_reminder_days"
+                                       class="oe_inline ms-2" placeholder="3,7,15"/>
+                            </div>
+                        </setting>
+
+                        <setting string="Application Deadline Alerts"
+                                 help="E-mail applicants before their admission round closes.">
+                            <field name="univ_deadline_alert_enabled"/>
+                            <div class="mt-2" invisible="not univ_deadline_alert_enabled">
+                                <span class="o_form_label">Deadline offsets (days)</span>
+                                <field name="univ_deadline_alert_days"
+                                       class="oe_inline ms-2" placeholder="7,3,1"/>
+                            </div>
+                        </setting>
+
+                        <setting string="Registration Opening Notifications"
+                                 help="Notify admitted students by e-mail and portal when course registration opens.">
+                            <field name="univ_registration_notify_enabled"/>
+                        </setting>
+
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

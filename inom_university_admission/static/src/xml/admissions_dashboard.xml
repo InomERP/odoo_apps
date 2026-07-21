@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="inom_university_admission.AdmissionsDashboard">
+        <div class="o_ad_dashboard">
+            <div class="o_ad_header">
+                <div>
+                    <h1>Admissions Dashboard</h1>
+                    <p class="o_ad_sub">Real-time overview of all admission applications</p>
+                </div>
+                <div class="o_ad_filters">
+                    <select class="form-select" t-on-change="onProgramChange">
+                        <option value="">All Programs</option>
+                        <t t-foreach="state.data.all_programs" t-as="p" t-key="p.id">
+                            <option t-att-value="p.id" t-att-selected="state.programId === p.id"><t t-esc="p.name"/></option>
+                        </t>
+                    </select>
+                    <div class="btn-group" role="group">
+                        <button t-foreach="[['all','All'],['today','Today'],['week','Week'],['month','Month']]" t-as="opt" t-key="opt[0]"
+                                type="button"
+                                t-att-class="'btn btn-sm ' + (state.dateRange === opt[0] ? 'btn-primary' : 'btn-outline-secondary')"
+                                t-on-click="() => this.setDateRange(opt[0])">
+                            <t t-esc="opt[1]"/>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div t-if="state.loading" class="o_ad_loading">
+                <i class="fa fa-circle-o-notch fa-spin fa-2x"/>
+            </div>
+
+            <div t-else="">
+                <!-- KPI CARDS -->
+                <div class="o_ad_kpis">
+                    <t t-foreach="kpiCards" t-as="card" t-key="card.key">
+                        <div t-att-class="'o_ad_card ' + card.cls" t-on-click="() => this.onKpiClick(card)">
+                            <div class="o_ad_card_icon"><i t-att-class="'fa ' + card.icon"/></div>
+                            <div class="o_ad_card_body">
+                                <div class="o_ad_card_value"><t t-esc="card.value"/></div>
+                                <div class="o_ad_card_label"><t t-esc="card.label"/></div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+
+                <!-- CHARTS -->
+                <div class="o_ad_charts">
+                    <div class="o_ad_panel">
+                        <h3>Program-wise Applications</h3>
+                        <div t-if="!programChart.length" class="o_ad_empty">No data</div>
+                        <div t-foreach="programChart" t-as="row" t-key="row_index" class="o_ad_bar_row">
+                            <div class="o_ad_bar_label" t-esc="row.label"/>
+                            <div class="o_ad_bar_track">
+                                <div class="o_ad_bar_fill" t-attf-style="width: #{row.pct}%;"/>
+                            </div>
+                            <div class="o_ad_bar_value" t-esc="row.value"/>
+                        </div>
+                    </div>
+
+                    <div class="o_ad_panel">
+                        <h3>Status Distribution</h3>
+                        <div t-if="!statusChart.segments.length" class="o_ad_empty">No data</div>
+                        <div t-else="" class="o_ad_donut_wrap">
+                            <div class="o_ad_donut" t-attf-style="background: #{statusChart.gradient};">
+                                <div class="o_ad_donut_hole">
+                                    <span class="o_ad_donut_total" t-esc="statusChart.total"/>
+                                    <span class="o_ad_donut_cap">Total</span>
+                                </div>
+                            </div>
+                            <div class="o_ad_legend">
+                                <div t-foreach="statusChart.segments" t-as="seg" t-key="seg_index" class="o_ad_legend_item">
+                                    <span class="o_ad_dot" t-attf-style="background: #{seg.color};"/>
+                                    <span class="o_ad_legend_label" t-esc="seg.label"/>
+                                    <span class="o_ad_legend_val"><t t-esc="seg.value"/> (<t t-esc="seg.pct"/>%)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="o_ad_panel o_ad_panel_wide">
+                        <h3>Admission Trend (last 6 months)</h3>
+                        <div class="o_ad_trend">
+                            <div t-foreach="trendChart" t-as="t" t-key="t_index" class="o_ad_trend_col">
+                                <div class="o_ad_trend_bar" t-attf-style="height: #{t.pct}%;" t-attf-title="#{t.value}"/>
+                                <div class="o_ad_trend_val" t-esc="t.value"/>
+                                <div class="o_ad_trend_label" t-esc="t.label"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RECENT APPLICATIONS -->
+                <div class="o_ad_panel">
+                    <h3>Recent Applications</h3>
+                    <table class="table table-hover o_ad_recent">
+                        <thead>
+                            <tr>
+                                <th>Application No</th>
+                                <th>Student Name</th>
+                                <th>Program</th>
+                                <th>Status</th>
+                                <th>Submission Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-if="!state.data.recent.length"><td colspan="5" class="text-muted text-center">No applications found</td></tr>
+                            <tr t-foreach="state.data.recent" t-as="rec" t-key="rec.id" t-on-click="() => this.openApplicant(rec)" style="cursor:pointer;">
+                                <td t-esc="rec.application_no"/>
+                                <td t-esc="rec.name"/>
+                                <td t-esc="rec.program"/>
+                                <td><span class="badge text-bg-light" t-esc="rec.stage"/></td>
+                                <td t-esc="rec.applied_date"/>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>

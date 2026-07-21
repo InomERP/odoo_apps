@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_univ_assign_documents_wizard_form" model="ir.ui.view">
+        <field name="name">univ.assign.documents.wizard.form</field>
+        <field name="model">univ.assign.documents.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Assign Required Documents">
+                <sheet>
+                    <div class="alert alert-info" role="alert">
+                        Choose a template to pre-fill the list, or add the required
+                        document types manually. Existing requirements are not
+                        duplicated.
+                    </div>
+                    <group>
+                        <field name="applicant_id" readonly="1"/>
+                        <field name="template_id"/>
+                    </group>
+                    <field name="line_ids">
+                        <tree editable="bottom">
+                            <field name="doc_type"/>
+                            <field name="mandatory"/>
+                        </tree>
+                    </field>
+                </sheet>
+                <footer>
+                    <button name="action_assign" type="object"
+                            string="Assign" class="oe_highlight"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

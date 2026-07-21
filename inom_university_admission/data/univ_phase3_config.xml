@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Phase 3 - Default automation settings. Editable in Settings or in
+         Technical > System Parameters. noupdate so admin changes survive
+         upgrades. -->
+    <data noupdate="1">
+        <record id="param_draft_reminder_enabled" model="ir.config_parameter">
+            <field name="key">inom_university_admission.draft_reminder_enabled</field>
+            <field name="value">True</field>
+        </record>
+        <record id="param_draft_reminder_days" model="ir.config_parameter">
+            <field name="key">inom_university_admission.draft_reminder_days</field>
+            <field name="value">3,7,15</field>
+        </record>
+        <record id="param_deadline_alert_enabled" model="ir.config_parameter">
+            <field name="key">inom_university_admission.deadline_alert_enabled</field>
+            <field name="value">True</field>
+        </record>
+        <record id="param_deadline_alert_days" model="ir.config_parameter">
+            <field name="key">inom_university_admission.deadline_alert_days</field>
+            <field name="value">7,3,1</field>
+        </record>
+        <record id="param_registration_notify_enabled" model="ir.config_parameter">
+            <field name="key">inom_university_admission.registration_notify_enabled</field>
+            <field name="value">True</field>
+        </record>
+    </data>
+</odoo>

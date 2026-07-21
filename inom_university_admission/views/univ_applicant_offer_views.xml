@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_univ_applicant_offer_list" model="ir.ui.view">
+        <field name="name">univ.applicant.offer.list</field>
+        <field name="model">univ.applicant.offer</field>
+        <field name="arch" type="xml">
+            <tree string="Offers" decoration-success="state == 'accepted'"
+                  decoration-muted="state in ('declined', 'expired', 'lapsed')">
+                <field name="name"/>
+                <field name="applicant_id"/>
+                <field name="program_id"/>
+                <field name="round_id"/>
+                <field name="issued_on"/>
+                <field name="expiry_date"/>
+                <field name="fee_amount"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'accepted'"
+                       decoration-muted="state in ('declined', 'expired', 'lapsed')"/>
+                <field name="currency_id" column_invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_univ_applicant_offer_form" model="ir.ui.view">
+        <field name="name">univ.applicant.offer.form</field>
+        <field name="model">univ.applicant.offer</field>
+        <field name="arch" type="xml">
+            <form string="Offer Letter">
+                <header>
+                    <button name="action_send" type="object" string="Send Offer"
+                            class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_accept" type="object" string="Mark Accepted"
+                            invisible="state != 'sent'"
+                            groups="inom_university_core.group_univ_registrar"/>
+                    <button name="action_decline" type="object" string="Decline"
+                            invisible="state not in ('draft', 'sent')"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,sent,accepted"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="applicant_id"/>
+                            <field name="program_id"/>
+                            <field name="round_id"/>
+                        </group>
+                        <group>
+                            <field name="issued_on"/>
+                            <field name="expiry_date"/>
+                            <field name="accepted_on"/>
+                            <field name="fee_amount"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="terms_accepted"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_univ_applicant_offer_search" model="ir.ui.view">
+        <field name="name">univ.applicant.offer.search</field>
+        <field name="model">univ.applicant.offer</field>
+        <field name="arch" type="xml">
+            <search string="Offers">
+                <field name="name"/>
+                <field name="applicant_id"/>
+                <field name="program_id"/>
+                <filter name="sent" string="Sent" domain="[('state', '=', 'sent')]"/>
+                <filter name="accepted" string="Accepted" domain="[('state', '=', 'accepted')]"/>
+                <group>
+                    <filter name="group_program" string="Program"
+                            context="{'group_by': 'program_id'}"/>
+                    <filter name="group_round" string="Round"
+                            context="{'group_by': 'round_id'}"/>
+                    <filter name="group_state" string="Status"
+                            context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_univ_applicant_offer" model="ir.actions.act_window">
+        <field name="name">Offers</field>
+        <field name="res_model">univ.applicant.offer</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Phase 1: a non-default "Draft" stage for save-&-resume applications.
+         is_default stays on the existing Enquiry stage, so the current
+         single-shot submit flow is unchanged. -->
+    <record id="stage_draft" model="univ.applicant.stage">
+        <field name="name">Draft</field>
+        <field name="code">draft</field>
+        <field name="sequence">5</field>
+        <field name="fold" eval="True"/>
+        <field name="is_default" eval="False"/>
+    </record>
+</odoo>
