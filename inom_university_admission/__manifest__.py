@@ -103,7 +103,7 @@ self-closing chatter, no res.partner.mobile).
             "inom_university_admission/static/src/xml/admissions_dashboard.xml",
         ],
     },
-    'images': [
+   'images': [
         'static/description/banner.png',
     ],
     "installable": True,
