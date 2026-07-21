@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Add a "My University" entry to the portal home breadcrumb area -->
+    <template id="portal_my_home_university" name="Portal My Home: University"
+              inherit_id="portal.portal_my_home" priority="40">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">University</t>
+                <t t-set="url" t-value="'/my/university'"/>
+                <t t-set="config_card" t-value="True"/>
+                <t t-set="text">Your academic profile and services</t>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- University portal home: profile summary + coming-soon tiles -->
+    <template id="portal_university_home" name="University Portal Home">
+        <t t-call="portal.portal_layout">
+            <t t-set="title">My University</t>
+            <div class="container o_univ_portal py-3">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3 class="mb-1">Welcome<t t-if="student"> , <span t-field="student.name"/></t></h3>
+                        <p class="text-muted">Your self-service university dashboard.</p>
+                    </div>
+                </div>
+
+                <t t-if="student">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card o_univ_card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">My Profile</h5>
+                                    <p class="mb-1">
+                                        <span class="text-muted">Enrolment No: </span>
+                                        <strong t-field="student.enrolment_no"/>
+                                    </p>
+                                    <p class="mb-1">
+                                        <span class="text-muted">Program: </span>
+                                        <span t-field="student.program_id"/>
+                                    </p>
+                                    <p class="mb-3">
+                                        <span class="text-muted">Status: </span>
+                                        <span class="badge text-bg-info" t-field="student.state"/>
+                                    </p>
+                                    <a href="/my/university/profile" class="btn btn-primary btn-sm">
+                                        View Full Profile
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+                <t t-else="">
+                    <div class="alert alert-info" role="alert">
+                        No student record is linked to your account yet. Please contact the Registrar.
+                    </div>
+                </t>
+
+                <div class="row">
+                    <div class="col-12">
+                        <h5 class="mb-3">Coming Soon</h5>
+                    </div>
+                    <t t-foreach="coming_soon_tiles" t-as="tile">
+                        <div class="col-md-3 col-6 mb-3">
+                            <div class="card o_univ_tile text-center h-100">
+                                <div class="card-body">
+                                    <i t-attf-class="fa fa-2x #{tile['icon']} mb-2 text-muted"/>
+                                    <div t-esc="tile['name']"/>
+                                    <span class="badge text-bg-secondary mt-2">Soon</span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Read-only profile page -->
+    <template id="portal_university_profile" name="University Portal Profile">
+        <t t-call="portal.portal_layout">
+            <t t-set="title">My Profile</t>
+            <div class="container o_univ_portal py-3">
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <h3>My Profile</h3>
+                        <a href="/my/university" class="btn btn-link ps-0">&#8592; Back to University</a>
+                    </div>
+                </div>
+                <div class="card o_univ_card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3 text-center mb-3">
+                                <img t-if="student.image_1920"
+                                     t-attf-src="data:image/png;base64,#{student.image_1920}"
+                                     class="img-fluid rounded o_univ_photo" alt="Photo"/>
+                            </div>
+                            <div class="col-md-9">
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td class="text-muted" style="width: 40%;">Full Name</td>
+                                        <td><span t-field="student.name"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted">Enrolment No</td>
+                                        <td><span t-field="student.enrolment_no"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted">Roll Number</td>
+                                        <td><span t-field="student.roll_number"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted">Program</td>
+                                        <td><span t-field="student.program_id"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted">Batch</td>
+                                        <td><span t-field="student.batch_id"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted">Section</td>
+                                        <td><span t-field="student.section_id"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted">Status</td>
+                                        <td><span class="badge text-bg-info" t-field="student.state"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted">Email</td>
+                                        <td><span t-field="student.email"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted">Mobile</td>
+                                        <td><span t-field="student.mobile"/></td>
+                                    </tr>
+                                </table>
+                                <p class="text-muted small mb-0">
+                                    This is a read-only view. Profile editing will be available in a later phase.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

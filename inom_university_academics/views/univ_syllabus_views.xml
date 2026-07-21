@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- SYLLABUS -->
+    <record id="view_univ_syllabus_form" model="ir.ui.view">
+        <field name="name">univ.syllabus.form</field>
+        <field name="model">univ.syllabus</field>
+        <field name="arch" type="xml">
+            <form string="Syllabus">
+                <header>
+                    <button name="action_approve" string="Approve" type="object"
+                            class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_archive_version" string="Archive" type="object"
+                            invisible="state != 'approved'"/>
+                    <button name="action_reset_to_draft" string="Reset to Draft"
+                            type="object" invisible="state == 'draft'"/>
+                    <button name="action_new_version" string="New Version"
+                            type="object" invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,approved,archived"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="subject_id"/>
+                            <field name="program_id"/>
+                        </group>
+                        <group>
+                            <field name="academic_year_id"/>
+                            <field name="version"/>
+                            <field name="total_hours"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Units">
+                            <field name="unit_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="hours"/>
+                                    <field name="topics"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Overview">
+                            <field name="description"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_univ_syllabus_list" model="ir.ui.view">
+        <field name="name">univ.syllabus.list</field>
+        <field name="model">univ.syllabus</field>
+        <field name="arch" type="xml">
+            <list string="Syllabi">
+                <field name="subject_id"/>
+                <field name="academic_year_id"/>
+                <field name="version"/>
+                <field name="total_hours"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'approved'"
+                       decoration-muted="state == 'archived'"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_univ_syllabus_search" model="ir.ui.view">
+        <field name="name">univ.syllabus.search</field>
+        <field name="model">univ.syllabus</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="subject_id"/>
+                <field name="academic_year_id"/>
+                <filter name="approved" string="Approved"
+                        domain="[('state', '=', 'approved')]"/>
+                <group>
+                    <filter name="g_subject" string="Subject"
+                            context="{'group_by': 'subject_id'}"/>
+                    <filter name="g_year" string="Academic Year"
+                            context="{'group_by': 'academic_year_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_univ_syllabus" model="ir.actions.act_window">
+        <field name="name">Syllabus</field>
+        <field name="res_model">univ.syllabus</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- LESSON PLAN -->
+    <record id="view_univ_lesson_plan_list" model="ir.ui.view">
+        <field name="name">univ.lesson.plan.list</field>
+        <field name="model">univ.lesson.plan</field>
+        <field name="arch" type="xml">
+            <list string="Lesson Plans" editable="bottom">
+                <field name="planned_date"/>
+                <field name="name"/>
+                <field name="unit_id"/>
+                <field name="subject_id"/>
+                <field name="faculty_id"/>
+                <field name="duration_hours"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'delivered'"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_univ_lesson_plan_form" model="ir.ui.view">
+        <field name="name">univ.lesson.plan.form</field>
+        <field name="model">univ.lesson.plan</field>
+        <field name="arch" type="xml">
+            <form string="Lesson Plan">
+                <header>
+                    <button name="action_mark_delivered" string="Mark Delivered"
+                            type="object" class="oe_highlight"
+                            invisible="state == 'delivered'"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="unit_id"/>
+                            <field name="faculty_id"/>
+                        </group>
+                        <group>
+                            <field name="planned_date"/>
+                            <field name="duration_hours"/>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                    <field name="methodology" placeholder="Methodology / resources..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_univ_lesson_plan" model="ir.actions.act_window">
+        <field name="name">Lesson Plans</field>
+        <field name="res_model">univ.lesson.plan</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

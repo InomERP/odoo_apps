@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_univ_department_list" model="ir.ui.view">
+        <field name="name">univ.department.list</field>
+        <field name="model">univ.department</field>
+        <field name="arch" type="xml">
+            <list string="Departments">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="faculty_school_id"/>
+                <field name="hod_faculty_id"/>
+                <field name="program_count" string="Programs"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_univ_department_form" model="ir.ui.view">
+        <field name="name">univ.department.form</field>
+        <field name="model">univ.department</field>
+        <field name="arch" type="xml">
+            <form string="Department">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived"
+                            bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. Computer Science"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="faculty_school_id"/>
+                            <field name="hod_faculty_id"/>
+                        </group>
+                        <group>
+                            <field name="program_count"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Programs" name="programs">
+                            <field name="program_ids">
+                                <list>
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="degree_type"/>
+                                    <field name="duration_years"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Description" name="description">
+                            <field name="description"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_univ_department_search" model="ir.ui.view">
+        <field name="name">univ.department.search</field>
+        <field name="model">univ.department</field>
+        <field name="arch" type="xml">
+            <search string="Departments">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="faculty_school_id"/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_faculty_school" string="Faculty / School"
+                            context="{'group_by': 'faculty_school_id'}"/>
+                    <filter name="group_company" string="Campus"
+                            context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_univ_department" model="ir.actions.act_window">
+        <field name="name">Departments</field>
+        <field name="res_model">univ.department</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

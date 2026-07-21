@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_univ_student_master">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2 class="mb-3">Student Master List</h2>
+                    <table class="table table-sm o_main_table">
+                        <thead>
+                            <tr>
+                                <th>Enrolment No</th>
+                                <th>Name</th>
+                                <th>Program</th>
+                                <th>Batch</th>
+                                <th>Section</th>
+                                <th>Category</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="docs" t-as="student">
+                                <td><span t-field="student.enrolment_no"/></td>
+                                <td><span t-field="student.name"/></td>
+                                <td><span t-field="student.program_id"/></td>
+                                <td><span t-field="student.batch_id"/></td>
+                                <td><span t-field="student.section_id"/></td>
+                                <td><span t-field="student.category"/></td>
+                                <td><span t-field="student.state"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="text-muted mt-3">
+                        Total students: <span t-esc="len(docs)"/>
+                    </p>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

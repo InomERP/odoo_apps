@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_univ_academic_structure">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="program">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 class="mb-1">Academic Structure</h2>
+                        <h4 class="text-muted mb-3">
+                            <span t-field="program.department_id.faculty_school_id"/>
+                            &#8594; <span t-field="program.department_id"/>
+                            &#8594; <span t-field="program.name"/>
+                        </h4>
+                        <table class="table table-sm">
+                            <tr>
+                                <td class="text-muted" style="width: 30%;">Degree Type</td>
+                                <td><span t-field="program.degree_type"/></td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Duration (Years)</td>
+                                <td><span t-field="program.duration_years"/></td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Total Semesters</td>
+                                <td><span t-field="program.total_semesters"/></td>
+                            </tr>
+                        </table>
+
+                        <h5 class="mt-4">Subjects</h5>
+                        <table class="table table-sm o_main_table">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Subject</th>
+                                    <th>Semester</th>
+                                    <th>Type</th>
+                                    <th>Credit Hours</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="program.subject_ids" t-as="subject">
+                                    <td><span t-field="subject.code"/></td>
+                                    <td><span t-field="subject.name"/></td>
+                                    <td><span t-field="subject.semester_id"/></td>
+                                    <td><span t-field="subject.subject_type"/></td>
+                                    <td><span t-field="subject.credit_hours"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_univ_subject_elective_group_list" model="ir.ui.view">
+        <field name="name">univ.subject.elective.group.list</field>
+        <field name="model">univ.subject.elective.group</field>
+        <field name="arch" type="xml">
+            <list string="Elective Groups">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="program_id"/>
+                <field name="min_select"/>
+                <field name="max_select"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_univ_subject_elective_group_form" model="ir.ui.view">
+        <field name="name">univ.subject.elective.group.form</field>
+        <field name="model">univ.subject.elective.group</field>
+        <field name="arch" type="xml">
+            <form string="Elective Group">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived"
+                            bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. Open Elective Basket I"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="program_id"/>
+                        </group>
+                        <group>
+                            <field name="min_select"/>
+                            <field name="max_select"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Subjects" name="subjects">
+                            <field name="subject_ids">
+                                <list>
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="semester_id"/>
+                                    <field name="credit_hours"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_univ_subject_elective_group_search" model="ir.ui.view">
+        <field name="name">univ.subject.elective.group.search</field>
+        <field name="model">univ.subject.elective.group</field>
+        <field name="arch" type="xml">
+            <search string="Elective Groups">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="program_id"/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_program" string="Program"
+                            context="{'group_by': 'program_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_univ_subject_elective_group" model="ir.actions.act_window">
+        <field name="name">Elective Groups</field>
+        <field name="res_model">univ.subject.elective.group</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create the first elective group</p>
+            <p>Elective groups bundle choice subjects with selection bounds.</p>
+        </field>
+    </record>
+
+</odoo>
