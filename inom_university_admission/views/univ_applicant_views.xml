@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_univ_applicant_list" model="ir.ui.view">
+        <field name="name">univ.applicant.list</field>
+        <field name="model">univ.applicant</field>
+        <field name="arch" type="xml">
+            <list string="Applicants"
+                  decoration-success="is_enrolled"
+                  decoration-muted="stage_is_rejected">
+                <field name="application_no"/>
+                <field name="name"/>
+                <field name="program_id"/>
+                <field name="round_id"/>
+                <field name="quota_id" optional="show"/>
+                <field name="stage_id"/>
+                <field name="merit_score" optional="show"/>
+                <field name="document_progress" widget="percentage" string="Docs"/>
+                <field name="offer_state" optional="hide"/>
+                <field name="fee_state"/>
+                <field name="applied_date"/>
+                <field name="is_enrolled" column_invisible="1"/>
+                <field name="stage_is_rejected" column_invisible="1"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_univ_applicant_form" model="ir.ui.view">
+        <field name="name">univ.applicant.form</field>
+        <field name="model">univ.applicant</field>
+        <field name="arch" type="xml">
+            <form string="Applicant">
+                <header>
+                    <button name="action_assign_required_documents" type="object"
+                            string="Assign Required Documents"
+                            invisible="stage_is_won or stage_is_rejected"
+                            groups="inom_university_admission.group_univ_admission_officer,inom_university_core.group_univ_registrar"/>
+                    <button name="action_start_verification" type="object"
+                            string="Start Verification"
+                            invisible="stage_is_won or stage_is_rejected"/>
+                    <button name="action_documents_verified" type="object"
+                            string="Documents Verified" class="oe_highlight"
+                            invisible="stage_is_won or stage_is_rejected or not document_complete"/>
+                    <button name="action_issue_offer" type="object"
+                            string="Issue Offer" class="oe_highlight"
+                            invisible="offer_state in ('sent', 'accepted') or stage_is_won or stage_is_rejected"/>
+                    <button name="action_accept_offer" type="object"
+                            string="Mark Offer Accepted"
+                            invisible="offer_state != 'sent'"
+                            groups="inom_university_core.group_univ_registrar"/>
+                    <button name="action_mark_fee_paid" type="object"
+                            string="Mark Fee Paid"
+                            invisible="offer_state != 'accepted' or fee_state == 'paid'"/>
+                    <button name="action_enrol_to_student" type="object"
+                            string="Enrol as Student" class="oe_highlight"
+                            invisible="is_enrolled"
+                            groups="inom_university_core.group_univ_registrar"/>
+                    <button name="action_reject" type="object" string="Reject"
+                            invisible="stage_is_rejected or is_enrolled"/>
+                    <field name="stage_id" widget="statusbar"
+                           options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                    <field name="stage_is_won" invisible="1"/>
+                    <field name="stage_is_rejected" invisible="1"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_student" type="object"
+                                class="oe_stat_button" icon="fa-graduation-cap"
+                                invisible="not student_id">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Student</span>
+                            </div>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Enrolled" bg_color="text-bg-success"
+                            invisible="not is_enrolled"/>
+                    <widget name="web_ribbon" title="Rejected" bg_color="text-bg-danger"
+                            invisible="not stage_is_rejected"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="Applicant full name"/></h1>
+                        <h3><field name="application_no" readonly="1"/></h3>
+                    </div>
+                    <group>
+                        <group string="Application">
+                            <field name="program_id"/>
+                            <field name="round_id"/>
+                            <field name="quota_id"/>
+                            <field name="category"/>
+                            <field name="applied_date"/>
+                            <field name="source"/>
+                        </group>
+                        <group string="Status KPIs">
+                            <field name="merit_score" readonly="1"/>
+                            <field name="document_progress" widget="percentage" readonly="1"/>
+                            <field name="document_complete" readonly="1"/>
+                            <field name="offer_state" readonly="1"/>
+                            <field name="fee_state"/>
+                            <field name="admission_fee"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="student_id" readonly="1" invisible="not student_id"/>
+                            <field name="is_enrolled" invisible="1"/>
+                            <field name="partner_id" readonly="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Personal" name="personal">
+                            <group>
+                                <group string="Contact">
+                                    <field name="email" widget="email"/>
+                                    <field name="phone" widget="phone"/>
+                                    <field name="mobile" widget="phone"/>
+                                </group>
+                                <group string="Profile">
+                                    <field name="gender"/>
+                                    <field name="date_of_birth"/>
+                                    <field name="blood_group"/>
+                                </group>
+                            </group>
+                            <group string="Address">
+                                <group>
+                                    <field name="street"/>
+                                    <field name="city"/>
+                                    <field name="state_id"/>
+                                </group>
+                                <group>
+                                    <field name="zip"/>
+                                    <field name="country_id"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Documents" name="documents">
+                            <div class="alert alert-info" role="alert">
+                                The list below reflects the <strong>Required Documents</strong>
+                                configured on the selected course and is generated
+                                automatically. Applicants upload from the portal;
+                                you preview, verify or reject each one here.
+                                Use <strong>Assign Required Documents</strong> only to
+                                add documents beyond the course checklist.
+                            </div>
+                            <field name="document_ids">
+                                <list editable="bottom"
+                                      decoration-muted="state == 'draft'"
+                                      decoration-success="state == 'verified'"
+                                      decoration-info="state == 'under_review'"
+                                      decoration-danger="state == 'rejected'">
+                                    <field name="doc_type"/>
+                                    <field name="name" optional="hide"/>
+                                    <field name="mandatory"/>
+                                    <field name="version" string="Rev" readonly="1"/>
+                                    <field name="file" filename="file_name" widget="binary"/>
+                                    <field name="file_name" column_invisible="1"/>
+                                    <field name="state" widget="badge"
+                                           decoration-success="state == 'verified'"
+                                           decoration-info="state == 'under_review'"
+                                           decoration-danger="state == 'rejected'"/>
+                                    <field name="reject_reason"/>
+                                    <button name="action_preview" type="object"
+                                            string="Preview" icon="fa-eye"
+                                            invisible="not file"/>
+                                    <button name="action_start_review" type="object"
+                                            string="Start Review" icon="fa-search"
+                                            invisible="state != 'submitted'"/>
+                                    <button name="action_verify" type="object"
+                                            string="Verify" icon="fa-check"
+                                            invisible="state == 'verified' or not file"/>
+                                    <button name="action_reject" type="object"
+                                            string="Reject" icon="fa-times"
+                                            invisible="state in ('draft', 'rejected') or not file"/>
+                                    <button name="action_reset" type="object"
+                                            string="Reset" icon="fa-undo"
+                                            invisible="state in ('draft', 'submitted')"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Merit / Entrance" name="merit">
+                            <field name="merit_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="source"/>
+                                    <field name="reference"/>
+                                    <field name="score"/>
+                                    <field name="max_score"/>
+                                    <field name="weight"/>
+                                    <field name="weighted_score" readonly="1" sum="Total"/>
+                                    <field name="score_date"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Offers" name="offers">
+                            <field name="offer_ids" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="issued_on"/>
+                                    <field name="expiry_date"/>
+                                    <field name="accepted_on"/>
+                                    <field name="fee_amount"/>
+                                    <field name="state" widget="badge"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Rejection" name="rejection"
+                              invisible="not reject_reason">
+                            <field name="reject_reason" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_univ_applicant_kanban" model="ir.ui.view">
+        <field name="name">univ.applicant.kanban</field>
+        <field name="model">univ.applicant</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="stage_id" class="o_kanban_small_column"
+                    sample="1">
+                <field name="stage_id"/>
+                <field name="kanban_state"/>
+                <field name="document_progress"/>
+                <progressbar field="kanban_state"
+                             colors='{"done": "success", "blocked": "danger", "normal": "muted"}'/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_content">
+                            <div class="o_kanban_record_top">
+                                <strong class="o_kanban_record_title">
+                                    <field name="name"/>
+                                </strong>
+                            </div>
+                            <div class="text-muted">
+                                <field name="application_no"/>
+                            </div>
+                            <div>
+                                <span class="badge text-bg-info">
+                                    <field name="program_id"/>
+                                </span>
+                                <span t-if="record.quota_id.raw_value"
+                                      class="badge text-bg-secondary">
+                                    <field name="quota_id"/>
+                                </span>
+                            </div>
+                            <div class="o_progressbar mt-2" role="progressbar">
+                                <div class="progress" style="height: 6px;">
+                                    <div class="progress-bar bg-success"
+                                         t-attf-style="width: #{record.document_progress.raw_value}%;"/>
+                                </div>
+                                <small class="text-muted">Docs <field name="document_progress" widget="percentage"/></small>
+                            </div>
+                            <div class="o_kanban_record_bottom mt-2">
+                                <div class="oe_kanban_bottom_left">
+                                    <field name="kanban_state" widget="state_selection"/>
+                                </div>
+                                <div class="oe_kanban_bottom_right">
+                                    <field name="fee_state" widget="badge"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_univ_applicant_search" model="ir.ui.view">
+        <field name="name">univ.applicant.search</field>
+        <field name="model">univ.applicant</field>
+        <field name="arch" type="xml">
+            <search string="Applicants">
+                <field name="name"/>
+                <field name="application_no"/>
+                <field name="email"/>
+                <field name="program_id"/>
+                <field name="round_id"/>
+                <field name="quota_id"/>
+                <filter name="documents_verified" string="Documents Complete"
+                        domain="[('document_complete', '=', True)]"/>
+                <filter name="fee_paid" string="Fee Paid"
+                        domain="[('fee_state', '=', 'paid')]"/>
+                <filter name="offer_sent" string="Offer Sent"
+                        domain="[('offer_state', '=', 'sent')]"/>
+                <filter name="enrolled" string="Enrolled"
+                        domain="[('is_enrolled', '=', True)]"/>
+                <separator/>
+                <filter name="archived" string="Archived"
+                        domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_stage" string="Stage"
+                            context="{'group_by': 'stage_id'}"/>
+                    <filter name="group_program" string="Program"
+                            context="{'group_by': 'program_id'}"/>
+                    <filter name="group_round" string="Round"
+                            context="{'group_by': 'round_id'}"/>
+                    <filter name="group_quota" string="Quota"
+                            context="{'group_by': 'quota_id'}"/>
+                    <filter name="group_fee" string="Fee Status"
+                            context="{'group_by': 'fee_state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_univ_applicant" model="ir.actions.act_window">
+        <field name="name">Applicants</field>
+        <field name="res_model">univ.applicant</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No applications yet</p>
+            <p>Applications arrive from the public website form or can be created here.</p>
+        </field>
+    </record>
+
+    <record id="action_univ_applicant_pipeline" model="ir.actions.act_window">
+        <field name="name">Pipeline</field>
+        <field name="res_model">univ.applicant</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'search_default_group_stage': 1}</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="email_template_application_ack" model="mail.template">
+            <field name="name">Admission: Application Acknowledgement</field>
+            <field name="model_id" ref="model_univ_applicant"/>
+            <field name="subject">Application received - {{ object.application_no }}</field>
+            <field name="email_from">{{ (object.company_id.email or user.email_formatted) }}</field>
+            <field name="email_to">{{ object.email }}</field>
+            <field name="body_html" type="html">
+                <div style="margin:0px;padding:0px;font-size:14px;">
+                    <p>Dear <t t-out="object.name or 'Applicant'"/>,</p>
+                    <p>Thank you for applying to
+                        <t t-out="object.program_id.name or ''"/>.
+                        Your application number is
+                        <strong t-out="object.application_no or ''"/>.</p>
+                    <p>You can track your application status and upload documents
+                        from your applicant portal.</p>
+                    <p>Regards,<br/>Admissions Office</p>
+                </div>
+            </field>
+            <field name="lang">{{ object.partner_id.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <record id="email_template_offer_sent" model="mail.template">
+            <field name="name">Admission: Offer Issued</field>
+            <field name="model_id" ref="model_univ_applicant_offer"/>
+            <field name="subject">Provisional admission offer - {{ object.name }}</field>
+            <field name="email_from">{{ (object.company_id.email or user.email_formatted) }}</field>
+            <field name="email_to">{{ object.applicant_id.email }}</field>
+            <field name="body_html" type="html">
+                <div style="margin:0px;padding:0px;font-size:14px;">
+                    <p>Dear <t t-out="object.applicant_id.name or 'Applicant'"/>,</p>
+                    <p>Congratulations! We are pleased to offer you provisional
+                        admission to
+                        <t t-out="object.program_id.name or ''"/>.</p>
+                    <p>Offer reference: <strong t-out="object.name or ''"/>.
+                        Please accept the offer and complete the admission fee
+                        from your portal before
+                        <t t-out="object.expiry_date or ''"/>.</p>
+                    <p>Regards,<br/>Admissions Office</p>
+                </div>
+            </field>
+            <field name="lang">{{ object.applicant_id.partner_id.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <record id="email_template_applicant_rejected" model="mail.template">
+            <field name="name">Admission: Application Update</field>
+            <field name="model_id" ref="model_univ_applicant"/>
+            <field name="subject">Update on your application - {{ object.application_no }}</field>
+            <field name="email_from">{{ (object.company_id.email or user.email_formatted) }}</field>
+            <field name="email_to">{{ object.email }}</field>
+            <field name="body_html" type="html">
+                <div style="margin:0px;padding:0px;font-size:14px;">
+                    <p>Dear <t t-out="object.name or 'Applicant'"/>,</p>
+                    <p>Thank you for your interest. After careful review, we are
+                        unable to proceed with your application
+                        (<t t-out="object.application_no or ''"/>) at this time.</p>
+                    <p t-if="object.reject_reason">Note:
+                        <t t-out="object.reject_reason"/></p>
+                    <p>Regards,<br/>Admissions Office</p>
+                </div>
+            </field>
+            <field name="lang">{{ object.partner_id.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <record id="email_template_applicant_welcome" model="mail.template">
+            <field name="name">Admission: Welcome / Enrolled</field>
+            <field name="model_id" ref="model_univ_applicant"/>
+            <field name="subject">Welcome to {{ object.program_id.name }}</field>
+            <field name="email_from">{{ (object.company_id.email or user.email_formatted) }}</field>
+            <field name="email_to">{{ object.email }}</field>
+            <field name="body_html" type="html">
+                <div style="margin:0px;padding:0px;font-size:14px;">
+                    <p>Dear <t t-out="object.name or 'Student'"/>,</p>
+                    <p>Welcome aboard! Your admission to
+                        <t t-out="object.program_id.name or ''"/> is confirmed and
+                        your student record has been created
+                        <t t-if="object.student_id">(<t t-out="object.student_id.enrolment_no or ''"/>)</t>.</p>
+                    <p>You can now access your student portal for further details.</p>
+                    <p>Regards,<br/>Registrar Office</p>
+                </div>
+            </field>
+            <field name="lang">{{ object.partner_id.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

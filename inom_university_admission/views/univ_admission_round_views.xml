@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_univ_admission_round_list" model="ir.ui.view">
+        <field name="name">univ.admission.round.list</field>
+        <field name="model">univ.admission.round</field>
+        <field name="arch" type="xml">
+            <list string="Admission Rounds" decoration-success="state == 'open'"
+                  decoration-muted="state == 'closed'">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="program_id"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="applicant_count" string="Applicants"/>
+                <field name="enrolled_count" string="Enrolled"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'open'"
+                       decoration-muted="state == 'closed'"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_univ_admission_round_form" model="ir.ui.view">
+        <field name="name">univ.admission.round.form</field>
+        <field name="model">univ.admission.round</field>
+        <field name="arch" type="xml">
+            <form string="Admission Round">
+                <header>
+                    <button name="action_open" type="object" string="Open Round"
+                            class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_close" type="object" string="Close Round"
+                            invisible="state != 'open'"/>
+                    <button name="action_reset_to_draft" type="object"
+                            string="Reset to Draft" invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,open,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_applicants" type="object"
+                                class="oe_stat_button" icon="fa-users">
+                            <field name="applicant_count" widget="statinfo"
+                                   string="Applicants"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. Fall 2026 Round 1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="program_id"/>
+                            <field name="sequence_prefix"/>
+                        </group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="capacity"/>
+                            <field name="allow_waitlist"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_univ_admission_round_search" model="ir.ui.view">
+        <field name="name">univ.admission.round.search</field>
+        <field name="model">univ.admission.round</field>
+        <field name="arch" type="xml">
+            <search string="Admission Rounds">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="program_id"/>
+                <filter name="open" string="Open" domain="[('state', '=', 'open')]"/>
+                <filter name="closed" string="Closed" domain="[('state', '=', 'closed')]"/>
+                <group>
+                    <filter name="group_program" string="Program"
+                            context="{'group_by': 'program_id'}"/>
+                    <filter name="group_state" string="Status"
+                            context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_univ_admission_round" model="ir.actions.act_window">
+        <field name="name">Admission Rounds</field>
+        <field name="res_model">univ.admission.round</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first admission round</p>
+            <p>Rounds bound an admission cycle with start/end dates and seat caps.</p>
+        </field>
+    </record>
+
+</odoo>
