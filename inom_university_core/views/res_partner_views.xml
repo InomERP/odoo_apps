@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_partner_form_univ" model="ir.ui.view">
+        <field name="name">res.partner.form.univ</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="University" name="university"
+                      groups="inom_university_core.group_univ_faculty">
+                    <group>
+                        <group string="Roles">
+                            <field name="is_univ_student"/>
+                            <field name="is_univ_faculty"/>
+                            <field name="is_univ_guardian"/>
+                        </group>
+                    </group>
+                    <group string="Student Records" invisible="not is_univ_student">
+                        <field name="univ_student_ids" nolabel="1" readonly="1">
+                            <tree>
+                                <field name="enrolment_no"/>
+                                <field name="name"/>
+                                <field name="program_id"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group string="Faculty Records" invisible="not is_univ_faculty">
+                        <field name="univ_faculty_ids" nolabel="1" readonly="1">
+                            <tree>
+                                <field name="code"/>
+                                <field name="name"/>
+                                <field name="department_id"/>
+                                <field name="designation"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_univ_faculty_school_list" model="ir.ui.view">
+        <field name="name">univ.faculty_school.list</field>
+        <field name="model">univ.faculty_school</field>
+        <field name="arch" type="xml">
+            <tree string="Faculties / Schools">
+                <field name="sequence" widget="handle"/>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="department_count" string="Departments"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active" column_invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_univ_faculty_school_form" model="ir.ui.view">
+        <field name="name">univ.faculty_school.form</field>
+        <field name="model">univ.faculty_school</field>
+        <field name="arch" type="xml">
+            <form string="Faculty / School">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_departments" type="object"
+                                class="oe_stat_button" icon="fa-sitemap">
+                            <field name="department_count" widget="statinfo"
+                                   string="Departments"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived"
+                            bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. School of Engineering"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Departments" name="departments">
+                            <field name="department_ids">
+                                <tree editable="bottom">
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="hod_faculty_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Description" name="description">
+                            <field name="description"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_univ_faculty_school_search" model="ir.ui.view">
+        <field name="name">univ.faculty_school.search</field>
+        <field name="model">univ.faculty_school</field>
+        <field name="arch" type="xml">
+            <search string="Faculties / Schools">
+                <field name="name"/>
+                <field name="code"/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_company" string="Campus"
+                            context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_univ_faculty_school" model="ir.actions.act_window">
+        <field name="name">Faculties / Schools</field>
+        <field name="res_model">univ.faculty_school</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create the first faculty or school</p>
+            <p>Faculties/schools sit at the top of the academic hierarchy.</p>
+        </field>
+    </record>
+
+</odoo>

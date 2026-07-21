@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_univ_audit_log_list" model="ir.ui.view">
+        <field name="name">univ.audit.log.list</field>
+        <field name="model">univ.audit.log</field>
+        <field name="arch" type="xml">
+            <tree string="Audit Log" create="false" edit="false" delete="false">
+                <field name="log_date"/>
+                <field name="user_id"/>
+                <field name="res_model"/>
+                <field name="res_name"/>
+                <field name="field_label"/>
+                <field name="operation" widget="badge"/>
+                <field name="old_value"/>
+                <field name="new_value"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_univ_audit_log_form" model="ir.ui.view">
+        <field name="name">univ.audit.log.form</field>
+        <field name="model">univ.audit.log</field>
+        <field name="arch" type="xml">
+            <form string="Audit Log Entry" create="false" edit="false">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="log_date"/>
+                            <field name="user_id"/>
+                            <field name="operation"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="res_model"/>
+                            <field name="res_id"/>
+                            <field name="res_name"/>
+                            <field name="field_label"/>
+                            <field name="field_name"/>
+                        </group>
+                    </group>
+                    <group string="Change">
+                        <field name="old_value"/>
+                        <field name="new_value"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_univ_audit_log_search" model="ir.ui.view">
+        <field name="name">univ.audit.log.search</field>
+        <field name="model">univ.audit.log</field>
+        <field name="arch" type="xml">
+            <search string="Audit Log">
+                <field name="res_name"/>
+                <field name="res_model"/>
+                <field name="user_id"/>
+                <field name="field_label"/>
+                <filter name="create_op" string="Created" domain="[('operation', '=', 'create')]"/>
+                <filter name="write_op" string="Updated" domain="[('operation', '=', 'write')]"/>
+                <filter name="unlink_op" string="Deleted" domain="[('operation', '=', 'unlink')]"/>
+                <separator/>
+                <filter name="today" string="Today"
+                        domain="[('log_date', '&gt;=', datetime.datetime.combine(context_today(), datetime.time(0,0,0)))]"/>
+                <group>
+                    <filter name="group_model" string="Model"
+                            context="{'group_by': 'res_model'}"/>
+                    <filter name="group_user" string="User"
+                            context="{'group_by': 'user_id'}"/>
+                    <filter name="group_operation" string="Operation"
+                            context="{'group_by': 'operation'}"/>
+                    <filter name="group_date" string="Date"
+                            context="{'group_by': 'log_date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_univ_audit_log" model="ir.actions.act_window">
+        <field name="name">Audit Log</field>
+        <field name="res_model">univ.audit.log</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_group_date': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No audit entries yet</p>
+            <p>Sensitive writes on students and faculty are recorded here immutably.</p>
+        </field>
+    </record>
+
+</odoo>

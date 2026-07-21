@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============ Registration Period ============ -->
+    <record id="view_univ_registration_period_list" model="ir.ui.view">
+        <field name="name">univ.registration.period.list</field>
+        <field name="model">univ.registration.period</field>
+        <field name="arch" type="xml">
+            <tree string="Registration Periods"
+                  decoration-success="status == 'open'"
+                  decoration-muted="status == 'closed'">
+                <field name="name"/>
+                <field name="program_id"/>
+                <field name="semester_id"/>
+                <field name="session_id"/>
+                <field name="open_datetime"/>
+                <field name="close_datetime"/>
+                <field name="credit_limit"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_univ_registration_period_form" model="ir.ui.view">
+        <field name="name">univ.registration.period.form</field>
+        <field name="model">univ.registration.period</field>
+        <field name="arch" type="xml">
+            <form string="Registration Period">
+                <sheet>
+                    <widget name="web_ribbon" title="Open" bg_color="text-bg-success"
+                            invisible="status != 'open'"/>
+                    <widget name="web_ribbon" title="Closed" bg_color="text-bg-secondary"
+                            invisible="status != 'closed'"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. B.Tech Sem 1 - 2025 Registration"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="program_id"/>
+                            <field name="semester_id"/>
+                            <field name="session_id"/>
+                        </group>
+                        <group>
+                            <field name="open_datetime"/>
+                            <field name="close_datetime"/>
+                            <field name="credit_limit"/>
+                            <field name="status"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Course Offerings" name="offerings">
+                            <field name="offering_ids">
+                                <tree editable="bottom">
+                                    <field name="subject_id"/>
+                                    <field name="subject_type"/>
+                                    <field name="credit_hours"/>
+                                    <field name="faculty_id"/>
+                                    <field name="section_id"/>
+                                    <field name="capacity"/>
+                                    <field name="registered_count"/>
+                                    <field name="waitlisted_count"/>
+                                    <field name="available_seats"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_univ_registration_period" model="ir.actions.act_window">
+        <field name="name">Registration Periods</field>
+        <field name="res_model">univ.registration.period</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- ============ Course Offering ============ -->
+    <record id="view_univ_course_offering_list" model="ir.ui.view">
+        <field name="name">univ.course.offering.list</field>
+        <field name="model">univ.course.offering</field>
+        <field name="arch" type="xml">
+            <tree string="Course Offerings" decoration-danger="is_full">
+                <field name="subject_id"/>
+                <field name="period_id"/>
+                <field name="subject_type"/>
+                <field name="credit_hours"/>
+                <field name="faculty_id"/>
+                <field name="capacity"/>
+                <field name="registered_count"/>
+                <field name="waitlisted_count"/>
+                <field name="available_seats"/>
+                <field name="is_full"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_univ_course_offering_form" model="ir.ui.view">
+        <field name="name">univ.course.offering.form</field>
+        <field name="model">univ.course.offering</field>
+        <field name="arch" type="xml">
+            <form string="Course Offering">
+                <sheet>
+                    <widget name="web_ribbon" title="Full" bg_color="text-bg-danger"
+                            invisible="not is_full"/>
+                    <group>
+                        <group>
+                            <field name="period_id"/>
+                            <field name="subject_id"/>
+                            <field name="subject_type"/>
+                            <field name="credit_hours"/>
+                        </group>
+                        <group>
+                            <field name="faculty_id"/>
+                            <field name="section_id"/>
+                            <field name="capacity"/>
+                            <field name="registered_count"/>
+                            <field name="waitlisted_count"/>
+                            <field name="available_seats"/>
+                            <field name="is_full" invisible="1"/>
+                        </group>
+                    </group>
+                    <field name="registration_ids">
+                        <tree>
+                            <field name="student_id"/>
+                            <field name="state"/>
+                            <field name="waitlist_position"/>
+                            <field name="join_date"/>
+                        </tree>
+                    </field>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_univ_course_offering" model="ir.actions.act_window">
+        <field name="name">Course Offerings</field>
+        <field name="res_model">univ.course.offering</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- ============ Course Registration ============ -->
+    <record id="view_univ_course_registration_list" model="ir.ui.view">
+        <field name="name">univ.course.registration.list</field>
+        <field name="model">univ.course.registration</field>
+        <field name="arch" type="xml">
+            <tree string="Course Registrations">
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="program_id"/>
+                <field name="semester_id"/>
+                <field name="registered_course_count"/>
+                <field name="total_credits"/>
+                <field name="credit_limit"/>
+                <field name="registration_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_univ_course_registration_form" model="ir.ui.view">
+        <field name="name">univ.course.registration.form</field>
+        <field name="model">univ.course.registration</field>
+        <field name="arch" type="xml">
+            <form string="Course Registration">
+                <header>
+                    <button name="action_print_confirmation" type="object"
+                            string="Print Confirmation" class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="student_id"/>
+                            <field name="period_id"/>
+                            <field name="registration_date"/>
+                        </group>
+                        <group>
+                            <field name="total_credits"/>
+                            <field name="credit_limit"/>
+                            <field name="registered_course_count"/>
+                        </group>
+                    </group>
+                    <field name="line_ids">
+                        <tree decoration-success="state == 'registered'"
+                              decoration-warning="state == 'waitlisted'"
+                              decoration-muted="state == 'dropped'">
+                            <field name="subject_id"/>
+                            <field name="subject_type"/>
+                            <field name="credit_hours"/>
+                            <field name="offering_id"/>
+                            <field name="state"/>
+                            <field name="waitlist_position"/>
+                            <field name="join_date"/>
+                            <button name="action_drop" type="object" string="Drop"
+                                    icon="fa-times" invisible="state == 'dropped'"/>
+                        </tree>
+                    </field>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_univ_course_registration" model="ir.actions.act_window">
+        <field name="name">Course Registrations</field>
+        <field name="res_model">univ.course.registration</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- ============ Subject prerequisites ============ -->
+    <record id="view_univ_subject_form_prereq" model="ir.ui.view">
+        <field name="name">univ.subject.form.prerequisite</field>
+        <field name="model">univ.subject</field>
+        <field name="inherit_id" ref="inom_university_core.view_univ_subject_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='credit_hours']" position="after">
+                <field name="prerequisite_ids" widget="many2many_tags"
+                       options="{'no_create': True}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ============ Menus ============ -->
+    <menuitem id="menu_acad_registration" name="Registration"
+              parent="menu_univ_academics_root" sequence="25"/>
+    <menuitem id="menu_acad_registration_periods" name="Registration Periods"
+              parent="menu_acad_registration"
+              action="action_univ_registration_period" sequence="10"/>
+    <menuitem id="menu_acad_course_offerings" name="Course Offerings"
+              parent="menu_acad_registration"
+              action="action_univ_course_offering" sequence="20"/>
+    <menuitem id="menu_acad_course_registrations" name="Course Registrations"
+              parent="menu_acad_registration"
+              action="action_univ_course_registration" sequence="30"/>
+
+</odoo>

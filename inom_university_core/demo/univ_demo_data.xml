@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Faculty / School -->
+        <record id="demo_faculty_school_eng" model="univ.faculty_school">
+            <field name="name">School of Engineering</field>
+            <field name="code">SOE</field>
+        </record>
+
+        <!-- Department -->
+        <record id="demo_department_cse" model="univ.department">
+            <field name="name">Computer Science &amp; Engineering</field>
+            <field name="code">CSE</field>
+            <field name="faculty_school_id" ref="demo_faculty_school_eng"/>
+        </record>
+
+        <!-- Program -->
+        <record id="demo_program_btech_cse" model="univ.program">
+            <field name="name">B.Tech Computer Science</field>
+            <field name="code">BTCSE</field>
+            <field name="department_id" ref="demo_department_cse"/>
+            <field name="degree_type">ug</field>
+            <field name="duration_years">4.0</field>
+            <field name="total_semesters">8</field>
+        </record>
+
+        <!-- Batch -->
+        <record id="demo_batch_2024" model="univ.batch">
+            <field name="name">2024-2028 CSE</field>
+            <field name="code">BCSE2024</field>
+            <field name="program_id" ref="demo_program_btech_cse"/>
+            <field name="start_year">2024</field>
+        </record>
+
+        <!-- Semesters -->
+        <record id="demo_semester_1" model="univ.semester">
+            <field name="name">Semester 1</field>
+            <field name="code">SEM1</field>
+            <field name="sequence">1</field>
+            <field name="program_id" ref="demo_program_btech_cse"/>
+        </record>
+        <record id="demo_semester_2" model="univ.semester">
+            <field name="name">Semester 2</field>
+            <field name="code">SEM2</field>
+            <field name="sequence">2</field>
+            <field name="program_id" ref="demo_program_btech_cse"/>
+        </record>
+
+        <!-- Section -->
+        <record id="demo_section_a" model="univ.section">
+            <field name="name">Section A</field>
+            <field name="code">SECA</field>
+            <field name="batch_id" ref="demo_batch_2024"/>
+            <field name="semester_id" ref="demo_semester_1"/>
+            <field name="capacity">60</field>
+        </record>
+
+        <!-- Elective group -->
+        <record id="demo_elective_group_1" model="univ.subject.elective.group">
+            <field name="name">Open Elective Basket I</field>
+            <field name="code">OE1</field>
+            <field name="program_id" ref="demo_program_btech_cse"/>
+            <field name="min_select">1</field>
+            <field name="max_select">1</field>
+        </record>
+
+        <!-- Subjects -->
+        <record id="demo_subject_maths" model="univ.subject">
+            <field name="name">Engineering Mathematics I</field>
+            <field name="code">MA101</field>
+            <field name="program_id" ref="demo_program_btech_cse"/>
+            <field name="semester_id" ref="demo_semester_1"/>
+            <field name="subject_type">core</field>
+            <field name="credit_hours">4.0</field>
+        </record>
+        <record id="demo_subject_prog" model="univ.subject">
+            <field name="name">Programming Fundamentals</field>
+            <field name="code">CS101</field>
+            <field name="program_id" ref="demo_program_btech_cse"/>
+            <field name="semester_id" ref="demo_semester_1"/>
+            <field name="subject_type">core</field>
+            <field name="credit_hours">4.0</field>
+        </record>
+        <record id="demo_subject_prog_lab" model="univ.subject">
+            <field name="name">Programming Laboratory</field>
+            <field name="code">CS101L</field>
+            <field name="program_id" ref="demo_program_btech_cse"/>
+            <field name="semester_id" ref="demo_semester_1"/>
+            <field name="subject_type">lab</field>
+            <field name="credit_hours">2.0</field>
+        </record>
+        <record id="demo_subject_elective" model="univ.subject">
+            <field name="name">Introduction to Psychology</field>
+            <field name="code">OE101</field>
+            <field name="program_id" ref="demo_program_btech_cse"/>
+            <field name="semester_id" ref="demo_semester_1"/>
+            <field name="subject_type">elective</field>
+            <field name="elective_group_id" ref="demo_elective_group_1"/>
+            <field name="credit_hours">3.0</field>
+        </record>
+
+        <!-- Faculty -->
+        <record id="demo_faculty_sharma" model="univ.faculty">
+            <field name="name">Dr. Anil Sharma</field>
+            <field name="department_id" ref="demo_department_cse"/>
+            <field name="designation">professor</field>
+            <field name="faculty_type">teaching</field>
+            <field name="qualification">Ph.D. Computer Science</field>
+            <field name="experience_years">12.0</field>
+            <field name="gender">male</field>
+            <field name="email">anil.sharma@example.com</field>
+            <field name="subject_ids" eval="[(6, 0, [ref('demo_subject_prog'), ref('demo_subject_prog_lab')])]"/>
+        </record>
+        <record id="demo_faculty_verma" model="univ.faculty">
+            <field name="name">Prof. Neha Verma</field>
+            <field name="department_id" ref="demo_department_cse"/>
+            <field name="designation">assistant_professor</field>
+            <field name="faculty_type">teaching</field>
+            <field name="qualification">M.Tech Mathematics</field>
+            <field name="experience_years">5.0</field>
+            <field name="gender">female</field>
+            <field name="email">neha.verma@example.com</field>
+            <field name="subject_ids" eval="[(6, 0, [ref('demo_subject_maths')])]"/>
+        </record>
+
+        <!-- Set HOD -->
+        <record id="demo_department_cse" model="univ.department">
+            <field name="hod_faculty_id" ref="demo_faculty_sharma"/>
+        </record>
+
+        <!-- Students -->
+        <record id="demo_student_rahul" model="univ.student">
+            <field name="name">Rahul Mehta</field>
+            <field name="program_id" ref="demo_program_btech_cse"/>
+            <field name="batch_id" ref="demo_batch_2024"/>
+            <field name="semester_id" ref="demo_semester_1"/>
+            <field name="section_id" ref="demo_section_a"/>
+            <field name="gender">male</field>
+            <field name="category">general</field>
+            <field name="email">rahul.mehta@example.com</field>
+            <field name="mobile">+91 90000 00001</field>
+            <field name="roll_number">CSE-A-001</field>
+        </record>
+        <record id="demo_student_priya" model="univ.student">
+            <field name="name">Priya Nair</field>
+            <field name="program_id" ref="demo_program_btech_cse"/>
+            <field name="batch_id" ref="demo_batch_2024"/>
+            <field name="semester_id" ref="demo_semester_1"/>
+            <field name="section_id" ref="demo_section_a"/>
+            <field name="gender">female</field>
+            <field name="category">obc</field>
+            <field name="email">priya.nair@example.com</field>
+            <field name="mobile">+91 90000 00002</field>
+            <field name="roll_number">CSE-A-002</field>
+        </record>
+
+        <!-- Guardians -->
+        <record id="demo_guardian_rahul_father" model="univ.student.guardian">
+            <field name="name">Suresh Mehta</field>
+            <field name="student_id" ref="demo_student_rahul"/>
+            <field name="relationship">father</field>
+            <field name="is_primary" eval="True"/>
+            <field name="mobile">+91 90000 10001</field>
+            <field name="email">suresh.mehta@example.com</field>
+            <field name="occupation">Engineer</field>
+        </record>
+        <record id="demo_guardian_priya_mother" model="univ.student.guardian">
+            <field name="name">Lata Nair</field>
+            <field name="student_id" ref="demo_student_priya"/>
+            <field name="relationship">mother</field>
+            <field name="is_primary" eval="True"/>
+            <field name="mobile">+91 90000 10002</field>
+            <field name="email">lata.nair@example.com</field>
+            <field name="occupation">Teacher</field>
+        </record>
+
+        <!-- Documents (minimal 1x1 PNG payload) -->
+        <record id="demo_doc_rahul_tenth" model="univ.student.document">
+            <field name="name">10th Marksheet</field>
+            <field name="student_id" ref="demo_student_rahul"/>
+            <field name="doc_type">tenth</field>
+        </record>
+
+        <record id="demo_doc_rahul_twelfth" model="univ.student.document">
+            <field name="name">12th Marksheet</field>
+            <field name="student_id" ref="demo_student_rahul"/>
+            <field name="doc_type">twelfth</field>
+        </record>
+
+    </data>
+</odoo>

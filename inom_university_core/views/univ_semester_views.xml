@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_univ_semester_list" model="ir.ui.view">
+        <field name="name">univ.semester.list</field>
+        <field name="model">univ.semester</field>
+        <field name="arch" type="xml">
+            <tree string="Semesters">
+                <field name="sequence" widget="handle"/>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="program_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active" column_invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_univ_semester_form" model="ir.ui.view">
+        <field name="name">univ.semester.form</field>
+        <field name="model">univ.semester</field>
+        <field name="arch" type="xml">
+            <form string="Semester">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived"
+                            bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. Semester 1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="program_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Sections" name="sections">
+                            <field name="section_ids">
+                                <tree>
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="batch_id"/>
+                                    <field name="capacity"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_univ_semester_search" model="ir.ui.view">
+        <field name="name">univ.semester.search</field>
+        <field name="model">univ.semester</field>
+        <field name="arch" type="xml">
+            <search string="Semesters">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="program_id"/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_program" string="Program"
+                            context="{'group_by': 'program_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_univ_semester" model="ir.actions.act_window">
+        <field name="name">Semesters</field>
+        <field name="res_model">univ.semester</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create the first semester</p>
+            <p>Semesters define the terms within a program.</p>
+        </field>
+    </record>
+
+</odoo>
