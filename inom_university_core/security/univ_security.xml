@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================= -->
+    <!-- Module category and group privilege (Odoo 19)                 -->
+    <!-- ============================================================= -->
+    <record id="module_category_university" model="ir.module.category">
+        <field name="name">University Management</field>
+        <field name="description">Access rights for the University Management System.</field>
+        <field name="sequence">20</field>
+    </record>
+
+    <record id="res_groups_privilege_university" model="res.groups.privilege">
+        <field name="name">University Management</field>
+        <field name="sequence">20</field>
+        <field name="category_id" ref="module_category_university"/>
+    </record>
+
+    <!-- ============================================================= -->
+    <!-- Security groups                                               -->
+    <!-- ============================================================= -->
+    <record id="group_univ_faculty" model="res.groups">
+        <field name="name">Faculty</field>
+        <field name="privilege_id" ref="res_groups_privilege_university"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="comment">Self-service on own profile; read access to students and subjects.</field>
+    </record>
+
+    <record id="group_univ_hod" model="res.groups">
+        <field name="name">Head of Department</field>
+        <field name="privilege_id" ref="res_groups_privilege_university"/>
+        <field name="implied_ids" eval="[(4, ref('group_univ_faculty'))]"/>
+        <field name="comment">Department-scoped create/read/update on faculty and subjects.</field>
+    </record>
+
+    <record id="group_univ_dean" model="res.groups">
+        <field name="name">Dean</field>
+        <field name="privilege_id" ref="res_groups_privilege_university"/>
+        <field name="implied_ids" eval="[(4, ref('group_univ_faculty'))]"/>
+        <field name="comment">Department-scoped read/approve on students and faculty.</field>
+    </record>
+
+    <record id="group_univ_registrar" model="res.groups">
+        <field name="name">Registrar</field>
+        <field name="privilege_id" ref="res_groups_privilege_university"/>
+        <field name="implied_ids" eval="[(4, ref('group_univ_faculty'))]"/>
+        <field name="comment">Owns academic operations: full control on students and masters.</field>
+    </record>
+
+    <record id="group_univ_admin" model="res.groups">
+        <field name="name">Administrator</field>
+        <field name="privilege_id" ref="res_groups_privilege_university"/>
+        <field name="implied_ids" eval="[(4, ref('group_univ_registrar'))]"/>
+        <field name="comment">Full administrative control across all University modules.</field>
+    </record>
+
+    <!-- Portal groups -->
+    <record id="group_univ_portal_student" model="res.groups">
+        <field name="name">University Portal: Student</field>
+        <field name="privilege_id" ref="res_groups_privilege_university"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="comment">Portal access to the student's own record.</field>
+    </record>
+
+    <record id="group_univ_portal_parent" model="res.groups">
+        <field name="name">University Portal: Parent</field>
+        <field name="privilege_id" ref="res_groups_privilege_university"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="comment">Portal access scoped to linked ward(s).</field>
+    </record>
+
+    <!-- Make the admin user a University Administrator out of the box -->
+    <record id="base.user_admin" model="res.users">
+        <field name="group_ids" eval="[(4, ref('group_univ_admin'))]"/>
+    </record>
+
+    <!-- ============================================================= -->
+    <!-- Multi-company global record rules (campus isolation)          -->
+    <!-- ============================================================= -->
+    <record id="rule_faculty_school_company" model="ir.rule">
+        <field name="name">Faculty/School: multi-company</field>
+        <field name="model_id" ref="model_univ_faculty_school"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_department_company" model="ir.rule">
+        <field name="name">Department: multi-company</field>
+        <field name="model_id" ref="model_univ_department"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_program_company" model="ir.rule">
+        <field name="name">Program: multi-company</field>
+        <field name="model_id" ref="model_univ_program"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_batch_company" model="ir.rule">
+        <field name="name">Batch: multi-company</field>
+        <field name="model_id" ref="model_univ_batch"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_semester_company" model="ir.rule">
+        <field name="name">Semester: multi-company</field>
+        <field name="model_id" ref="model_univ_semester"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_section_company" model="ir.rule">
+        <field name="name">Section: multi-company</field>
+        <field name="model_id" ref="model_univ_section"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_subject_company" model="ir.rule">
+        <field name="name">Subject: multi-company</field>
+        <field name="model_id" ref="model_univ_subject"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_elective_group_company" model="ir.rule">
+        <field name="name">Elective Group: multi-company</field>
+        <field name="model_id" ref="model_univ_subject_elective_group"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_faculty_company" model="ir.rule">
+        <field name="name">Faculty: multi-company</field>
+        <field name="model_id" ref="model_univ_faculty"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_student_company" model="ir.rule">
+        <field name="name">Student: multi-company</field>
+        <field name="model_id" ref="model_univ_student"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_student_document_company" model="ir.rule">
+        <field name="name">Student Document: multi-company</field>
+        <field name="model_id" ref="model_univ_student_document"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_student_guardian_company" model="ir.rule">
+        <field name="name">Student Guardian: multi-company</field>
+        <field name="model_id" ref="model_univ_student_guardian"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_audit_log_company" model="ir.rule">
+        <field name="name">Audit Log: multi-company</field>
+        <field name="model_id" ref="model_univ_audit_log"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- ============================================================= -->
+    <!-- Faculty self-profile write restriction + overrides            -->
+    <!-- ============================================================= -->
+    <record id="rule_faculty_own_profile" model="ir.rule">
+        <field name="name">Faculty: write own profile only</field>
+        <field name="model_id" ref="model_univ_faculty"/>
+        <field name="groups" eval="[(4, ref('group_univ_faculty'))]"/>
+        <field name="domain_force">[('partner_id', '=', user.partner_id.id)]</field>
+        <field name="perm_read" eval="False"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_faculty_hod_department" model="ir.rule">
+        <field name="name">Faculty: HOD manages own department</field>
+        <field name="model_id" ref="model_univ_faculty"/>
+        <field name="groups" eval="[(4, ref('group_univ_hod'))]"/>
+        <field name="domain_force">[('department_id', 'in', user.univ_department_ids.ids)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_faculty_registrar_all" model="ir.rule">
+        <field name="name">Faculty: Registrar manages all</field>
+        <field name="model_id" ref="model_univ_faculty"/>
+        <field name="groups" eval="[(4, ref('group_univ_registrar'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- ============================================================= -->
+    <!-- Subject: HOD department scope + registrar override            -->
+    <!-- ============================================================= -->
+    <record id="rule_subject_hod_department" model="ir.rule">
+        <field name="name">Subject: HOD manages own department</field>
+        <field name="model_id" ref="model_univ_subject"/>
+        <field name="groups" eval="[(4, ref('group_univ_hod'))]"/>
+        <field name="domain_force">[('program_id.department_id', 'in', user.univ_department_ids.ids)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- ============================================================= -->
+    <!-- Student: dean/hod department-scoped read                      -->
+    <!-- ============================================================= -->
+    <record id="rule_student_dean_department" model="ir.rule">
+        <field name="name">Student: Dean reads own department</field>
+        <field name="model_id" ref="model_univ_student"/>
+        <field name="groups" eval="[(4, ref('group_univ_dean'))]"/>
+        <field name="domain_force">[('program_id.department_id', 'in', user.univ_department_ids.ids)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_student_hod_department" model="ir.rule">
+        <field name="name">Student: HOD reads own department</field>
+        <field name="model_id" ref="model_univ_student"/>
+        <field name="groups" eval="[(4, ref('group_univ_hod'))]"/>
+        <field name="domain_force">[('program_id.department_id', 'in', user.univ_department_ids.ids)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- ============================================================= -->
+    <!-- Portal record rules                                           -->
+    <!-- ============================================================= -->
+    <record id="rule_portal_student_own" model="ir.rule">
+        <field name="name">Portal Student: own record only</field>
+        <field name="model_id" ref="model_univ_student"/>
+        <field name="groups" eval="[(4, ref('group_univ_portal_student'))]"/>
+        <field name="domain_force">[('partner_id', '=', user.partner_id.id)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_portal_parent_wards" model="ir.rule">
+        <field name="name">Portal Parent: linked wards only</field>
+        <field name="model_id" ref="model_univ_student"/>
+        <field name="groups" eval="[(4, ref('group_univ_portal_parent'))]"/>
+        <field name="domain_force">[('guardian_ids.partner_id', '=', user.partner_id.id)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_portal_student_documents" model="ir.rule">
+        <field name="name">Portal Student: own documents</field>
+        <field name="model_id" ref="model_univ_student_document"/>
+        <field name="groups" eval="[(4, ref('group_univ_portal_student'))]"/>
+        <field name="domain_force">[('student_id.partner_id', '=', user.partner_id.id)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_portal_student_guardians" model="ir.rule">
+        <field name="name">Portal Student: own guardians</field>
+        <field name="model_id" ref="model_univ_student_guardian"/>
+        <field name="groups" eval="[(4, ref('group_univ_portal_student'))]"/>
+        <field name="domain_force">[('student_id.partner_id', '=', user.partner_id.id)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+</odoo>

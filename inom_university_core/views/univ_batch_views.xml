@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_univ_batch_list" model="ir.ui.view">
+        <field name="name">univ.batch.list</field>
+        <field name="model">univ.batch</field>
+        <field name="arch" type="xml">
+            <list string="Batches">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="program_id"/>
+                <field name="start_year"/>
+                <field name="end_year"/>
+                <field name="student_count" string="Students"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_univ_batch_form" model="ir.ui.view">
+        <field name="name">univ.batch.form</field>
+        <field name="model">univ.batch</field>
+        <field name="arch" type="xml">
+            <form string="Batch">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived"
+                            bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. 2024-2028 CSE"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="program_id"/>
+                        </group>
+                        <group>
+                            <field name="start_year"/>
+                            <field name="end_year"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Sections" name="sections">
+                            <field name="section_ids">
+                                <list editable="bottom">
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="semester_id"/>
+                                    <field name="capacity"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_univ_batch_search" model="ir.ui.view">
+        <field name="name">univ.batch.search</field>
+        <field name="model">univ.batch</field>
+        <field name="arch" type="xml">
+            <search string="Batches">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="program_id"/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_program" string="Program"
+                            context="{'group_by': 'program_id'}"/>
+                    <filter name="group_start_year" string="Start Year"
+                            context="{'group_by': 'start_year'}"/>
+                    <filter name="group_company" string="Campus"
+                            context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_univ_batch" model="ir.actions.act_window">
+        <field name="name">Batches</field>
+        <field name="res_model">univ.batch</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create the first batch</p>
+            <p>A batch is the cohort of students admitted in a given academic year.</p>
+        </field>
+    </record>
+
+</odoo>

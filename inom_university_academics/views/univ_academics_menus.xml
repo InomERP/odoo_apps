@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_univ_academics_root" name="Academics"
+              parent="inom_university_core.menu_univ_root" sequence="40"
+              groups="base.group_user"/>
+
+    <!-- CURRICULUM -->
+    <menuitem id="menu_acad_curriculum" name="Curriculum"
+              parent="menu_univ_academics_root" sequence="10"/>
+    <menuitem id="menu_acad_syllabus" name="Syllabus"
+              parent="menu_acad_curriculum" action="action_univ_syllabus" sequence="10"/>
+    <menuitem id="menu_acad_lesson_plan" name="Lesson Plans"
+              parent="menu_acad_curriculum" action="action_univ_lesson_plan" sequence="20"/>
+    <menuitem id="menu_acad_clo" name="Course Outcomes"
+              parent="menu_acad_curriculum" action="action_univ_clo" sequence="30"/>
+    <menuitem id="menu_acad_plo" name="Program Outcomes"
+              parent="menu_acad_curriculum" action="action_univ_plo" sequence="40"/>
+    <menuitem id="menu_acad_calendar" name="Academic Calendar"
+              parent="menu_acad_curriculum" action="action_univ_academic_calendar" sequence="50"/>
+
+    <!-- TIMETABLE -->
+    <menuitem id="menu_acad_timetable" name="Timetable"
+              parent="menu_univ_academics_root" sequence="20"/>
+    <menuitem id="menu_acad_sessions" name="Sessions"
+              parent="menu_acad_timetable" action="action_univ_timetable_session" sequence="10"/>
+    <menuitem id="menu_acad_generator" name="Timetable Generator"
+              parent="menu_acad_timetable" action="action_univ_timetable_generator_wizard"
+              sequence="20" groups="group_univ_academic_admin"/>
+    <menuitem id="menu_acad_substitution" name="Substitutions"
+              parent="menu_acad_timetable" action="action_univ_substitution" sequence="30"/>
+    <menuitem id="menu_acad_timeslot" name="Time Slots"
+              parent="menu_acad_timetable" action="action_univ_timeslot"
+              sequence="40" groups="group_univ_academic_admin"/>
+    <menuitem id="menu_acad_room" name="Rooms"
+              parent="menu_acad_timetable" action="action_univ_room"
+              sequence="50" groups="group_univ_academic_admin"/>
+
+    <!-- ATTENDANCE -->
+    <menuitem id="menu_acad_attendance" name="Attendance"
+              parent="menu_univ_academics_root" sequence="30"/>
+    <menuitem id="menu_acad_att_sheets" name="Attendance Sheets"
+              parent="menu_acad_attendance" action="action_univ_attendance_sheet" sequence="10"/>
+    <menuitem id="menu_acad_att_bulk" name="Bulk Attendance"
+              parent="menu_acad_attendance" action="action_univ_attendance_bulk_wizard" sequence="20"/>
+    <menuitem id="menu_acad_att_shortage" name="Shortage"
+              parent="menu_acad_attendance" action="action_univ_attendance_summary" sequence="30"/>
+
+    <!-- EXAMINATIONS -->
+    <menuitem id="menu_acad_exams_root" name="Examinations"
+              parent="menu_univ_academics_root" sequence="40"/>
+    <menuitem id="menu_acad_exams" name="Exams"
+              parent="menu_acad_exams_root" action="action_univ_exam" sequence="10"/>
+    <menuitem id="menu_acad_exam_schedules" name="Exam Schedules"
+              parent="menu_acad_exams_root" action="action_univ_exam_schedule" sequence="20"/>
+    <menuitem id="menu_acad_invigilation" name="Invigilation Duty"
+              parent="menu_acad_exams_root" action="action_univ_invigilator" sequence="30"/>
+    <menuitem id="menu_acad_exam_types" name="Exam Types"
+              parent="menu_acad_exams_root" action="action_univ_exam_type"
+              sequence="40" groups="group_univ_exam_cell"/>
+
+    <!-- RESULTS -->
+    <menuitem id="menu_acad_results_root" name="Results"
+              parent="menu_univ_academics_root" sequence="50"/>
+    <menuitem id="menu_acad_marks" name="Marks Entry"
+              parent="menu_acad_results_root" action="action_univ_result_line" sequence="10"/>
+    <menuitem id="menu_acad_result_generate" name="Generate Results"
+              parent="menu_acad_results_root" action="action_univ_result_generate_wizard"
+              sequence="20" groups="group_univ_controller_examinations"/>
+    <menuitem id="menu_acad_result_semester" name="Semester Results"
+              parent="menu_acad_results_root" action="action_univ_result_semester" sequence="30"/>
+    <menuitem id="menu_acad_reevaluation" name="Re-evaluation"
+              parent="menu_acad_results_root" action="action_univ_reevaluation" sequence="40"/>
+    <menuitem id="menu_acad_transcript" name="Transcripts"
+              parent="menu_acad_results_root" action="action_univ_transcript" sequence="50"/>
+    <menuitem id="menu_acad_grade_scale" name="Grade Scale"
+              parent="menu_acad_results_root" action="action_univ_grade_scale"
+              sequence="60" groups="group_univ_academic_admin"/>
+
+    <!-- REPORTING / DASHBOARDS -->
+    <menuitem id="menu_acad_reporting" name="Reporting"
+              parent="menu_univ_academics_root" sequence="60"/>
+    <menuitem id="menu_acad_dash_academic" name="Academic Dashboard"
+              parent="menu_acad_reporting" action="action_univ_academic_dashboard" sequence="10"/>
+    <menuitem id="menu_acad_dash_attendance" name="Attendance Dashboard"
+              parent="menu_acad_reporting" action="action_univ_attendance_dashboard" sequence="20"/>
+    <menuitem id="menu_acad_dash_exam" name="Examination Dashboard"
+              parent="menu_acad_reporting" action="action_univ_examination_dashboard" sequence="30"/>
+    <menuitem id="menu_acad_dash_result" name="Result Dashboard"
+              parent="menu_acad_reporting" action="action_univ_result_dashboard" sequence="40"/>
+
+</odoo>

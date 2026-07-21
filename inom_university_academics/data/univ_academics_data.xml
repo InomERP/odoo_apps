@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Default 10-point grade scale -->
+        <record id="grade_scale_default" model="univ.grade.scale">
+            <field name="name">Standard 10-point Scale</field>
+            <field name="is_default" eval="True"/>
+            <field name="pass_grade_point">4.0</field>
+        </record>
+        <record id="grade_o" model="univ.grade.scale.line">
+            <field name="scale_id" ref="grade_scale_default"/>
+            <field name="name">O</field><field name="min_percent">90</field><field name="grade_point">10</field>
+        </record>
+        <record id="grade_aplus" model="univ.grade.scale.line">
+            <field name="scale_id" ref="grade_scale_default"/>
+            <field name="name">A+</field><field name="min_percent">80</field><field name="grade_point">9</field>
+        </record>
+        <record id="grade_a" model="univ.grade.scale.line">
+            <field name="scale_id" ref="grade_scale_default"/>
+            <field name="name">A</field><field name="min_percent">70</field><field name="grade_point">8</field>
+        </record>
+        <record id="grade_bplus" model="univ.grade.scale.line">
+            <field name="scale_id" ref="grade_scale_default"/>
+            <field name="name">B+</field><field name="min_percent">60</field><field name="grade_point">7</field>
+        </record>
+        <record id="grade_b" model="univ.grade.scale.line">
+            <field name="scale_id" ref="grade_scale_default"/>
+            <field name="name">B</field><field name="min_percent">50</field><field name="grade_point">6</field>
+        </record>
+        <record id="grade_c" model="univ.grade.scale.line">
+            <field name="scale_id" ref="grade_scale_default"/>
+            <field name="name">C</field><field name="min_percent">45</field><field name="grade_point">5</field>
+        </record>
+        <record id="grade_d" model="univ.grade.scale.line">
+            <field name="scale_id" ref="grade_scale_default"/>
+            <field name="name">D</field><field name="min_percent">40</field><field name="grade_point">4</field>
+        </record>
+        <record id="grade_f" model="univ.grade.scale.line">
+            <field name="scale_id" ref="grade_scale_default"/>
+            <field name="name">F</field><field name="min_percent">0</field><field name="grade_point">0</field>
+        </record>
+
+        <!-- Default exam types -->
+        <record id="exam_type_internal" model="univ.exam.type">
+            <field name="name">Internal Assessment</field><field name="code">IA</field>
+            <field name="category">internal</field><field name="weightage">20</field>
+        </record>
+        <record id="exam_type_mid" model="univ.exam.type">
+            <field name="name">Mid Term</field><field name="code">MID</field>
+            <field name="category">mid</field><field name="weightage">30</field>
+        </record>
+        <record id="exam_type_final" model="univ.exam.type">
+            <field name="name">End Semester</field><field name="code">FINAL</field>
+            <field name="category">final</field><field name="weightage">50</field>
+        </record>
+
+        <!-- Default timeslots -->
+        <record id="slot_1" model="univ.timeslot"><field name="name">Period 1 (09:00-10:00)</field><field name="sequence">10</field><field name="start_time">9.0</field><field name="end_time">10.0</field></record>
+        <record id="slot_2" model="univ.timeslot"><field name="name">Period 2 (10:00-11:00)</field><field name="sequence">20</field><field name="start_time">10.0</field><field name="end_time">11.0</field></record>
+        <record id="slot_3" model="univ.timeslot"><field name="name">Period 3 (11:15-12:15)</field><field name="sequence">30</field><field name="start_time">11.25</field><field name="end_time">12.25</field></record>
+        <record id="slot_lunch" model="univ.timeslot"><field name="name">Lunch (12:15-13:00)</field><field name="sequence">40</field><field name="start_time">12.25</field><field name="end_time">13.0</field><field name="is_break" eval="True"/></record>
+        <record id="slot_4" model="univ.timeslot"><field name="name">Period 4 (13:00-14:00)</field><field name="sequence">50</field><field name="start_time">13.0</field><field name="end_time">14.0</field></record>
+        <record id="slot_5" model="univ.timeslot"><field name="name">Period 5 (14:00-15:00)</field><field name="sequence">60</field><field name="start_time">14.0</field><field name="end_time">15.0</field></record>
+    </data>
+</odoo>
