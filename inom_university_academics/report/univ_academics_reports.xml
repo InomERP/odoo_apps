@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- HALL TICKET -->
+    <template id="report_hall_ticket">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 class="text-center">Hall Ticket / Admit Card</h2>
+                        <h4 class="text-center"><span t-field="doc.exam_id.name"/></h4>
+                        <table class="table table-sm mt-4">
+                            <tr>
+                                <th>Subject</th>
+                                <td><span t-field="doc.subject_id.display_name"/></td>
+                                <th>Date</th>
+                                <td><span t-field="doc.date"/></td>
+                            </tr>
+                            <tr>
+                                <th>Program</th>
+                                <td><span t-field="doc.program_id.display_name"/></td>
+                                <th>Semester</th>
+                                <td><span t-field="doc.semester_id.display_name"/></td>
+                            </tr>
+                            <tr>
+                                <th>Hall</th>
+                                <td><span t-field="doc.room_id.display_name"/></td>
+                                <th>Max Marks</th>
+                                <td><span t-field="doc.max_marks"/></td>
+                            </tr>
+                        </table>
+                        <h5 class="mt-4">Seating</h5>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr><th>Student</th><th>Enrolment</th><th>Hall</th><th>Seat</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.seat_ids" t-as="seat">
+                                    <td><span t-field="seat.student_id.display_name"/></td>
+                                    <td><span t-field="seat.student_id.enrolment_no"/></td>
+                                    <td><span t-field="seat.room_id.display_name"/></td>
+                                    <td><span t-field="seat.seat_no"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="mt-4 text-muted">
+                            This hall ticket is valid only if fee dues are cleared.
+                        </p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- MARK SHEET -->
+    <template id="report_mark_sheet">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 class="text-center">Statement of Marks</h2>
+                        <table class="table table-sm mt-3">
+                            <tr>
+                                <th>Student</th>
+                                <td><span t-field="doc.student_id.display_name"/></td>
+                                <th>Semester</th>
+                                <td><span t-field="doc.semester_id.display_name"/></td>
+                            </tr>
+                            <tr>
+                                <th>Program</th>
+                                <td><span t-field="doc.program_id.display_name"/></td>
+                                <th>SGPA</th>
+                                <td><span t-field="doc.sgpa"/></td>
+                            </tr>
+                        </table>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Subject</th><th>Credits</th><th>%</th>
+                                    <th>Grade</th><th>Grade Point</th><th>Result</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.line_ids" t-as="line">
+                                    <td><span t-field="line.subject_id.display_name"/></td>
+                                    <td><span t-field="line.credit_hours"/></td>
+                                    <td><span t-field="line.percent"/></td>
+                                    <td><span t-field="line.grade"/></td>
+                                    <td><span t-field="line.grade_point"/></td>
+                                    <td>
+                                        <span t-if="line.is_pass">PASS</span>
+                                        <span t-else="">FAIL</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="mt-3">
+                            <strong>SGPA: </strong><span t-field="doc.sgpa"/> ·
+                            <strong>Status: </strong><span t-field="doc.status"/>
+                        </p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- TRANSCRIPT -->
+    <template id="report_transcript">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 class="text-center">Consolidated Academic Transcript</h2>
+                        <table class="table table-sm mt-3">
+                            <tr>
+                                <th>Student</th>
+                                <td><span t-field="doc.student_id.display_name"/></td>
+                                <th>Program</th>
+                                <td><span t-field="doc.program_id.display_name"/></td>
+                            </tr>
+                            <tr>
+                                <th>CGPA</th>
+                                <td><span t-field="doc.cgpa"/></td>
+                                <th>Total Credits</th>
+                                <td><span t-field="doc.total_credits"/></td>
+                            </tr>
+                        </table>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr><th>Semester</th><th>Credits</th><th>SGPA</th><th>Status</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.semester_result_ids" t-as="sem">
+                                    <td><span t-field="sem.semester_id.display_name"/></td>
+                                    <td><span t-field="sem.total_credits"/></td>
+                                    <td><span t-field="sem.sgpa"/></td>
+                                    <td><span t-field="sem.status"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="mt-4 text-muted">
+                            Integrity hash: <span t-field="doc.integrity_hash"/>
+                        </p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- CLASS TIMETABLE (per section) -->
+    <template id="report_class_timetable">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 class="text-center">Class Timetable</h2>
+                        <h4 class="text-center"><span t-field="doc.display_name"/></h4>
+                        <table class="table table-sm mt-3">
+                            <thead>
+                                <tr><th>Date</th><th>Slot</th><th>Subject</th><th>Faculty</th><th>Room</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.confirmed_session_ids" t-as="s">
+                                    <td><span t-field="s.date"/></td>
+                                    <td><span t-field="s.slot_id.name"/></td>
+                                    <td><span t-field="s.subject_id.display_name"/></td>
+                                    <td><span t-field="s.faculty_id.display_name"/></td>
+                                    <td><span t-field="s.room_id.display_name"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- ATTENDANCE SHEET -->
+    <template id="report_attendance_sheet">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 class="text-center">Attendance Report</h2>
+                        <table class="table table-sm mt-3">
+                            <tr>
+                                <th>Subject</th>
+                                <td><span t-field="doc.subject_id.display_name"/></td>
+                                <th>Date</th>
+                                <td><span t-field="doc.date"/></td>
+                            </tr>
+                            <tr>
+                                <th>Section</th>
+                                <td><span t-field="doc.section_id.display_name"/></td>
+                                <th>Faculty</th>
+                                <td><span t-field="doc.faculty_id.display_name"/></td>
+                            </tr>
+                        </table>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr><th>Student</th><th>Enrolment</th><th>Status</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.line_ids" t-as="line">
+                                    <td><span t-field="line.student_id.display_name"/></td>
+                                    <td><span t-field="line.student_id.enrolment_no"/></td>
+                                    <td><span t-field="line.state"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="mt-3">
+                            Present: <span t-field="doc.present_count"/> /
+                            Absent: <span t-field="doc.absent_count"/> /
+                            Total: <span t-field="doc.total_count"/>
+                        </p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- SHORTAGE NOTICE -->
+    <template id="report_shortage_notice">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 class="text-center">Attendance Shortage Notice</h2>
+                        <p class="mt-3">
+                            Dear <span t-field="doc.student_id.display_name"/>,
+                        </p>
+                        <p>
+                            Your attendance in
+                            <strong><span t-field="doc.subject_id.display_name"/></strong>
+                            is <strong><span t-field="doc.percent"/>%</strong>
+                            (<span t-field="doc.attended"/> of
+                            <span t-field="doc.held"/> periods),
+                            which falls in band
+                            <strong><span t-field="doc.shortage_band"/></strong>.
+                        </p>
+                        <p>
+                            Please take immediate steps to improve your attendance
+                            to meet the institutional requirement.
+                        </p>
+                        <p class="mt-4">Academic Office</p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>
