@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_univ_fee_refund_list" model="ir.ui.view">
+        <field name="name">univ.fee.refund.request.list</field>
+        <field name="model">univ.fee.refund.request</field>
+        <field name="arch" type="xml">
+            <list string="Refund Requests"
+                  decoration-success="state == 'done'"
+                  decoration-danger="state == 'refused'">
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="invoice_id"/>
+                <field name="amount"/>
+                <field name="needs_second_level" optional="show"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'done'"
+                       decoration-danger="state == 'refused'"/>
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_univ_fee_refund_form" model="ir.ui.view">
+        <field name="name">univ.fee.refund.request.form</field>
+        <field name="model">univ.fee.refund.request</field>
+        <field name="arch" type="xml">
+            <form string="Refund Request">
+                <header>
+                    <button name="action_submit" type="object" string="Submit"
+                            class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_approve" type="object"
+                            string="Approve" class="oe_highlight"
+                            invisible="state != 'submitted'"
+                            groups="inom_university_fee.group_univ_accounts_officer"/>
+                    <button name="action_approve_final" type="object"
+                            string="Final Approval (Registrar)" class="oe_highlight"
+                            invisible="state != 'l1_approved'"
+                            groups="inom_university_core.group_univ_registrar"/>
+                    <button name="action_post_credit_note" type="object"
+                            string="Post Credit Note" class="oe_highlight"
+                            invisible="state != 'approved'"
+                            groups="inom_university_fee.group_univ_accounts_officer"/>
+                    <button name="action_refuse" type="object" string="Refuse"
+                            invisible="state in ('draft', 'done', 'refused')"/>
+                    <button name="action_reset_to_draft" type="object"
+                            string="Reset to Draft"
+                            invisible="state in ('draft', 'done')"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,submitted,approved,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_credit_note" type="object"
+                                class="oe_stat_button" icon="fa-book"
+                                invisible="not credit_note_id">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Credit Note</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="invoice_id"/>
+                            <field name="student_id"/>
+                            <field name="amount"/>
+                            <field name="needs_second_level"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="credit_note_id" invisible="1"/>
+                            <field name="approver_l1_id"/>
+                            <field name="approver_l2_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="reason"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_univ_fee_refund_kanban" model="ir.ui.view">
+        <field name="name">univ.fee.refund.request.kanban</field>
+        <field name="model">univ.fee.refund.request</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_small_column" sample="1">
+                <field name="state"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_content">
+                            <strong><field name="student_id"/></strong>
+                            <div class="text-muted"><field name="name"/></div>
+                            <div class="mt-1"><field name="amount" widget="monetary"/></div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_univ_fee_refund_search" model="ir.ui.view">
+        <field name="name">univ.fee.refund.request.search</field>
+        <field name="model">univ.fee.refund.request</field>
+        <field name="arch" type="xml">
+            <search string="Refund Requests">
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="invoice_id"/>
+                <filter name="to_approve" string="Awaiting Approval"
+                        domain="[('state', 'in', ('submitted', 'l1_approved'))]"/>
+                <filter name="done" string="Posted" domain="[('state', '=', 'done')]"/>
+                <group>
+                    <filter name="group_state" string="Status"
+                            context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_univ_fee_refund" model="ir.actions.act_window">
+        <field name="name">Refund Requests</field>
+        <field name="res_model">univ.fee.refund.request</field>
+        <field name="view_mode">list,kanban,form</field>
+    </record>
+
+</odoo>

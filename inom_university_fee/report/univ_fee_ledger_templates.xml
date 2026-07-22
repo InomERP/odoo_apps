@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_fee_ledger_document">
+        <t t-call="web.external_layout">
+            <t t-set="rows" t-value="doc.get_ledger_lines()"/>
+            <div class="page">
+                <h3 class="mt-0">Student Ledger</h3>
+                <div class="row mt-2">
+                    <div class="col-6">
+                        <strong>Student: </strong><span t-field="doc.name"/><br/>
+                        <strong>Enrolment: </strong><span t-field="doc.enrolment_no"/>
+                    </div>
+                    <div class="col-6 text-end">
+                        <strong>Program: </strong><span t-field="doc.program_id"/><br/>
+                        <strong>Outstanding: </strong><span t-field="doc.outstanding_amount"/>
+                    </div>
+                </div>
+
+                <table class="table table-sm mt-4">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Reference</th>
+                            <th>Description</th>
+                            <th class="text-end">Debit</th>
+                            <th class="text-end">Credit</th>
+                            <th class="text-end">Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-if="not rows">
+                            <td colspan="6" class="text-center text-muted">
+                                No posted transactions.
+                            </td>
+                        </tr>
+                        <tr t-foreach="rows" t-as="row">
+                            <td><span t-out="row['date']"/></td>
+                            <td><span t-out="row['reference']"/></td>
+                            <td><span t-out="row['label']"/></td>
+                            <td class="text-end">
+                                <span t-out="row['debit']"
+                                      t-options="{'widget': 'monetary', 'display_currency': doc.company_currency_id}"/>
+                            </td>
+                            <td class="text-end">
+                                <span t-out="row['credit']"
+                                      t-options="{'widget': 'monetary', 'display_currency': doc.company_currency_id}"/>
+                            </td>
+                            <td class="text-end">
+                                <span t-out="row['balance']"
+                                      t-options="{'widget': 'monetary', 'display_currency': doc.company_currency_id}"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_fee_ledger">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="inom_university_fee.report_fee_ledger_document"/>
+            </t>
+        </t>
+    </template>
+
+</odoo>

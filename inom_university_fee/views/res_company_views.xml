@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_company_form_fee" model="ir.ui.view">
+        <field name="name">res.company.form.fee</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="University Fees" name="univ_fee_settings">
+                    <group>
+                        <field name="fee_journal_id"/>
+                        <field name="fee_defaulter_days"/>
+                        <field name="fee_refund_threshold"/>
+                    </group>
+                    <group>
+                        <field name="fee_late_fee_rate"/>
+                        <field name="fee_late_fee_cap"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
