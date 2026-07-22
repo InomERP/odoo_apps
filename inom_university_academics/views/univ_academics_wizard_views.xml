@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- TIMETABLE GENERATOR -->
+    <record id="view_univ_timetable_generator_wizard" model="ir.ui.view">
+        <field name="name">univ.timetable.generator.wizard.form</field>
+        <field name="model">univ.timetable.generator.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generate Timetable">
+                <group>
+                    <field name="section_id"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="confirm_sessions"/>
+                </group>
+                <group string="Slots">
+                    <field name="slot_ids" widget="many2many_tags" nolabel="1"/>
+                </group>
+                <group string="Subjects">
+                    <field name="subject_ids" widget="many2many_tags" nolabel="1"/>
+                </group>
+                <footer>
+                    <button name="action_generate" string="Generate" type="object"
+                            class="oe_highlight"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_univ_timetable_generator_wizard" model="ir.actions.act_window">
+        <field name="name">Timetable Generator</field>
+        <field name="res_model">univ.timetable.generator.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- ATTENDANCE BULK -->
+    <record id="view_univ_attendance_bulk_wizard" model="ir.ui.view">
+        <field name="name">univ.attendance.bulk.wizard.form</field>
+        <field name="model">univ.attendance.bulk.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Bulk Attendance">
+                <group>
+                    <field name="date"/>
+                    <field name="section_id"/>
+                    <field name="faculty_id"/>
+                    <field name="mark_all_present"/>
+                </group>
+                <footer>
+                    <button name="action_generate" string="Generate Sheets"
+                            type="object" class="oe_highlight"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_univ_attendance_bulk_wizard" model="ir.actions.act_window">
+        <field name="name">Bulk Attendance</field>
+        <field name="res_model">univ.attendance.bulk.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- BIOMETRIC IMPORT -->
+    <record id="view_univ_attendance_import_wizard" model="ir.ui.view">
+        <field name="name">univ.attendance.import.wizard.form</field>
+        <field name="model">univ.attendance.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Biometric Import">
+                <group>
+                    <field name="sheet_id"/>
+                    <field name="data_file" filename="filename"/>
+                    <field name="filename" invisible="1"/>
+                    <field name="enrolment_column"/>
+                    <field name="status_column"/>
+                </group>
+                <p class="text-muted">
+                    Upload a CSV with one column for the student enrolment number
+                    and one for the status (present/absent/late/leave).
+                </p>
+                <footer>
+                    <button name="action_import" string="Import" type="object"
+                            class="oe_highlight"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_univ_attendance_import_wizard" model="ir.actions.act_window">
+        <field name="name">Biometric Import</field>
+        <field name="res_model">univ.attendance.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- HALL ALLOCATION -->
+    <record id="view_univ_exam_hall_wizard" model="ir.ui.view">
+        <field name="name">univ.exam.hall.wizard.form</field>
+        <field name="model">univ.exam.hall.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Allocate Hall">
+                <group>
+                    <field name="schedule_id"/>
+                    <field name="room_id"/>
+                </group>
+                <footer>
+                    <button name="action_allocate" string="Allocate" type="object"
+                            class="oe_highlight"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_univ_exam_hall_wizard" model="ir.actions.act_window">
+        <field name="name">Allocate Hall</field>
+        <field name="res_model">univ.exam.hall.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- INVIGILATOR -->
+    <record id="view_univ_exam_invigilator_wizard" model="ir.ui.view">
+        <field name="name">univ.exam.invigilator.wizard.form</field>
+        <field name="model">univ.exam.invigilator.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Assign Invigilators">
+                <group>
+                    <field name="schedule_id"/>
+                    <field name="faculty_ids" widget="many2many_tags"/>
+                </group>
+                <footer>
+                    <button name="action_assign" string="Assign" type="object"
+                            class="oe_highlight"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_univ_exam_invigilator_wizard" model="ir.actions.act_window">
+        <field name="name">Assign Invigilators</field>
+        <field name="res_model">univ.exam.invigilator.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- SEAT ALLOCATION -->
+    <record id="view_univ_exam_seat_wizard" model="ir.ui.view">
+        <field name="name">univ.exam.seat.wizard.form</field>
+        <field name="model">univ.exam.seat.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Allocate Seats">
+                <group>
+                    <field name="schedule_id"/>
+                    <field name="room_ids" widget="many2many_tags"/>
+                </group>
+                <footer>
+                    <button name="action_allocate" string="Allocate Seats"
+                            type="object" class="oe_highlight"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_univ_exam_seat_wizard" model="ir.actions.act_window">
+        <field name="name">Allocate Seats</field>
+        <field name="res_model">univ.exam.seat.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- RESULT GENERATE -->
+    <record id="view_univ_result_generate_wizard" model="ir.ui.view">
+        <field name="name">univ.result.generate.wizard.form</field>
+        <field name="model">univ.result.generate.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generate Results">
+                <group>
+                    <field name="program_id"/>
+                    <field name="semester_id"/>
+                    <field name="academic_year_id"/>
+                    <field name="publish"/>
+                </group>
+                <footer>
+                    <button name="action_generate" string="Generate" type="object"
+                            class="oe_highlight"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_univ_result_generate_wizard" model="ir.actions.act_window">
+        <field name="name">Generate Results</field>
+        <field name="res_model">univ.result.generate.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- RE-EVALUATION APPLY -->
+    <record id="view_univ_reevaluation_wizard" model="ir.ui.view">
+        <field name="name">univ.reevaluation.wizard.form</field>
+        <field name="model">univ.reevaluation.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Apply for Re-evaluation">
+                <group>
+                    <field name="result_line_id"/>
+                    <field name="fee_paid"/>
+                </group>
+                <footer>
+                    <button name="action_create" string="Create Request"
+                            type="object" class="oe_highlight"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>
