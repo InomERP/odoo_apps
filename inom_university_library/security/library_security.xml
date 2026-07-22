@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="group_univ_librarian" model="res.groups">
+            <field name="name">Librarian</field>
+            <field name="sequence">50</field>
+            <field name="privilege_id"
+                   ref="inom_university_core.res_groups_privilege_university"/>
+            <field name="implied_ids" eval="[(6, 0, [ref('base.group_user')])]"/>
+            <field name="comment">Full access to library catalogue and circulation.</field>
+        </record>
+        <record id="inom_university_core.group_univ_admin" model="res.groups">
+            <field name="implied_ids" eval="[(4, ref('group_univ_librarian'))]"/>
+        </record>
+
+        <!-- Multi-company -->
+        <record id="rule_library_issue_company" model="ir.rule">
+            <field name="name">Library issue multi-company</field>
+            <field name="model_id" ref="model_univ_library_issue"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+            <field name="global" eval="True"/>
+        </record>
+
+        <!-- Portal own-only -->
+        <record id="rule_library_member_portal" model="ir.rule">
+            <field name="name">Library member: portal own</field>
+            <field name="model_id" ref="model_univ_library_member"/>
+            <field name="domain_force">[('partner_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('inom_university_core.group_univ_portal_student')), (4, ref('inom_university_core.group_univ_portal_parent'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        <record id="rule_library_issue_portal" model="ir.rule">
+            <field name="name">Library issue: portal own</field>
+            <field name="model_id" ref="model_univ_library_issue"/>
+            <field name="domain_force">[('member_id.partner_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('inom_university_core.group_univ_portal_student')), (4, ref('inom_university_core.group_univ_portal_parent'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        <record id="rule_library_fine_portal" model="ir.rule">
+            <field name="name">Library fine: portal own</field>
+            <field name="model_id" ref="model_univ_library_fine"/>
+            <field name="domain_force">[('member_id.partner_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('inom_university_core.group_univ_portal_student')), (4, ref('inom_university_core.group_univ_portal_parent'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+    </data>
+</odoo>

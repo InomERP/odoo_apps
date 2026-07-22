@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_my_home_certificate" inherit_id="portal.portal_my_home" priority="54">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Certificates</t>
+                <t t-set="text">Request and download certificates</t>
+                <t t-set="url" t-value="'/my/certificates'"/>
+                <t t-set="config_card" t-value="True"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_certificates" name="My Certificates">
+        <t t-call="portal.portal_layout">
+            <div class="container mt-3">
+                <h3>My Certificates</h3>
+                <h5 class="mt-3">Request a Certificate</h5>
+                <form action="/my/certificates/request" method="post" class="mb-4">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <div class="mb-2">
+                        <select name="template_id" class="form-select" required="required">
+                            <option value="">Select type...</option>
+                            <t t-foreach="templates" t-as="tmpl">
+                                <option t-att-value="tmpl.id"><t t-out="tmpl.name"/></option>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="mb-2"><input type="text" name="purpose" class="form-control" placeholder="Purpose (optional)"/></div>
+                    <button type="submit" class="btn btn-primary btn-sm">Request</button>
+                </form>
+
+                <h5>My Requests</h5>
+                <table class="table table-sm" t-if="certs">
+                    <thead><tr><th>Number</th><th>Type</th><th>Status</th><th></th></tr></thead>
+                    <tbody>
+                        <tr t-foreach="certs" t-as="c">
+                            <td><span t-out="c.name"/></td>
+                            <td><span t-out="c.cert_type"/></td>
+                            <td><span t-out="c.state"/></td>
+                            <td>
+                                <a t-if="c.state in ('issued','superseded')"
+                                   t-attf-href="/my/certificates/#{c.id}/download"
+                                   target="_blank" class="btn btn-sm btn-secondary">Download</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p t-if="not certs" class="text-muted">No certificate requests yet.</p>
+            </div>
+        </t>
+    </template>
+
+    <template id="verify_page" name="Certificate Verification">
+        <t t-call="web.frontend_layout">
+            <div class="container mt-5">
+                <div class="card mx-auto" style="max-width: 640px;">
+                    <div class="card-body">
+                        <h3 class="card-title">Certificate Verification</h3>
+                        <p class="text-muted">Reference: <span t-out="number"/></p>
+                        <t t-if="cert">
+                            <div t-attf-class="alert alert-#{cert.state == 'issued' and 'success' or (cert.state == 'superseded' and 'warning' or 'secondary')}">
+                                <t t-if="cert.state == 'issued'">This certificate is <strong>VALID</strong>.</t>
+                                <t t-elif="cert.state == 'superseded'">This certificate was <strong>SUPERSEDED</strong> by a newer version.</t>
+                                <t t-else="">This certificate is <strong>not yet issued</strong>.</t>
+                            </div>
+                            <table class="table table-sm">
+                                <tr><th>Student</th><td><span t-out="cert.student_id.display_name"/></td></tr>
+                                <tr><th>Type</th><td><span t-out="cert.cert_type"/></td></tr>
+                                <tr><th>Version</th><td><span t-out="cert.version"/></td></tr>
+                                <tr><th>Issued On</th><td><span t-out="cert.issue_date"/></td></tr>
+                                <tr><th>Signature</th><td><small t-out="cert.signed_hash"/></td></tr>
+                            </table>
+                        </t>
+                        <t t-elif="card">
+                            <div class="alert alert-success">Valid student ID card.</div>
+                            <table class="table table-sm">
+                                <tr><th>Student</th><td><span t-out="card.student_id.display_name"/></td></tr>
+                                <tr><th>Program</th><td><span t-out="card.program_id.display_name"/></td></tr>
+                                <tr><th>Valid To</th><td><span t-out="card.valid_to"/></td></tr>
+                            </table>
+                        </t>
+                        <t t-else="">
+                            <div class="alert alert-danger">No record found for this reference.</div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>
