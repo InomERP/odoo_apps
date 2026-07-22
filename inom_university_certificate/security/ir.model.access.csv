@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_cert_template_officer,template officer,model_univ_certificate_template,group_univ_certificate_officer,1,1,1,1
+access_cert_template_registrar,template registrar,model_univ_certificate_template,inom_university_core.group_univ_registrar,1,1,1,1
+access_cert_template_user,template user,model_univ_certificate_template,base.group_user,1,0,0,0
+access_cert_officer,cert officer,model_univ_certificate,group_univ_certificate_officer,1,1,1,1
+access_cert_registrar,cert registrar,model_univ_certificate,inom_university_core.group_univ_registrar,1,1,1,1
+access_cert_user,cert user,model_univ_certificate,base.group_user,1,0,0,0
+access_cert_portal_student,cert portal s,model_univ_certificate,inom_university_core.group_univ_portal_student,1,0,1,0
+access_cert_portal_parent,cert portal p,model_univ_certificate,inom_university_core.group_univ_portal_parent,1,0,0,0
+access_idcard_officer,idcard officer,model_univ_id_card,group_univ_certificate_officer,1,1,1,1
+access_idcard_registrar,idcard registrar,model_univ_id_card,inom_university_core.group_univ_registrar,1,1,1,1
+access_idcard_user,idcard user,model_univ_id_card,base.group_user,1,0,0,0
+access_idcard_portal_student,idcard portal s,model_univ_id_card,inom_university_core.group_univ_portal_student,1,0,0,0
+access_cert_batch_wizard,batch wiz,model_univ_certificate_batch_wizard,group_univ_certificate_officer,1,1,1,1

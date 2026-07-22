@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_library_issue" model="ir.actions.report">
+        <field name="name">Issue Register</field>
+        <field name="model">univ.library.issue</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inom_university_library.report_library_issue</field>
+        <field name="report_file">inom_university_library.report_library_issue</field>
+        <field name="binding_model_id" ref="model_univ_library_issue"/>
+        <field name="binding_type">report</field>
+    </record>
+    <template id="report_library_issue">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 class="text-center">Library Issue Slip</h2>
+                        <table class="table table-sm mt-3">
+                            <tr><th>Reference</th><td><span t-field="doc.name"/></td>
+                                <th>Member</th><td><span t-field="doc.member_id.display_name"/></td></tr>
+                            <tr><th>Book</th><td><span t-field="doc.book_id.display_name"/></td>
+                                <th>Copy</th><td><span t-field="doc.copy_id.barcode"/></td></tr>
+                            <tr><th>Issued</th><td><span t-field="doc.issue_date"/></td>
+                                <th>Due</th><td><span t-field="doc.due_date"/></td></tr>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

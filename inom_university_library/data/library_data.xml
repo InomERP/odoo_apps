@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_library_member" model="ir.sequence">
+            <field name="name">Library Member</field>
+            <field name="code">univ.library.member</field>
+            <field name="prefix">LIB-M/</field>
+            <field name="padding">5</field>
+        </record>
+        <record id="seq_library_issue" model="ir.sequence">
+            <field name="name">Library Issue</field>
+            <field name="code">univ.library.issue</field>
+            <field name="prefix">LIB-I/%(year)s/</field>
+            <field name="padding">5</field>
+        </record>
+        <record id="fine_rule_default" model="univ.library.fine.rule">
+            <field name="name">Standard Overdue Fine</field>
+            <field name="per_day">2.0</field>
+            <field name="grace_days">0</field>
+            <field name="max_amount">500.0</field>
+            <field name="lost_charge">1000.0</field>
+            <field name="is_default" eval="True"/>
+        </record>
+    </data>
+    <data noupdate="0">
+        <record id="cron_library_overdue" model="ir.cron">
+            <field name="name">Library: Mark overdue and accrue fines</field>
+            <field name="model_id" ref="model_univ_library_issue"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_mark_overdue()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active" eval="True"/>
+        </record>
+    </data>
+</odoo>
