@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- TEMPLATE -->
+    <record id="view_cert_template_form" model="ir.ui.view">
+        <field name="name">univ.certificate.template.form</field>
+        <field name="model">univ.certificate.template</field>
+        <field name="arch" type="xml">
+            <form string="Template">
+                <sheet>
+                    <div class="oe_title"><label for="name"/><h1><field name="name"/></h1></div>
+                    <group>
+                        <group><field name="cert_type"/><field name="prefix"/></group>
+                        <group><field name="signatory"/><field name="signatory_designation"/></group>
+                    </group>
+                    <field name="body_html"/>
+                    <p class="text-muted">Placeholders: {student}, {program}, {batch}, {date}, {number}</p>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_cert_template_list" model="ir.ui.view">
+        <field name="name">univ.certificate.template.list</field>
+        <field name="model">univ.certificate.template</field>
+        <field name="arch" type="xml">
+            <tree><field name="name"/><field name="cert_type"/><field name="prefix"/><field name="signatory"/></tree>
+        </field>
+    </record>
+    <record id="action_cert_template" model="ir.actions.act_window">
+        <field name="name">Templates</field><field name="res_model">univ.certificate.template</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- CERTIFICATE -->
+    <record id="view_cert_form" model="ir.ui.view">
+        <field name="name">univ.certificate.form</field>
+        <field name="model">univ.certificate</field>
+        <field name="arch" type="xml">
+            <form string="Certificate">
+                <header>
+                    <button name="action_approve" string="Approve" type="object" class="oe_highlight" invisible="state != 'request'"/>
+                    <button name="action_reject" string="Reject" type="object" invisible="state != 'request'"/>
+                    <button name="action_generate" string="Generate" type="object" class="oe_highlight" invisible="state != 'approved'"/>
+                    <button name="action_issue" string="Issue" type="object" class="oe_highlight" invisible="state != 'generated'"/>
+                    <button name="action_reissue" string="Re-issue" type="object" invisible="state != 'issued'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name" readonly="1"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="student_id"/><field name="template_id"/>
+                            <field name="cert_type"/><field name="purpose"/>
+                        </group>
+                        <group>
+                            <field name="version" readonly="1"/>
+                            <field name="request_date"/><field name="issue_date" readonly="1"/>
+                            <field name="superseded_by_id" readonly="1" invisible="not superseded_by_id"/>
+                        </group>
+                    </group>
+                    <field name="body_html" readonly="1" invisible="not body_html"/>
+                    <group invisible="state not in ('generated','issued','superseded')">
+                        <field name="signed_hash" readonly="1"/>
+                        <field name="verify_url" widget="url" readonly="1"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="view_cert_list" model="ir.ui.view">
+        <field name="name">univ.certificate.list</field>
+        <field name="model">univ.certificate</field>
+        <field name="arch" type="xml">
+            <tree string="Certificates" decoration-muted="state == 'superseded'">
+                <field name="name"/><field name="student_id"/><field name="cert_type"/>
+                <field name="version"/><field name="issue_date"/>
+                <field name="state" widget="badge" decoration-success="state == 'issued'"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_cert_search" model="ir.ui.view">
+        <field name="name">univ.certificate.search</field>
+        <field name="model">univ.certificate</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/><field name="student_id"/>
+                <filter name="issued" string="Issued" domain="[('state','=','issued')]"/>
+                <filter name="pending" string="Pending" domain="[('state','in',('request','approved','generated'))]"/>
+                <group>
+                    <filter name="g_type" string="Type" context="{'group_by': 'cert_type'}"/>
+                    <filter name="g_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_cert" model="ir.actions.act_window">
+        <field name="name">Certificates</field><field name="res_model">univ.certificate</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="action_cert_requests" model="ir.actions.act_window">
+        <field name="name">Requests</field><field name="res_model">univ.certificate</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state','in',('request','approved','generated'))]</field>
+    </record>
+
+    <!-- ID CARD -->
+    <record id="view_idcard_form" model="ir.ui.view">
+        <field name="name">univ.id.card.form</field>
+        <field name="model">univ.id.card</field>
+        <field name="arch" type="xml">
+            <form string="ID Card">
+                <header>
+                    <button name="action_activate" string="Activate" type="object" class="oe_highlight" invisible="state == 'active'"/>
+                    <button name="action_mark_lost" string="Mark Lost" type="object" invisible="state == 'lost'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <field name="photo" widget="image" class="oe_avatar"/>
+                    <div class="oe_title"><h1><field name="name" readonly="1"/></h1></div>
+                    <group>
+                        <group><field name="student_id"/><field name="program_id"/><field name="blood_group"/></group>
+                        <group><field name="emergency_contact"/><field name="valid_from"/><field name="valid_to"/></group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="view_idcard_list" model="ir.ui.view">
+        <field name="name">univ.id.card.list</field>
+        <field name="model">univ.id.card</field>
+        <field name="arch" type="xml">
+            <tree string="ID Cards">
+                <field name="name"/><field name="student_id"/><field name="program_id"/>
+                <field name="valid_to"/>
+                <field name="state" widget="badge" decoration-success="state == 'active'"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_idcard" model="ir.actions.act_window">
+        <field name="name">ID Cards</field><field name="res_model">univ.id.card</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- DASHBOARD -->
+    <record id="view_cert_graph" model="ir.ui.view">
+        <field name="name">univ.certificate.graph</field>
+        <field name="model">univ.certificate</field>
+        <field name="arch" type="xml">
+            <graph string="Issuance" type="bar" sample="1">
+                <field name="cert_type"/>
+                <field name="state"/>
+            </graph>
+        </field>
+    </record>
+    <record id="action_cert_dashboard" model="ir.actions.act_window">
+        <field name="name">Certificate Dashboard</field>
+        <field name="res_model">univ.certificate</field>
+        <field name="view_mode">graph,pivot,tree</field>
+    </record>
+
+    <!-- WIZARD -->
+    <record id="view_cert_batch_wizard" model="ir.ui.view">
+        <field name="name">univ.certificate.batch.wizard.form</field>
+        <field name="model">univ.certificate.batch.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Batch Generate">
+                <group>
+                    <field name="template_id"/>
+                    <field name="student_ids" widget="many2many_tags"/>
+                    <field name="auto_issue"/>
+                </group>
+                <footer>
+                    <button name="action_generate" string="Generate" type="object" class="oe_highlight"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_cert_batch_wizard" model="ir.actions.act_window">
+        <field name="name">Batch Generate</field>
+        <field name="res_model">univ.certificate.batch.wizard</field>
+        <field name="view_mode">form</field><field name="target">new</field>
+    </record>
+
+</odoo>

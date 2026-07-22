@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- HOSTEL -->
+    <record id="view_hostel_form" model="ir.ui.view">
+        <field name="name">univ.hostel.form</field>
+        <field name="model">univ.hostel</field>
+        <field name="arch" type="xml">
+            <form string="Hostel">
+                <sheet>
+                    <div class="oe_title"><label for="name"/><h1><field name="name"/></h1></div>
+                    <group>
+                        <group><field name="code"/><field name="hostel_type"/><field name="warden_id"/></group>
+                        <group><field name="block_count"/><field name="bed_count"/><field name="occupied_count"/></group>
+                    </group>
+                    <field name="block_ids">
+                        <tree editable="bottom"><field name="name"/></tree>
+                    </field>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="view_hostel_list" model="ir.ui.view">
+        <field name="name">univ.hostel.list</field>
+        <field name="model">univ.hostel</field>
+        <field name="arch" type="xml">
+            <tree string="Hostels">
+                <field name="code"/><field name="name"/><field name="hostel_type"/>
+                <field name="warden_id"/><field name="bed_count"/><field name="occupied_count"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_hostel" model="ir.actions.act_window">
+        <field name="name">Hostels</field><field name="res_model">univ.hostel</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_hostel_block" model="ir.actions.act_window">
+        <field name="name">Blocks</field><field name="res_model">univ.hostel.block</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="action_hostel_floor" model="ir.actions.act_window">
+        <field name="name">Floors</field><field name="res_model">univ.hostel.floor</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- ROOM -->
+    <record id="view_hostel_room_form" model="ir.ui.view">
+        <field name="name">univ.hostel.room.form</field>
+        <field name="model">univ.hostel.room</field>
+        <field name="arch" type="xml">
+            <form string="Room">
+                <header>
+                    <button name="action_generate_beds" string="Generate Beds" type="object"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name" readonly="1"/></h1></div>
+                    <group>
+                        <group><field name="room_no"/><field name="floor_id"/><field name="capacity"/></group>
+                        <group><field name="occupied"/><field name="available"/><field name="occupancy_rate"/></group>
+                    </group>
+                    <field name="bed_ids">
+                        <tree editable="bottom">
+                            <field name="bed_no"/>
+                            <field name="state" widget="badge" decoration-success="state == 'available'"
+                                   decoration-danger="state == 'occupied'"/>
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_hostel_room_list" model="ir.ui.view">
+        <field name="name">univ.hostel.room.list</field>
+        <field name="model">univ.hostel.room</field>
+        <field name="arch" type="xml">
+            <tree string="Rooms">
+                <field name="room_no"/><field name="hostel_id"/><field name="floor_id"/>
+                <field name="capacity"/><field name="occupied"/><field name="available"/>
+                <field name="occupancy_rate"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_hostel_room_kanban" model="ir.ui.view">
+        <field name="name">univ.hostel.room.kanban</field>
+        <field name="model">univ.hostel.room</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates><t t-name="kanban-box">
+                    <div class="oe_kanban_global_click">
+                        <strong><field name="name"/></strong>
+                        <div>Occupied: <field name="occupied"/>/<field name="capacity"/></div>
+                        <div class="text-muted"><field name="occupancy_rate"/>%</div>
+                    </div>
+                </t></templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="action_hostel_room" model="ir.actions.act_window">
+        <field name="name">Rooms</field><field name="res_model">univ.hostel.room</field>
+        <field name="view_mode">tree,kanban,form</field>
+    </record>
+    <record id="action_hostel_bed" model="ir.actions.act_window">
+        <field name="name">Beds</field><field name="res_model">univ.hostel.bed</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- ALLOTMENT -->
+    <record id="view_hostel_allotment_form" model="ir.ui.view">
+        <field name="name">univ.hostel.allotment.form</field>
+        <field name="model">univ.hostel.allotment</field>
+        <field name="arch" type="xml">
+            <form string="Allotment">
+                <header>
+                    <button name="action_allot" string="Allot" type="object" class="oe_highlight" invisible="state != 'applied'"/>
+                    <button name="action_check_in" string="Check In" type="object" invisible="state != 'allotted'"/>
+                    <button name="action_request_checkout" string="Request Checkout" type="object" invisible="state != 'checked_in'"/>
+                    <button name="action_settle_deposit" string="Settle Deposit" type="object" class="oe_highlight" invisible="state != 'checkout_req'"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state in ('settled','cancelled')"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name" readonly="1"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="student_id"/><field name="hostel_id"/>
+                            <field name="bed_id" domain="[('hostel_id','=',hostel_id),('state','=','available')]"/>
+                            <field name="room_id"/>
+                        </group>
+                        <group>
+                            <field name="deposit_amount"/><field name="hostel_fee"/>
+                            <field name="fee_head_id"/>
+                            <field name="fee_invoice_id" readonly="1"/>
+                            <field name="deposit_settled" readonly="1"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="view_hostel_allotment_list" model="ir.ui.view">
+        <field name="name">univ.hostel.allotment.list</field>
+        <field name="model">univ.hostel.allotment</field>
+        <field name="arch" type="xml">
+            <tree string="Allotments">
+                <field name="name"/><field name="student_id"/><field name="hostel_id"/>
+                <field name="room_id"/><field name="bed_id"/>
+                <field name="state" widget="badge" decoration-success="state in ('checked_in','settled')"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_hostel_allotment_search" model="ir.ui.view">
+        <field name="name">univ.hostel.allotment.search</field>
+        <field name="model">univ.hostel.allotment</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="student_id"/><field name="hostel_id"/>
+                <filter name="active" string="Active" domain="[('state','in',('allotted','checked_in'))]"/>
+                <group>
+                    <filter name="g_hostel" string="Hostel" context="{'group_by': 'hostel_id'}"/>
+                    <filter name="g_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_hostel_allotment" model="ir.actions.act_window">
+        <field name="name">Allotments</field><field name="res_model">univ.hostel.allotment</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- TRANSFER -->
+    <record id="view_hostel_transfer_form" model="ir.ui.view">
+        <field name="name">univ.hostel.transfer.form</field>
+        <field name="model">univ.hostel.transfer</field>
+        <field name="arch" type="xml">
+            <form string="Transfer">
+                <header>
+                    <button name="action_approve" string="Approve" type="object" invisible="state != 'draft'"/>
+                    <button name="action_transfer" string="Transfer" type="object" class="oe_highlight" invisible="state != 'approved'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="allotment_id"/><field name="current_bed_id"/>
+                        <field name="new_bed_id"/><field name="reason"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="action_hostel_transfer" model="ir.actions.act_window">
+        <field name="name">Transfers</field><field name="res_model">univ.hostel.transfer</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- COMPLAINT -->
+    <record id="view_hostel_complaint_form" model="ir.ui.view">
+        <field name="name">univ.hostel.complaint.form</field>
+        <field name="model">univ.hostel.complaint</field>
+        <field name="arch" type="xml">
+            <form string="Complaint">
+                <header>
+                    <button name="action_progress" string="Start" type="object" invisible="state != 'new'"/>
+                    <button name="action_resolve" string="Resolve" type="object" class="oe_highlight" invisible="state not in ('new','in_progress')"/>
+                    <button name="action_close" string="Close" type="object" invisible="state == 'closed'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><label for="name"/><h1><field name="name"/></h1></div>
+                    <group>
+                        <group><field name="student_id"/><field name="hostel_id"/><field name="category"/></group>
+                        <group><field name="priority" widget="priority"/></group>
+                    </group>
+                    <field name="description"/>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="view_hostel_complaint_list" model="ir.ui.view">
+        <field name="name">univ.hostel.complaint.list</field>
+        <field name="model">univ.hostel.complaint</field>
+        <field name="arch" type="xml">
+            <tree string="Complaints" decoration-danger="priority == '2'">
+                <field name="name"/><field name="student_id"/><field name="category"/>
+                <field name="priority" widget="priority"/>
+                <field name="state" widget="badge" decoration-success="state == 'resolved'"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_hostel_complaint" model="ir.actions.act_window">
+        <field name="name">Complaints</field><field name="res_model">univ.hostel.complaint</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_hostel_visitor" model="ir.actions.act_window">
+        <field name="name">Visitors</field><field name="res_model">univ.hostel.visitor</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="action_hostel_attendance" model="ir.actions.act_window">
+        <field name="name">Hostel Attendance</field><field name="res_model">univ.hostel.attendance</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- DASHBOARD -->
+    <record id="view_hostel_room_graph" model="ir.ui.view">
+        <field name="name">univ.hostel.room.graph</field>
+        <field name="model">univ.hostel.room</field>
+        <field name="arch" type="xml">
+            <graph string="Occupancy" type="bar" sample="1">
+                <field name="hostel_id"/>
+                <field name="occupied" type="measure"/>
+            </graph>
+        </field>
+    </record>
+    <record id="action_hostel_dashboard" model="ir.actions.act_window">
+        <field name="name">Hostel Dashboard</field>
+        <field name="res_model">univ.hostel.room</field>
+        <field name="view_mode">graph,kanban,tree</field>
+    </record>
+
+    <!-- WIZARD -->
+    <record id="view_hostel_allotment_wizard" model="ir.ui.view">
+        <field name="name">univ.hostel.allotment.wizard.form</field>
+        <field name="model">univ.hostel.allotment.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Allot Bed">
+                <group>
+                    <field name="student_id"/><field name="hostel_id"/><field name="bed_id"/>
+                    <field name="deposit_amount"/><field name="hostel_fee"/><field name="fee_head_id"/>
+                    <field name="currency_id" invisible="1"/>
+                </group>
+                <footer>
+                    <button name="action_allot" string="Allot" type="object" class="oe_highlight"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_hostel_allotment_wizard" model="ir.actions.act_window">
+        <field name="name">Allot Bed</field><field name="res_model">univ.hostel.allotment.wizard</field>
+        <field name="view_mode">form</field><field name="target">new</field>
+    </record>
+
+</odoo>

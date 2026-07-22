@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_cert_root" name="Certificates" parent="inom_university_core.menu_univ_root" sequence="54"
+              groups="group_univ_certificate_officer,inom_university_core.group_univ_registrar,inom_university_core.group_univ_admin"/>
+    <menuitem id="menu_cert_dashboard" name="Dashboard" parent="menu_cert_root" action="action_cert_dashboard" sequence="5"/>
+    <menuitem id="menu_cert_requests" name="Requests" parent="menu_cert_root" action="action_cert_requests" sequence="10"/>
+    <menuitem id="menu_cert_all" name="Certificates" parent="menu_cert_root" action="action_cert" sequence="20"/>
+    <menuitem id="menu_cert_batch" name="Batch Generate" parent="menu_cert_root" action="action_cert_batch_wizard" sequence="30"/>
+    <menuitem id="menu_cert_idcard" name="ID Cards" parent="menu_cert_root" action="action_idcard" sequence="40"/>
+    <menuitem id="menu_cert_config" name="Configuration" parent="menu_cert_root" sequence="90"/>
+    <menuitem id="menu_cert_template" name="Templates" parent="menu_cert_config" action="action_cert_template" sequence="10"/>
+</odoo>

@@ -1,0 +1,27 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hostel_warden,hostel warden,model_univ_hostel,group_univ_warden,1,1,1,1
+access_hostel_user,hostel user,model_univ_hostel,base.group_user,1,0,0,0
+access_block_warden,block warden,model_univ_hostel_block,group_univ_warden,1,1,1,1
+access_block_user,block user,model_univ_hostel_block,base.group_user,1,0,0,0
+access_floor_warden,floor warden,model_univ_hostel_floor,group_univ_warden,1,1,1,1
+access_floor_user,floor user,model_univ_hostel_floor,base.group_user,1,0,0,0
+access_room_warden,room warden,model_univ_hostel_room,group_univ_warden,1,1,1,1
+access_room_user,room user,model_univ_hostel_room,base.group_user,1,0,0,0
+access_bed_warden,bed warden,model_univ_hostel_bed,group_univ_warden,1,1,1,1
+access_bed_user,bed user,model_univ_hostel_bed,base.group_user,1,0,0,0
+access_allotment_warden,allotment warden,model_univ_hostel_allotment,group_univ_warden,1,1,1,1
+access_allotment_user,allotment user,model_univ_hostel_allotment,base.group_user,1,0,0,0
+access_allotment_portal_student,allotment portal s,model_univ_hostel_allotment,inom_university_core.group_univ_portal_student,1,0,0,0
+access_allotment_portal_parent,allotment portal p,model_univ_hostel_allotment,inom_university_core.group_univ_portal_parent,1,0,0,0
+access_transfer_warden,transfer warden,model_univ_hostel_transfer,group_univ_warden,1,1,1,1
+access_transfer_user,transfer user,model_univ_hostel_transfer,base.group_user,1,0,0,0
+access_complaint_warden,complaint warden,model_univ_hostel_complaint,group_univ_warden,1,1,1,1
+access_complaint_user,complaint user,model_univ_hostel_complaint,base.group_user,1,0,0,0
+access_complaint_portal_student,complaint portal s,model_univ_hostel_complaint,inom_university_core.group_univ_portal_student,1,1,1,0
+access_complaint_portal_parent,complaint portal p,model_univ_hostel_complaint,inom_university_core.group_univ_portal_parent,1,0,0,0
+access_visitor_warden,visitor warden,model_univ_hostel_visitor,group_univ_warden,1,1,1,1
+access_visitor_user,visitor user,model_univ_hostel_visitor,base.group_user,1,0,0,0
+access_hattendance_warden,hattendance warden,model_univ_hostel_attendance,group_univ_warden,1,1,1,1
+access_hattendance_user,hattendance user,model_univ_hostel_attendance,base.group_user,1,0,0,0
+access_hattendance_portal_student,hatt portal s,model_univ_hostel_attendance,inom_university_core.group_univ_portal_student,1,0,0,0
+access_allotment_wizard,allotment wiz,model_univ_hostel_allotment_wizard,group_univ_warden,1,1,1,1

@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- MASTERS -->
+    <record id="view_lib_category_list" model="ir.ui.view">
+        <field name="name">univ.library.category.list</field>
+        <field name="model">univ.library.category</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom"><field name="code"/><field name="name"/><field name="parent_id"/></tree>
+        </field>
+    </record>
+    <record id="action_lib_category" model="ir.actions.act_window">
+        <field name="name">Categories</field><field name="res_model">univ.library.category</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="view_lib_author_list" model="ir.ui.view">
+        <field name="name">univ.library.author.list</field>
+        <field name="model">univ.library.author</field>
+        <field name="arch" type="xml"><tree editable="bottom"><field name="name"/></tree></field>
+    </record>
+    <record id="action_lib_author" model="ir.actions.act_window">
+        <field name="name">Authors</field><field name="res_model">univ.library.author</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="view_lib_publisher_list" model="ir.ui.view">
+        <field name="name">univ.library.publisher.list</field>
+        <field name="model">univ.library.publisher</field>
+        <field name="arch" type="xml"><tree editable="bottom"><field name="name"/><field name="city"/></tree></field>
+    </record>
+    <record id="action_lib_publisher" model="ir.actions.act_window">
+        <field name="name">Publishers</field><field name="res_model">univ.library.publisher</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- BOOK -->
+    <record id="view_lib_book_form" model="ir.ui.view">
+        <field name="name">univ.library.book.form</field>
+        <field name="model">univ.library.book</field>
+        <field name="arch" type="xml">
+            <form string="Book">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_copies" type="object" class="oe_stat_button" icon="fa-book">
+                            <field name="copies_count" widget="statinfo" string="Copies"/>
+                        </button>
+                    </div>
+                    <field name="image" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <label for="name"/><h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="isbn"/><field name="category_id"/>
+                            <field name="author_ids" widget="many2many_tags"/>
+                            <field name="publisher_id"/>
+                        </group>
+                        <group>
+                            <field name="edition"/><field name="publish_year"/>
+                            <field name="shelf"/><field name="available_count"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Copies">
+                            <field name="copy_ids">
+                                <tree editable="bottom">
+                                    <field name="barcode"/>
+                                    <field name="state" widget="badge"
+                                           decoration-success="state == 'available'"
+                                           decoration-danger="state in ('lost','damaged')"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Description"><field name="description"/></page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="view_lib_book_list" model="ir.ui.view">
+        <field name="name">univ.library.book.list</field>
+        <field name="model">univ.library.book</field>
+        <field name="arch" type="xml">
+            <tree string="Books">
+                <field name="name"/><field name="isbn"/><field name="category_id"/>
+                <field name="copies_count"/><field name="available_count"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_lib_book_kanban" model="ir.ui.view">
+        <field name="name">univ.library.book.kanban</field>
+        <field name="model">univ.library.book</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <strong><field name="name"/></strong>
+                            <div class="text-muted"><field name="category_id"/></div>
+                            <div>Available: <field name="available_count"/>/<field name="copies_count"/></div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="view_lib_book_search" model="ir.ui.view">
+        <field name="name">univ.library.book.search</field>
+        <field name="model">univ.library.book</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/><field name="isbn"/><field name="author_ids"/>
+                <field name="category_id"/>
+                <filter name="available" string="Available"
+                        domain="[('available_count', '>', 0)]"/>
+                <group>
+                    <filter name="g_cat" string="Category" context="{'group_by': 'category_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_lib_book" model="ir.actions.act_window">
+        <field name="name">Books</field><field name="res_model">univ.library.book</field>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+    <record id="action_lib_copy" model="ir.actions.act_window">
+        <field name="name">Book Copies</field><field name="res_model">univ.library.copy</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- MEMBER -->
+    <record id="view_lib_member_form" model="ir.ui.view">
+        <field name="name">univ.library.member.form</field>
+        <field name="model">univ.library.member</field>
+        <field name="arch" type="xml">
+            <form string="Member">
+                <header>
+                    <button name="action_suspend" string="Suspend" type="object" invisible="state != 'active'"/>
+                    <button name="action_activate" string="Activate" type="object" invisible="state == 'active'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="code" readonly="1"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="member_type"/>
+                            <field name="student_id" invisible="member_type != 'student'"
+                                   required="member_type == 'student'"/>
+                            <field name="faculty_id" invisible="member_type != 'faculty'"
+                                   required="member_type == 'faculty'"/>
+                        </group>
+                        <group>
+                            <field name="max_books"/><field name="valid_to"/>
+                            <field name="issued_count"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="view_lib_member_list" model="ir.ui.view">
+        <field name="name">univ.library.member.list</field>
+        <field name="model">univ.library.member</field>
+        <field name="arch" type="xml">
+            <tree string="Members">
+                <field name="code"/><field name="name"/><field name="member_type"/>
+                <field name="max_books"/><field name="issued_count"/>
+                <field name="state" widget="badge" decoration-success="state == 'active'"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_lib_member" model="ir.actions.act_window">
+        <field name="name">Members</field><field name="res_model">univ.library.member</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- RESERVATION -->
+    <record id="view_lib_reservation_list" model="ir.ui.view">
+        <field name="name">univ.library.reservation.list</field>
+        <field name="model">univ.library.reservation</field>
+        <field name="arch" type="xml">
+            <tree string="Reservations">
+                <field name="reserve_date"/><field name="book_id"/><field name="member_id"/>
+                <field name="state" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_lib_reservation" model="ir.actions.act_window">
+        <field name="name">Reservations</field><field name="res_model">univ.library.reservation</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- ISSUE -->
+    <record id="view_lib_issue_form" model="ir.ui.view">
+        <field name="name">univ.library.issue.form</field>
+        <field name="model">univ.library.issue</field>
+        <field name="arch" type="xml">
+            <form string="Issue">
+                <header>
+                    <button name="action_renew" string="Renew" type="object" invisible="state not in ('issued','overdue')"/>
+                    <button name="action_return" string="Return" type="object" class="oe_highlight" invisible="state not in ('issued','overdue')"/>
+                    <button name="action_mark_lost" string="Mark Lost" type="object" invisible="state not in ('issued','overdue')"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name" readonly="1"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="copy_id"/><field name="book_id"/><field name="member_id"/>
+                        </group>
+                        <group>
+                            <field name="issue_date"/><field name="due_date"/>
+                            <field name="return_date"/><field name="renew_count"/>
+                            <field name="fine_total"/><field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <field name="fine_ids">
+                        <tree><field name="amount"/><field name="state"/><field name="fee_invoice_id"/></tree>
+                    </field>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="view_lib_issue_list" model="ir.ui.view">
+        <field name="name">univ.library.issue.list</field>
+        <field name="model">univ.library.issue</field>
+        <field name="arch" type="xml">
+            <tree string="Issues" decoration-danger="state == 'overdue'" decoration-muted="state == 'returned'">
+                <field name="name"/><field name="book_id"/><field name="member_id"/>
+                <field name="issue_date"/><field name="due_date"/><field name="return_date"/>
+                <field name="fine_total"/>
+                <field name="state" widget="badge" decoration-danger="state == 'overdue'"
+                       decoration-success="state == 'returned'"/>
+                <field name="currency_id" column_invisible="1"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_lib_issue_kanban" model="ir.ui.view">
+        <field name="name">univ.library.issue.kanban</field>
+        <field name="model">univ.library.issue</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_small_column">
+                <field name="state"/>
+                <templates><t t-name="kanban-box">
+                    <div class="oe_kanban_global_click">
+                        <strong><field name="book_id"/></strong>
+                        <div><field name="member_id"/></div>
+                        <div class="text-muted">Due: <field name="due_date"/></div>
+                    </div>
+                </t></templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="view_lib_issue_search" model="ir.ui.view">
+        <field name="name">univ.library.issue.search</field>
+        <field name="model">univ.library.issue</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="book_id"/><field name="member_id"/>
+                <filter name="open" string="Open" domain="[('state', 'in', ('issued','overdue'))]"/>
+                <filter name="overdue" string="Overdue" domain="[('state', '=', 'overdue')]"/>
+                <group>
+                    <filter name="g_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="g_member" string="Member" context="{'group_by': 'member_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_lib_issue" model="ir.actions.act_window">
+        <field name="name">Book Issues</field><field name="res_model">univ.library.issue</field>
+        <field name="view_mode">tree,kanban,form</field>
+    </record>
+
+    <!-- FINE RULE + FINE -->
+    <record id="view_lib_fine_rule_list" model="ir.ui.view">
+        <field name="name">univ.library.fine.rule.list</field>
+        <field name="model">univ.library.fine.rule</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/><field name="per_day"/><field name="grace_days"/>
+                <field name="max_amount"/><field name="lost_charge"/>
+                <field name="fee_head_id"/><field name="is_default"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_lib_fine_rule" model="ir.actions.act_window">
+        <field name="name">Fine Rules</field><field name="res_model">univ.library.fine.rule</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="view_lib_fine_list" model="ir.ui.view">
+        <field name="name">univ.library.fine.list</field>
+        <field name="model">univ.library.fine</field>
+        <field name="arch" type="xml">
+            <tree string="Fines">
+                <field name="issue_id"/><field name="member_id"/><field name="amount"/>
+                <field name="fee_invoice_id"/>
+                <field name="state" widget="badge" decoration-success="state == 'posted'"/>
+                <field name="currency_id" column_invisible="1"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_lib_fine" model="ir.actions.act_window">
+        <field name="name">Fines</field><field name="res_model">univ.library.fine</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- DASHBOARD -->
+    <record id="view_lib_issue_graph" model="ir.ui.view">
+        <field name="name">univ.library.issue.graph</field>
+        <field name="model">univ.library.issue</field>
+        <field name="arch" type="xml">
+            <graph string="Circulation" type="bar" sample="1">
+                <field name="state"/>
+            </graph>
+        </field>
+    </record>
+    <record id="view_lib_issue_pivot" model="ir.ui.view">
+        <field name="name">univ.library.issue.pivot</field>
+        <field name="model">univ.library.issue</field>
+        <field name="arch" type="xml">
+            <pivot string="Circulation" sample="1">
+                <field name="member_id" type="row"/>
+                <field name="state" type="col"/>
+            </pivot>
+        </field>
+    </record>
+    <record id="action_lib_dashboard" model="ir.actions.act_window">
+        <field name="name">Library Dashboard</field>
+        <field name="res_model">univ.library.issue</field>
+        <field name="view_mode">graph,pivot,tree</field>
+    </record>
+
+    <!-- WIZARDS -->
+    <record id="view_lib_issue_wizard" model="ir.ui.view">
+        <field name="name">univ.library.issue.wizard.form</field>
+        <field name="model">univ.library.issue.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Issue Book">
+                <group>
+                    <field name="member_id"/>
+                    <field name="barcode" placeholder="Scan copy barcode..."/>
+                    <field name="issue_date"/><field name="loan_days"/>
+                </group>
+                <footer>
+                    <button name="action_issue" string="Issue" type="object" class="oe_highlight"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_lib_issue_wizard" model="ir.actions.act_window">
+        <field name="name">Issue Book</field><field name="res_model">univ.library.issue.wizard</field>
+        <field name="view_mode">form</field><field name="target">new</field>
+    </record>
+    <record id="view_lib_return_wizard" model="ir.ui.view">
+        <field name="name">univ.library.return.wizard.form</field>
+        <field name="model">univ.library.return.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Return Book">
+                <group><field name="barcode" placeholder="Scan copy barcode..."/></group>
+                <footer>
+                    <button name="action_return" string="Return" type="object" class="oe_highlight"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_lib_return_wizard" model="ir.actions.act_window">
+        <field name="name">Return Book</field><field name="res_model">univ.library.return.wizard</field>
+        <field name="view_mode">form</field><field name="target">new</field>
+    </record>
+
+</odoo>

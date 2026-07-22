@@ -1,0 +1,30 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_lib_category_lib,cat lib,model_univ_library_category,group_univ_librarian,1,1,1,1
+access_lib_category_user,cat user,model_univ_library_category,base.group_user,1,0,0,0
+access_lib_author_lib,author lib,model_univ_library_author,group_univ_librarian,1,1,1,1
+access_lib_author_user,author user,model_univ_library_author,base.group_user,1,0,0,0
+access_lib_publisher_lib,pub lib,model_univ_library_publisher,group_univ_librarian,1,1,1,1
+access_lib_publisher_user,pub user,model_univ_library_publisher,base.group_user,1,0,0,0
+access_lib_book_lib,book lib,model_univ_library_book,group_univ_librarian,1,1,1,1
+access_lib_book_user,book user,model_univ_library_book,base.group_user,1,0,0,0
+access_lib_book_portal_student,book portal s,model_univ_library_book,inom_university_core.group_univ_portal_student,1,0,0,0
+access_lib_copy_lib,copy lib,model_univ_library_copy,group_univ_librarian,1,1,1,1
+access_lib_copy_user,copy user,model_univ_library_copy,base.group_user,1,0,0,0
+access_lib_member_lib,member lib,model_univ_library_member,group_univ_librarian,1,1,1,1
+access_lib_member_user,member user,model_univ_library_member,base.group_user,1,0,0,0
+access_lib_member_portal_student,member portal s,model_univ_library_member,inom_university_core.group_univ_portal_student,1,0,0,0
+access_lib_member_portal_parent,member portal p,model_univ_library_member,inom_university_core.group_univ_portal_parent,1,0,0,0
+access_lib_reservation_lib,resv lib,model_univ_library_reservation,group_univ_librarian,1,1,1,1
+access_lib_reservation_user,resv user,model_univ_library_reservation,base.group_user,1,0,0,0
+access_lib_issue_lib,issue lib,model_univ_library_issue,group_univ_librarian,1,1,1,1
+access_lib_issue_user,issue user,model_univ_library_issue,base.group_user,1,0,0,0
+access_lib_issue_portal_student,issue portal s,model_univ_library_issue,inom_university_core.group_univ_portal_student,1,0,0,0
+access_lib_issue_portal_parent,issue portal p,model_univ_library_issue,inom_university_core.group_univ_portal_parent,1,0,0,0
+access_lib_fine_rule_lib,fine rule lib,model_univ_library_fine_rule,group_univ_librarian,1,1,1,1
+access_lib_fine_rule_user,fine rule user,model_univ_library_fine_rule,base.group_user,1,0,0,0
+access_lib_fine_lib,fine lib,model_univ_library_fine,group_univ_librarian,1,1,1,1
+access_lib_fine_user,fine user,model_univ_library_fine,base.group_user,1,0,0,0
+access_lib_fine_portal_student,fine portal s,model_univ_library_fine,inom_university_core.group_univ_portal_student,1,0,0,0
+access_lib_fine_portal_parent,fine portal p,model_univ_library_fine,inom_university_core.group_univ_portal_parent,1,0,0,0
+access_lib_issue_wizard,issue wiz,model_univ_library_issue_wizard,group_univ_librarian,1,1,1,1
+access_lib_return_wizard,return wiz,model_univ_library_return_wizard,group_univ_librarian,1,1,1,1

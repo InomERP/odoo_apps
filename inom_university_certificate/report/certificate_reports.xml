@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Generic certificate PDF (uses rendered body + QR) -->
+    <record id="action_report_certificate" model="ir.actions.report">
+        <field name="name">Certificate</field>
+        <field name="model">univ.certificate</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inom_university_certificate.report_certificate</field>
+        <field name="report_file">inom_university_certificate.report_certificate</field>
+        <field name="binding_model_id" ref="model_univ_certificate"/>
+        <field name="binding_type">report</field>
+    </record>
+    <template id="report_certificate">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="cert">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 class="text-center text-uppercase mt-3"><span t-field="cert.cert_type"/></h2>
+                        <p class="text-center text-muted">No: <span t-field="cert.name"/>
+                           · Version <span t-field="cert.version"/></p>
+                        <div class="mt-4" t-out="cert.body_html"/>
+                        <div class="row mt-5">
+                            <div class="col-6">
+                                <img t-att-src="'/report/barcode/QR/%s?width=100&amp;height=100' % (cert.verify_url or cert.name)" alt="QR"/>
+                                <p><small>Scan to verify</small></p>
+                            </div>
+                            <div class="col-6 text-end">
+                                <p class="mt-5"><strong t-field="cert.template_id.signatory"/><br/>
+                                   <span t-field="cert.template_id.signatory_designation"/></p>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- ID Card -->
+    <record id="action_report_id_card" model="ir.actions.report">
+        <field name="name">ID Card</field>
+        <field name="model">univ.id.card</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inom_university_certificate.report_id_card</field>
+        <field name="report_file">inom_university_certificate.report_id_card</field>
+        <field name="binding_model_id" ref="model_univ_id_card"/>
+        <field name="binding_type">report</field>
+    </record>
+    <template id="report_id_card">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="card">
+                <div class="page" style="border:2px solid #333; padding:10px; width:320px;">
+                    <h4 class="text-center"><span t-field="card.company_id.name"/></h4>
+                    <div class="row">
+                        <div class="col-5">
+                            <img t-if="card.photo" t-att-src="image_data_uri(card.photo)" style="width:100%;"/>
+                        </div>
+                        <div class="col-7">
+                            <p><strong t-field="card.student_id.display_name"/><br/>
+                               <span t-field="card.program_id.display_name"/><br/>
+                               ID: <span t-field="card.name"/><br/>
+                               Blood: <span t-field="card.blood_group"/></p>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <img t-att-src="'/report/barcode/QR/%s?width=80&amp;height=80' % (card.verify_url or card.name)" alt="QR"/>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
