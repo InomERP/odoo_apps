@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_univ_fee_structure_list" model="ir.ui.view">
+        <field name="name">univ.fee.structure.list</field>
+        <field name="model">univ.fee.structure</field>
+        <field name="arch" type="xml">
+            <tree string="Fee Structures" decoration-success="state == 'confirmed'">
+                <field name="name"/>
+                <field name="program_id"/>
+                <field name="batch_id"/>
+                <field name="semester_id"/>
+                <field name="session_id" optional="show"/>
+                <field name="quota_id" optional="hide"/>
+                <field name="category"/>
+                <field name="amount_total" sum="Total"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'confirmed'"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="currency_id" column_invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_univ_fee_structure_form" model="ir.ui.view">
+        <field name="name">univ.fee.structure.form</field>
+        <field name="model">univ.fee.structure</field>
+        <field name="arch" type="xml">
+            <form string="Fee Structure">
+                <header>
+                    <button name="action_confirm" type="object" string="Confirm"
+                            class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_reset_to_draft" type="object"
+                            string="Reset to Draft" invisible="state != 'confirmed'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,confirmed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_invoices" type="object"
+                                class="oe_stat_button" icon="fa-file-text-o">
+                            <field name="invoice_count" widget="statinfo"
+                                   string="Invoices"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. B.Tech CSE - Sem 1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="program_id"/>
+                            <field name="batch_id"/>
+                        </group>
+                        <group>
+                            <field name="semester_id"/>
+                            <field name="category"/>
+                            <field name="session_id"/>
+                            <field name="quota_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <field name="line_ids" readonly="state == 'confirmed'">
+                        <tree editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="head_id"/>
+                            <field name="amount" sum="Total"/>
+                            <field name="discount_percent"/>
+                            <field name="discount_amount" sum="Discount"/>
+                            <field name="net_amount" sum="Net"/>
+                            <field name="collect_at_admission"/>
+                            <field name="currency_id" column_invisible="1"/>
+                        </tree>
+                    </field>
+                    <group class="oe_subtotal_footer oe_right">
+                        <field name="amount_gross" widget="monetary"/>
+                        <field name="discount_total" widget="monetary"/>
+                        <field name="amount_total" widget="monetary"
+                               class="oe_subtotal_footer_separator"/>
+                        <field name="currency_id" invisible="1"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_univ_fee_structure_search" model="ir.ui.view">
+        <field name="name">univ.fee.structure.search</field>
+        <field name="model">univ.fee.structure</field>
+        <field name="arch" type="xml">
+            <search string="Fee Structures">
+                <field name="name"/>
+                <field name="program_id"/>
+                <field name="batch_id"/>
+                <field name="semester_id"/>
+                <filter name="confirmed" string="Confirmed"
+                        domain="[('state', '=', 'confirmed')]"/>
+                <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <group>
+                    <filter name="group_program" string="Program"
+                            context="{'group_by': 'program_id'}"/>
+                    <filter name="group_semester" string="Semester"
+                            context="{'group_by': 'semester_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_univ_fee_structure" model="ir.actions.act_window">
+        <field name="name">Fee Structures</field>
+        <field name="res_model">univ.fee.structure</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create a fee structure</p>
+            <p>Define head-wise amounts per program, batch, semester and category.</p>
+        </field>
+    </record>
+
+</odoo>

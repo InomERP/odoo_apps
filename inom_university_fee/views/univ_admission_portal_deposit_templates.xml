@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Phase 4 - Show the deposit + pay button on the applicant portal. The
+         deposit is a normal account.move, so payment reuses the standard
+         /my/invoices portal flow (no custom gateway). -->
+    <template id="portal_admission_home_deposit"
+              inherit_id="inom_university_admission.portal_admission_home">
+        <xpath expr="//div[@t-if='applicant.is_enrolled']" position="before">
+            <div class="card mb-4" t-if="applicant.deposit_required">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>Admission Deposit</span>
+                    <span t-attf-class="badge #{'text-bg-success' if applicant.deposit_state == 'paid' else ('text-bg-info' if applicant.deposit_state == 'partial' else 'text-bg-warning')}">
+                        <t t-esc="dict(applicant._fields['deposit_state'].selection).get(applicant.deposit_state)"/>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p>
+                        Deposit amount:
+                        <strong t-out="applicant.deposit_amount"
+                                t-options="{'widget': 'monetary', 'display_currency': applicant.currency_id}"/>
+                    </p>
+                    <t t-if="applicant.deposit_state != 'paid'">
+                        <p class="text-muted">
+                            Enrolment is confirmed once your admission deposit is
+                            fully paid.
+                        </p>
+                        <a t-if="applicant.deposit_move_id"
+                           t-attf-href="/my/invoices/#{applicant.deposit_move_id.id}"
+                           class="btn btn-primary">
+                            <i class="fa fa-credit-card me-1"/>Pay Deposit
+                        </a>
+                    </t>
+                    <t t-else="">
+                        <div class="alert alert-success mb-0" role="alert">
+                            <i class="fa fa-check-circle me-1"/>Deposit paid. Thank you.
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </xpath>
+    </template>
+    <!-- Fee Structure Summary (read-only, informational). Appears below the
+         deposit card; higher priority so it is inserted after it. Does not
+         change the deposit, invoicing or any workflow. -->
+    <template id="portal_admission_home_fee_summary"
+              inherit_id="inom_university_admission.portal_admission_home"
+              priority="20">
+        <xpath expr="//div[@t-if='applicant.is_enrolled']" position="before">
+            <t t-set="fee_summary" t-value="applicant._portal_fee_summary()"/>
+            <div class="card mb-4" t-if="fee_summary.get('semesters')">
+                <div class="card-header">
+                    <span>Fee Structure Summary</span>
+                </div>
+                <div class="card-body">
+                    <div class="accordion" id="feeSummaryAccordion">
+                        <t t-foreach="fee_summary['semesters']" t-as="sem">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" t-attf-id="feeHead#{sem_index}">
+                                    <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse"
+                                            t-attf-data-bs-target="#feeSem#{sem_index}"
+                                            aria-expanded="false">
+                                        <span class="fw-bold" t-out="sem['name']"/>
+                                        <span class="ms-auto me-2 text-muted small">
+                                            Net:
+                                            <span t-out="sem['net']"
+                                                  t-options="{'widget': 'monetary', 'display_currency': fee_summary['currency']}"/>
+                                        </span>
+                                    </button>
+                                </h2>
+                                <div t-attf-id="feeSem#{sem_index}"
+                                     class="accordion-collapse collapse"
+                                     data-bs-parent="#feeSummaryAccordion">
+                                    <div class="accordion-body p-0">
+                                        <table class="table table-sm mb-0 align-middle">
+                                            <thead>
+                                                <tr>
+                                                    <th>Fee Head</th>
+                                                    <th class="text-end">Amount</th>
+                                                    <th class="text-end">Discount</th>
+                                                    <th class="text-end">Net Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr t-foreach="sem['lines']" t-as="ln">
+                                                    <td t-out="ln['head']"/>
+                                                    <td class="text-end" t-out="ln['amount']"
+                                                        t-options="{'widget': 'monetary', 'display_currency': fee_summary['currency']}"/>
+                                                    <td class="text-end" t-out="ln['discount']"
+                                                        t-options="{'widget': 'monetary', 'display_currency': fee_summary['currency']}"/>
+                                                    <td class="text-end" t-out="ln['net']"
+                                                        t-options="{'widget': 'monetary', 'display_currency': fee_summary['currency']}"/>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr class="fw-bold">
+                                                    <td colspan="3" class="text-end">Semester Total</td>
+                                                    <td class="text-end" t-out="sem['net']"
+                                                        t-options="{'widget': 'monetary', 'display_currency': fee_summary['currency']}"/>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+
+                    <div class="border-top mt-3 pt-3">
+                        <div class="d-flex justify-content-between">
+                            <span>Total Fee</span>
+                            <span t-out="fee_summary['total_gross']"
+                                  t-options="{'widget': 'monetary', 'display_currency': fee_summary['currency']}"/>
+                        </div>
+                        <div class="d-flex justify-content-between text-success">
+                            <span>Total Discount</span>
+                            <span t-out="fee_summary['total_discount']"
+                                  t-options="{'widget': 'monetary', 'display_currency': fee_summary['currency']}"/>
+                        </div>
+                        <div class="d-flex justify-content-between fs-5 fw-bold border-top mt-2 pt-2">
+                            <span>Net Course Fee</span>
+                            <span t-out="fee_summary['total_net']"
+                                  t-options="{'widget': 'monetary', 'display_currency': fee_summary['currency']}"/>
+                        </div>
+                    </div>
+                    <p class="text-muted small mt-2 mb-0">
+                        <i class="fa fa-info-circle me-1"/>For information only.
+                        Semester fees other than the admission deposit are billed
+                        later as per university policy.
+                    </p>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>

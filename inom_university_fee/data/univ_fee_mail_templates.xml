@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="email_template_fee_reminder" model="mail.template">
+            <field name="name">Fee: Payment Reminder</field>
+            <field name="model_id" ref="model_univ_fee_invoice"/>
+            <field name="subject">Payment reminder - {{ object.name }}</field>
+            <field name="email_from">{{ (object.company_id.email or user.email_formatted) }}</field>
+            <field name="email_to">{{ object.partner_id.email }}</field>
+            <field name="body_html" type="html">
+                <div style="margin:0px;padding:0px;font-size:14px;">
+                    <p>Dear <t t-out="object.partner_id.name or 'Student'"/>,</p>
+                    <p>This is a reminder that your fee invoice
+                        <strong t-out="object.name or ''"/> has an outstanding balance of
+                        <strong t-out="format_amount(object.amount_residual, object.currency_id) or ''"/>,
+                        due on <t t-out="object.due_date or ''"/>.</p>
+                    <p>Please clear the dues at the earliest to avoid late fees.</p>
+                    <p>Regards,<br/>Accounts Office</p>
+                </div>
+            </field>
+            <field name="lang">{{ object.partner_id.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

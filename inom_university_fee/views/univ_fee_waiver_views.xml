@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_univ_fee_waiver_list" model="ir.ui.view">
+        <field name="name">univ.fee.waiver.list</field>
+        <field name="model">univ.fee.waiver</field>
+        <field name="arch" type="xml">
+            <tree string="Fee Waivers"
+                  decoration-success="state == 'applied'"
+                  decoration-danger="state == 'refused'">
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="invoice_id"/>
+                <field name="waiver_type"/>
+                <field name="amount" sum="Total"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'applied'"
+                       decoration-danger="state == 'refused'"/>
+                <field name="currency_id" column_invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_univ_fee_waiver_form" model="ir.ui.view">
+        <field name="name">univ.fee.waiver.form</field>
+        <field name="model">univ.fee.waiver</field>
+        <field name="arch" type="xml">
+            <form string="Fee Waiver">
+                <header>
+                    <button name="action_submit" type="object" string="Submit"
+                            class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_review" type="object"
+                            string="Mark Under Review"
+                            invisible="state != 'submitted'"
+                            groups="inom_university_fee.group_univ_accounts_officer"/>
+                    <button name="action_approve" type="object" string="Approve"
+                            class="oe_highlight"
+                            invisible="state not in ('submitted', 'under_review')"
+                            groups="inom_university_core.group_univ_registrar,inom_university_fee.group_univ_accounts_officer"/>
+                    <button name="action_apply" type="object"
+                            string="Apply (Post Credit Note)" class="oe_highlight"
+                            invisible="state != 'approved'"
+                            groups="inom_university_fee.group_univ_accounts_officer"/>
+                    <button name="action_refuse" type="object" string="Refuse"
+                            invisible="state in ('draft', 'applied', 'refused')"/>
+                    <button name="action_reset_to_draft" type="object"
+                            string="Reset to Draft"
+                            invisible="state in ('draft', 'applied')"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,submitted,approved,applied"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_credit_note" type="object"
+                                class="oe_stat_button" icon="fa-book"
+                                invisible="not credit_note_id">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Credit Note</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="invoice_id"/>
+                            <field name="student_id"/>
+                            <field name="waiver_type"/>
+                        </group>
+                        <group>
+                            <field name="amount"/>
+                            <field name="approver_id"/>
+                            <field name="credit_note_id" invisible="1"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="reason"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_univ_fee_waiver_search" model="ir.ui.view">
+        <field name="name">univ.fee.waiver.search</field>
+        <field name="model">univ.fee.waiver</field>
+        <field name="arch" type="xml">
+            <search string="Fee Waivers">
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="invoice_id"/>
+                <filter name="to_approve" string="Awaiting Approval"
+                        domain="[('state', 'in', ('submitted', 'under_review'))]"/>
+                <filter name="applied" string="Applied"
+                        domain="[('state', '=', 'applied')]"/>
+                <group>
+                    <filter name="group_state" string="Status"
+                            context="{'group_by': 'state'}"/>
+                    <filter name="group_type" string="Type"
+                            context="{'group_by': 'waiver_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_univ_fee_waiver" model="ir.actions.act_window">
+        <field name="name">Fee Waivers</field>
+        <field name="res_model">univ.fee.waiver</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- ===== WIZARD ===== -->
+    <record id="view_univ_fee_waiver_wizard_form" model="ir.ui.view">
+        <field name="name">univ.fee.waiver.wizard.form</field>
+        <field name="model">univ.fee.waiver.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Request Fee Waiver">
+                <group>
+                    <field name="invoice_id" readonly="1"/>
+                    <field name="waiver_type"/>
+                    <field name="amount"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="reason"/>
+                </group>
+                <footer>
+                    <button name="action_create_waiver" type="object"
+                            string="Create Waiver" class="oe_highlight"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

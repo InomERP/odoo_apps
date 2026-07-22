@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ===== FEE GROUP ===== -->
+    <record id="view_univ_fee_group_list" model="ir.ui.view">
+        <field name="name">univ.fee.group.list</field>
+        <field name="model">univ.fee.group</field>
+        <field name="arch" type="xml">
+            <tree string="Fee Groups" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="description"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_univ_fee_group" model="ir.actions.act_window">
+        <field name="name">Fee Groups</field>
+        <field name="res_model">univ.fee.group</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- ===== ACADEMIC SESSION ===== -->
+    <record id="view_univ_academic_session_list" model="ir.ui.view">
+        <field name="name">univ.academic.session.list</field>
+        <field name="model">univ.academic.session</field>
+        <field name="arch" type="xml">
+            <tree string="Academic Sessions" editable="bottom">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="is_current"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_univ_academic_session" model="ir.actions.act_window">
+        <field name="name">Academic Sessions</field>
+        <field name="res_model">univ.academic.session</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- ===== QUOTA ===== -->
+    <record id="view_univ_fee_quota_list" model="ir.ui.view">
+        <field name="name">univ.fee.quota.list</field>
+        <field name="model">univ.fee.quota</field>
+        <field name="arch" type="xml">
+            <tree string="Quotas" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="code"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_univ_fee_quota" model="ir.actions.act_window">
+        <field name="name">Quotas</field>
+        <field name="res_model">univ.fee.quota</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>
