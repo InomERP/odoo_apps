@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_registration_confirmation" model="ir.actions.report">
+        <field name="name">Registration Confirmation</field>
+        <field name="model">univ.course.registration</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inom_university_academics.report_registration_confirmation</field>
+        <field name="report_file">inom_university_academics.report_registration_confirmation</field>
+        <field name="binding_model_id" ref="model_univ_course_registration"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_registration_confirmation">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 class="text-center mb-4">Course Registration Confirmation</h2>
+
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <strong>Student:</strong>
+                                <span t-field="doc.student_id.name"/><br/>
+                                <strong>Student ID:</strong>
+                                <span t-field="doc.student_id.enrolment_no"/><br/>
+                                <strong>Program:</strong>
+                                <span t-field="doc.program_id.name"/>
+                            </div>
+                            <div class="col-6 text-end">
+                                <strong>Semester:</strong>
+                                <span t-field="doc.semester_id.name"/><br/>
+                                <strong>Session:</strong>
+                                <span t-field="doc.session_id.name"/><br/>
+                                <strong>Registration Date:</strong>
+                                <span t-field="doc.registration_date"/>
+                            </div>
+                        </div>
+
+                        <table class="table table-sm o_main_table">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Course</th>
+                                    <th>Type</th>
+                                    <th class="text-end">Credits</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.line_ids.filtered(lambda l: l.state in ('registered', 'waitlisted'))" t-as="line">
+                                    <td><span t-field="line.subject_id.code"/></td>
+                                    <td><span t-field="line.subject_id.name"/></td>
+                                    <td><span t-field="line.subject_type"/></td>
+                                    <td class="text-end"><span t-field="line.credit_hours"/></td>
+                                    <td><span t-field="line.state"/></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3" class="text-end"><strong>Total Registered Credits</strong></td>
+                                    <td class="text-end"><strong t-field="doc.total_credits"/></td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                        <p class="mt-4 text-muted" style="font-size:11px;">
+                            This is a system-generated registration confirmation.
+                        </p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

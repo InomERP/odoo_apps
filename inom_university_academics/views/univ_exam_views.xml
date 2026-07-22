@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- EXAM -->
+    <record id="view_univ_exam_form" model="ir.ui.view">
+        <field name="name">univ.exam.form</field>
+        <field name="model">univ.exam</field>
+        <field name="arch" type="xml">
+            <form string="Examination">
+                <header>
+                    <button name="action_publish" string="Publish" type="object"
+                            class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_mark_allocated" string="Allocate Halls/Invigilators"
+                            type="object" invisible="state != 'published'"/>
+                    <button name="action_issue_hall_tickets" string="Issue Hall Tickets"
+                            type="object" invisible="state != 'allocated'"/>
+                    <button name="action_conducted" string="Mark Conducted"
+                            type="object" invisible="state != 'tickets'"/>
+                    <button name="action_open_marks" string="Open Marks Entry"
+                            type="object" invisible="state != 'conducted'"/>
+                    <button name="action_send_moderation" string="Send for Moderation"
+                            type="object" invisible="state != 'marks'"/>
+                    <button name="action_coe_approval" string="CoE Approval"
+                            type="object" invisible="state != 'moderation'"
+                            groups="inom_university_academics.group_univ_controller_examinations"/>
+                    <button name="action_publish_result" string="Publish Result"
+                            type="object" class="oe_highlight"
+                            invisible="state != 'coe'"
+                            groups="inom_university_academics.group_univ_controller_examinations"/>
+                    <button name="action_reset_to_draft" string="Reset"
+                            type="object" invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_schedules" type="object"
+                                class="oe_stat_button" icon="fa-calendar">
+                            <field name="schedule_count" widget="statinfo"
+                                   string="Subjects"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. Mid Term 2026"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="exam_type_id"/>
+                            <field name="program_id"/>
+                            <field name="semester_id"/>
+                        </group>
+                        <group>
+                            <field name="academic_year_id"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="grade_scale_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Schedule">
+                            <field name="schedule_ids">
+                                <list editable="bottom">
+                                    <field name="subject_id"/>
+                                    <field name="date"/>
+                                    <field name="start_time" widget="float_time"/>
+                                    <field name="end_time" widget="float_time"/>
+                                    <field name="room_id"/>
+                                    <field name="max_marks"/>
+                                    <field name="pass_marks"/>
+                                    <field name="is_practical"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_univ_exam_list" model="ir.ui.view">
+        <field name="name">univ.exam.list</field>
+        <field name="model">univ.exam</field>
+        <field name="arch" type="xml">
+            <list string="Examinations">
+                <field name="name"/>
+                <field name="exam_type_id"/>
+                <field name="program_id"/>
+                <field name="semester_id"/>
+                <field name="date_from"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'result'"
+                       decoration-info="state in ('marks', 'moderation', 'coe')"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_univ_exam_kanban" model="ir.ui.view">
+        <field name="name">univ.exam.kanban</field>
+        <field name="model">univ.exam</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_small_column">
+                <field name="state"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click">
+                            <strong><field name="name"/></strong>
+                            <div><field name="program_id"/></div>
+                            <div class="text-muted">
+                                <field name="semester_id"/> ·
+                                <field name="exam_type_id"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="view_univ_exam_search" model="ir.ui.view">
+        <field name="name">univ.exam.search</field>
+        <field name="model">univ.exam</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="program_id"/>
+                <field name="semester_id"/>
+                <field name="exam_type_id"/>
+                <group>
+                    <filter name="g_program" string="Program"
+                            context="{'group_by': 'program_id'}"/>
+                    <filter name="g_state" string="Status"
+                            context="{'group_by': 'state'}"/>
+                    <filter name="g_type" string="Exam Type"
+                            context="{'group_by': 'exam_type_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_univ_exam" model="ir.actions.act_window">
+        <field name="name">Examinations</field>
+        <field name="res_model">univ.exam</field>
+        <field name="view_mode">kanban,list,form</field>
+    </record>
+
+    <!-- EXAM SCHEDULE -->
+    <record id="view_univ_exam_schedule_form" model="ir.ui.view">
+        <field name="name">univ.exam.schedule.form</field>
+        <field name="model">univ.exam.schedule</field>
+        <field name="arch" type="xml">
+            <form string="Exam Schedule">
+                <header>
+                    <button name="action_generate_result_lines"
+                            string="Load Students" type="object"/>
+                    <button name="action_print_hall_ticket" string="Print Hall Ticket"
+                            type="object" class="oe_highlight"/>
+                    <button name="%(action_univ_exam_hall_wizard)d"
+                            string="Allocate Hall" type="action"
+                            context="{'default_schedule_id': id}"/>
+                    <button name="%(action_univ_exam_invigilator_wizard)d"
+                            string="Assign Invigilators" type="action"
+                            context="{'default_schedule_id': id}"/>
+                    <button name="%(action_univ_exam_seat_wizard)d"
+                            string="Allocate Seats" type="action"
+                            context="{'default_schedule_id': id}"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="exam_id"/>
+                            <field name="subject_id"/>
+                            <field name="date"/>
+                            <field name="is_practical"/>
+                        </group>
+                        <group>
+                            <field name="room_id"/>
+                            <field name="start_time" widget="float_time"/>
+                            <field name="end_time" widget="float_time"/>
+                            <field name="max_marks"/>
+                            <field name="pass_marks"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Marks">
+                            <field name="result_line_ids">
+                                <list editable="bottom">
+                                    <field name="student_id" readonly="1"/>
+                                    <field name="max_marks"/>
+                                    <field name="obtained"/>
+                                    <field name="second_obtained"
+                                           string="Eval 2"/>
+                                    <field name="moderated"/>
+                                    <field name="final_marks"/>
+                                    <field name="percent"/>
+                                    <field name="grade"/>
+                                    <field name="is_pass"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Invigilators">
+                            <field name="invigilator_ids">
+                                <list editable="bottom">
+                                    <field name="faculty_id"/>
+                                    <field name="room_id"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Seating">
+                            <field name="seat_ids">
+                                <list>
+                                    <field name="student_id"/>
+                                    <field name="room_id"/>
+                                    <field name="seat_no"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_univ_exam_schedule_list" model="ir.ui.view">
+        <field name="name">univ.exam.schedule.list</field>
+        <field name="model">univ.exam.schedule</field>
+        <field name="arch" type="xml">
+            <list string="Exam Schedules">
+                <field name="exam_id"/>
+                <field name="subject_id"/>
+                <field name="date"/>
+                <field name="room_id"/>
+                <field name="max_marks"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_univ_exam_schedule" model="ir.actions.act_window">
+        <field name="name">Exam Schedules</field>
+        <field name="res_model">univ.exam.schedule</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- INVIGILATOR DUTY ROSTER -->
+    <record id="view_univ_invigilator_list" model="ir.ui.view">
+        <field name="name">univ.exam.invigilator.list</field>
+        <field name="model">univ.exam.invigilator</field>
+        <field name="arch" type="xml">
+            <list string="Invigilation Duty">
+                <field name="date"/>
+                <field name="schedule_id"/>
+                <field name="faculty_id"/>
+                <field name="room_id"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_univ_invigilator" model="ir.actions.act_window">
+        <field name="name">Invigilation Duty</field>
+        <field name="res_model">univ.exam.invigilator</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>
