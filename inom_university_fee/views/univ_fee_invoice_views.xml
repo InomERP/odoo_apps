@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_univ_fee_invoice_list" model="ir.ui.view">
+        <field name="name">univ.fee.invoice.list</field>
+        <field name="model">univ.fee.invoice</field>
+        <field name="arch" type="xml">
+            <list string="Fee Invoices"
+                  decoration-success="state == 'paid'"
+                  decoration-warning="state == 'partial'"
+                  decoration-danger="days_overdue &gt; 0 and state != 'paid'">
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="program_id" optional="show"/>
+                <field name="structure_id" optional="hide"/>
+                <field name="invoice_date" optional="show"/>
+                <field name="due_date"/>
+                <field name="amount_total" sum="Total"/>
+                <field name="amount_paid" sum="Paid" optional="show"/>
+                <field name="amount_residual" sum="Residual"/>
+                <field name="days_overdue" optional="show"/>
+                <field name="aging_bucket" optional="hide"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'paid'"
+                       decoration-warning="state == 'partial'"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_univ_fee_invoice_form" model="ir.ui.view">
+        <field name="name">univ.fee.invoice.form</field>
+        <field name="model">univ.fee.invoice</field>
+        <field name="arch" type="xml">
+            <form string="Fee Invoice">
+                <header>
+                    <button name="action_post" type="object" string="Post"
+                            class="oe_highlight" invisible="move_state != 'draft'"/>
+                    <button name="action_register_payment" type="object"
+                            string="Register Payment" class="oe_highlight"
+                            invisible="state in ('draft', 'paid', 'cancel')"/>
+                    <button name="action_open_installment_plan" type="object"
+                            string="Installment Plan"
+                            invisible="state in ('draft', 'paid', 'cancel') or installment_plan_id"/>
+                    <button name="action_request_refund" type="object"
+                            string="Request Refund"
+                            invisible="state == 'draft'"/>
+                    <button name="action_request_waiver" type="object"
+                            string="Request Waiver"
+                            invisible="state in ('draft', 'paid', 'cancel')"
+                            groups="inom_university_fee.group_univ_accounts_officer"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,open,partial,paid"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_move" type="object"
+                                class="oe_stat_button" icon="fa-book"
+                                invisible="not move_id">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Journal Entry</span>
+                            </div>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Paid" bg_color="text-bg-success"
+                            invisible="state != 'paid'"/>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Student">
+                            <field name="student_id"/>
+                            <field name="program_id"/>
+                            <field name="semester_id"/>
+                            <field name="session_id"/>
+                            <field name="structure_id"/>
+                        </group>
+                        <group string="Amounts">
+                            <field name="invoice_date"/>
+                            <field name="due_date"/>
+                            <field name="amount_total"/>
+                            <field name="amount_paid"/>
+                            <field name="amount_residual"/>
+                            <field name="amount_scholarship"/>
+                            <field name="amount_waived"/>
+                            <field name="late_fee_accrued"/>
+                            <field name="days_overdue"/>
+                            <field name="aging_bucket"/>
+                            <field name="payment_state"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="move_id" invisible="1"/>
+                            <field name="move_state" invisible="1"/>
+                            <field name="installment_plan_id" invisible="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Installment Plan" name="installment"
+                              invisible="not installment_plan_id">
+                            <field name="installment_plan_id" readonly="1"/>
+                            <field name="installment_count" invisible="1"/>
+                        </page>
+                        <page string="Scholarships" name="scholarships">
+                            <field name="scholarship_award_ids" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="scheme_id"/>
+                                    <field name="amount"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Waivers" name="waivers">
+                            <field name="waiver_ids" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="waiver_type"/>
+                                    <field name="amount"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Refunds" name="refunds">
+                            <field name="refund_ids" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="amount"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_univ_fee_invoice_kanban" model="ir.ui.view">
+        <field name="name">univ.fee.invoice.kanban</field>
+        <field name="model">univ.fee.invoice</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="aging_bucket" class="o_kanban_small_column"
+                    sample="1">
+                <field name="aging_bucket"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_content">
+                            <div class="o_kanban_record_top">
+                                <strong class="o_kanban_record_title">
+                                    <field name="student_id"/>
+                                </strong>
+                            </div>
+                            <div class="text-muted"><field name="name"/></div>
+                            <div class="mt-1">
+                                <span class="badge text-bg-secondary">
+                                    Due <field name="due_date"/>
+                                </span>
+                            </div>
+                            <div class="o_kanban_record_bottom mt-2">
+                                <div class="oe_kanban_bottom_left">
+                                    <field name="amount_residual" widget="monetary"/>
+                                </div>
+                                <div class="oe_kanban_bottom_right">
+                                    <field name="state" widget="label_selection"
+                                           options="{'classes': {'paid': 'success', 'partial': 'warning', 'open': 'info'}}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_univ_fee_invoice_search" model="ir.ui.view">
+        <field name="name">univ.fee.invoice.search</field>
+        <field name="model">univ.fee.invoice</field>
+        <field name="arch" type="xml">
+            <search string="Fee Invoices">
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="program_id"/>
+                <field name="batch_id"/>
+                <field name="semester_id"/>
+                <field name="structure_id"/>
+                <filter name="unpaid" string="Unpaid"
+                        domain="[('state', 'in', ('open', 'partial'))]"/>
+                <filter name="paid" string="Paid" domain="[('state', '=', 'paid')]"/>
+                <separator/>
+                <filter name="overdue" string="Overdue"
+                        domain="[('days_overdue', '&gt;', 0)]"/>
+                <filter name="b1" string="0-30 days"
+                        domain="[('aging_bucket', '=', 'b1')]"/>
+                <filter name="b2" string="30-60 days"
+                        domain="[('aging_bucket', '=', 'b2')]"/>
+                <filter name="b3" string="60+ days"
+                        domain="[('aging_bucket', '=', 'b3')]"/>
+                <group>
+                    <filter name="group_program" string="Program"
+                            context="{'group_by': 'program_id'}"/>
+                    <filter name="group_batch" string="Batch"
+                            context="{'group_by': 'batch_id'}"/>
+                    <filter name="group_semester" string="Semester"
+                            context="{'group_by': 'semester_id'}"/>
+                    <filter name="group_session" string="Academic Session"
+                            context="{'group_by': 'session_id'}"/>
+                    <filter name="group_state" string="Status"
+                            context="{'group_by': 'state'}"/>
+                    <filter name="group_aging" string="Aging Bucket"
+                            context="{'group_by': 'aging_bucket'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_univ_fee_invoice_graph" model="ir.ui.view">
+        <field name="name">univ.fee.invoice.graph</field>
+        <field name="model">univ.fee.invoice</field>
+        <field name="arch" type="xml">
+            <graph string="Fees" type="bar" sample="1">
+                <field name="program_id"/>
+                <field name="amount_total" type="measure"/>
+                <field name="amount_residual" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_univ_fee_invoice_pivot" model="ir.ui.view">
+        <field name="name">univ.fee.invoice.pivot</field>
+        <field name="model">univ.fee.invoice</field>
+        <field name="arch" type="xml">
+            <pivot string="Fees" sample="1">
+                <field name="program_id" type="row"/>
+                <field name="aging_bucket" type="col"/>
+                <field name="amount_residual" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_univ_fee_invoice" model="ir.actions.act_window">
+        <field name="name">Fee Invoices</field>
+        <field name="res_model">univ.fee.invoice</field>
+        <field name="view_mode">list,kanban,form,graph,pivot</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No fee invoices yet</p>
+            <p>Generate invoices from a fee structure using the bulk wizard.</p>
+        </field>
+    </record>
+
+    <record id="action_univ_fee_dashboard" model="ir.actions.act_window">
+        <field name="name">Fee Dashboard</field>
+        <field name="res_model">univ.fee.invoice</field>
+        <field name="view_mode">graph,pivot</field>
+        <field name="context">{'search_default_group_aging': 1}</field>
+    </record>
+
+</odoo>

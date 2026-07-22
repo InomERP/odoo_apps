@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="fee_category_academic" model="univ.fee.category">
+            <field name="name">Academic</field>
+            <field name="code">ACAD</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="fee_category_facility" model="univ.fee.category">
+            <field name="name">Facility</field>
+            <field name="code">FAC</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="fee_category_examination" model="univ.fee.category">
+            <field name="name">Examination</field>
+            <field name="code">EXAM</field>
+            <field name="sequence">30</field>
+        </record>
+        <record id="fee_category_hostel" model="univ.fee.category">
+            <field name="name">Hostel &amp; Transport</field>
+            <field name="code">HOST</field>
+            <field name="sequence">40</field>
+        </record>
+        <record id="fee_category_other" model="univ.fee.category">
+            <field name="name">Other</field>
+            <field name="code">OTH</field>
+            <field name="sequence">90</field>
+        </record>
+
+    </data>
+</odoo>

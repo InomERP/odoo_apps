@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_fee_receipt_document">
+        <t t-call="web.external_layout">
+            <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang or 'en_US')"/>
+            <div class="page">
+                <div class="row">
+                    <div class="col-6">
+                        <h3 class="mt-0">Fee Receipt</h3>
+                        <span class="text-muted">Ref: </span>
+                        <span t-field="doc.name"/>
+                    </div>
+                    <div class="col-6 text-end">
+                        <strong>Status: </strong>
+                        <span t-field="doc.payment_state"/>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-6">
+                        <strong>Student</strong>
+                        <div t-field="doc.student_id"/>
+                        <div t-field="doc.partner_id"
+                             t-options='{"widget": "contact", "fields": ["address", "email", "phone"]}'/>
+                    </div>
+                    <div class="col-6 text-end">
+                        <div><strong>Invoice Date: </strong><span t-field="doc.invoice_date"/></div>
+                        <div><strong>Due Date: </strong><span t-field="doc.due_date"/></div>
+                        <div t-if="doc.program_id"><strong>Program: </strong><span t-field="doc.program_id"/></div>
+                        <div t-if="doc.semester_id"><strong>Semester: </strong><span t-field="doc.semester_id"/></div>
+                    </div>
+                </div>
+
+                <table class="table table-sm mt-4">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th class="text-end">Qty</th>
+                            <th class="text-end">Unit Price</th>
+                            <th class="text-end">Taxes</th>
+                            <th class="text-end">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="doc.move_id.invoice_line_ids" t-as="line"
+                            t-if="line.display_type not in ('line_section', 'line_note')">
+                            <td><span t-field="line.name"/></td>
+                            <td class="text-end"><span t-field="line.quantity"/></td>
+                            <td class="text-end"><span t-field="line.price_unit"/></td>
+                            <td class="text-end">
+                                <span t-esc="', '.join(line.tax_ids.mapped('name'))"/>
+                            </td>
+                            <td class="text-end"><span t-field="line.price_subtotal"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="row">
+                    <div class="col-6"/>
+                    <div class="col-6">
+                        <table class="table table-sm">
+                            <tr>
+                                <td>Untaxed Amount</td>
+                                <td class="text-end">
+                                    <span t-field="doc.move_id.amount_untaxed"
+                                          t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Taxes</td>
+                                <td class="text-end">
+                                    <span t-field="doc.move_id.amount_tax"
+                                          t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                </td>
+                            </tr>
+                            <tr class="border-black">
+                                <td><strong>Total</strong></td>
+                                <td class="text-end">
+                                    <strong><span t-field="doc.amount_total"/></strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Paid</td>
+                                <td class="text-end"><span t-field="doc.amount_paid"/></td>
+                            </tr>
+                            <tr>
+                                <td>Amount Due</td>
+                                <td class="text-end"><span t-field="doc.amount_residual"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <p class="text-muted mt-4" style="font-size:11px;">
+                    This is a computer-generated receipt. GST is shown where applicable
+                    per the configured taxes.
+                </p>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_fee_receipt">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="inom_university_fee.report_fee_receipt_document"/>
+            </t>
+        </t>
+    </template>
+
+</odoo>

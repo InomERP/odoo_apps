@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Masters -->
+        <record id="academic_session_2024_25" model="univ.academic.session">
+            <field name="name">2024-2025</field>
+            <field name="code">2024-25</field>
+            <field name="start_date">2024-07-01</field>
+            <field name="end_date">2025-06-30</field>
+            <field name="is_current">True</field>
+        </record>
+        <record id="fee_quota_general" model="univ.fee.quota">
+            <field name="name">General</field>
+            <field name="code">GEN</field>
+        </record>
+        <record id="fee_group_mandatory" model="univ.fee.group">
+            <field name="name">Mandatory</field>
+            <field name="code">MAND</field>
+        </record>
+
+        <!-- Service products for fee heads -->
+        <record id="product_fee_tuition" model="product.product">
+            <field name="name">Tuition Fee</field>
+            <field name="type">service</field>
+            <field name="list_price">50000.0</field>
+        </record>
+        <record id="product_fee_lab" model="product.product">
+            <field name="name">Laboratory Fee</field>
+            <field name="type">service</field>
+            <field name="list_price">8000.0</field>
+        </record>
+        <record id="product_fee_exam" model="product.product">
+            <field name="name">Examination Fee</field>
+            <field name="type">service</field>
+            <field name="list_price">3000.0</field>
+        </record>
+
+        <!-- Fee heads -->
+        <record id="fee_head_tuition" model="univ.fee.head">
+            <field name="name">Tuition Fee</field>
+            <field name="code">TUI</field>
+            <field name="category_id" ref="fee_category_academic"/>
+            <field name="product_id" ref="product_fee_tuition"/>
+        </record>
+        <record id="fee_head_lab" model="univ.fee.head">
+            <field name="name">Laboratory Fee</field>
+            <field name="code">LAB</field>
+            <field name="category_id" ref="fee_category_facility"/>
+            <field name="product_id" ref="product_fee_lab"/>
+        </record>
+        <record id="fee_head_exam" model="univ.fee.head">
+            <field name="name">Examination Fee</field>
+            <field name="code">EXM</field>
+            <field name="category_id" ref="fee_category_examination"/>
+            <field name="product_id" ref="product_fee_exam"/>
+        </record>
+
+        <!-- Fee structure referencing core demo academic data -->
+        <record id="fee_structure_btech_sem1" model="univ.fee.structure">
+            <field name="name">B.Tech CSE - Semester 1</field>
+            <field name="code">BTECH-CSE-S1</field>
+            <field name="program_id" ref="inom_university_core.demo_program_btech_cse"/>
+            <field name="batch_id" ref="inom_university_core.demo_batch_2024"/>
+            <field name="semester_id" ref="inom_university_core.demo_semester_1"/>
+            <field name="session_id" ref="academic_session_2024_25"/>
+            <field name="category">all</field>
+        </record>
+        <record id="fee_structure_line_tuition" model="univ.fee.structure.line">
+            <field name="structure_id" ref="fee_structure_btech_sem1"/>
+            <field name="head_id" ref="fee_head_tuition"/>
+            <field name="amount">50000.0</field>
+            <field name="discount_percent">10.0</field>
+        </record>
+        <record id="fee_structure_line_lab" model="univ.fee.structure.line">
+            <field name="structure_id" ref="fee_structure_btech_sem1"/>
+            <field name="head_id" ref="fee_head_lab"/>
+            <field name="amount">8000.0</field>
+            <field name="discount_percent">5.0</field>
+        </record>
+        <record id="fee_structure_line_exam" model="univ.fee.structure.line">
+            <field name="structure_id" ref="fee_structure_btech_sem1"/>
+            <field name="head_id" ref="fee_head_exam"/>
+            <field name="collect_at_admission" eval="False"/>
+            <field name="amount">3000.0</field>
+        </record>
+
+        <!-- Scholarship scheme -->
+        <record id="scholarship_scheme_merit" model="univ.scholarship.scheme">
+            <field name="name">Merit Scholarship</field>
+            <field name="code">MERIT</field>
+            <field name="aid_type">scholarship</field>
+            <field name="amount_type">percent</field>
+            <field name="amount">25.0</field>
+            <field name="eligibility">Top 10% by previous semester GPA.</field>
+        </record>
+
+    </data>
+</odoo>
