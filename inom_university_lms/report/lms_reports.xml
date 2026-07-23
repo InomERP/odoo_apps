@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_assignment_submissions" model="ir.actions.report">
+        <field name="name">Submission Report</field>
+        <field name="model">univ.assignment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inom_university_lms.report_assignment_submissions</field>
+        <field name="report_file">inom_university_lms.report_assignment_submissions</field>
+        <field name="binding_model_id" ref="model_univ_assignment"/>
+        <field name="binding_type">report</field>
+    </record>
+    <template id="report_assignment_submissions">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="a">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 class="text-center">Submissions — <span t-field="a.name"/></h2>
+                        <p><strong>Subject: </strong><span t-field="a.subject_id.name"/>
+                           · <strong>Due: </strong><span t-field="a.due_date"/></p>
+                        <table class="table table-sm">
+                            <thead><tr><th>Student</th><th>Submitted</th><th>Late</th><th>Grade</th><th>Status</th></tr></thead>
+                            <tbody>
+                                <tr t-foreach="a.submission_ids" t-as="s">
+                                    <td><span t-field="s.student_id.display_name"/></td>
+                                    <td><span t-field="s.submitted_on"/></td>
+                                    <td><span t-field="s.is_late"/></td>
+                                    <td><span t-field="s.grade"/>/<span t-field="s.max_marks"/></td>
+                                    <td><span t-field="s.state"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,16 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tr_driver_mgr,driver mgr,model_univ_transport_driver,group_univ_transport_incharge,1,1,1,1
+access_tr_driver_user,driver user,model_univ_transport_driver,base.group_user,1,0,0,0
+access_tr_vehicle_mgr,vehicle mgr,model_univ_transport_vehicle,group_univ_transport_incharge,1,1,1,1
+access_tr_vehicle_user,vehicle user,model_univ_transport_vehicle,base.group_user,1,0,0,0
+access_tr_route_mgr,route mgr,model_univ_transport_route,group_univ_transport_incharge,1,1,1,1
+access_tr_route_user,route user,model_univ_transport_route,base.group_user,1,0,0,0
+access_tr_route_portal_student,route portal s,model_univ_transport_route,inom_university_core.group_univ_portal_student,1,0,0,0
+access_tr_stop_mgr,stop mgr,model_univ_transport_stop,group_univ_transport_incharge,1,1,1,1
+access_tr_stop_user,stop user,model_univ_transport_stop,base.group_user,1,0,0,0
+access_tr_stop_portal_student,stop portal s,model_univ_transport_stop,inom_university_core.group_univ_portal_student,1,0,0,0
+access_tr_sub_mgr,sub mgr,model_univ_transport_subscription,group_univ_transport_incharge,1,1,1,1
+access_tr_sub_user,sub user,model_univ_transport_subscription,base.group_user,1,0,0,0
+access_tr_sub_portal_student,sub portal s,model_univ_transport_subscription,inom_university_core.group_univ_portal_student,1,0,0,0
+access_tr_sub_portal_parent,sub portal p,model_univ_transport_subscription,inom_university_core.group_univ_portal_parent,1,0,0,0
+access_tr_sub_wizard,sub wiz,model_univ_transport_subscription_wizard,group_univ_transport_incharge,1,1,1,1

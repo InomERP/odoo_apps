@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_my_home_transport" inherit_id="portal.portal_my_home" priority="52">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Transport</t>
+                <t t-set="text">My route and bus pass</t>
+                <t t-set="url" t-value="'/my/transport'"/>
+                <t t-set="config_card" t-value="True"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_transport" name="My Transport">
+        <t t-call="portal.portal_layout">
+            <div class="container mt-3">
+                <h3>My Transport</h3>
+                <t t-if="not subscriptions"><p class="text-muted">No active transport subscription.</p></t>
+                <t t-foreach="subscriptions" t-as="sub">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title"><span t-out="sub.route_id.name"/></h5>
+                            <p>
+                                <strong>Pass: </strong><span t-out="sub.name"/><br/>
+                                <strong>Stop: </strong><span t-out="sub.stop_id.name"/><br/>
+                                <strong>Vehicle: </strong><span t-out="sub.vehicle_id.regno"/><br/>
+                                <strong>Status: </strong><span t-out="sub.state"/>
+                            </p>
+                            <img t-if="sub.state == 'issued'"
+                                 t-att-src="'/report/barcode/QR/%s?width=120&amp;height=120' % sub.name" alt="QR"/>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- MATERIAL -->
+    <record id="view_lms_material_form" model="ir.ui.view">
+        <field name="name">univ.lms.material.form</field>
+        <field name="model">univ.lms.material</field>
+        <field name="arch" type="xml">
+            <form string="Study Material">
+                <header>
+                    <button name="action_publish" string="Publish" type="object" class="oe_highlight" invisible="state == 'published'"/>
+                    <button name="action_new_version" string="New Version" type="object" invisible="state != 'published'"/>
+                    <button name="action_archive_material" string="Archive" type="object" invisible="state == 'archived'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><label for="name"/><h1><field name="name"/></h1></div>
+                    <group>
+                        <group><field name="subject_id"/><field name="faculty_id"/><field name="material_type"/><field name="version" readonly="1"/></group>
+                        <group>
+                            <field name="url" invisible="material_type not in ('link','video')"/>
+                            <field name="online_class_url" invisible="material_type != 'class'"/>
+                            <field name="class_datetime" invisible="material_type != 'class'"/>
+                        </group>
+                    </group>
+                    <field name="description"/>
+                    <field name="attachment_ids" widget="many2many_binary"/>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="view_lms_material_list" model="ir.ui.view">
+        <field name="name">univ.lms.material.list</field>
+        <field name="model">univ.lms.material</field>
+        <field name="arch" type="xml">
+            <tree string="Materials">
+                <field name="name"/><field name="subject_id"/><field name="material_type"/>
+                <field name="version"/>
+                <field name="state" widget="badge" decoration-success="state == 'published'"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_lms_material_search" model="ir.ui.view">
+        <field name="name">univ.lms.material.search</field>
+        <field name="model">univ.lms.material</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/><field name="subject_id"/>
+                <filter name="published" string="Published" domain="[('state','=','published')]"/>
+                <group><filter name="g_subject" string="Subject" context="{'group_by': 'subject_id'}"/></group>
+            </search>
+        </field>
+    </record>
+    <record id="action_lms_material" model="ir.actions.act_window">
+        <field name="name">Study Materials</field><field name="res_model">univ.lms.material</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- ASSIGNMENT -->
+    <record id="view_lms_assignment_form" model="ir.ui.view">
+        <field name="name">univ.assignment.form</field>
+        <field name="model">univ.assignment</field>
+        <field name="arch" type="xml">
+            <form string="Assignment">
+                <header>
+                    <button name="action_publish" string="Publish" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_close" string="Close" type="object" invisible="state != 'published'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_submissions" type="object" class="oe_stat_button" icon="fa-file-text">
+                            <field name="submission_count" widget="statinfo" string="Submissions"/>
+                        </button>
+                    </div>
+                    <div class="oe_title"><label for="name"/><h1><field name="name"/></h1></div>
+                    <group>
+                        <group><field name="subject_id"/><field name="faculty_id"/><field name="assigned_date"/></group>
+                        <group><field name="due_date"/><field name="max_marks"/><field name="allow_late"/><field name="graded_count"/></group>
+                    </group>
+                    <field name="instructions"/>
+                    <field name="attachment_ids" widget="many2many_binary"/>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="view_lms_assignment_list" model="ir.ui.view">
+        <field name="name">univ.assignment.list</field>
+        <field name="model">univ.assignment</field>
+        <field name="arch" type="xml">
+            <tree string="Assignments">
+                <field name="name"/><field name="subject_id"/><field name="due_date"/>
+                <field name="max_marks"/><field name="submission_count"/><field name="graded_count"/>
+                <field name="state" widget="badge" decoration-success="state == 'published'"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_lms_assignment_kanban" model="ir.ui.view">
+        <field name="name">univ.assignment.kanban</field>
+        <field name="model">univ.assignment</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state">
+                <field name="state"/>
+                <templates><t t-name="kanban-box">
+                    <div class="oe_kanban_global_click">
+                        <strong><field name="name"/></strong>
+                        <div><field name="subject_id"/></div>
+                        <div class="text-muted">Due: <field name="due_date"/></div>
+                    </div>
+                </t></templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="action_lms_assignment" model="ir.actions.act_window">
+        <field name="name">Assignments</field><field name="res_model">univ.assignment</field>
+        <field name="view_mode">tree,kanban,form</field>
+    </record>
+
+    <!-- SUBMISSION -->
+    <record id="view_lms_submission_form" model="ir.ui.view">
+        <field name="name">univ.assignment.submission.form</field>
+        <field name="model">univ.assignment.submission</field>
+        <field name="arch" type="xml">
+            <form string="Submission">
+                <header>
+                    <button name="action_grade" string="Mark Graded" type="object" class="oe_highlight" invisible="state == 'graded'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group><field name="assignment_id"/><field name="student_id"/><field name="submitted_on"/><field name="is_late"/></group>
+                        <group><field name="grade"/><field name="max_marks"/></group>
+                    </group>
+                    <field name="note"/>
+                    <field name="attachment_ids" widget="many2many_binary"/>
+                    <field name="feedback" placeholder="Feedback to student..."/>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="view_lms_submission_list" model="ir.ui.view">
+        <field name="name">univ.assignment.submission.list</field>
+        <field name="model">univ.assignment.submission</field>
+        <field name="arch" type="xml">
+            <tree string="Submissions" decoration-warning="is_late">
+                <field name="assignment_id"/><field name="student_id"/>
+                <field name="submitted_on"/><field name="is_late"/>
+                <field name="grade"/><field name="max_marks"/>
+                <field name="state" widget="badge" decoration-success="state == 'graded'"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_lms_submission" model="ir.actions.act_window">
+        <field name="name">Submissions</field><field name="res_model">univ.assignment.submission</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- PROGRESS / DASHBOARD -->
+    <record id="view_lms_progress_list" model="ir.ui.view">
+        <field name="name">univ.lms.progress.list</field>
+        <field name="model">univ.lms.progress</field>
+        <field name="arch" type="xml">
+            <tree string="Progress">
+                <field name="student_id"/><field name="subject_id"/>
+                <field name="submitted_count"/><field name="graded_count"/>
+                <field name="late_count"/><field name="avg_grade"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_lms_progress_pivot" model="ir.ui.view">
+        <field name="name">univ.lms.progress.pivot</field>
+        <field name="model">univ.lms.progress</field>
+        <field name="arch" type="xml">
+            <pivot string="Learning Analytics" sample="1">
+                <field name="subject_id" type="row"/>
+                <field name="submitted_count" type="measure"/>
+                <field name="graded_count" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+    <record id="action_lms_progress" model="ir.actions.act_window">
+        <field name="name">Progress</field><field name="res_model">univ.lms.progress</field>
+        <field name="view_mode">tree,pivot</field>
+    </record>
+    <record id="view_lms_submission_graph" model="ir.ui.view">
+        <field name="name">univ.assignment.submission.graph</field>
+        <field name="model">univ.assignment.submission</field>
+        <field name="arch" type="xml">
+            <graph string="Submissions" type="bar" sample="1">
+                <field name="subject_id"/>
+                <field name="state"/>
+            </graph>
+        </field>
+    </record>
+    <record id="action_lms_dashboard" model="ir.actions.act_window">
+        <field name="name">LMS Dashboard</field><field name="res_model">univ.assignment.submission</field>
+        <field name="view_mode">graph,pivot,tree</field>
+    </record>
+
+    <!-- WIZARD -->
+    <record id="view_lms_grade_wizard" model="ir.ui.view">
+        <field name="name">univ.lms.grade.wizard.form</field>
+        <field name="model">univ.lms.grade.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Grade Submission">
+                <group><field name="submission_id"/><field name="grade"/><field name="feedback"/></group>
+                <footer>
+                    <button name="action_apply" string="Apply" type="object" class="oe_highlight"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

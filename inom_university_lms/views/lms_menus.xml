@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_lms_root" name="LMS" parent="inom_university_core.menu_univ_root" sequence="53"
+              groups="inom_university_core.group_univ_faculty,inom_university_core.group_univ_admin"/>
+    <menuitem id="menu_lms_dashboard" name="Dashboard" parent="menu_lms_root" action="action_lms_dashboard" sequence="5"/>
+    <menuitem id="menu_lms_assignment" name="Assignments" parent="menu_lms_root" action="action_lms_assignment" sequence="10"/>
+    <menuitem id="menu_lms_submission" name="Submissions" parent="menu_lms_root" action="action_lms_submission" sequence="20"/>
+    <menuitem id="menu_lms_material" name="Study Materials" parent="menu_lms_root" action="action_lms_material" sequence="30"/>
+    <menuitem id="menu_lms_progress" name="Progress" parent="menu_lms_root" action="action_lms_progress" sequence="40"/>
+</odoo>

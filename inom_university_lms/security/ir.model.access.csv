@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_lms_material_faculty,material faculty,model_univ_lms_material,inom_university_core.group_univ_faculty,1,1,1,1
+access_lms_material_user,material user,model_univ_lms_material,base.group_user,1,0,0,0
+access_lms_material_portal,material portal,model_univ_lms_material,inom_university_core.group_univ_portal_student,1,0,0,0
+access_lms_assignment_faculty,assign faculty,model_univ_assignment,inom_university_core.group_univ_faculty,1,1,1,1
+access_lms_assignment_user,assign user,model_univ_assignment,base.group_user,1,0,0,0
+access_lms_assignment_portal,assign portal,model_univ_assignment,inom_university_core.group_univ_portal_student,1,0,0,0
+access_lms_submission_faculty,sub faculty,model_univ_assignment_submission,inom_university_core.group_univ_faculty,1,1,1,1
+access_lms_submission_user,sub user,model_univ_assignment_submission,base.group_user,1,0,0,0
+access_lms_submission_portal_student,sub portal s,model_univ_assignment_submission,inom_university_core.group_univ_portal_student,1,0,1,0
+access_lms_submission_portal_parent,sub portal p,model_univ_assignment_submission,inom_university_core.group_univ_portal_parent,1,0,0,0
+access_lms_progress_faculty,progress faculty,model_univ_lms_progress,inom_university_core.group_univ_faculty,1,0,0,0
+access_lms_progress_user,progress user,model_univ_lms_progress,base.group_user,1,0,0,0
+access_lms_grade_wizard,grade wiz,model_univ_lms_grade_wizard,inom_university_core.group_univ_faculty,1,1,1,1
