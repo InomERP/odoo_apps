@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_my_home_lms" inherit_id="portal.portal_my_home" priority="53">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Assignments</t>
+                <t t-set="text">My assignments and study materials</t>
+                <t t-set="url" t-value="'/my/assignments'"/>
+                <t t-set="config_card" t-value="True"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_lms" name="My Study Materials">
+        <t t-call="portal.portal_layout">
+            <div class="container mt-3">
+                <h3>Study Materials</h3>
+                <table class="table table-sm" t-if="materials">
+                    <thead><tr><th>Subject</th><th>Title</th><th>Type</th><th>Link</th></tr></thead>
+                    <tbody>
+                        <tr t-foreach="materials" t-as="m">
+                            <td><span t-out="m.subject_id.name"/></td>
+                            <td><span t-out="m.name"/></td>
+                            <td><span t-out="m.material_type"/></td>
+                            <td>
+                                <a t-if="m.online_class_url" t-att-href="m.online_class_url" target="_blank">Join Class</a>
+                                <a t-elif="m.url" t-att-href="m.url" target="_blank">Open</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p t-if="not materials" class="text-muted">No published materials yet.</p>
+            </div>
+        </t>
+    </template>
+
+    <template id="portal_my_assignments" name="My Assignments">
+        <t t-call="portal.portal_layout">
+            <div class="container mt-3">
+                <h3>My Assignments</h3>
+                <t t-if="not assignments"><p class="text-muted">No published assignments.</p></t>
+                <t t-foreach="assignments" t-as="a">
+                    <t t-set="sub" t-value="sub_map.get(a.id)"/>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title"><span t-out="a.name"/>
+                                <small class="text-muted"> · <span t-out="a.subject_id.name"/></small></h5>
+                            <p><strong>Due: </strong><span t-out="a.due_date"/>
+                               · <strong>Max Marks: </strong><span t-out="a.max_marks"/></p>
+                            <t t-if="sub">
+                                <p class="text-success">Submitted on <span t-out="sub.submitted_on"/>
+                                   <span t-if="sub.is_late" class="badge text-bg-warning">Late</span></p>
+                                <p t-if="sub.state == 'graded'"><strong>Grade: </strong>
+                                   <span t-out="sub.grade"/>/<span t-out="sub.max_marks"/>
+                                   <br/><strong>Feedback: </strong><span t-out="sub.feedback"/></p>
+                            </t>
+                            <t t-else="">
+                                <form action="/my/assignments/submit" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <input type="hidden" name="assignment_id" t-att-value="a.id"/>
+                                    <div class="mb-2"><input type="file" name="file" class="form-control"/></div>
+                                    <div class="mb-2"><textarea name="note" class="form-control" placeholder="Note (optional)"/></div>
+                                    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                                </form>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>
