@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="demo_material_1" model="univ.lms.material">
+            <field name="name">Lecture 1 - Introduction</field>
+            <field name="subject_id" ref="inom_university_core.demo_subject_prog"/>
+            <field name="material_type">note</field>
+            <field name="state">published</field>
+        </record>
+        <record id="demo_assignment_1" model="univ.assignment">
+            <field name="name">Assignment 1 - Variables</field>
+            <field name="subject_id" ref="inom_university_core.demo_subject_prog"/>
+            <field name="due_date" eval="(DateTime.now() + relativedelta(days=7))"/>
+            <field name="max_marks">100</field>
+            <field name="state">published</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_transport_root" name="Transport" parent="inom_university_core.menu_univ_root" sequence="52"
+              groups="group_univ_transport_incharge,inom_university_core.group_univ_admin"/>
+    <menuitem id="menu_tr_dashboard" name="Dashboard" parent="menu_transport_root" action="action_tr_dashboard" sequence="5"/>
+    <menuitem id="menu_tr_ops" name="Operations" parent="menu_transport_root" sequence="10"/>
+    <menuitem id="menu_tr_sub" name="Subscriptions" parent="menu_tr_ops" action="action_tr_sub" sequence="10"/>
+    <menuitem id="menu_tr_sub_wiz" name="New Subscription" parent="menu_tr_ops" action="action_tr_sub_wizard" sequence="20"/>
+    <menuitem id="menu_tr_masters" name="Network" parent="menu_transport_root" sequence="20"/>
+    <menuitem id="menu_tr_route" name="Routes" parent="menu_tr_masters" action="action_tr_route" sequence="10"/>
+    <menuitem id="menu_tr_stop" name="Stops" parent="menu_tr_masters" action="action_tr_stop" sequence="20"/>
+    <menuitem id="menu_tr_fleet" name="Fleet" parent="menu_transport_root" sequence="30"/>
+    <menuitem id="menu_tr_vehicle" name="Vehicles" parent="menu_tr_fleet" action="action_tr_vehicle" sequence="10"/>
+    <menuitem id="menu_tr_driver" name="Drivers" parent="menu_tr_fleet" action="action_tr_driver" sequence="20"/>
+</odoo>

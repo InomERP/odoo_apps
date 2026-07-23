@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Passenger list per route -->
+    <record id="action_report_route_passengers" model="ir.actions.report">
+        <field name="name">Passenger List</field>
+        <field name="model">univ.transport.route</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inom_university_transport.report_route_passengers</field>
+        <field name="report_file">inom_university_transport.report_route_passengers</field>
+        <field name="binding_model_id" ref="model_univ_transport_route"/>
+        <field name="binding_type">report</field>
+    </record>
+    <template id="report_route_passengers">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="route">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 class="text-center">Passenger List — <span t-field="route.name"/></h2>
+                        <p><strong>Vehicle: </strong><span t-field="route.vehicle_id.regno"/>
+                           · <strong>Driver: </strong><span t-field="route.driver_id.name"/></p>
+                        <table class="table table-sm">
+                            <thead><tr><th>#</th><th>Student</th><th>Stop</th><th>Pass</th></tr></thead>
+                            <tbody>
+                                <t t-set="n" t-value="0"/>
+                                <t t-foreach="route.subscription_ids.filtered(lambda s: s.state in ('fee_added','issued'))" t-as="sub">
+                                    <t t-set="n" t-value="n + 1"/>
+                                    <tr><td><span t-out="n"/></td>
+                                        <td><span t-field="sub.student_id.display_name"/></td>
+                                        <td><span t-field="sub.stop_id.name"/></td>
+                                        <td><span t-field="sub.name"/></td></tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
