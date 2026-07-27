@@ -22,7 +22,7 @@ order one by one.
 * Views are READ ONLY - no create / edit / delete / duplicate from these
   screens (editing is done from the original Sale Order form).
 """,
-    'author': 'Inom ERP',
+    'author': 'InomERP',
     'website': 'https://inomerp.in',
     'license': 'LGPL-3',
     'depends': ['sale_management'],
