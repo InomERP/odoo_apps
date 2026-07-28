@@ -39,6 +39,8 @@ module, which is a required dependency.
     'data': [
         'views/sale_order_views.xml',
     ],
+    'images': ['static/description/banner.png'],
+
     'installable': True,
     'application': False,
     'auto_install': False,
