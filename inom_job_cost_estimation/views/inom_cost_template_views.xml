@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_inom_cost_template_list" model="ir.ui.view">
+        <field name="name">inom.cost.template.list</field>
+        <field name="model">inom.cost.template</field>
+        <field name="arch" type="xml">
+            <list string="Templates">
+                <field name="name"/>
+                <field name="category_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_inom_cost_template_form" model="ir.ui.view">
+        <field name="name">inom.cost.template.form</field>
+        <field name="model">inom.cost.template</field>
+        <field name="arch" type="xml">
+            <form string="Estimate Template">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="category_id"/>
+                        </group>
+                        <group>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Lines" name="lines">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="line_type"/>
+                                    <field name="product_id"
+                                           column_invisible="0"
+                                           optional="show"/>
+                                    <field name="name"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id" optional="show"/>
+                                    <field name="hours" optional="hide"/>
+                                    <field name="price_unit"/>
+                                    <field name="amount"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                    <field name="note" placeholder="Notes..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_inom_cost_template" model="ir.actions.act_window">
+        <field name="name">Templates</field>
+        <field name="res_model">inom.cost.template</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

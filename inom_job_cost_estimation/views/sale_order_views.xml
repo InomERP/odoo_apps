@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_order_form_inom_estimate" model="ir.ui.view">
+        <field name="name">sale.order.form.inom.estimate</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button name="action_view_inom_estimate" type="object"
+                        class="oe_stat_button" icon="fa-calculator"
+                        groups="inom_job_cost_estimation.group_inom_cost_user"
+                        invisible="not inom_estimate_id">
+                    <field name="inom_estimate_count" widget="statinfo"
+                           string="Estimate"/>
+                </button>
+            </div>
+            <field name="client_order_ref" position="after">
+                <field name="inom_estimate_id"
+                       groups="inom_job_cost_estimation.group_inom_cost_user"
+                       invisible="not inom_estimate_id"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_order_list_inom_estimate" model="ir.ui.view">
+        <field name="name">sale.order.list.inom.estimate</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="inom_estimate_id" optional="hide"
+                       groups="inom_job_cost_estimation.group_inom_cost_user"/>
+            </field>
+        </field>
+    </record>
+</odoo>

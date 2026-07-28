@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_inom_cost_root"
+              name="Job Costing"
+              web_icon="inom_job_cost_estimation,static/description/icon.png"
+              sequence="55"/>
+
+    <menuitem id="menu_inom_cost_estimate"
+              name="Cost Estimates"
+              parent="menu_inom_cost_root"
+              action="action_inom_cost_estimate"
+              sequence="10"/>
+
+    <menuitem id="menu_inom_cost_dashboard"
+              name="Analysis"
+              parent="menu_inom_cost_root"
+              action="action_inom_cost_dashboard"
+              sequence="20"/>
+
+    <menuitem id="menu_inom_cost_config"
+              name="Configuration"
+              parent="menu_inom_cost_root"
+              sequence="90"
+              groups="group_inom_cost_manager"/>
+
+    <menuitem id="menu_inom_cost_category"
+              name="Job Categories"
+              parent="menu_inom_cost_config"
+              action="action_inom_cost_category"
+              sequence="10"/>
+
+    <menuitem id="menu_inom_rate_card"
+              name="Rate Cards"
+              parent="menu_inom_cost_config"
+              action="action_inom_rate_card"
+              sequence="25"/>
+    <menuitem id="menu_inom_cost_template"
+              name="Templates"
+              parent="menu_inom_cost_config"
+              action="action_inom_cost_template"
+              sequence="20"/>
+
+    <menuitem id="menu_inom_cost_settings"
+              name="Settings"
+              parent="menu_inom_cost_config"
+              action="action_inom_config_settings"
+              sequence="30"/>
+
+    <menuitem id="menu_inom_dashboard_trend"
+              name="Estimate Trend"
+              parent="menu_inom_cost_dashboard"
+              action="action_inom_dashboard_trend"
+              sequence="10"/>
+
+    <menuitem id="menu_inom_dashboard_margin"
+              name="Margin Analysis"
+              parent="menu_inom_cost_dashboard"
+              action="action_inom_dashboard_margin"
+              sequence="20"/>
+
+    <menuitem id="menu_inom_dashboard_customer"
+              name="Top Customers"
+              parent="menu_inom_cost_dashboard"
+              action="action_inom_dashboard_customer"
+              sequence="30"/>
+
+    <menuitem id="menu_inom_dashboard_state"
+              name="Approval Status"
+              parent="menu_inom_cost_dashboard"
+              action="action_inom_dashboard_state"
+              sequence="40"/>
+
+    <menuitem id="menu_inom_dashboard_variance"
+              name="Estimated vs Actual"
+              parent="menu_inom_cost_dashboard"
+              action="action_inom_dashboard_variance"
+              sequence="50"/>
+</odoo>
