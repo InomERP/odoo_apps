@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_inom_estimate" model="ir.actions.report">
+        <field name="name">Job Cost Estimate</field>
+        <field name="model">inom.cost.estimate</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inom_job_cost_estimation.report_inom_estimate</field>
+        <field name="report_file">inom_job_cost_estimation.report_inom_estimate</field>
+        <field name="binding_model_id" ref="model_inom_cost_estimate"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_inom_estimate_document">
+        <t t-call="web.external_layout">
+            <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)"/>
+            <div class="page">
+                <h2>Cost Estimate <span t-field="doc.name"/>
+                    <small t-if="doc.revision"> (Rev. <span t-field="doc.revision"/>)</small>
+                </h2>
+                <div class="row mt-4 mb-4">
+                    <div class="col-6">
+                        <strong>Customer:</strong>
+                        <div t-field="doc.partner_id"
+                             t-options='{"widget": "contact", "fields": ["name", "address", "phone", "email"]}'/>
+                    </div>
+                    <div class="col-6">
+                        <table class="table table-sm table-borderless">
+                            <tr><td><strong>Date</strong></td><td><span t-field="doc.date_estimate"/></td></tr>
+                            <tr t-if="doc.date_expiry"><td><strong>Expiry</strong></td><td><span t-field="doc.date_expiry"/></td></tr>
+                            <tr t-if="doc.duration_days"><td><strong>Duration</strong></td>
+                                <td><span t-field="doc.duration_days"/> days</td></tr>
+                            <tr t-if="doc.category_id"><td><strong>Job Category</strong></td><td><span t-field="doc.category_id"/></td></tr>
+                            <tr><td><strong>Status</strong></td><td><span t-field="doc.state"/></td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <t t-if="doc.material_line_ids">
+                    <h4>Materials</h4>
+                    <table class="table table-sm o_main_table">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th class="text-end">Qty</th>
+                                <th>UoM</th>
+                                <th class="text-end">Unit Price</th>
+                                <th class="text-end">Disc. %</th>
+                                <th class="text-end">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="doc.material_line_ids" t-as="line">
+                                <td><span t-field="line.name"/></td>
+                                <td class="text-end"><span t-field="line.quantity"/></td>
+                                <td><span t-field="line.uom_id"/></td>
+                                <td class="text-end"><span t-field="line.price_unit_sell"/></td>
+                                <td class="text-end"><span t-esc="'%.2f' % line._get_effective_discount()"/></td>
+                                <td class="text-end"><span t-field="line.price_sell"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+
+                <t t-if="doc.labour_line_ids">
+                    <h4>Manpower</h4>
+                    <table class="table table-sm o_main_table">
+                        <thead>
+                            <tr>
+                                <th>Role / Description</th>
+                                <th class="text-end">Persons</th>
+                                <th class="text-end">Hours</th>
+                                <th class="text-end">Rate/Hr</th>
+                                <th class="text-end">Disc. %</th>
+                                <th class="text-end">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="doc.labour_line_ids" t-as="line">
+                                <td><span t-field="line.name"/></td>
+                                <td class="text-end"><span t-field="line.quantity"/></td>
+                                <td class="text-end"><span t-field="line.hours"/></td>
+                                <td class="text-end"><span t-field="line.price_unit_sell"/></td>
+                                <td class="text-end"><span t-esc="'%.2f' % line._get_effective_discount()"/></td>
+                                <td class="text-end"><span t-field="line.price_sell"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+
+                <t t-if="doc.equipment_line_ids">
+                    <h4>Equipment</h4>
+                    <table class="table table-sm o_main_table">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th class="text-end">Units</th>
+                                <th class="text-end">Duration</th>
+                                <th class="text-end">Basis</th>
+                                <th class="text-end">Rate</th>
+                                <th class="text-end">Disc. %</th>
+                                <th class="text-end">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="doc.equipment_line_ids" t-as="line">
+                                <td><span t-field="line.name"/></td>
+                                <td class="text-end"><span t-field="line.quantity"/></td>
+                                <td class="text-end"><span t-field="line.duration"/></td>
+                                <td class="text-end"><span t-field="line.rate_unit"/></td>
+                                <td class="text-end"><span t-field="line.price_unit_sell"/></td>
+                                <td class="text-end"><span t-esc="'%.2f' % line._get_effective_discount()"/></td>
+                                <td class="text-end"><span t-field="line.price_sell"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+
+                <t t-if="doc.overhead_line_ids">
+                    <h4>Indirect Cost</h4>
+                    <table class="table table-sm o_main_table">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th class="text-end">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="doc.overhead_line_ids" t-as="line">
+                                <td><span t-field="line.name"/></td>
+                                <td class="text-end"><span t-field="line.price_sell"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+
+                <div class="row justify-content-end">
+                    <div class="col-5">
+                        <table class="table table-sm" style="break-inside: avoid;">
+                            <tr><td>Subtotal</td><td class="text-end"><span t-field="doc.amount_sell"/></td></tr>
+                            <tr><td>Taxes</td><td class="text-end"><span t-field="doc.amount_tax"/></td></tr>
+                            <tr t-if="doc.amount_rounding"><td>Rounding</td>
+                                <td class="text-end"><span t-field="doc.amount_rounding"/></td></tr>
+                            <tr class="border-black o_total">
+                                <td><strong>Total</strong></td>
+                                <td class="text-end"><strong t-field="doc.amount_total"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="mt-4 text-center" t-if="doc.state != 'draft'">
+                    <img t-att-src="doc._get_portal_qr_src()" alt="QR"
+                         style="width:110px;height:110px;"/>
+                    <div class="text-muted" style="font-size:11px;">
+                        Scan to view and approve online
+                    </div>
+                </div>
+
+                <div t-if="doc.revision_note" class="mt-3">
+                    <strong>Revision Note</strong>
+                    <p t-field="doc.revision_note"/>
+                </div>
+
+                <div t-if="doc.terms" class="mt-4">
+                    <strong>Terms &amp; Conditions</strong>
+                    <p t-field="doc.terms"/>
+                </div>
+                <div t-if="doc.signed_by" class="mt-4">
+                    <strong>Approved online by:</strong> <span t-field="doc.signed_by"/>
+                    on <span t-field="doc.signed_on"/>
+                    <div t-if="doc.signature">
+                        <img t-att-src="image_data_uri(doc.signature)" alt="Signature"
+                             style="max-height:70px;"/>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_inom_estimate">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="inom_job_cost_estimation.report_inom_estimate_document"
+                   t-lang="doc.partner_id.lang"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_inom_estimate_internal" model="ir.actions.report">
+        <field name="name">Internal Cost Sheet</field>
+        <field name="model">inom.cost.estimate</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inom_job_cost_estimation.report_inom_estimate_internal</field>
+        <field name="report_file">inom_job_cost_estimation.report_inom_estimate_internal</field>
+        <field name="group_ids" eval="[(4, ref('group_inom_cost_user'))]"/>
+        <field name="binding_model_id" ref="model_inom_cost_estimate"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_inom_estimate_internal_document">
+        <t t-call="web.external_layout">
+            <div class="page">
+                <h2>Internal Cost Sheet <span t-field="doc.name"/>
+                    <small t-if="doc.revision"> (Rev. <span t-field="doc.revision"/>)</small>
+                </h2>
+                <p class="text-muted">
+                    <strong>Not for the customer.</strong>
+                    This sheet shows cost, markup and margin.
+                </p>
+                <div class="row mt-3 mb-4">
+                    <div class="col-6">
+                        <strong>Customer:</strong>
+                        <div t-field="doc.partner_id" t-options='{"widget": "contact"}'/>
+                    </div>
+                    <div class="col-6">
+                        <table class="table table-sm table-borderless">
+                            <tr><td><strong>Date</strong></td><td><span t-field="doc.date_estimate"/></td></tr>
+                            <tr t-if="doc.category_id"><td><strong>Job Category</strong></td><td><span t-field="doc.category_id"/></td></tr>
+                            <tr><td><strong>Status</strong></td><td><span t-field="doc.state"/></td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <t t-foreach="doc._get_internal_sections()" t-as="section">
+                    <t t-if="section['lines']">
+                        <h4 t-esc="section['title']"/>
+                        <table class="table table-sm o_main_table">
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th class="text-end">Cost</th>
+                                    <th class="text-end">Markup %</th>
+                                    <th class="text-end">Selling</th>
+                                    <th class="text-end">Margin</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="section['lines']" t-as="line">
+                                    <td><span t-field="line.name"/></td>
+                                    <td class="text-end"><span t-field="line.price_subtotal"/></td>
+                                    <td class="text-end">
+                                        <span t-esc="'%.2f' % line._get_effective_markup()"/>
+                                    </td>
+                                    <td class="text-end"><span t-field="line.price_sell"/></td>
+                                    <td class="text-end">
+                                        <span t-esc="line.price_sell - line.price_subtotal"
+                                              t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
+                </t>
+
+                <div class="row justify-content-end">
+                    <div class="col-6">
+                        <table class="table table-sm">
+                            <tr><td>Material Cost</td><td class="text-end"><span t-field="doc.amount_material"/></td></tr>
+                            <tr><td>Manpower Cost</td><td class="text-end"><span t-field="doc.amount_labour"/></td></tr>
+                            <tr><td>Equipment Cost</td><td class="text-end"><span t-field="doc.amount_equipment"/></td></tr>
+                            <tr><td>Indirect Cost</td><td class="text-end"><span t-field="doc.amount_overhead"/></td></tr>
+                            <tr class="border-black"><td><strong>Total Cost</strong></td>
+                                <td class="text-end"><strong t-field="doc.amount_cost"/></td></tr>
+                            <tr><td>Markup (%)</td><td class="text-end"><span t-esc="'%.2f' % doc.markup_percent"/></td></tr>
+                            <tr><td>Margin Amount</td><td class="text-end"><span t-field="doc.amount_margin"/></td></tr>
+                            <tr><td>Margin (%)</td><td class="text-end"><span t-esc="'%.2f' % doc.margin_percent"/></td></tr>
+                            <tr><td>Selling Price</td><td class="text-end"><span t-field="doc.amount_sell"/></td></tr>
+                            <tr><td>Taxes</td><td class="text-end"><span t-field="doc.amount_tax"/></td></tr>
+                            <tr class="border-black o_total">
+                                <td><strong>Final Price</strong></td>
+                                <td class="text-end"><strong t-field="doc.amount_total"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_inom_estimate_internal">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="inom_job_cost_estimation.report_inom_estimate_internal_document"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_inom_material" model="ir.actions.report">
+        <field name="name">Material Requirement</field>
+        <field name="model">inom.cost.estimate</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inom_job_cost_estimation.report_inom_material</field>
+        <field name="report_file">inom_job_cost_estimation.report_inom_material</field>
+        <field name="binding_model_id" ref="model_inom_cost_estimate"/>
+        <field name="binding_type">report</field>
+        <field name="group_ids" eval="[(4, ref('group_inom_cost_user'))]"/>
+    </record>
+
+    <template id="report_inom_material_document">
+        <t t-call="web.external_layout">
+            <div class="page">
+                <h2>Material Requirement <span t-field="doc.name"/></h2>
+                <p class="text-muted">
+                    <span t-field="doc.partner_id"/>
+                    <t t-if="doc.project_id"> - <span t-field="doc.project_id"/></t>
+                </p>
+                <table class="table table-sm o_main_table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Description</th>
+                            <th class="text-end">Quantity</th>
+                            <th>UoM</th>
+                            <th class="text-end">Unit Cost</th>
+                            <th class="text-end">Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="doc.material_line_ids" t-as="line">
+                            <td><span t-field="line.product_id"/></td>
+                            <td><span t-field="line.name"/></td>
+                            <td class="text-end"><span t-field="line.quantity"/></td>
+                            <td><span t-field="line.uom_id"/></td>
+                            <td class="text-end"><span t-field="line.price_unit" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></td>
+                            <td class="text-end"><span t-field="line.price_subtotal"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row justify-content-end">
+                    <div class="col-4">
+                        <table class="table table-sm">
+                            <tr class="border-black o_total">
+                                <td><strong>Total Material Cost</strong></td>
+                                <td class="text-end"><strong t-field="doc.amount_material"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_inom_material">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="inom_job_cost_estimation.report_inom_material_document"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_inom_labour" model="ir.actions.report">
+        <field name="name">Manpower Plan</field>
+        <field name="model">inom.cost.estimate</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inom_job_cost_estimation.report_inom_labour</field>
+        <field name="report_file">inom_job_cost_estimation.report_inom_labour</field>
+        <field name="binding_model_id" ref="model_inom_cost_estimate"/>
+        <field name="binding_type">report</field>
+        <field name="group_ids" eval="[(4, ref('group_inom_cost_user'))]"/>
+    </record>
+
+    <template id="report_inom_labour_document">
+        <t t-call="web.external_layout">
+            <div class="page">
+                <h2>Manpower Plan <span t-field="doc.name"/></h2>
+                <p class="text-muted">
+                    <span t-field="doc.partner_id"/>
+                    <t t-if="doc.duration_days"> - <span t-field="doc.duration_days"/> days</t>
+                </p>
+                <table class="table table-sm o_main_table">
+                    <thead>
+                        <tr>
+                            <th>Role / Description</th>
+                            <th>Employee</th>
+                            <th class="text-end">Persons</th>
+                            <th class="text-end">Hours</th>
+                            <th class="text-end">Man-hours</th>
+                            <th class="text-end">Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="doc.labour_line_ids" t-as="line">
+                            <td><span t-field="line.name"/></td>
+                            <td><span t-field="line.employee_id"/></td>
+                            <td class="text-end"><span t-field="line.quantity"/></td>
+                            <td class="text-end"><span t-field="line.hours"/></td>
+                            <td class="text-end">
+                                <span t-esc="'%.2f' % (line.quantity * line.hours)"/>
+                            </td>
+                            <td class="text-end"><span t-field="line.price_subtotal"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <t t-if="doc.equipment_line_ids">
+                    <h4>Equipment</h4>
+                    <table class="table table-sm o_main_table">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th class="text-end">Units</th>
+                                <th class="text-end">Duration</th>
+                                <th class="text-end">Basis</th>
+                                <th class="text-end">Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="doc.equipment_line_ids" t-as="line">
+                                <td><span t-field="line.name"/></td>
+                                <td class="text-end"><span t-field="line.quantity"/></td>
+                                <td class="text-end"><span t-field="line.duration"/></td>
+                                <td class="text-end"><span t-field="line.rate_unit"/></td>
+                                <td class="text-end"><span t-field="line.price_subtotal"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+                <div class="row justify-content-end">
+                    <div class="col-4">
+                        <table class="table table-sm">
+                            <tr><td>Manpower Cost</td>
+                                <td class="text-end"><span t-field="doc.amount_labour"/></td></tr>
+                            <tr><td>Equipment Cost</td>
+                                <td class="text-end"><span t-field="doc.amount_equipment"/></td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_inom_labour">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="inom_job_cost_estimation.report_inom_labour_document"/>
+            </t>
+        </t>
+    </template>
+</odoo>
