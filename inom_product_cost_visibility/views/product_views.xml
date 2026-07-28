@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Product Template form: hide the whole Cost group -->
+    <record id="product_template_form_cost_visibility" model="ir.ui.view">
+        <field name="name">product.template.form.cost.visibility</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='group_standard_price']" position="attributes">
+                <attribute name="groups">inom_product_cost_visibility.group_product_cost_visibility</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Product Variant form -->
+    <record id="product_normal_form_cost_visibility" model="ir.ui.view">
+        <field name="name">product.product.form.cost.visibility</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='group_standard_price']" position="attributes">
+                <attribute name="groups">inom_product_cost_visibility.group_product_cost_visibility</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Variant quick-edit form (Cost sits inside the shared Pricing group) -->
+    <record id="product_variant_easy_edit_cost_visibility" model="ir.ui.view">
+        <field name="name">product.product.easy.edit.cost.visibility</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_variant_easy_edit_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//label[@for='standard_price']" position="attributes">
+                <attribute name="groups">inom_product_cost_visibility.group_product_cost_visibility</attribute>
+            </xpath>
+            <xpath expr="//field[@name='standard_price']/parent::div" position="attributes">
+                <attribute name="groups">inom_product_cost_visibility.group_product_cost_visibility</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Product Template list -->
+    <record id="product_template_tree_cost_visibility" model="ir.ui.view">
+        <field name="name">product.template.list.cost.visibility</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='standard_price']" position="attributes">
+                <attribute name="groups">inom_product_cost_visibility.group_product_cost_visibility</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Product Variant list -->
+    <record id="product_product_tree_cost_visibility" model="ir.ui.view">
+        <field name="name">product.product.list.cost.visibility</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_product_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='standard_price']" position="attributes">
+                <attribute name="groups">inom_product_cost_visibility.group_product_cost_visibility</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
