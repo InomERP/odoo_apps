@@ -110,7 +110,7 @@ Features
 * Restricted Internal Cost Sheet, Material Requirement and Manpower Plan reports
 * List, kanban, calendar, pivot, graph and activity views
 """,
-    'author': 'Inomerp',
+    'author': 'InomERP',
     'company': 'Inomerp',
     'maintainer': 'Inomerp',
     'website': 'https://inomerp.in',
