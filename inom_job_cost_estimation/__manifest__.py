@@ -111,8 +111,8 @@ Features
 * List, kanban, calendar, pivot, graph and activity views
 """,
     'author': 'InomERP',
-    'company': 'Inomerp',
-    'maintainer': 'Inomerp',
+    'company': 'InomERP',
+    'maintainer': 'InomERP',
     'website': 'https://inomerp.in',
     'support': 'info@inomerp.in',
     'license': 'OPL-1',
