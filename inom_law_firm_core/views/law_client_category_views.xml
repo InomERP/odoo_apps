@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_law_client_category_list" model="ir.ui.view">
+        <field name="name">law.client.category.list</field>
+        <field name="model">law.client.category</field>
+        <field name="arch" type="xml">
+            <tree string="Client Categories" editable="bottom">
+                <field name="name"/>
+                <field name="color" widget="color_picker"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_law_client_category" model="ir.actions.act_window">
+        <field name="name">Client Categories</field>
+        <field name="res_model">law.client.category</field>
+        <field name="view_mode">tree</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first client category</p>
+            <p>Segment clients, e.g. Corporate, Individual, Government, Retainer.</p>
+        </field>
+    </record>
+</odoo>
