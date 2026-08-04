@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_law_case_form_evidence" model="ir.ui.view">
+        <field name="name">law.case.form.evidence</field>
+        <field name="model">law.case</field>
+        <field name="inherit_id" ref="inom_law_firm_core.view_law_case_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button" type="object" icon="fa-archive"
+                        name="action_view_evidence">
+                    <field name="evidence_count" widget="statinfo" string="Evidence"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

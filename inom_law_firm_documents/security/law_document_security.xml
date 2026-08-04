@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Multi-company -->
+    <record id="law_document_company_rule" model="ir.rule">
+        <field name="name">Document: multi-company</field>
+        <field name="model_id" ref="model_law_document"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- Confidential documents: non-admins see only non-confidential ones,
+         plus those they are responsible for or on the case for.
+         Full case-team confidentiality is finalised in Phase 24. -->
+    <record id="law_document_confidential_user_rule" model="ir.rule">
+        <field name="name">Document: confidential visibility (user)</field>
+        <field name="model_id" ref="model_law_document"/>
+        <field name="groups" eval="[(4, ref('inom_law_firm_core.group_law_firm_user'))]"/>
+        <field name="domain_force">['|', '|', ('confidential', '=', False), ('responsible_id', '=', user.id), ('case_id.user_id', '=', user.id)]</field>
+    </record>
+    <record id="law_document_admin_rule" model="ir.rule">
+        <field name="name">Document: administrators see all</field>
+        <field name="model_id" ref="model_law_document"/>
+        <field name="groups" eval="[(4, ref('inom_law_firm_core.group_law_firm_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+</odoo>
