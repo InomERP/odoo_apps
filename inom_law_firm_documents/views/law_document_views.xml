@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_law_document_type_list" model="ir.ui.view">
+        <field name="name">law.document.type.list</field>
+        <field name="model">law.document.type</field>
+        <field name="arch" type="xml">
+            <tree string="Document Types" editable="bottom">
+                <field name="name"/><field name="code"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_law_document_type" model="ir.actions.act_window">
+        <field name="name">Document Types</field>
+        <field name="res_model">law.document.type</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <record id="view_law_document_list" model="ir.ui.view">
+        <field name="name">law.document.list</field>
+        <field name="model">law.document</field>
+        <field name="arch" type="xml">
+            <tree string="Documents">
+                <field name="reference"/>
+                <field name="name"/>
+                <field name="case_id"/>
+                <field name="document_type_id" optional="show"/>
+                <field name="confidential" optional="show"/>
+                <field name="expiry_date" optional="show"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_law_document_kanban" model="ir.ui.view">
+        <field name="name">law.document.kanban</field>
+        <field name="model">law.document</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" string="Documents">
+                <field name="state"/>
+                <field name="confidential"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title"><field name="name"/></strong>
+                                <div class="text-muted"><field name="reference"/></div>
+                                <div><field name="case_id"/></div>
+                                <div t-if="record.document_type_id.raw_value"><field name="document_type_id"/></div>
+                                <div t-if="record.expiry_date.raw_value"><i class="fa fa-calendar-times-o me-1"/>Expires: <field name="expiry_date"/></div>
+                                <div t-if="record.confidential.raw_value">
+                                    <span class="badge text-bg-warning"><i class="fa fa-lock me-1"/>Confidential</span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_law_document_activity" model="ir.ui.view">
+        <field name="name">law.document.activity</field>
+        <field name="model">law.document</field>
+        <field name="arch" type="xml">
+            <activity string="Documents">
+                <templates>
+                    <div t-name="activity-box">
+                        <field name="name" display="full"/>
+                        <field name="case_id" muted="1"/>
+                    </div>
+                </templates>
+            </activity>
+        </field>
+    </record>
+
+    <record id="view_law_document_form" model="ir.ui.view">
+        <field name="name">law.document.form</field>
+        <field name="model">law.document</field>
+        <field name="arch" type="xml">
+            <form string="Document">
+                <header>
+                    <button name="action_review" type="object" string="Submit for Review"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_approve" type="object" string="Approve"
+                            invisible="state != 'review'"/>
+                    <button name="action_sign" type="object" string="Mark Signed"
+                            invisible="state != 'approved'"/>
+                    <button name="action_archive_doc" type="object" string="Archive"
+                            invisible="state in ('draft', 'archived', 'expired')"/>
+                    <button name="action_save_version" type="object" string="Save Version"
+                            class="btn-secondary"/>
+                    <button name="action_set_draft" type="object" string="Reset to Draft"
+                            invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="Document title..."/></h1>
+                        <h3><field name="reference" readonly="1"/></h3>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="case_id"/>
+                            <field name="document_type_id"/>
+                            <field name="responsible_id"/>
+                            <field name="confidential"/>
+                        </group>
+                        <group>
+                            <field name="issue_date"/>
+                            <field name="expiry_date"/>
+                            <field name="version_number"/>
+                            <field name="file" filename="filename"/>
+                            <field name="filename" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Description" name="description">
+                            <field name="description"/>
+                        </page>
+                        <page string="Version History" name="versions">
+                            <field name="version_ids" readonly="1">
+                                <tree>
+                                    <field name="version_number"/>
+                                    <field name="filename"/>
+                                    <field name="file" filename="filename"/>
+                                    <field name="created_on"/>
+                                    <field name="created_by"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_law_document_search" model="ir.ui.view">
+        <field name="name">law.document.search</field>
+        <field name="model">law.document</field>
+        <field name="arch" type="xml">
+            <search string="Documents">
+                <field name="name"/>
+                <field name="reference"/>
+                <field name="case_id"/>
+                <field name="document_type_id"/>
+                <field name="responsible_id"/>
+                <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="review" string="Review" domain="[('state', '=', 'review')]"/>
+                <filter name="approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                <filter name="signed" string="Signed" domain="[('state', '=', 'signed')]"/>
+                <filter name="archived" string="Archived" domain="[('state', '=', 'archived')]"/>
+                <filter name="expired" string="Expired" domain="[('state', '=', 'expired')]"/>
+                <separator/>
+                <filter name="confidential" string="Confidential" domain="[('confidential', '=', True)]"/>
+                <filter name="my_documents" string="My Documents" domain="[('responsible_id', '=', uid)]"/>
+                <group>
+                    <filter name="g_case" string="Case" context="{'group_by': 'case_id'}"/>
+                    <filter name="g_type" string="Type" context="{'group_by': 'document_type_id'}"/>
+                    <filter name="g_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_law_document" model="ir.actions.act_window">
+        <field name="name">Documents</field>
+        <field name="res_model">law.document</field>
+        <field name="view_mode">kanban,tree,activity,form</field>
+        <field name="search_view_id" ref="view_law_document_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Register your first document</p>
+            <p>Manage legal documents with a lifecycle, confidentiality and immutable version history.</p>
+        </field>
+    </record>
+</odoo>
