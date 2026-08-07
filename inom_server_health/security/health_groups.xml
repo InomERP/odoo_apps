@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Two groups rather than reusing base.group_system.
+
+         Reading a CPU graph should not require the right to change accounting
+         settings or install modules. Splitting them lets a devops or support
+         person watch the server without being handed the keys to everything.
+
+         Settings users keep access automatically via the implied_ids link
+         below, so this is not a breaking change for existing installs.
+
+         Odoo 19 note: res.groups no longer has category_id. Grouping is done
+         through res.groups.privilege, which itself carries the
+         ir.module.category. Verified against
+         odoo/addons/base/models/res_groups{,_privilege}.py on 19.0 and the
+         declaration pattern in addons/project/security/project_security.xml. -->
+
+    <record id="module_category_server_health" model="ir.module.category">
+        <field name="name">Server Health</field>
+        <field name="description">Access to server, database and Odoo health metrics.</field>
+        <field name="sequence">70</field>
+    </record>
+
+    <record id="res_groups_privilege_server_health" model="res.groups.privilege">
+        <field name="name">Server Health</field>
+        <field name="description">Who can see infrastructure metrics and manage alert rules.</field>
+        <field name="sequence">70</field>
+        <field name="category_id" ref="module_category_server_health"/>
+    </record>
+
+    <record id="group_server_health_viewer" model="res.groups">
+        <field name="name">Viewer</field>
+        <field name="sequence">10</field>
+        <field name="privilege_id" ref="res_groups_privilege_server_health"/>
+        <field name="comment">Viewer: can read the live dashboard, history and alerts. Cannot change alert rules.</field>
+    </record>
+
+    <record id="group_server_health_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="sequence">20</field>
+        <field name="privilege_id" ref="res_groups_privilege_server_health"/>
+        <field name="implied_ids" eval="[(4, ref('group_server_health_viewer'))]"/>
+        <field name="comment">Manager: everything a Viewer can do, plus creating and editing alert rules.</field>
+    </record>
+
+    <!-- Existing Settings users keep the access they had before this split. -->
+    <record id="base.group_system" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('group_server_health_manager'))]"/>
+    </record>
+
+</odoo>
