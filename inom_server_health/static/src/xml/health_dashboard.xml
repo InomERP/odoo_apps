@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="inom_server_health.Dashboard">
+    <div class="o_inom_health o_action" t-att-class="{ 'o_inom_paused': state.paused }">
+
+        <header class="o_inom_masthead">
+            <h1>Server health</h1>
+            <span class="o_inom_spacer"/>
+            <span class="o_inom_live">
+                <span class="o_inom_dot"/>
+                <t t-if="state.manualPause">Paused</t>
+                <t t-elif="state.paused">Backgrounded</t>
+                <t t-elif="state.error">Reconnecting</t>
+                <t t-else="">Live</t>
+            </span>
+            <button class="o_inom_ctl" type="button"
+                    t-on-click="() => this.togglePause()">
+                <t t-if="state.manualPause">Resume</t>
+                <t t-else="">Pause</t>
+            </button>
+            <button class="o_inom_ctl" type="button"
+                    t-on-click="() => this.refreshNow()">Refresh now</button>
+            <button t-if="state.demo" class="o_inom_ctl" type="button"
+                    t-on-click="() => this.triggerDemoSpike()">
+                Simulate load spike
+            </button>
+        </header>
+
+        <div t-if="state.demo" class="o_inom_demo_banner">
+            <strong>Demo mode.</strong> Values on this page may be fabricated
+            for demonstration. Remove <code>?health_demo=1</code> from the URL
+            to see real metrics.
+        </div>
+
+        <!-- SIGNATURE: one continuous multi-channel trace. All four channels
+             are percentages so they share an axis and can be read against
+             each other; CPU alone tells you nothing. -->
+        <section class="o_inom_strip">
+            <div class="o_inom_strip_head">
+                <span class="o_inom_eyebrow">
+                    Live trace · <t t-esc="windowLabel"/>
+                </span>
+                <button class="o_inom_ctl o_inom_ctl_quiet" type="button"
+                        t-on-click="() => this.clearTrace()">Clear</button>
+                <div class="o_inom_legend">
+                    <button t-foreach="channels" t-as="channel"
+                            t-key="channel.key"
+                            type="button"
+                            t-att-aria-pressed="state.channelsOn[channel.key] ? 'true' : 'false'"
+                            t-on-click="() => this.toggleChannel(channel.key)">
+                        <span class="o_inom_swatch"
+                              t-attf-style="background:{{ channel.color }}"/>
+                        <span t-esc="channel.label"/>
+                        <span class="o_inom_legend_val">
+                            <t t-esc="pct(state.latest[channel.key])"/>%
+                        </span>
+                    </button>
+                </div>
+            </div>
+            <div class="o_inom_canvas_shell">
+                <canvas t-ref="chart"/>
+            </div>
+        </section>
+
+        <div t-if="state.error" class="o_inom_alert" data-sev="danger">
+            <span class="o_inom_who">Connection</span>
+            <span>
+                Cannot reach the server (<t t-esc="state.error"/>). Retrying
+                with backoff.
+            </span>
+        </div>
+
+        <div t-if="state.loading" class="o_inom_empty">Reading metrics…</div>
+
+        <t t-if="state.data">
+
+            <!-- Anything actively wrong is stated first, in sentences. -->
+            <div class="o_inom_alerts">
+                <div t-foreach="alerts" t-as="alert" t-key="alert.id"
+                     class="o_inom_alert" t-att-data-sev="alert.sev">
+                    <span class="o_inom_who" t-esc="alert.who"/>
+                    <span t-esc="alert.text"/>
+                </div>
+            </div>
+
+            <section class="o_inom_grid">
+
+                <div class="o_inom_tile"
+                     t-att-data-sev="severity(host.cpu_percent, 70, 90)"
+                     t-attf-style="--inom-tile-accent:var(--inom-ch-cpu)">
+                    <div class="o_inom_tile_label">CPU</div>
+                    <div class="o_inom_tile_value">
+                        <t t-esc="pct(host.cpu_percent)"/><span class="o_inom_unit">%</span>
+                    </div>
+                    <div class="o_inom_tile_note">
+                        <t t-if="host.load">
+                            load <t t-esc="host.load['1m']"/> /
+                            <t t-esc="host.load['5m']"/> /
+                            <t t-esc="host.load['15m']"/>
+                        </t>
+                        <t t-if="coreLabel"> · <t t-esc="coreLabel"/></t>
+                    </div>
+                </div>
+
+                <div class="o_inom_tile"
+                     t-att-data-sev="severity(memory.percent, 80, 92)"
+                     t-attf-style="--inom-tile-accent:var(--inom-ch-mem)">
+                    <div class="o_inom_tile_label">
+                        Memory
+                        <span t-if="memory.containerised" class="o_inom_tag"
+                              title="Reported against the container limit, not the host.">
+                            container
+                        </span>
+                    </div>
+                    <div class="o_inom_tile_value">
+                        <t t-esc="pct(memory.percent)"/><span class="o_inom_unit">%</span>
+                    </div>
+                    <div class="o_inom_tile_note">
+                        <t t-esc="bytes(memory.used)"/> of
+                        <t t-esc="bytes(memory.limit)"/>
+                        <t t-if="memory.swap_total">
+                            · swap <t t-esc="bytes(memory.swap_used)"/>
+                        </t>
+                    </div>
+                </div>
+
+                <div class="o_inom_tile"
+                     t-att-data-sev="severity(pg.conn_percent, 70, 90)"
+                     t-attf-style="--inom-tile-accent:var(--inom-ch-db)">
+                    <div class="o_inom_tile_label">DB connections</div>
+                    <div class="o_inom_tile_value">
+                        <t t-esc="pg.conn_total"/><span class="o_inom_unit">/<t t-esc="pg.conn_max"/></span>
+                    </div>
+                    <div class="o_inom_tile_note">
+                        <t t-esc="pg.conn_active"/> active ·
+                        <t t-esc="pg.conn_idle_tx"/> idle in transaction
+                    </div>
+                </div>
+
+                <div class="o_inom_tile"
+                     t-att-data-sev="severity(100 - (pg.cache_hit_pct || 100), 1, 4)"
+                     t-attf-style="--inom-tile-accent:var(--inom-ch-load)">
+                    <div class="o_inom_tile_label">DB cache hit</div>
+                    <div class="o_inom_tile_value">
+                        <t t-esc="pct(pg.cache_hit_pct)"/><span class="o_inom_unit">%</span>
+                    </div>
+                    <div class="o_inom_tile_note">
+                        <t t-esc="bytes(pg.db_size)"/> · slowest running
+                        <t t-esc="pct(pg.longest_query_s)"/>s
+                    </div>
+                </div>
+
+                <div class="o_inom_tile"
+                     t-attf-style="--inom-tile-accent:var(--inom-ch-users)">
+                    <div class="o_inom_tile_label">Users working</div>
+                    <div class="o_inom_tile_value">
+                        <t t-esc="users.online || 0"/><span
+                            class="o_inom_unit">online</span>
+                    </div>
+                    <div class="o_inom_tile_note">
+                        <t t-esc="users.away || 0"/> away ·
+                        <t t-esc="users.recent || 0"/> seen in last 30 min
+                    </div>
+                </div>
+
+            </section>
+
+            <section class="o_inom_cols">
+
+                <div class="o_inom_panel">
+                    <h2>Workers</h2>
+                    <table t-if="workers.length">
+                        <thead>
+                            <tr>
+                                <th>PID</th>
+                                <th>Role</th>
+                                <th class="o_inom_num">Memory</th>
+                                <th style="width:110px">vs hard limit</th>
+                                <th class="o_inom_num">Threads</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="workers" t-as="worker" t-key="worker.pid">
+                                <td t-esc="worker.pid"/>
+                                <td class="o_inom_role">
+                                    <t t-if="worker.is_master">master</t>
+                                    <t t-else="">worker</t>
+                                </td>
+                                <td class="o_inom_num" t-esc="bytes(worker.rss)"/>
+                                <td>
+                                    <div class="o_inom_meter"
+                                         t-att-data-sev="severity(worker.hard_limit_pct, 75, 90)">
+                                        <i t-attf-style="width:{{ barWidth(worker.hard_limit_pct) }}"/>
+                                    </div>
+                                </td>
+                                <td class="o_inom_num" t-esc="worker.threads"/>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p t-else="" class="o_inom_empty">
+                        Process details unavailable — psutil is not installed,
+                        or the container hides sibling processes.
+                    </p>
+                </div>
+
+                <div class="o_inom_panel">
+                    <h2>Who is working</h2>
+                    <div t-if="activeUsers.length" class="o_inom_roster">
+                        <div t-foreach="activeUsers" t-as="person"
+                             t-key="person.id" class="o_inom_person">
+                            <span class="o_inom_status"
+                                  t-att-data-status="person.status"/>
+                            <span class="o_inom_person_name"
+                                  t-esc="person.name"/>
+                            <span class="o_inom_free">
+                                <t t-if="person.idle_s &lt; 60">active now</t>
+                                <t t-else="">idle <t t-esc="duration(person.idle_s)"/></t>
+                            </span>
+                        </div>
+                    </div>
+                    <p t-elif="users.available === false" class="o_inom_empty">
+                        Presence tracking unavailable — the mail module is not
+                        installed on this database.
+                    </p>
+                    <p t-else="" class="o_inom_empty">Nobody is signed in.</p>
+                </div>
+
+                <div class="o_inom_panel">
+                    <h2>Storage</h2>
+                    <div t-foreach="disks" t-as="mount" t-key="mount.path"
+                         class="o_inom_mount">
+                        <span class="o_inom_path" t-esc="mount.path"/>
+                        <span class="o_inom_free"><t t-esc="bytes(mount.free)"/> free</span>
+                        <div class="o_inom_meter"
+                             t-att-data-sev="severity(mount.percent, 80, 92)">
+                            <i t-attf-style="width:{{ barWidth(mount.percent) }}"/>
+                        </div>
+                        <span class="o_inom_free o_inom_mount_pct">
+                            <t t-esc="pct(mount.percent)"/>%
+                        </span>
+                    </div>
+                    <div class="o_inom_tile_note o_inom_storage_note">
+                        Uptime <t t-esc="duration(host.uptime_s)"/> ·
+                        mail queue <t t-esc="mail.outgoing || 0"/> outgoing
+                    </div>
+                </div>
+
+            </section>
+
+            <div class="o_inom_foot">
+                <span>probe <b><t t-esc="state.data.collect_ms"/> ms</b></span>
+                <span>interval <b><t t-esc="state.intervalMs / 1000"/> s</b></span>
+                <span>writes per poll <b>0</b></span>
+            </div>
+        </t>
+    </div>
+</t>
+
+</templates>

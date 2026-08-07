@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_health_dashboard" model="ir.actions.client">
+        <field name="name">Server Health</field>
+        <field name="tag">inom_server_health.dashboard</field>
+    </record>
+
+    <record id="view_health_sample_list" model="ir.ui.view">
+        <field name="name">inom.server.health.sample.list</field>
+        <field name="model">inom.server.health.sample</field>
+        <field name="arch" type="xml">
+            <list string="Health Samples" create="false" edit="false">
+                <field name="sampled_at"/>
+                <field name="node"/>
+                <field name="cpu_percent"/>
+                <field name="memory_percent"/>
+                <field name="pg_conn_total"/>
+                <field name="pg_cache_hit_pct"/>
+                <field name="cron_late_count"/>
+                <field name="mail_failed"/>
+                <field name="collect_ms"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_health_sample_graph" model="ir.ui.view">
+        <field name="name">inom.server.health.sample.graph</field>
+        <field name="model">inom.server.health.sample</field>
+        <field name="arch" type="xml">
+            <graph string="Health History" type="line" sample="1">
+                <!-- interval="hour" is not in this release's INTERVAL_OPTIONS
+                     (web/static/src/search/utils/dates.js), so the web client
+                     would reject it. static/src/js/hour_interval.js restores
+                     it the way Odoo 19 does; see the comment in that file. -->
+                <field name="sampled_at" interval="hour"/>
+                <field name="cpu_percent" type="measure"/>
+                <field name="memory_percent" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_health_samples" model="ir.actions.act_window">
+        <field name="name">Health History</field>
+        <field name="res_model">inom.server.health.sample</field>
+        <field name="view_mode">graph,list</field>
+    </record>
+
+    <!-- The Live menu points at an ir.actions.client, which has no model, so
+         Odoo cannot infer access from it. Without an explicit groups= every
+         internal user would see the app, open the dashboard shell, and then
+         get a 403 from the data endpoint. Gate it here. -->
+    <menuitem id="menu_health_root" name="Server Health"
+              web_icon="inom_server_health,static/description/icon.png"
+              groups="inom_server_health.group_server_health_viewer"
+              sequence="200"/>
+    <menuitem id="menu_health_live" name="Live"
+              parent="menu_health_root"
+              groups="inom_server_health.group_server_health_viewer"
+              action="action_health_dashboard" sequence="10"/>
+    <menuitem id="menu_health_history" name="History"
+              parent="menu_health_root"
+              groups="inom_server_health.group_server_health_viewer"
+              action="action_health_samples" sequence="20"/>
+
+    <record id="view_health_rule_list" model="ir.ui.view">
+        <field name="name">inom.server.health.rule.list</field>
+        <field name="model">inom.server.health.rule</field>
+        <field name="arch" type="xml">
+            <list string="Alert Rules">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="metric"/>
+                <field name="operator"/>
+                <field name="threshold"/>
+                <field name="consecutive_breaches" string="Debounce"/>
+                <field name="cooldown_minutes" string="Cooldown (min)"/>
+                <field name="severity" widget="badge"
+                       decoration-danger="severity == 'danger'"
+                       decoration-warning="severity == 'warning'"/>
+                <field name="open_alert_count" string="Open"/>
+                <!-- Audit columns. optional="hide" keeps the default view
+                     clean while making "who changed this threshold, and
+                     when" one click away; that is the question you ask
+                     after an alert misfires. -->
+                <field name="create_uid" string="Created by" optional="hide"
+                       widget="many2one_avatar_user"/>
+                <field name="create_date" string="Created on" optional="hide"/>
+                <field name="write_uid" string="Last edited by"
+                       optional="show" widget="many2one_avatar_user"/>
+                <field name="write_date" string="Last edited"
+                       optional="show"/>
+                <field name="last_notified_at" string="Last fired"
+                       optional="hide"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_health_rule_form" model="ir.ui.view">
+        <field name="name">inom.server.health.rule.form</field>
+        <field name="model">inom.server.health.rule</field>
+        <field name="arch" type="xml">
+            <form string="Alert Rule">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived"
+                            bg_color="text-bg-danger"
+                            invisible="active"/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. Memory above 92%"/></h1>
+                    </div>
+                    <group>
+                        <group string="Condition">
+                            <field name="metric"/>
+                            <field name="operator"/>
+                            <field name="threshold"/>
+                            <field name="severity"/>
+                        </group>
+                        <group string="Noise control">
+                            <field name="consecutive_breaches"/>
+                            <field name="cooldown_minutes"/>
+                            <field name="breach_streak"/>
+                            <field name="last_notified_at"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Notify">
+                        <group>
+                            <field name="notify_email"/>
+                            <field name="user_ids" widget="many2many_tags"
+                                   invisible="not notify_email"
+                                   required="notify_email"/>
+                        </group>
+                        <group>
+                            <field name="notify_channel"/>
+                            <field name="channel_id"
+                                   invisible="not notify_channel"
+                                   required="notify_channel"/>
+                            <field name="notify_webhook"/>
+                            <field name="webhook_url"
+                                   invisible="not notify_webhook"
+                                   required="notify_webhook"
+                                   placeholder="https://hooks.example.com/..."/>
+                        </group>
+                    </group>
+                    <group string="History" col="4">
+                        <field name="create_uid" readonly="1"/>
+                        <field name="create_date" readonly="1"/>
+                        <field name="write_uid" string="Last edited by"
+                               readonly="1"/>
+                        <field name="write_date" string="Last edited"
+                               readonly="1"/>
+                    </group>
+                    <div class="text-muted">
+                        The rule opens an alert only after the breach persists
+                        for the debounce count, and stays quiet for the
+                        cooldown window between notifications. One clean
+                        sample resolves it.
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_health_rules" model="ir.actions.act_window">
+        <field name="name">Alert Rules</field>
+        <field name="res_model">inom.server.health.rule</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_health_alert_list" model="ir.ui.view">
+        <field name="name">inom.server.health.alert.list</field>
+        <field name="model">inom.server.health.alert</field>
+        <field name="arch" type="xml">
+            <list string="Alerts" create="false"
+                  decoration-danger="state == 'open' and severity == 'danger'"
+                  decoration-warning="state == 'open' and severity == 'warning'"
+                  decoration-muted="state == 'resolved'">
+                <field name="opened_at"/>
+                <field name="rule_id"/>
+                <field name="node"/>
+                <field name="trigger_value"/>
+                <field name="peak_value"/>
+                <field name="last_value"/>
+                <field name="resolved_at"/>
+                <field name="duration_s" string="Duration" widget="float_time"
+                       optional="show"/>
+                <field name="severity" widget="badge"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_health_alerts" model="ir.actions.act_window">
+        <field name="name">Alerts</field>
+        <field name="res_model">inom.server.health.alert</field>
+        <field name="view_mode">list</field>
+        <field name="context">{'search_default_open': 1}</field>
+    </record>
+
+    <record id="view_health_alert_search" model="ir.ui.view">
+        <field name="name">inom.server.health.alert.search</field>
+        <field name="model">inom.server.health.alert</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="rule_id"/>
+                <field name="node"/>
+                <filter name="open" string="Open"
+                        domain="[('state','=','open')]"/>
+                <filter name="critical" string="Critical"
+                        domain="[('severity','=','danger')]"/>
+                <separator/>
+                <filter name="opened_today" string="Opened today"
+                        domain="[('opened_at','&gt;=', datetime.datetime.combine(context_today(), datetime.time(0,0,0)))]"/>
+                <filter name="opened_week" string="Opened this week"
+                        domain="[('opened_at','&gt;=', (context_today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                <!-- Odoo 19's search_view.rng allows <group> no `expand` and
+                     no `string`, and requires its children to be <field>.
+                     Group-by filters therefore sit at search level, separated
+                     by a <separator/>. Verified against
+                     odoo/addons/base/rng/{search_view,common}.rng on 19.0. -->
+                <separator/>
+                <filter name="by_rule" string="Rule"
+                        context="{'group_by': 'rule_id'}"/>
+                <filter name="by_node" string="Node"
+                        context="{'group_by': 'node'}"/>
+            </search>
+        </field>
+    </record>
+
+    <menuitem id="menu_health_alerts" name="Alerts"
+              parent="menu_health_root"
+              groups="inom_server_health.group_server_health_viewer"
+              action="action_health_alerts" sequence="15"/>
+    <menuitem id="menu_health_rules" name="Alert Rules"
+              parent="menu_health_root"
+              groups="inom_server_health.group_server_health_manager"
+              action="action_health_rules" sequence="30"/>
+
+</odoo>

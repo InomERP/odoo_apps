@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Record rules stated explicitly.
+
+         All three models describe ONE machine: the Odoo server the database
+         is running on. A CPU sample is not owned by a company and not owned
+         by a user, so there is no per-record scoping to apply and the models
+         are deliberately left unscoped.
+
+         That intent is written down here rather than left implicit. Each rule
+         is global (no groups) and permissive with an always-true domain, so
+         it grants nothing extra and takes nothing away: who can read, write
+         or delete these records remains exactly what
+         security/ir.model.access.csv says, with Viewer read-only and Manager
+         able to maintain alert rules.
+
+         If a future deployment ever needs per-company or per-node scoping,
+         this is the file to change; the domains live here, not scattered
+         through the models. -->
+
+    <record id="rule_health_sample_all" model="ir.rule">
+        <field name="name">Server health samples: server-wide, not per company</field>
+        <field name="model_id" ref="model_inom_server_health_sample"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(5, 0, 0)]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="rule_health_rule_all" model="ir.rule">
+        <field name="name">Server health alert rules: server-wide, not per company</field>
+        <field name="model_id" ref="model_inom_server_health_rule"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(5, 0, 0)]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="rule_health_alert_all" model="ir.rule">
+        <field name="name">Server health alerts: server-wide, not per company</field>
+        <field name="model_id" ref="model_inom_server_health_alert"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(5, 0, 0)]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+</odoo>
