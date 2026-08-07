@@ -1,0 +1,669 @@
+# Translation template for inom_server_health.
+# This file is distributed under the same licence as the module.
+#
+# Generated statically by dev-tools/make_pot.py. Regenerate with
+# `odoo-bin --i18n-export` against a database with the module installed for
+# the authoritative export.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: inom_server_health (code)
+#: models/health_rule.py:330
+msgid "%(metric)s on %(node)s %(operator)s %(threshold).1f — currently %(value).1f, peak %(peak).1f. Breached for %(count)s consecutive samples."
+msgstr ""
+
+#. module: inom_server_health (record)
+#: security/health_groups.xml
+msgid "Access to server, database and Odoo health metrics."
+msgstr ""
+
+#. module: inom_server_health (view)
+#: views/health_views.xml
+msgid "Alert Rule"
+msgstr ""
+
+#. module: inom_server_health (view)
+#: views/health_views.xml
+msgid "Alert Rules"
+msgstr ""
+
+#. module: inom_server_health (view)
+#: views/health_views.xml
+msgid "Alerts"
+msgstr ""
+
+#. module: inom_server_health (view)
+#: views/health_views.xml
+msgid "Archived"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "Backgrounded"
+msgstr ""
+
+#. module: inom_server_health (field)
+#: models/health_rule.py:89
+msgid "Breach streak"
+msgstr ""
+
+#. module: inom_server_health (field)
+#: models/health_sample.py:33
+#: models/health_sample.py:41
+#: models/health_sample.py:49
+msgid "Bytes."
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "CPU"
+msgstr ""
+
+#. module: inom_server_health (selection)
+#: models/health_rule.py:26
+msgid "CPU %"
+msgstr ""
+
+#. module: inom_server_health (record)
+#: data/health_data.xml
+msgid "CPU sustained above 85%"
+msgstr ""
+
+#. module: inom_server_health (field)
+#: models/health_rule.py:78
+msgid "Call webhook"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "Cannot reach the server ("
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "Clear"
+msgstr ""
+
+#. module: inom_server_health (view)
+#: views/health_views.xml
+msgid "Condition"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "Connection"
+msgstr ""
+
+#. module: inom_server_health (field)
+#: models/health_rule.py:89
+msgid "Consecutive breaching samples seen so far."
+msgstr ""
+
+#. module: inom_server_health (view)
+#: views/health_views.xml
+msgid "Cooldown (min)"
+msgstr ""
+
+#. module: inom_server_health (field)
+#: models/health_sample.py:51
+msgid "Cost of the probe itself."
+msgstr ""
+
+#. module: inom_server_health (view)
+#: views/health_views.xml
+msgid "Created by"
+msgstr ""
+
+#. module: inom_server_health (view)
+#: views/health_views.xml
+msgid "Created on"
+msgstr ""
+
+#. module: inom_server_health (selection)
+#: models/health_rule.py:72
+#: views/health_views.xml
+msgid "Critical"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "DB cache hit"
+msgstr ""
+
+#. module: inom_server_health (selection)
+#: models/health_rule.py:26
+msgid "DB cache hit %"
+msgstr ""
+
+#. module: inom_server_health (record)
+#: data/health_data.xml
+msgid "DB cache hit ratio below 95%"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "DB connections"
+msgstr ""
+
+#. module: inom_server_health (selection)
+#: models/health_rule.py:26
+msgid "DB connections %"
+msgstr ""
+
+#. module: inom_server_health (record)
+#: data/health_data.xml
+msgid "DB connections above 85% of max"
+msgstr ""
+
+#. module: inom_server_health (view)
+#: views/health_views.xml
+msgid "Debounce"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "Demo mode."
+msgstr ""
+
+#. module: inom_server_health (field)
+#: models/health_rule.py:85
+msgid "Discuss channel"
+msgstr ""
+
+#. module: inom_server_health (selection)
+#: models/health_rule.py:26
+msgid "Disk %"
+msgstr ""
+
+#. module: inom_server_health (record)
+#: data/health_data.xml
+msgid "Disk above 90%"
+msgstr ""
+
+#. module: inom_server_health (field)
+#: models/health_rule.py:307
+#: views/health_views.xml
+msgid "Duration"
+msgstr ""
+
+#. module: inom_server_health (record)
+#: data/health_data.xml
+msgid "Emails failing to send"
+msgstr ""
+
+#. module: inom_server_health (selection)
+#: models/health_rule.py:26
+msgid "Failed emails"
+msgstr ""
+
+#. module: inom_server_health (view)
+#: views/health_views.xml
+msgid "Health History"
+msgstr ""
+
+#. module: inom_server_health (view)
+#: views/health_views.xml
+msgid "Health Samples"
+msgstr ""
+
+#. module: inom_server_health (view)
+#: views/health_views.xml
+msgid "History"
+msgstr ""
+
+#. module: inom_server_health (field)
+#: models/health_sample.py:29
+msgid "Hostname this sample came from."
+msgstr ""
+
+#. module: inom_server_health (field)
+#: models/health_rule.py:307
+msgid "How long the alert has been open, in hours."
+msgstr ""
+
+#. module: inom_server_health (selection)
+#: models/health_rule.py:26
+msgid "Largest worker memory (bytes)"
+msgstr ""
+
+#. module: inom_server_health (view)
+#: views/health_views.xml
+msgid "Last edited"
+msgstr ""
+
+#. module: inom_server_health (view)
+#: views/health_views.xml
+msgid "Last edited by"
+msgstr ""
+
+#. module: inom_server_health (view)
+#: views/health_views.xml
+msgid "Last fired"
+msgstr ""
+
+#. module: inom_server_health (selection)
+#: models/health_rule.py:26
+msgid "Late scheduled actions"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "Live"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "Live trace ·"
+msgstr ""
+
+#. module: inom_server_health (selection)
+#: models/health_rule.py:26
+msgid "Load average (1m)"
+msgstr ""
+
+#. module: inom_server_health (selection)
+#: models/health_rule.py:26
+msgid "Longest running query (s)"
+msgstr ""
+
+#. module: inom_server_health (selection)
+#: models/health_rule.py:26
+msgid "Mail queue depth"
+msgstr ""
+
+#. module: inom_server_health (record)
+#: security/health_groups.xml
+msgid "Manager"
+msgstr ""
+
+#. module: inom_server_health (record)
+#: security/health_groups.xml
+msgid "Manager: everything a Viewer can do, plus creating and editing alert rules."
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "Memory"
+msgstr ""
+
+#. module: inom_server_health (selection)
+#: models/health_rule.py:26
+msgid "Memory %"
+msgstr ""
+
+#. module: inom_server_health (record)
+#: data/health_data.xml
+msgid "Memory above 92%"
+msgstr ""
+
+#. module: inom_server_health (field)
+#: models/health_rule.py:68
+msgid "Minimum gap between notifications for this rule while it remains breached."
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "Nobody is signed in."
+msgstr ""
+
+#. module: inom_server_health (view)
+#: views/health_views.xml
+msgid "Node"
+msgstr ""
+
+#. module: inom_server_health (view)
+#: views/health_views.xml
+msgid "Noise control"
+msgstr ""
+
+#. module: inom_server_health (view)
+#: views/health_views.xml
+msgid "Notify"
+msgstr ""
+
+#. module: inom_server_health (field)
+#: models/health_rule.py:80
+msgid "Notify users"
+msgstr ""
+
+#. module: inom_server_health (field)
+#: models/health_rule.py:64
+msgid "Number of consecutive samples that must breach before the alert opens. Filters out single spikes."
+msgstr ""
+
+#. module: inom_server_health (selection)
+#: models/health_rule.py:296
+#: views/health_views.xml
+msgid "Open"
+msgstr ""
+
+#. module: inom_server_health (view)
+#: views/health_views.xml
+msgid "Opened this week"
+msgstr ""
+
+#. module: inom_server_health (view)
+#: views/health_views.xml
+msgid "Opened today"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "PID"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "Pause"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "Paused"
+msgstr ""
+
+#. module: inom_server_health (field)
+#: models/health_rule.py:77
+msgid "Post to Discuss"
+msgstr ""
+
+#. module: inom_server_health (record)
+#: data/health_data.xml
+msgid "Query running longer than 5 minutes"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "Reading metrics…"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "Reconnecting"
+msgstr ""
+
+#. module: inom_server_health (code)
+#: models/health_rule.py:325
+msgid "Recovered: %(metric)s on %(node)s is back within threshold (now %(value).1f, limit %(threshold).1f)."
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "Refresh now"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "Reported against the container limit, not the host."
+msgstr ""
+
+#. module: inom_server_health (selection)
+#: models/health_rule.py:296
+msgid "Resolved"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "Resume"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "Role"
+msgstr ""
+
+#. module: inom_server_health (view)
+#: views/health_views.xml
+msgid "Rule"
+msgstr ""
+
+#. module: inom_server_health (record)
+#: data/health_data.xml
+msgid "Scheduled actions falling behind"
+msgstr ""
+
+#. module: inom_server_health (record)
+#: views/health_views.xml
+#: security/health_groups.xml
+msgid "Server Health"
+msgstr ""
+
+#. module: inom_server_health (model)
+#: models/health_rule.py:288
+msgid "Server Health Alert"
+msgstr ""
+
+#. module: inom_server_health (model)
+#: models/health_rule.py:51
+msgid "Server Health Alert Rule"
+msgstr ""
+
+#. module: inom_server_health (model)
+#: models/health_sample.py:23
+msgid "Server Health Sample"
+msgstr ""
+
+#. module: inom_server_health (record)
+#: data/health_data.xml
+msgid "Server Health: capture sample"
+msgstr ""
+
+#. module: inom_server_health (record)
+#: data/health_data.xml
+msgid "Server Health: vacuum old samples"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "Server health"
+msgstr ""
+
+#. module: inom_server_health (record)
+#: security/health_rules.xml
+msgid "Server health alert rules: server-wide, not per company"
+msgstr ""
+
+#. module: inom_server_health (record)
+#: security/health_rules.xml
+msgid "Server health alerts: server-wide, not per company"
+msgstr ""
+
+#. module: inom_server_health (record)
+#: security/health_rules.xml
+msgid "Server health samples: server-wide, not per company"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "Simulate load spike"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "Storage"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "Threads"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "Uptime"
+msgstr ""
+
+#. module: inom_server_health (selection)
+#: models/health_rule.py:26
+msgid "Users active (30 min)"
+msgstr ""
+
+#. module: inom_server_health (selection)
+#: models/health_rule.py:26
+msgid "Users online"
+msgstr ""
+
+#. module: inom_server_health (field)
+#: models/health_sample.py:44
+msgid "Users seen in the last 30 minutes, online or not."
+msgstr ""
+
+#. module: inom_server_health (field)
+#: models/health_sample.py:43
+msgid "Users with an active session."
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "Users working"
+msgstr ""
+
+#. module: inom_server_health (record)
+#: security/health_groups.xml
+msgid "Viewer"
+msgstr ""
+
+#. module: inom_server_health (record)
+#: security/health_groups.xml
+msgid "Viewer: can read the live dashboard, history and alerts. Cannot change alert rules."
+msgstr ""
+
+#. module: inom_server_health (selection)
+#: models/health_rule.py:72
+msgid "Warning"
+msgstr ""
+
+#. module: inom_server_health (record)
+#: security/health_groups.xml
+msgid "Who can see infrastructure metrics and manage alert rules."
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "Who is working"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "Workers"
+msgstr ""
+
+#. module: inom_server_health (code)
+#: models/health_rule.py:348
+msgid "[%(sev)s] %(rule)s"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "active now"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "container"
+msgstr ""
+
+#. module: inom_server_health (view)
+#: views/health_views.xml
+msgid "e.g. Memory above 92%"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "idle"
+msgstr ""
+
+#. module: inom_server_health (record)
+#: views/health_views.xml
+msgid "inom.server.health.alert.list"
+msgstr ""
+
+#. module: inom_server_health (record)
+#: views/health_views.xml
+msgid "inom.server.health.alert.search"
+msgstr ""
+
+#. module: inom_server_health (record)
+#: views/health_views.xml
+msgid "inom.server.health.rule.form"
+msgstr ""
+
+#. module: inom_server_health (record)
+#: views/health_views.xml
+msgid "inom.server.health.rule.list"
+msgstr ""
+
+#. module: inom_server_health (record)
+#: views/health_views.xml
+msgid "inom.server.health.sample.graph"
+msgstr ""
+
+#. module: inom_server_health (record)
+#: views/health_views.xml
+msgid "inom.server.health.sample.list"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "interval"
+msgstr ""
+
+#. module: inom_server_health (selection)
+#: models/health_rule.py:59
+msgid "is at or above"
+msgstr ""
+
+#. module: inom_server_health (selection)
+#: models/health_rule.py:59
+msgid "is at or below"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "load"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "master"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "online"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "probe"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "vs hard limit"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "worker"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "writes per poll"
+msgstr ""
+
+#. module: inom_server_health (owl)
+#: static/src/xml/health_dashboard.xml
+msgid "· swap"
+msgstr ""
+

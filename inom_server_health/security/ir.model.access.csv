@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_health_sample_viewer,health.sample.viewer,model_inom_server_health_sample,inom_server_health.group_server_health_viewer,1,0,0,0
+access_health_sample_manager,health.sample.manager,model_inom_server_health_sample,inom_server_health.group_server_health_manager,1,0,0,1
+access_health_rule_viewer,health.rule.viewer,model_inom_server_health_rule,inom_server_health.group_server_health_viewer,1,0,0,0
+access_health_rule_manager,health.rule.manager,model_inom_server_health_rule,inom_server_health.group_server_health_manager,1,1,1,1
+access_health_alert_viewer,health.alert.viewer,model_inom_server_health_alert,inom_server_health.group_server_health_viewer,1,0,0,0
+access_health_alert_manager,health.alert.manager,model_inom_server_health_alert,inom_server_health.group_server_health_manager,1,1,0,1
