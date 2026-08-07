@@ -14,7 +14,7 @@ Built to stay out of the way: no blocking calls, no per-poll writes, one
 PostgreSQL round trip, per-metric caching and a single-flight guard so slow
 probes never stack up on worker slots.
     """,
-    "author": "Sachin Prajapati",
+    "author": "InomERP",
     "website": "https://inomerp.in",
     "license": "LGPL-3",
     # "base" is not listed: every module depends on it transitively
