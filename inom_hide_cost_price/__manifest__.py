@@ -25,6 +25,7 @@ This module follows Odoo security best practices and ensures
 safe handling of sensitive pricing data.
 """,
     'website': 'https://inomerp.in/',
+    'live_test_url': 'https://www.youtube.com/watch?v=IJci2E7CACs',
     'author': 'InomERP',
     'depends': ['product'],
     'data': [
