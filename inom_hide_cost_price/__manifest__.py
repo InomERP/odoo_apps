@@ -27,6 +27,7 @@ safe handling of sensitive pricing data.
     'website': 'https://inomerp.in/',
     'author': 'InomERP',
     'depends': ['product'],
+    'live_test_url': 'https://www.youtube.com/watch?v=IJci2E7CACs',
     'data': [
         'security/security.xml',
         'views/product_view.xml',
