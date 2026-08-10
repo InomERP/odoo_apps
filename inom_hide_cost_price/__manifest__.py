@@ -23,6 +23,7 @@ Key Features:
 """,
     "author": "InomERP",
     "website": "https://inomerp.in/",
+    'live_test_url': 'https://www.youtube.com/watch?v=IJci2E7CACs',
     'images': ['static/description/banner.png'],
     "license": "LGPL-3",
     "depends": [
