@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form_inherit_smart_credit" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.smart.credit</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Smart Credit Limit" string="Smart Credit Limit"
+                     name="inom_smart_credit_limit"
+                     groups="inom_smart_credit_limit.group_smart_credit_manager">
+                    <block title="Enforcement Matrix"
+                           help="Choose what happens at each checkpoint of the document chain when a customer is over the limit or on hold.">
+                        <setting string="Sale Order Confirmation"
+                                 help="Action when confirming a sale order that exceeds the limit.">
+                            <field name="inom_checkpoint_so"/>
+                        </setting>
+                        <setting string="Delivery Validation"
+                                 help="Action when validating an outgoing delivery for an over-limit customer.">
+                            <field name="inom_checkpoint_delivery"/>
+                        </setting>
+                        <setting string="Invoice Posting"
+                                 help="Action when posting a direct customer invoice (sale-linked invoices are already covered).">
+                            <field name="inom_checkpoint_invoice"/>
+                        </setting>
+                    </block>
+                    <block title="Aging Rules"
+                           help="Automatic credit hold based on overdue invoices.">
+                        <setting string="Auto Hold After (Days Overdue)"
+                                 help="Automatically place customers on hold when an invoice is overdue beyond this number of days. 0 disables automatic holds.">
+                            <field name="inom_auto_hold_days"/>
+                        </setting>
+                        <setting string="Automatic Release"
+                                 help="Release automatic holds as soon as no invoice remains beyond the threshold.">
+                            <field name="inom_auto_release"/>
+                        </setting>
+                    </block>
+                    <block title="Smart Scoring"
+                           help="Payment behaviour scoring and limit suggestions.">
+                        <setting string="Smart Scoring Reviews"
+                                 help="Run the monthly review that suggests limit adjustments to credit managers.">
+                            <field name="inom_scoring_active"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

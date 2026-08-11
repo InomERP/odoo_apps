@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_inom_credit_extension_user,inom.credit.extension.user,model_inom_credit_extension,inom_smart_credit_limit.group_smart_credit_user,1,0,0,0
+access_inom_credit_extension_manager,inom.credit.extension.manager,model_inom_credit_extension,inom_smart_credit_limit.group_smart_credit_manager,1,1,1,1
+access_inom_credit_audit_user,inom.credit.audit.user,model_inom_credit_audit,inom_smart_credit_limit.group_smart_credit_user,1,0,0,0
+access_inom_credit_audit_manager,inom.credit.audit.manager,model_inom_credit_audit,inom_smart_credit_limit.group_smart_credit_manager,1,0,0,0
+access_inom_credit_check_wizard_user,inom.credit.check.wizard.user,model_inom_credit_check_wizard,inom_smart_credit_limit.group_smart_credit_user,1,1,1,1
