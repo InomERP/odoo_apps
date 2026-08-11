@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_inom_credit_extension_list" model="ir.ui.view">
+        <field name="name">inom.credit.extension.list</field>
+        <field name="model">inom.credit.extension</field>
+        <field name="arch" type="xml">
+            <list string="Credit Extensions"
+                  decoration-success="state == 'active'"
+                  decoration-muted="state in ('expired', 'cancelled')">
+                <field name="partner_id"/>
+                <field name="name"/>
+                <field name="amount"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'active'"
+                       decoration-danger="state == 'cancelled'"/>
+                <field name="user_id" widget="many2one_avatar_user"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="company_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_inom_credit_extension_form" model="ir.ui.view">
+        <field name="name">inom.credit.extension.form</field>
+        <field name="model">inom.credit.extension</field>
+        <field name="arch" type="xml">
+            <form string="Credit Extension">
+                <header>
+                    <button name="action_cancel" type="object"
+                            string="Cancel Extension" class="btn-secondary"
+                            invisible="state != 'active'"
+                            groups="inom_smart_credit_limit.group_smart_credit_manager"/>
+                    <button name="action_reactivate" type="object"
+                            string="Reactivate" class="btn-primary"
+                            invisible="state != 'cancelled'"
+                            groups="inom_smart_credit_limit.group_smart_credit_manager"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="partner_id"
+                                   domain="[('use_smart_credit', '=', True)]"/>
+                            <field name="name"/>
+                            <field name="amount"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="user_id" widget="many2one_avatar_user"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_inom_credit_extension_search" model="ir.ui.view">
+        <field name="name">inom.credit.extension.search</field>
+        <field name="model">inom.credit.extension</field>
+        <field name="arch" type="xml">
+            <search string="Credit Extensions">
+                <field name="partner_id"/>
+                <field name="name"/>
+                <filter name="filter_active" string="Active"
+                        domain="[('state', '=', 'active')]"/>
+                <filter name="filter_expired" string="Expired"
+                        domain="[('state', '=', 'expired')]"/>
+                <group name="group_by">
+                    <filter name="group_partner" string="Customer"
+                            context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_state" string="Status"
+                            context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_inom_credit_extension" model="ir.actions.act_window">
+        <field name="name">Credit Extensions</field>
+        <field name="res_model">inom.credit.extension</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_inom_credit_extension_search"/>
+        <field name="context">{'search_default_filter_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No temporary credit extensions yet
+            </p>
+            <p>
+                Grant a customer extra credit for a limited period, for
+                example during a festive season. Extensions expire
+                automatically on their end date.
+            </p>
+        </field>
+    </record>
+
+</odoo>
