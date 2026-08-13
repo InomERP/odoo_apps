@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Multi-company scoping. Full case-team / portal record rules
+         are delivered in Phase 6 (team) and Phase 24 (security). -->
+    <record id="law_case_company_rule" model="ir.rule">
+        <field name="name">Law Case: multi-company</field>
+        <field name="model_id" ref="model_law_case"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>
