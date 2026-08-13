@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_law_specialization_list" model="ir.ui.view">
+        <field name="name">law.specialization.list</field>
+        <field name="model">law.specialization</field>
+        <field name="arch" type="xml">
+            <tree string="Specializations" editable="bottom">
+                <field name="name"/>
+                <field name="code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_law_specialization" model="ir.actions.act_window">
+        <field name="name">Specializations</field>
+        <field name="res_model">law.specialization</field>
+        <field name="view_mode">tree</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first specialization</p>
+            <p>e.g. Litigation, Corporate, Tax, Family, Intellectual Property.</p>
+        </field>
+    </record>
+</odoo>
