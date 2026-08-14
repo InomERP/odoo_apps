@@ -113,6 +113,8 @@ Features
     'author': 'InomERP',
     'company': 'InomERP',
     'maintainer': 'InomERP',
+    "live_test_url": "https://www.youtube.com/watch?v=VVaHmjgoh1s",
+
     'website': 'https://inomerp.in',
     'support': 'info@inomerp.in',
     'license': 'OPL-1',
