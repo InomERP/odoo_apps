@@ -1,0 +1,470 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * inom_law_firm_core
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: InomERP <info@inomerp.in>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: inom_law_firm_core
+msgid "Active Cases"
+msgstr "Casos Activos"
+
+#. module: inom_law_firm_core
+msgid "Address / Contact"
+msgstr "Dirección / Contacto"
+
+#. module: inom_law_firm_core
+msgid "Advocate"
+msgstr "Abogado"
+
+#. module: inom_law_firm_core
+msgid "All Cases"
+msgstr "Todos los Casos"
+
+#. module: inom_law_firm_core
+msgid "Archived"
+msgstr "Archivado"
+
+#. module: inom_law_firm_core
+msgid "Availability"
+msgstr "Disponibilidad"
+
+#. module: inom_law_firm_core
+msgid "Available"
+msgstr "Disponible"
+
+#. module: inom_law_firm_core
+msgid "Bar Council / Authority"
+msgstr "Colegio de Abogados / Autoridad"
+
+#. module: inom_law_firm_core
+msgid "Bar Registrations"
+msgstr "Colegiaciones"
+
+#. module: inom_law_firm_core
+msgid "Bar Registrations & Licenses"
+msgstr "Colegiaciones y Licencias"
+
+#. module: inom_law_firm_core
+msgid "Billing & Payments"
+msgstr "Facturación y Pagos"
+
+#. module: inom_law_firm_core
+msgid "Branch"
+msgstr "Sucursal"
+
+#. module: inom_law_firm_core
+msgid "Branch Code"
+msgstr "Código de Sucursal"
+
+#. module: inom_law_firm_core
+msgid "Branch Manager"
+msgstr "Gerente de Sucursal"
+
+#. module: inom_law_firm_core
+msgid "Branch Name"
+msgstr "Nombre de la Sucursal"
+
+#. module: inom_law_firm_core
+msgid "Branches"
+msgstr "Sucursales"
+
+#. module: inom_law_firm_core
+msgid "Busy"
+msgstr "Ocupado"
+
+#. module: inom_law_firm_core
+msgid "Calendar & Activities"
+msgstr "Calendario y Actividades"
+
+#. module: inom_law_firm_core
+msgid "Case"
+msgstr "Caso"
+
+#. module: inom_law_firm_core
+msgid "Case Analysis"
+msgstr "Análisis del Caso"
+
+#. module: inom_law_firm_core
+msgid "Case Closure Checklist"
+msgstr "Lista de Verificación de Cierre del Caso"
+
+#. module: inom_law_firm_core
+msgid "Case Count"
+msgstr "Número de Casos"
+
+#. module: inom_law_firm_core
+msgid "Case Number"
+msgstr "Número de Caso"
+
+#. module: inom_law_firm_core
+msgid "Case Stage"
+msgstr "Etapa del Caso"
+
+#. module: inom_law_firm_core
+msgid "Case Stages"
+msgstr "Etapas del Caso"
+
+#. module: inom_law_firm_core
+msgid "Case Tags"
+msgstr "Etiquetas del Caso"
+
+#. module: inom_law_firm_core
+msgid "Case Type"
+msgstr "Tipo de Caso"
+
+#. module: inom_law_firm_core
+msgid "Case Types"
+msgstr "Tipos de Caso"
+
+#. module: inom_law_firm_core
+msgid "Cases"
+msgstr "Casos"
+
+#. module: inom_law_firm_core
+msgid "Cases in a closing stage are considered closed."
+msgstr "Los casos en una etapa de cierre se consideran cerrados."
+
+#. module: inom_law_firm_core
+msgid "Category"
+msgstr "Categoría"
+
+#. module: inom_law_firm_core
+msgid "Checklist (all required to close)"
+msgstr "Lista de verificación (todo es obligatorio para cerrar)"
+
+#. module: inom_law_firm_core
+msgid "Client"
+msgstr "Cliente"
+
+#. module: inom_law_firm_core
+msgid "Client Categories"
+msgstr "Categorías de Cliente"
+
+#. module: inom_law_firm_core
+msgid "Client Category"
+msgstr "Categoría de Cliente"
+
+#. module: inom_law_firm_core
+msgid "Client Reference"
+msgstr "Referencia del Cliente"
+
+#. module: inom_law_firm_core
+msgid "Client Since"
+msgstr "Cliente Desde"
+
+#. module: inom_law_firm_core
+msgid "Client Type"
+msgstr "Tipo de Cliente"
+
+#. module: inom_law_firm_core
+msgid "Clients"
+msgstr "Clientes"
+
+#. module: inom_law_firm_core
+msgid "Close Case"
+msgstr "Cerrar Caso"
+
+#. module: inom_law_firm_core
+msgid "Closed"
+msgstr "Cerrado"
+
+#. module: inom_law_firm_core
+msgid "Closed By"
+msgstr "Cerrado Por"
+
+#. module: inom_law_firm_core
+msgid "Closed Cases"
+msgstr "Casos Cerrados"
+
+#. module: inom_law_firm_core
+msgid "Closing Stage"
+msgstr "Etapa de Cierre"
+
+#. module: inom_law_firm_core
+msgid "Closure"
+msgstr "Cierre"
+
+#. module: inom_law_firm_core
+msgid "Closure Checklists"
+msgstr "Listas de Verificación de Cierre"
+
+#. module: inom_law_firm_core
+msgid "Closure Reason"
+msgstr "Motivo de Cierre"
+
+#. module: inom_law_firm_core
+msgid "Color Index"
+msgstr "Índice de Color"
+
+#. module: inom_law_firm_core
+msgid "Company"
+msgstr "Empresa"
+
+#. module: inom_law_firm_core
+msgid "Configuration"
+msgstr "Configuración"
+
+#. module: inom_law_firm_core
+msgid "Confirm Closure"
+msgstr "Confirmar Cierre"
+
+#. module: inom_law_firm_core
+msgid "Confirmed"
+msgstr "Confirmado"
+
+#. module: inom_law_firm_core
+msgid "Contacts"
+msgstr "Contactos"
+
+#. module: inom_law_firm_core
+msgid "Corporate"
+msgstr "Corporativo"
+
+#. module: inom_law_firm_core
+msgid "Date Closed"
+msgstr "Fecha de Cierre"
+
+#. module: inom_law_firm_core
+msgid "Date Opened"
+msgstr "Fecha de Apertura"
+
+#. module: inom_law_firm_core
+msgid "Default Branch"
+msgstr "Sucursal Predeterminada"
+
+#. module: inom_law_firm_core
+msgid "Default branch used across the INOM Law Firm suite."
+msgstr "Sucursal predeterminada utilizada en toda la suite INOM Law Firm."
+
+#. module: inom_law_firm_core
+msgid "Default branch used when creating law firm records for this company."
+msgstr "Sucursal predeterminada utilizada al crear registros del despacho para esta empresa."
+
+#. module: inom_law_firm_core
+msgid "Default hourly billing rate; propagates to timesheet lines in Phase 15."
+msgstr "Tarifa de facturación por hora predeterminada; se propaga a las líneas de parte de horas en la Fase 15."
+
+#. module: inom_law_firm_core
+msgid "Default Law Firm Branch"
+msgstr "Sucursal Predeterminada del Despacho"
+
+#. module: inom_law_firm_core
+msgid "Department"
+msgstr "Departamento"
+
+#. module: inom_law_firm_core
+msgid "Description"
+msgstr "Descripción"
+
+#. module: inom_law_firm_core
+msgid "Documents"
+msgstr "Documentos"
+
+#. module: inom_law_firm_core
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: inom_law_firm_core
+msgid "Expired"
+msgstr "Vencido"
+
+#. module: inom_law_firm_core
+msgid "Fold this stage in the case kanban view when it has no records to display."
+msgstr "Plegar esta etapa en la vista kanban de casos cuando no tenga registros que mostrar."
+
+#. module: inom_law_firm_core
+msgid "Folded in Kanban"
+msgstr "Plegado en Kanban"
+
+#. module: inom_law_firm_core
+msgid "Hearings & Court"
+msgstr "Audiencias y Tribunal"
+
+#. module: inom_law_firm_core
+msgid "High"
+msgstr "Alta"
+
+#. module: inom_law_firm_core
+msgid "Hourly Billing Rate"
+msgstr "Tarifa de Facturación por Hora"
+
+#. module: inom_law_firm_core
+msgid "Individual"
+msgstr "Particular"
+
+#. module: inom_law_firm_core
+msgid "Individuals"
+msgstr "Particulares"
+
+#. module: inom_law_firm_core
+msgid "Junior Lawyer"
+msgstr "Abogado Junior"
+
+#. module: inom_law_firm_core
+msgid "Law Firm"
+msgstr "Despacho de Abogados"
+
+#. module: inom_law_firm_core
+msgid "Law Firm Client"
+msgstr "Cliente del Despacho"
+
+#. module: inom_law_firm_core
+msgid "Lawyer"
+msgstr "Abogado"
+
+#. module: inom_law_firm_core
+msgid "Lawyers"
+msgstr "Abogados"
+
+#. module: inom_law_firm_core
+msgid "Lawyers & Team"
+msgstr "Abogados y Equipo"
+
+#. module: inom_law_firm_core
+msgid "Legal Assistant"
+msgstr "Asistente Legal"
+
+#. module: inom_law_firm_core
+msgid "Legal Clerk"
+msgstr "Auxiliar Jurídico"
+
+#. module: inom_law_firm_core
+msgid "Legal Client"
+msgstr "Cliente Legal"
+
+#. module: inom_law_firm_core
+msgid "Legal Profile"
+msgstr "Perfil Legal"
+
+#. module: inom_law_firm_core
+msgid "Legal Role"
+msgstr "Rol Legal"
+
+#. module: inom_law_firm_core
+msgid "Legal Staff"
+msgstr "Personal Legal"
+
+#. module: inom_law_firm_core
+msgid "Managing Partner"
+msgstr "Socio Director"
+
+#. module: inom_law_firm_core
+msgid "Marks this contact as a client of the law firm."
+msgstr "Marca este contacto como cliente del despacho."
+
+#. module: inom_law_firm_core
+msgid "Matter Title"
+msgstr "Título del Asunto"
+
+#. module: inom_law_firm_core
+msgid "Matters"
+msgstr "Asuntos"
+
+#. module: inom_law_firm_core
+msgid "My Cases"
+msgstr "Mis Casos"
+
+#. module: inom_law_firm_core
+msgid "Normal"
+msgstr "Normal"
+
+#. module: inom_law_firm_core
+msgid "Open"
+msgstr "Abierto"
+
+#. module: inom_law_firm_core
+msgid "Opposing Counsel"
+msgstr "Abogado Contrario"
+
+#. module: inom_law_firm_core
+msgid "Opposing Party"
+msgstr "Parte Contraria"
+
+#. module: inom_law_firm_core
+msgid "Paralegal"
+msgstr "Asistente Jurídico"
+
+#. module: inom_law_firm_core
+msgid "Partner"
+msgstr "Socio"
+
+#. module: inom_law_firm_core
+msgid "Practice Area"
+msgstr "Área de Práctica"
+
+#. module: inom_law_firm_core
+msgid "Practice Areas"
+msgstr "Áreas de Práctica"
+
+#. module: inom_law_firm_core
+msgid "Priority"
+msgstr "Prioridad"
+
+#. module: inom_law_firm_core
+msgid "Registration / License No."
+msgstr "N.º de Colegiado / Licencia"
+
+#. module: inom_law_firm_core
+msgid "Reports"
+msgstr "Informes"
+
+#. module: inom_law_firm_core
+msgid "Responsible Lawyer"
+msgstr "Abogado Responsable"
+
+#. module: inom_law_firm_core
+msgid "Responsible User"
+msgstr "Usuario Responsable"
+
+#. module: inom_law_firm_core
+msgid "Senior Lawyer"
+msgstr "Abogado Senior"
+
+#. module: inom_law_firm_core
+msgid "Senior Partner"
+msgstr "Socio Senior"
+
+#. module: inom_law_firm_core
+msgid "Settings"
+msgstr "Ajustes"
+
+#. module: inom_law_firm_core
+msgid "Specializations"
+msgstr "Especializaciones"
+
+#. module: inom_law_firm_core
+msgid "Stage"
+msgstr "Etapa"
+
+#. module: inom_law_firm_core
+msgid "Status"
+msgstr "Estado"
+
+#. module: inom_law_firm_core
+msgid "Tags"
+msgstr "Etiquetas"
+
+#. module: inom_law_firm_core
+msgid "Time & Expenses"
+msgstr "Tiempo y Gastos"
+
+#. module: inom_law_firm_core
+msgid "Unavailable"
+msgstr "No Disponible"
+
+#. module: inom_law_firm_core
+msgid "Urgent"
+msgstr "Urgente"
+
+#. module: inom_law_firm_core
+msgid "Valid"
+msgstr "Vigente"

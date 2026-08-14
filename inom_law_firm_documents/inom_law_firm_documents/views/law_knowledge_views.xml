@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Act -->
+    <record id="view_law_act_form" model="ir.ui.view">
+        <field name="name">law.act.form</field>
+        <field name="model">law.act</field>
+        <field name="arch" type="xml">
+            <form string="Act">
+                <sheet>
+                    <div class="oe_title"><h1><field name="name" placeholder="Act name..."/></h1></div>
+                    <group>
+                        <field name="year"/>
+                        <field name="jurisdiction"/>
+                    </group>
+                    <field name="description"/>
+                    <notebook>
+                        <page string="Sections" name="sections">
+                            <field name="section_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="number"/>
+                                    <field name="title"/>
+                                    <field name="text"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_law_act_list" model="ir.ui.view">
+        <field name="name">law.act.list</field>
+        <field name="model">law.act</field>
+        <field name="arch" type="xml">
+            <tree string="Acts"><field name="name"/><field name="year"/><field name="jurisdiction"/></tree>
+        </field>
+    </record>
+    <record id="view_law_act_search" model="ir.ui.view">
+        <field name="name">law.act.search</field>
+        <field name="model">law.act</field>
+        <field name="arch" type="xml">
+            <search string="Acts">
+                <field name="name"/>
+                <field name="year"/>
+                <field name="jurisdiction"/>
+                <group>
+                    <filter name="g_year" string="Year" context="{'group_by': 'year'}"/>
+                    <filter name="g_jurisdiction" string="Jurisdiction" context="{'group_by': 'jurisdiction'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_law_act" model="ir.actions.act_window">
+        <field name="name">Acts &amp; Sections</field>
+        <field name="res_model">law.act</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_law_act_search"/>
+    </record>
+
+    <!-- Case Law -->
+    <record id="view_law_case_law_list" model="ir.ui.view">
+        <field name="name">law.case.law.list</field>
+        <field name="model">law.case.law</field>
+        <field name="arch" type="xml">
+            <tree string="Case Law">
+                <field name="name"/><field name="citation"/><field name="court"/><field name="year"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_law_case_law_form" model="ir.ui.view">
+        <field name="name">law.case.law.form</field>
+        <field name="model">law.case.law</field>
+        <field name="arch" type="xml">
+            <form string="Case Law">
+                <sheet>
+                    <div class="oe_title"><h1><field name="name" placeholder="Citation / title..."/></h1></div>
+                    <group>
+                        <group><field name="citation"/><field name="court"/></group>
+                        <group><field name="year"/></group>
+                    </group>
+                    <group string="Summary"><field name="summary" nolabel="1"/></group>
+                    <group string="Judgment"><field name="judgment_text" nolabel="1"/></group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_law_case_law_search" model="ir.ui.view">
+        <field name="name">law.case.law.search</field>
+        <field name="model">law.case.law</field>
+        <field name="arch" type="xml">
+            <search string="Case Law">
+                <field name="name"/>
+                <field name="citation"/>
+                <field name="court"/>
+                <field name="year"/>
+                <group>
+                    <filter name="g_court" string="Court" context="{'group_by': 'court'}"/>
+                    <filter name="g_year" string="Year" context="{'group_by': 'year'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_law_case_law" model="ir.actions.act_window">
+        <field name="name">Case Law</field>
+        <field name="res_model">law.case.law</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_law_case_law_search"/>
+    </record>
+
+    <!-- Notes -->
+    <record id="view_law_knowledge_note_form" model="ir.ui.view">
+        <field name="name">law.knowledge.note.form</field>
+        <field name="model">law.knowledge.note</field>
+        <field name="arch" type="xml">
+            <form string="Knowledge Note">
+                <sheet>
+                    <div class="oe_title"><h1><field name="name" placeholder="Note title..."/></h1></div>
+                    <field name="author_id"/>
+                    <field name="content"/>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="view_law_knowledge_note_list" model="ir.ui.view">
+        <field name="name">law.knowledge.note.list</field>
+        <field name="model">law.knowledge.note</field>
+        <field name="arch" type="xml">
+            <tree string="Notes"><field name="name"/><field name="author_id"/></tree>
+        </field>
+    </record>
+    <record id="action_law_knowledge_note" model="ir.actions.act_window">
+        <field name="name">Knowledge Notes</field>
+        <field name="res_model">law.knowledge.note</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menus -->
+    <menuitem id="menu_law_knowledge_root" name="Legal Knowledge"
+              parent="inom_law_firm_core.menu_law_firm_root" sequence="110"
+              groups="inom_law_firm_core.group_law_firm_user"/>
+    <menuitem id="menu_law_act" name="Acts &amp; Sections"
+              parent="menu_law_knowledge_root" action="action_law_act" sequence="10"/>
+    <menuitem id="menu_law_case_law" name="Case Law"
+              parent="menu_law_knowledge_root" action="action_law_case_law" sequence="20"/>
+    <menuitem id="menu_law_knowledge_note" name="Notes"
+              parent="menu_law_knowledge_root" action="action_law_knowledge_note" sequence="30"/>
+</odoo>
