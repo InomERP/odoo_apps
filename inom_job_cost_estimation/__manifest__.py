@@ -115,6 +115,7 @@ Features
     'maintainer': 'InomERP',
     'website': 'https://inomerp.in',
     'support': 'info@inomerp.in',
+    "live_test_url": "https://www.youtube.com/watch?v=VVaHmjgoh1s",
     'license': 'OPL-1',
     'depends': [
         'sale_management',
