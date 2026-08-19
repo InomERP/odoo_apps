@@ -2,7 +2,7 @@
 
     <record id="treatment_tree" model="ir.ui.view">
         <field name="name">treatment.tree</field>
-        <field name="model">oeh.treatment</field>
+        <field name="model">inom.treatment</field>
         <field name="arch" type="xml">
             <list decoration-success="state == 'completed'" decoration-info="state == 'in_progress'"
                   decoration-muted="state == 'cancel'">
@@ -18,7 +18,7 @@
 
     <record id="treatment_form" model="ir.ui.view">
         <field name="name">treatment.form</field>
-        <field name="model">oeh.treatment</field>
+        <field name="model">inom.treatment</field>
         <field name="arch" type="xml">
             <form>
                 <header>
@@ -83,7 +83,7 @@
 
     <record id="treatment_kanban" model="ir.ui.view">
         <field name="name">treatment.kanban</field>
-        <field name="model">oeh.treatment</field>
+        <field name="model">inom.treatment</field>
         <field name="arch" type="xml">
             <kanban default_group_by="state">
                 <field name="patient_id"/>
@@ -104,7 +104,7 @@
 
     <record id="treatment_action" model="ir.actions.act_window">
         <field name="name">Treatments</field>
-        <field name="res_model">oeh.treatment</field>
+        <field name="res_model">inom.treatment</field>
         <field name="view_mode">list,kanban,form</field>
     </record>
 

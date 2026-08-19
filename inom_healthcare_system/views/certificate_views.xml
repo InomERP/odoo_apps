@@ -2,7 +2,7 @@
 
     <record id="certificate_tree" model="ir.ui.view">
         <field name="name">certificate.tree</field>
-        <field name="model">oeh.certificate</field>
+        <field name="model">inom.certificate</field>
         <field name="arch" type="xml">
             <list decoration-success="state == 'issued'" decoration-muted="state in ('expired','cancel')">
                 <field name="name"/>
@@ -18,7 +18,7 @@
 
     <record id="certificate_form" model="ir.ui.view">
         <field name="name">certificate.form</field>
-        <field name="model">oeh.certificate</field>
+        <field name="model">inom.certificate</field>
         <field name="arch" type="xml">
             <form>
                 <header>
@@ -68,7 +68,7 @@
 
     <record id="certificate_action" model="ir.actions.act_window">
         <field name="name">Medical Certificates</field>
-        <field name="res_model">oeh.certificate</field>
+        <field name="res_model">inom.certificate</field>
         <field name="view_mode">list,form</field>
     </record>
 

@@ -4,14 +4,14 @@ from odoo.exceptions import ValidationError
 
 class OEPreAuth(models.Model):
 
-    _name = 'oeh.pre.authorization'
+    _name = 'inom.pre.authorization'
     _description = 'Pre Authorization'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'name'
 
     # ---- Existing fields (preserved) ----
     patient_id = fields.Many2one(
-        'oeh.patient',
+        'inom.patient',
         required=True
     )
 
@@ -40,7 +40,7 @@ class OEPreAuth(models.Model):
         string='Pre-Auth Ref', default='New', readonly=True, copy=False,
         index=True, tracking=True)
 
-    doctor_id = fields.Many2one('oeh.doctor', string='Requesting Doctor')
+    doctor_id = fields.Many2one('inom.doctor', string='Requesting Doctor')
     insurance_partner_id = fields.Many2one(
         'res.partner', string='Insurance Company (Linked)')
     policy_number = fields.Char()
@@ -51,7 +51,7 @@ class OEPreAuth(models.Model):
     valid_until = fields.Date(tracking=True)
     is_expired = fields.Boolean(compute='_compute_is_expired')
     attachment_ids = fields.Many2many(
-        'ir.attachment', 'oeh_preauth_attachment_rel',
+        'ir.attachment', 'inom_preauth_attachment_rel',
         'preauth_id', 'attachment_id', string='Supporting Documents')
 
     def _compute_is_expired(self):
@@ -64,7 +64,7 @@ class OEPreAuth(models.Model):
         for vals in vals_list:
             if vals.get('name', 'New') in (False, 'New'):
                 vals['name'] = self.env['ir.sequence'].next_by_code(
-                    'oeh.pre.authorization') or 'New'
+                    'inom.pre.authorization') or 'New'
         return super().create(vals_list)
 
     @api.depends('name', 'procedure_name')
@@ -101,7 +101,7 @@ class OEPreAuth(models.Model):
                     'decision_date': fields.Date.context_today(rec)}
             if not rec.authorization_no:
                 vals['authorization_no'] = self.env['ir.sequence'].next_by_code(
-                    'oeh.pre.authorization') or rec.name
+                    'inom.pre.authorization') or rec.name
             rec.write(vals)
 
     def action_reject(self):

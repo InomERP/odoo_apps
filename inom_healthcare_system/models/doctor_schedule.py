@@ -6,7 +6,7 @@ class DoctorSchedule(models.Model):
     _rec_name='doctor_id'
 
     doctor_id=fields.Many2one(
-        'oeh.doctor',
+        'inom.doctor',
         required=True
     )
 

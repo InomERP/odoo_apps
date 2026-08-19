@@ -4,17 +4,17 @@ from odoo.exceptions import ValidationError
 
 class OEPrescriptionDispense(models.Model):
 
-    _name = 'oeh.prescription.dispense'
+    _name = 'inom.prescription.dispense'
     _description = 'Prescription Dispense'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'medicine_id'
     _order = 'date desc, id desc'
 
     # ---- Existing fields (preserved) ----
-    patient_id = fields.Many2one('oeh.patient', required=True, tracking=True)
-    doctor_id = fields.Many2one('oeh.doctor', tracking=True)
+    patient_id = fields.Many2one('inom.patient', required=True, tracking=True)
+    doctor_id = fields.Many2one('inom.doctor', tracking=True)
 
-    medicine_id = fields.Many2one('oeh.pharmacy', required=True, tracking=True)
+    medicine_id = fields.Many2one('inom.pharmacy', required=True, tracking=True)
 
     quantity = fields.Integer(required=True)
 
@@ -34,10 +34,10 @@ class OEPrescriptionDispense(models.Model):
                        copy=False, index=True)
     pharmacist_id = fields.Many2one('res.users', string='Verified By',
                                     readonly=True, copy=False)
-    prescription_id = fields.Many2one('oeh.prescription', string='Prescription')
+    prescription_id = fields.Many2one('inom.prescription', string='Prescription')
     unit_price = fields.Float(related='medicine_id.price', readonly=True)
     total_price = fields.Float(compute='_compute_total_price', store=True)
-    billing_id = fields.Many2one('oeh.billing', string='Bill', copy=False)
+    billing_id = fields.Many2one('inom.billing', string='Bill', copy=False)
     stock_moved = fields.Boolean(default=False, copy=False, readonly=True)
 
     @api.depends('quantity', 'unit_price')
@@ -50,7 +50,7 @@ class OEPrescriptionDispense(models.Model):
         for vals in vals_list:
             if vals.get('name', 'New') in (False, 'New'):
                 vals['name'] = self.env['ir.sequence'].next_by_code(
-                    'oeh.prescription.dispense') or 'New'
+                    'inom.prescription.dispense') or 'New'
         return super().create(vals_list)
 
     @api.depends('name', 'medicine_id', 'patient_id')
@@ -125,7 +125,7 @@ class OEPrescriptionDispense(models.Model):
     def action_create_billing(self):
         self.ensure_one()
         if not self.billing_id:
-            self.billing_id = self.env['oeh.billing'].create({
+            self.billing_id = self.env['inom.billing'].create({
                 'patient_id': self.patient_id.id,
                 'doctor_id': self.doctor_id.id if self.doctor_id else False,
                 'total_amount': self.total_price,
@@ -133,7 +133,7 @@ class OEPrescriptionDispense(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Bill'),
-            'res_model': 'oeh.billing',
+            'res_model': 'inom.billing',
             'res_id': self.billing_id.id,
             'view_mode': 'form',
             'target': 'current',

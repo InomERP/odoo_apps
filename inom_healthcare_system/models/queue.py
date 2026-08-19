@@ -3,20 +3,20 @@ from odoo import models, fields
 
 class QueueToken(models.Model):
 
-    _name = 'oeh.queue'
+    _name = 'inom.queue'
     _description = 'Queue Token'
     _rec_name='token_no'
 
     token_no = fields.Integer(required=True)
 
     patient_id = fields.Many2one(
-        'oeh.patient',
+        'inom.patient',
         string='Patient',
         required=True
     )
 
     doctor_id = fields.Many2one(
-        'oeh.doctor',
+        'inom.doctor',
         string='Doctor',
         required=True
     )

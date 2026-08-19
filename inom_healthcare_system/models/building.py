@@ -3,17 +3,17 @@ from odoo.exceptions import ValidationError
 
 
 class OEBuilding(models.Model):
-    _name = 'oeh.building'
+    _name = 'inom.building'
     _description = 'Hospital Building'
     _rec_name = 'name'
 
     # ---- Existing fields (preserved) ----
     name = fields.Char(required=True)
     code = fields.Char()
-    ward_ids = fields.One2many('oeh.ward', 'building_id')
+    ward_ids = fields.One2many('inom.ward', 'building_id')
 
     # ---- Professional additions ----
-    campus_id = fields.Many2one('oeh.campus', string='Campus')
+    campus_id = fields.Many2one('inom.campus', string='Campus')
     company_id = fields.Many2one(
         'res.company', string='Company', default=lambda self: self.env.company)
     floors = fields.Integer(string='No. of Floors')
@@ -31,7 +31,7 @@ class OEBuilding(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if vals.get('code', False) in (False, '', 'New'):
-                vals['code'] = self.env['ir.sequence'].next_by_code('oeh.building') or vals.get('code')
+                vals['code'] = self.env['ir.sequence'].next_by_code('inom.building') or vals.get('code')
         return super().create(vals_list)
 
     @api.constrains('floors', 'capacity')
@@ -47,7 +47,7 @@ class OEBuilding(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Wards'),
-            'res_model': 'oeh.ward',
+            'res_model': 'inom.ward',
             'view_mode': 'list,form',
             'domain': [('building_id', '=', self.id)],
             'context': {'default_building_id': self.id},

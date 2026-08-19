@@ -4,14 +4,14 @@ from odoo.exceptions import ValidationError
 
 class OEDental(models.Model):
 
-    _name = 'oeh.dental'
+    _name = 'inom.dental'
     _description = 'Dental Practice'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'tooth_issue'
     _order = 'id desc'
 
     # ---- Existing fields (preserved) ----
-    patient_id = fields.Many2one('oeh.patient', required=True, tracking=True)
+    patient_id = fields.Many2one('inom.patient', required=True, tracking=True)
     tooth_issue = fields.Char(required=True, tracking=True)
     procedure = fields.Char()
     notes = fields.Text()
@@ -53,12 +53,12 @@ class OEDental(models.Model):
     report_reference = fields.Char(string='Imaging/Report Ref')
 
     # Appointment linkage (read-only reference to existing appointment module)
-    appointment_id = fields.Many2one('oeh.appointment', string='Appointment')
+    appointment_id = fields.Many2one('inom.appointment', string='Appointment')
     followup_date = fields.Date(string='Follow-up / Reminder')
 
     # Billing
     fee = fields.Float(string='Procedure Fee')
-    billing_id = fields.Many2one('oeh.billing', string='Bill', copy=False)
+    billing_id = fields.Many2one('inom.billing', string='Bill', copy=False)
     billing_count = fields.Integer(compute='_compute_billing_count')
     case_count = fields.Integer(compute='_compute_case_count')
 
@@ -75,7 +75,7 @@ class OEDental(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if vals.get('name', 'New') in (False, 'New'):
-                vals['name'] = self.env['ir.sequence'].next_by_code('oeh.dental') or 'New'
+                vals['name'] = self.env['ir.sequence'].next_by_code('inom.dental') or 'New'
         return super().create(vals_list)
 
     @api.constrains('fee')
@@ -103,12 +103,12 @@ class OEDental(models.Model):
     def action_create_billing(self):
         self.ensure_one()
         if not self.billing_id:
-            self.billing_id = self.env['oeh.billing'].create({
+            self.billing_id = self.env['inom.billing'].create({
                 'patient_id': self.patient_id.id,
                 'total_amount': self.fee or 0.0,
             }).id
         return {
             'type': 'ir.actions.act_window', 'name': _('Bill'),
-            'res_model': 'oeh.billing', 'res_id': self.billing_id.id,
+            'res_model': 'inom.billing', 'res_id': self.billing_id.id,
             'view_mode': 'form', 'target': 'current',
         }

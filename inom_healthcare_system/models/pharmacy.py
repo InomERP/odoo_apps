@@ -4,7 +4,7 @@ from odoo.exceptions import ValidationError
 
 class OEPharmacy(models.Model):
 
-    _name = 'oeh.pharmacy'
+    _name = 'inom.pharmacy'
     _description = 'Pharmacy Medicine'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'name'
@@ -27,7 +27,7 @@ class OEPharmacy(models.Model):
 
     expiry_date = fields.Date()
 
-    batch_ids = fields.One2many('oeh.medicine.batch', 'medicine_id')
+    batch_ids = fields.One2many('inom.medicine.batch', 'medicine_id')
 
     is_low_stock = fields.Boolean(compute='_compute_low_stock', store=True)
 
@@ -82,7 +82,7 @@ class OEPharmacy(models.Model):
             rec.nearest_expiry = min(valid.mapped('expiry_date')) if valid else False
 
     def _compute_dispense_count(self):
-        Dispense = self.env['oeh.prescription.dispense']
+        Dispense = self.env['inom.prescription.dispense']
         for rec in self:
             rec.dispense_count = Dispense.search_count([('medicine_id', '=', rec.id)])
 
@@ -103,7 +103,7 @@ class OEPharmacy(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if vals.get('code', 'New') in (False, 'New'):
-                vals['code'] = self.env['ir.sequence'].next_by_code('oeh.pharmacy') or 'New'
+                vals['code'] = self.env['ir.sequence'].next_by_code('inom.pharmacy') or 'New'
         return super().create(vals_list)
 
     # ---- Smart buttons ----
@@ -112,7 +112,7 @@ class OEPharmacy(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Batches'),
-            'res_model': 'oeh.medicine.batch',
+            'res_model': 'inom.medicine.batch',
             'view_mode': 'list,form',
             'domain': [('medicine_id', '=', self.id)],
             'context': {'default_medicine_id': self.id},
@@ -123,7 +123,7 @@ class OEPharmacy(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Dispenses'),
-            'res_model': 'oeh.prescription.dispense',
+            'res_model': 'inom.prescription.dispense',
             'view_mode': 'list,form',
             'domain': [('medicine_id', '=', self.id)],
             'context': {'default_medicine_id': self.id},

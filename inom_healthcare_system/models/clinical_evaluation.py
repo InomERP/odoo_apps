@@ -2,21 +2,21 @@ from odoo import models, fields
 
 
 class ClinicalEvaluation(models.Model):
-    _name='oeh.clinical'
+    _name='inom.clinical'
     _description='Clinical Evaluation'
     _rec_name='patient_id'
 
     patient_id=fields.Many2one(
-        'oeh.patient',
+        'inom.patient',
         required=True
     )
 
     appointment_id=fields.Many2one(
-        'oeh.appointment'
+        'inom.appointment'
     )
 
     doctor_id=fields.Many2one(
-        'oeh.doctor'
+        'inom.doctor'
     )
 
     symptoms=fields.Text()

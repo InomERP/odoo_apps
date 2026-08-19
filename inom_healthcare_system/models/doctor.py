@@ -2,7 +2,7 @@ from odoo import models, fields
 
 
 class HMSDoctor(models.Model):
-    _name='oeh.doctor'
+    _name='inom.doctor'
     _description='Doctor'
     _rec_name='name'
     _inherit=['mail.thread','mail.activity.mixin']
@@ -98,7 +98,7 @@ class HMSDoctor(models.Model):
 
 
 # class HMSDoctor(models.Model):
-#     _name='oeh.doctor'
+#     _name='inom.doctor'
 #     _description='Doctor'
 #     _rec_name='name'
 

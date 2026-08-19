@@ -270,90 +270,90 @@
 
 <!-- <odoo>
 
-<menuitem id="oehealth_root"
-          name="OEHealth"/>
+<menuitem id="inom_root"
+          name="Inom Health"/>
 
 
 <menuitem id="patient_menu"
 		  name="Patients"
-		  parent="oehealth_root"
+		  parent="inom_root"
 		  action="patient_action"/>
 
 <menuitem id="menu_doctor"
           name="Doctors"
-          parent="oehealth_root"
+          parent="inom_root"
           action="doctor_action"/>
 
 <menuitem id="menu_appointment"
           name="Appointments"
-          parent="oehealth_root"
+          parent="inom_root"
           action="appointment_action"/>
 
 <menuitem id="menu_queue"
           name="Queue"
-          parent="oehealth_root"
+          parent="inom_root"
           action="queue_action"/>
 
 <menuitem
     id="menu_clinical"
     name="Clinical"
-    parent="oehealth_root"
+    parent="inom_root"
     action="clinical_action"
     sequence="50"/>
 
 <menuitem
     id="menu_prescription"
     name="Prescriptions"
-    parent="oehealth_root"
+    parent="inom_root"
     action="prescription_action"
     sequence="60"/>
 
 <menuitem
     id="menu_treatment"
     name="Treatments"
-    parent="oehealth_root"
+    parent="inom_root"
     action="treatment_action"
     sequence="70"/>
 
 <menuitem
     id="menu_certificate"
     name="Medical Certificates"
-    parent="oehealth_root"
+    parent="inom_root"
     action="certificate_action"
     sequence="80"/>
 
 <menuitem
     id="menu_icd"
     name="ICD 10/11"
-    parent="oehealth_root"
+    parent="inom_root"
     action="icd_action"
     sequence="90"/>
 
 <menuitem
     id="menu_consent"
     name="Digital Consent"
-    parent="oehealth_root"
+    parent="inom_root"
     action="consent_action"
     sequence="100"/>
 
 <menuitem
     id="menu_laboratory"
     name="Laboratory"
-    parent="oehealth_root"
+    parent="inom_root"
     action="laboratory_action"
     sequence="110"/>
 
 <menuitem
     id="menu_sample"
     name="Sample Tracking"
-    parent="oehealth_root"
+    parent="inom_root"
     action="sample_action"
     sequence="120"/>
 
 <menuitem
     id="menu_radiology"
     name="Radiology"
-    parent="oehealth_root"
+    parent="inom_root"
     action="radiology_action"
     sequence="130"/>
 

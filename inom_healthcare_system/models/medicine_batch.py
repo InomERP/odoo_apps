@@ -4,7 +4,7 @@ from odoo.exceptions import ValidationError
 
 class OEMedicineBatch(models.Model):
 
-    _name = 'oeh.medicine.batch'
+    _name = 'inom.medicine.batch'
     _description = 'Medicine Batch'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'batch_no'
@@ -14,7 +14,7 @@ class OEMedicineBatch(models.Model):
     batch_no = fields.Char(required=True, tracking=True)
 
     medicine_id = fields.Many2one(
-        'oeh.pharmacy',
+        'inom.pharmacy',
         required=True,
         ondelete='cascade',
         tracking=True

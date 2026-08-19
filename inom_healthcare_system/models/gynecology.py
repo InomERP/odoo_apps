@@ -5,14 +5,14 @@ from datetime import timedelta
 
 class OEGynecology(models.Model):
 
-    _name = 'oeh.gynecology'
+    _name = 'inom.gynecology'
     _description = 'Gynecology'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'patient_id'
     _order = 'id desc'
 
     # ---- Existing fields (preserved) ----
-    patient_id = fields.Many2one('oeh.patient', required=True, tracking=True)
+    patient_id = fields.Many2one('inom.patient', required=True, tracking=True)
     # original keys (yes/no) preserved
     pregnancy_status = fields.Selection([
         ('yes', 'Yes'),
@@ -88,7 +88,7 @@ class OEGynecology(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if vals.get('name', 'New') in (False, 'New'):
-                vals['name'] = self.env['ir.sequence'].next_by_code('oeh.gynecology') or 'New'
+                vals['name'] = self.env['ir.sequence'].next_by_code('inom.gynecology') or 'New'
         return super().create(vals_list)
 
     @api.constrains('gravida', 'para', 'abortions', 'cycle_length')
@@ -117,7 +117,7 @@ class OEGynecology(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Maternal Care History'),
-            'res_model': 'oeh.gynecology',
+            'res_model': 'inom.gynecology',
             'view_mode': 'list,form',
             'domain': [('patient_id', '=', self.patient_id.id)],
             'context': {'default_patient_id': self.patient_id.id},

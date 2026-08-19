@@ -3,14 +3,14 @@ from odoo.exceptions import ValidationError
 
 
 class OEBed(models.Model):
-    _name = 'oeh.bed'
+    _name = 'inom.bed'
     _description = 'Hospital Bed'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'name'
 
     # ---- Existing fields (preserved) ----
     name = fields.Char(required=True, tracking=True)
-    ward_id = fields.Many2one('oeh.ward', required=True, tracking=True)
+    ward_id = fields.Many2one('inom.ward', required=True, tracking=True)
 
     # NOTE: original keys (free/occupied/maintenance) kept for compatibility;
     # new professional states appended.
@@ -30,14 +30,14 @@ class OEBed(models.Model):
         ('icu', 'ICU'),
         ('pediatric', 'Pediatric'),
     ], default='standard')
-    current_patient_id = fields.Many2one('oeh.patient', string='Current Patient', readonly=True)
+    current_patient_id = fields.Many2one('inom.patient', string='Current Patient', readonly=True)
     active = fields.Boolean(default=True)
 
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
             if vals.get('code', 'New') in (False, 'New'):
-                vals['code'] = self.env['ir.sequence'].next_by_code('oeh.bed') or 'New'
+                vals['code'] = self.env['ir.sequence'].next_by_code('inom.bed') or 'New'
         return super().create(vals_list)
 
     # ---- Bed allocation workflow ----

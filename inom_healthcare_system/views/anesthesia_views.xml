@@ -3,8 +3,8 @@
 
     <!-- Anesthesia Tree View -->
     <record id="view_anesthesia_tree" model="ir.ui.view">
-        <field name="name">oehealth.anesthesia.record.tree</field>
-        <field name="model">oehealth.anesthesia.record</field>
+        <field name="name">inom.anesthesia.record.tree</field>
+        <field name="model">inom.anesthesia.record</field>
         <field name="arch" type="xml">
             <list string="Anesthesia Records">
                 <field name="surgery_id"/>
@@ -17,8 +17,8 @@
 
     <!-- Anesthesia Form View -->
     <record id="view_anesthesia_form" model="ir.ui.view">
-        <field name="name">oehealth.anesthesia.record.form</field>
-        <field name="model">oehealth.anesthesia.record</field>
+        <field name="name">inom.anesthesia.record.form</field>
+        <field name="model">inom.anesthesia.record</field>
         <field name="arch" type="xml">
 
             <form string="Anesthesia Record">
@@ -55,7 +55,7 @@
     <!-- Action -->
     <record id="action_anesthesia" model="ir.actions.act_window">
         <field name="name">Anesthesia Records</field>
-        <field name="res_model">oehealth.anesthesia.record</field>
+        <field name="res_model">inom.anesthesia.record</field>
         <field name="view_mode">list,form</field>
     </record>
 

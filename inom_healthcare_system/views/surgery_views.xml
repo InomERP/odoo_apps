@@ -3,8 +3,8 @@
 
     <!-- Surgery Tree -->
     <record id="view_surgery_tree" model="ir.ui.view">
-        <field name="name">oehealth.surgery.tree</field>
-        <field name="model">oehealth.surgery</field>
+        <field name="name">inom.surgery.tree</field>
+        <field name="model">inom.surgery</field>
         <field name="arch" type="xml">
             <list string="Surgery">
                 <field name="name"/>
@@ -19,8 +19,8 @@
 
     <!-- Surgery Form -->
     <record id="view_surgery_form" model="ir.ui.view">
-        <field name="name">oehealth.surgery.form</field>
-        <field name="model">oehealth.surgery</field>
+        <field name="name">inom.surgery.form</field>
+        <field name="model">inom.surgery</field>
         <field name="arch" type="xml">
 
             <form string="Surgery">
@@ -117,7 +117,7 @@
     <!-- Action -->
     <record id="action_surgery" model="ir.actions.act_window">
         <field name="name">Surgery Management</field>
-        <field name="res_model">oehealth.surgery</field>
+        <field name="res_model">inom.surgery</field>
         <field name="view_mode">list,form</field>
     </record>
 

@@ -4,14 +4,14 @@ from odoo.exceptions import ValidationError
 
 class Consent(models.Model):
 
-    _name = 'oeh.consent'
+    _name = 'inom.consent'
     _description = 'Digital Consent'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'consent_type'
     _order = 'id desc'
 
     # ---- Existing fields (preserved) ----
-    patient_id = fields.Many2one('oeh.patient', required=True, tracking=True)
+    patient_id = fields.Many2one('inom.patient', required=True, tracking=True)
     consent_type = fields.Char(required=True, tracking=True)
     signed = fields.Boolean(tracking=True)
     notes = fields.Text()
@@ -21,7 +21,7 @@ class Consent(models.Model):
     consent_date = fields.Date(default=fields.Date.context_today, tracking=True)
     valid_until = fields.Date()
     procedure = fields.Char(string='Procedure / Reason')
-    treatment_id = fields.Many2one('oeh.treatment', string='Related Treatment')
+    treatment_id = fields.Many2one('inom.treatment', string='Related Treatment')
 
     state = fields.Selection([
         ('draft', 'Draft'),
@@ -57,7 +57,7 @@ class Consent(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if vals.get('name', 'New') in (False, 'New'):
-                vals['name'] = self.env['ir.sequence'].next_by_code('oeh.consent') or 'New'
+                vals['name'] = self.env['ir.sequence'].next_by_code('inom.consent') or 'New'
         return super().create(vals_list)
 
     @api.constrains('consent_date', 'valid_until')

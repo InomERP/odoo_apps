@@ -1,8 +1,8 @@
 from odoo import models, fields, api
 
 
-class OehDashboard(models.TransientModel):
-    _name = 'oeh.dashboard'
+class InomDashboard(models.TransientModel):
+    _name = 'inom.dashboard'
     _description = 'Hospital Dashboard'
 
     @api.model
@@ -36,23 +36,23 @@ class OehDashboard(models.TransientModel):
 
         # ---- Top KPIs -------------------------------------------------
         kpis = {
-            'patients': count('oeh.patient'),
-            'doctors': count('oeh.doctor'),
-            'appointments': count('oeh.appointment'),
-            'appointments_today': count('oeh.appointment', [
+            'patients': count('inom.patient'),
+            'doctors': count('inom.doctor'),
+            'appointments': count('inom.appointment'),
+            'appointments_today': count('inom.appointment', [
                 ('appointment_date', '>=', '%s 00:00:00' % today),
                 ('appointment_date', '<=', '%s 23:59:59' % today),
             ]),
-            'surgeries': count('oehealth.surgery'),
-            'lab_tests': count('oeh.laboratory'),
-            'radiology': count('oeh.radiology'),
-            'ipd_admitted': count('oeh.ipd', [('status', '=', 'admitted')]),
-            'emergency': count('oeh.emergency'),
-            'queue_waiting': count('oeh.queue', [('state', '=', 'waiting')]),
+            'surgeries': count('inom.surgery'),
+            'lab_tests': count('inom.laboratory'),
+            'radiology': count('inom.radiology'),
+            'ipd_admitted': count('inom.ipd', [('status', '=', 'admitted')]),
+            'emergency': count('inom.emergency'),
+            'queue_waiting': count('inom.queue', [('state', '=', 'waiting')]),
         }
 
         # ---- Breakdown charts ----------------------------------------
-        appointments_by_state = by_selection('oeh.appointment', 'state', [
+        appointments_by_state = by_selection('inom.appointment', 'state', [
             ('draft', 'Draft'),
             ('confirm', 'Confirmed'),
             ('progress', 'In Progress'),
@@ -60,7 +60,7 @@ class OehDashboard(models.TransientModel):
             ('cancel', 'Cancelled'),
         ])
 
-        surgery_by_status = by_selection('oehealth.surgery', 'status', [
+        surgery_by_status = by_selection('inom.surgery', 'status', [
             ('draft', 'Draft'),
             ('scheduled', 'Scheduled'),
             ('progress', 'In Progress'),
@@ -68,36 +68,36 @@ class OehDashboard(models.TransientModel):
             ('cancel', 'Cancelled'),
         ])
 
-        lab_by_status = by_selection('oeh.laboratory', 'status', [
+        lab_by_status = by_selection('inom.laboratory', 'status', [
             ('draft', 'Draft'),
             ('done', 'Done'),
         ])
 
-        radiology_by_status = by_selection('oeh.radiology', 'status', [
+        radiology_by_status = by_selection('inom.radiology', 'status', [
             ('draft', 'Draft'),
             ('done', 'Done'),
         ])
 
-        emergency_by_triage = by_selection('oeh.emergency', 'triage_level', [
+        emergency_by_triage = by_selection('inom.emergency', 'triage_level', [
             ('low', 'Low'),
             ('medium', 'Medium'),
             ('high', 'Critical'),
         ])
 
         # ---- Beds -----------------------------------------------------
-        bed_status = by_selection('oeh.bed', 'status', [
+        bed_status = by_selection('inom.bed', 'status', [
             ('free', 'Free'),
             ('occupied', 'Occupied'),
             ('maintenance', 'Maintenance'),
         ])
-        beds_total = count('oeh.bed')
+        beds_total = count('inom.bed')
 
         # ---- Finance --------------------------------------------------
         billing = {
-            'total_billed': total('oeh.billing', 'total_amount'),
-            'total_paid': total('oeh.billing', 'paid_amount'),
-            'total_balance': total('oeh.billing', 'balance'),
-            'by_status': by_selection('oeh.billing', 'status', [
+            'total_billed': total('inom.billing', 'total_amount'),
+            'total_paid': total('inom.billing', 'paid_amount'),
+            'total_balance': total('inom.billing', 'balance'),
+            'by_status': by_selection('inom.billing', 'status', [
                 ('draft', 'Draft'),
                 ('partial', 'Partial'),
                 ('paid', 'Paid'),
@@ -105,10 +105,10 @@ class OehDashboard(models.TransientModel):
         }
 
         insurance = {
-            'count': count('oeh.insurance.claim'),
-            'claim_amount': total('oeh.insurance.claim', 'claim_amount'),
-            'approved_amount': total('oeh.insurance.claim', 'approved_amount'),
-            'by_status': by_selection('oeh.insurance.claim', 'claim_status', [
+            'count': count('inom.insurance.claim'),
+            'claim_amount': total('inom.insurance.claim', 'claim_amount'),
+            'approved_amount': total('inom.insurance.claim', 'approved_amount'),
+            'by_status': by_selection('inom.insurance.claim', 'claim_status', [
                 ('draft', 'Draft'),
                 ('submitted', 'Submitted'),
                 ('approved', 'Approved'),
@@ -116,13 +116,13 @@ class OehDashboard(models.TransientModel):
             ]),
         }
 
-        payments_total = total('oeh.payment', 'amount')
+        payments_total = total('inom.payment', 'amount')
 
         # ---- Pharmacy -------------------------------------------------
         pharmacy = {
-            'medicines': count('oeh.pharmacy'),
-            'low_stock': count('oeh.pharmacy', [('is_low_stock', '=', True)]),
-            'batches': count('oeh.medicine.batch'),
+            'medicines': count('inom.pharmacy'),
+            'low_stock': count('inom.pharmacy', [('is_low_stock', '=', True)]),
+            'batches': count('inom.medicine.batch'),
         }
 
         currency = env.company.currency_id

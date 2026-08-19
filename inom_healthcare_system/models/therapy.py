@@ -4,14 +4,14 @@ from odoo.exceptions import ValidationError
 
 class OEPhysicalTherapy(models.Model):
 
-    _name = 'oeh.therapy'
+    _name = 'inom.therapy'
     _description = 'Physical Therapy'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'therapist'
     _order = 'session_date desc, id desc'
 
     # ---- Existing fields (preserved) ----
-    patient_id = fields.Many2one('oeh.patient', required=True, tracking=True)
+    patient_id = fields.Many2one('inom.patient', required=True, tracking=True)
     therapist = fields.Char(required=True, tracking=True)
     session_date = fields.Date(required=True, tracking=True)
     treatment_plan = fields.Text()
@@ -43,7 +43,7 @@ class OEPhysicalTherapy(models.Model):
 
     # Billing
     fee = fields.Float(string='Session Fee')
-    billing_id = fields.Many2one('oeh.billing', string='Bill', copy=False)
+    billing_id = fields.Many2one('inom.billing', string='Bill', copy=False)
     billing_count = fields.Integer(compute='_compute_billing_count')
     session_count = fields.Integer(compute='_compute_session_count')
 
@@ -60,7 +60,7 @@ class OEPhysicalTherapy(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if vals.get('name', 'New') in (False, 'New'):
-                vals['name'] = self.env['ir.sequence'].next_by_code('oeh.therapy') or 'New'
+                vals['name'] = self.env['ir.sequence'].next_by_code('inom.therapy') or 'New'
         return super().create(vals_list)
 
     @api.constrains('pain_level', 'mobility_score')
@@ -87,12 +87,12 @@ class OEPhysicalTherapy(models.Model):
     def action_create_billing(self):
         self.ensure_one()
         if not self.billing_id:
-            self.billing_id = self.env['oeh.billing'].create({
+            self.billing_id = self.env['inom.billing'].create({
                 'patient_id': self.patient_id.id,
                 'total_amount': self.fee or 0.0,
             }).id
         return {
             'type': 'ir.actions.act_window', 'name': _('Bill'),
-            'res_model': 'oeh.billing', 'res_id': self.billing_id.id,
+            'res_model': 'inom.billing', 'res_id': self.billing_id.id,
             'view_mode': 'form', 'target': 'current',
         }

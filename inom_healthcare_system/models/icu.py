@@ -2,13 +2,13 @@ from odoo import models, fields, api, _
 
 
 class OEICU(models.Model):
-    _name = 'oeh.icu'
+    _name = 'inom.icu'
     _description = 'ICU Critical Care'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'patient_id'
 
     # ---- Existing fields (preserved) ----
-    patient_id = fields.Many2one('oeh.patient', required=True, tracking=True)
+    patient_id = fields.Many2one('inom.patient', required=True, tracking=True)
     apache_score = fields.Integer()
     sofa_score = fields.Integer()
     oxygen_level = fields.Float()
@@ -16,8 +16,8 @@ class OEICU(models.Model):
 
     # ---- Professional additions ----
     name = fields.Char(string='ICU Ref', default='New', readonly=True, copy=False, index=True)
-    bed_id = fields.Many2one('oeh.bed', string='ICU Bed', tracking=True)
-    attending_doctor_id = fields.Many2one('oeh.doctor', string='Intensivist', tracking=True)
+    bed_id = fields.Many2one('inom.bed', string='ICU Bed', tracking=True)
+    attending_doctor_id = fields.Many2one('inom.doctor', string='Intensivist', tracking=True)
     nurse_in_charge = fields.Char(string='Nurse In-Charge')
     admission_date = fields.Datetime(default=fields.Datetime.now, tracking=True)
 
@@ -46,7 +46,7 @@ class OEICU(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if vals.get('name', 'New') in (False, 'New'):
-                vals['name'] = self.env['ir.sequence'].next_by_code('oeh.icu') or 'New'
+                vals['name'] = self.env['ir.sequence'].next_by_code('inom.icu') or 'New'
         return super().create(vals_list)
 
     @api.depends('name', 'patient_id')

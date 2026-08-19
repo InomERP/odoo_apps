@@ -20,7 +20,7 @@ export class HospitalDashboard extends Component {
 
     async _load() {
         this.state.loading = true;
-        this.state.data = await this.orm.call("oeh.dashboard", "get_dashboard_data", []);
+        this.state.data = await this.orm.call("inom.dashboard", "get_dashboard_data", []);
         this.state.loading = false;
     }
 

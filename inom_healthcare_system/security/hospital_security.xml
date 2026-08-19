@@ -93,21 +93,21 @@
     -->
     <record id="rule_building_company" model="ir.rule">
         <field name="name">Building: multi-company</field>
-        <field name="model_id" ref="model_oeh_building"/>
+        <field name="model_id" ref="model_inom_building"/>
         <field name="global" eval="True"/>
         <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
     </record>
 
     <record id="rule_campus_company" model="ir.rule">
         <field name="name">Campus: multi-company</field>
-        <field name="model_id" ref="model_oeh_campus"/>
+        <field name="model_id" ref="model_inom_campus"/>
         <field name="global" eval="True"/>
         <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
     </record>
 
     <record id="rule_ipd_company" model="ir.rule">
         <field name="name">IPD Admission: multi-company</field>
-        <field name="model_id" ref="model_oeh_ipd"/>
+        <field name="model_id" ref="model_inom_ipd"/>
         <field name="global" eval="True"/>
         <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
     </record>

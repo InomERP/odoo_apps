@@ -2,12 +2,12 @@ from odoo import models, fields
 
 
 class SurgicalTeam(models.Model):
-    _name='oehealth.surgical.team'
+    _name='inom.surgical.team'
     _description='Surgical Team'
     _rec_name='member_name'
 
     surgery_id=fields.Many2one(
-        'oehealth.surgery',
+        'inom.surgery',
         required=True
     )
 

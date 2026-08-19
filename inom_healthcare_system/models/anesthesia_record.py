@@ -2,12 +2,12 @@ from odoo import models, fields
 
 
 class AnesthesiaRecord(models.Model):
-    _name = 'oehealth.anesthesia.record'
+    _name = 'inom.anesthesia.record'
     _description = 'Anesthesia Record'
     _rec_name = 'anesthetist'   # Record name
 
     surgery_id = fields.Many2one(
-        'oehealth.surgery',
+        'inom.surgery',
         required=True
     )
 

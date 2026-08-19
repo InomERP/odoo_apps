@@ -3,7 +3,7 @@
 
     <record id="gynecology_tree" model="ir.ui.view">
         <field name="name">gynecology.tree</field>
-        <field name="model">oeh.gynecology</field>
+        <field name="model">inom.gynecology</field>
         <field name="arch" type="xml">
             <list decoration-info="pregnancy_status == 'yes'" decoration-muted="state == 'closed'">
                 <field name="name"/>
@@ -19,7 +19,7 @@
 
     <record id="gynecology_form" model="ir.ui.view">
         <field name="name">gynecology.form</field>
-        <field name="model">oeh.gynecology</field>
+        <field name="model">inom.gynecology</field>
         <field name="arch" type="xml">
             <form>
                 <header>
@@ -102,7 +102,7 @@
 
     <record id="action_gynecology" model="ir.actions.act_window">
         <field name="name">Gynecology</field>
-        <field name="res_model">oeh.gynecology</field>
+        <field name="res_model">inom.gynecology</field>
         <field name="view_mode">list,form</field>
     </record>
 

@@ -1,8 +1,8 @@
 <odoo>
 
     <record id="dispense_tree" model="ir.ui.view">
-        <field name="name">oeh.dispense.tree</field>
-        <field name="model">oeh.prescription.dispense</field>
+        <field name="name">inom.dispense.tree</field>
+        <field name="model">inom.prescription.dispense</field>
         <field name="arch" type="xml">
             <list decoration-success="state == 'done'" decoration-info="state == 'verified'"
                   decoration-muted="state == 'cancel'">
@@ -19,8 +19,8 @@
     </record>
 
     <record id="dispense_form" model="ir.ui.view">
-        <field name="name">oeh.dispense.form</field>
-        <field name="model">oeh.prescription.dispense</field>
+        <field name="name">inom.dispense.form</field>
+        <field name="model">inom.prescription.dispense</field>
         <field name="arch" type="xml">
             <form>
                 <header>
@@ -62,7 +62,7 @@
 
     <record id="dispense_action" model="ir.actions.act_window">
         <field name="name">Prescription Dispense</field>
-        <field name="res_model">oeh.prescription.dispense</field>
+        <field name="res_model">inom.prescription.dispense</field>
         <field name="view_mode">list,form</field>
     </record>
 
