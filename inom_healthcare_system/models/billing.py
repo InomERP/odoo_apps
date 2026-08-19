@@ -2,7 +2,7 @@ from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
 
-class OEBilling(models.Model):
+class InomBilling(models.Model):
 
     _name = 'inom.billing'
     _description = 'Billing Management'

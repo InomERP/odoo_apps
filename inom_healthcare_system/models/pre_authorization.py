@@ -2,7 +2,7 @@ from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
 
-class OEPreAuth(models.Model):
+class InomPreAuth(models.Model):
 
     _name = 'inom.pre.authorization'
     _description = 'Pre Authorization'

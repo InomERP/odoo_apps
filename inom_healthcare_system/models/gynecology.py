@@ -3,7 +3,7 @@ from odoo.exceptions import ValidationError
 from datetime import timedelta
 
 
-class OEGynecology(models.Model):
+class InomGynecology(models.Model):
 
     _name = 'inom.gynecology'
     _description = 'Gynecology'

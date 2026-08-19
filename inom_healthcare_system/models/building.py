@@ -2,7 +2,7 @@ from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
 
-class OEBuilding(models.Model):
+class InomBuilding(models.Model):
     _name = 'inom.building'
     _description = 'Hospital Building'
     _rec_name = 'name'

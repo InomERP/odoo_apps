@@ -1,7 +1,7 @@
 from odoo import models, fields
 
 
-class OESample(models.Model):
+class InomSample(models.Model):
 
     _name = 'inom.sample'
     _description = 'Sample Tracking'
