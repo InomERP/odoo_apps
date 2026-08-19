@@ -7,8 +7,8 @@
         view is left untouched and fully backward compatible.
     -->
     <record id="patient_form_emr" model="ir.ui.view">
-        <field name="name">oeh.patient.form.emr</field>
-        <field name="model">oeh.patient</field>
+        <field name="name">inom.patient.form.emr</field>
+        <field name="model">inom.patient</field>
         <field name="inherit_id" ref="patient_form"/>
         <field name="arch" type="xml">
 

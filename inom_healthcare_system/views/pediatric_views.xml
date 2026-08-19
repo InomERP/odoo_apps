@@ -3,7 +3,7 @@
 
     <record id="pediatric_tree" model="ir.ui.view">
         <field name="name">pediatric.tree</field>
-        <field name="model">oeh.pediatric</field>
+        <field name="model">inom.pediatric</field>
         <field name="arch" type="xml">
             <list decoration-danger="vaccine_status == 'overdue'" decoration-warning="vaccine_status == 'due'">
                 <field name="name"/>
@@ -21,7 +21,7 @@
 
     <record id="pediatric_form" model="ir.ui.view">
         <field name="name">pediatric.form</field>
-        <field name="model">oeh.pediatric</field>
+        <field name="model">inom.pediatric</field>
         <field name="arch" type="xml">
             <form>
                 <header>
@@ -100,7 +100,7 @@
 
     <record id="action_pediatric" model="ir.actions.act_window">
         <field name="name">Pediatric</field>
-        <field name="res_model">oeh.pediatric</field>
+        <field name="res_model">inom.pediatric</field>
         <field name="view_mode">list,form</field>
     </record>
 

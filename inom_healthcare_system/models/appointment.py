@@ -4,7 +4,7 @@ from datetime import timedelta
 
 class Appointment(models.Model):
 
-    _name = 'oeh.appointment'
+    _name = 'inom.appointment'
     _description = 'Appointment'
     _rec_name = 'appointment_no'
     _inherit = ['mail.thread', 'mail.activity.mixin']
@@ -16,13 +16,13 @@ class Appointment(models.Model):
     )
 
     patient_id = fields.Many2one(
-        'oeh.patient',
+        'inom.patient',
         required=True,
         tracking=True
     )
 
     doctor_id = fields.Many2one(
-        'oeh.doctor',
+        'inom.doctor',
         required=True,
         tracking=True
     )
@@ -65,7 +65,7 @@ class Appointment(models.Model):
                 vals['appointment_no'] = self.env[
                     'ir.sequence'
                 ].next_by_code(
-                    'oeh.appointment'
+                    'inom.appointment'
                 ) or 'New'
 
         return super().create(vals_list)
@@ -147,7 +147,7 @@ class Appointment(models.Model):
 
 # class Appointment(models.Model):
 
-#     _name='oeh.appointment'
+#     _name='inom.appointment'
 #     _description='Appointment'
 #     _rec_name='appointment_no'
 
@@ -158,12 +158,12 @@ class Appointment(models.Model):
 #     )
 
 #     patient_id=fields.Many2one(
-#         'oeh.patient',
+#         'inom.patient',
 #         required=True
 #     )
 
 #     doctor_id=fields.Many2one(
-#         'oeh.doctor',
+#         'inom.doctor',
 #         required=True
 #     )
 
@@ -195,7 +195,7 @@ class Appointment(models.Model):
 #                 vals['appointment_no'] = self.env[
 #                     'ir.sequence'
 #                 ].next_by_code(
-#                     'oeh.appointment'
+#                     'inom.appointment'
 #                 ) or 'New'
 
 #         return super().create(vals_list)

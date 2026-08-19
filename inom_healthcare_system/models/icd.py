@@ -4,7 +4,7 @@ from odoo.exceptions import ValidationError
 
 class ICD(models.Model):
 
-    _name = 'oeh.icd'
+    _name = 'inom.icd'
     _description = 'ICD Codes'
     _inherit = ['mail.thread']
     _rec_name = 'code'
@@ -30,7 +30,7 @@ class ICD(models.Model):
     ]
 
     def _compute_usage(self):
-        Treatment = self.env['oeh.treatment']
+        Treatment = self.env['inom.treatment']
         for rec in self:
             rec.treatment_count = Treatment.search_count([('diagnosis_id', '=', rec.id)])
 
@@ -49,6 +49,6 @@ class ICD(models.Model):
         self.ensure_one()
         return {
             'type': 'ir.actions.act_window', 'name': _('Treatments'),
-            'res_model': 'oeh.treatment', 'view_mode': 'list,form',
+            'res_model': 'inom.treatment', 'view_mode': 'list,form',
             'domain': [('diagnosis_id', '=', self.id)],
         }

@@ -4,14 +4,14 @@ from odoo.exceptions import ValidationError
 
 class Treatment(models.Model):
 
-    _name = 'oeh.treatment'
+    _name = 'inom.treatment'
     _description = 'Treatment'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'treatment_name'
     _order = 'id desc'
 
     # ---- Existing fields (preserved) ----
-    patient_id = fields.Many2one('oeh.patient', required=True, tracking=True)
+    patient_id = fields.Many2one('inom.patient', required=True, tracking=True)
     treatment_name = fields.Char(required=True, tracking=True)
     procedure = fields.Text()
     notes = fields.Text()
@@ -19,8 +19,8 @@ class Treatment(models.Model):
     # ---- Professional additions ----
     name = fields.Char(string='Treatment Ref', default='New', readonly=True, copy=False, index=True)
     date = fields.Date(default=fields.Date.context_today, tracking=True)
-    doctor_id = fields.Many2one('oeh.doctor', string='Doctor', tracking=True)
-    diagnosis_id = fields.Many2one('oeh.icd', string='Diagnosis (ICD)')
+    doctor_id = fields.Many2one('inom.doctor', string='Doctor', tracking=True)
+    diagnosis_id = fields.Many2one('inom.icd', string='Diagnosis (ICD)')
 
     state = fields.Selection([
         ('draft', 'Draft'),
@@ -35,7 +35,7 @@ class Treatment(models.Model):
     followup_date = fields.Date(string='Follow-up Date')
 
     fee = fields.Float(string='Treatment Fee')
-    billing_id = fields.Many2one('oeh.billing', string='Bill', copy=False)
+    billing_id = fields.Many2one('inom.billing', string='Bill', copy=False)
     billing_count = fields.Integer(compute='_compute_billing_count')
     treatment_count = fields.Integer(compute='_compute_treatment_count')
 
@@ -52,7 +52,7 @@ class Treatment(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if vals.get('name', 'New') in (False, 'New'):
-                vals['name'] = self.env['ir.sequence'].next_by_code('oeh.treatment') or 'New'
+                vals['name'] = self.env['ir.sequence'].next_by_code('inom.treatment') or 'New'
         return super().create(vals_list)
 
     @api.constrains('fee')
@@ -81,7 +81,7 @@ class Treatment(models.Model):
         self.ensure_one()
         return {
             'type': 'ir.actions.act_window', 'name': _('Treatment History'),
-            'res_model': 'oeh.treatment', 'view_mode': 'list,form',
+            'res_model': 'inom.treatment', 'view_mode': 'list,form',
             'domain': [('patient_id', '=', self.patient_id.id)],
             'context': {'default_patient_id': self.patient_id.id},
         }
@@ -89,13 +89,13 @@ class Treatment(models.Model):
     def action_create_billing(self):
         self.ensure_one()
         if not self.billing_id:
-            self.billing_id = self.env['oeh.billing'].create({
+            self.billing_id = self.env['inom.billing'].create({
                 'patient_id': self.patient_id.id,
                 'doctor_id': self.doctor_id.id if self.doctor_id else False,
                 'total_amount': self.fee or 0.0,
             }).id
         return {
             'type': 'ir.actions.act_window', 'name': _('Bill'),
-            'res_model': 'oeh.billing', 'res_id': self.billing_id.id,
+            'res_model': 'inom.billing', 'res_id': self.billing_id.id,
             'view_mode': 'form', 'target': 'current',
         }

@@ -11,7 +11,7 @@ class PatientVisit(models.Model):
 
 
     patient_id=fields.Many2one(
-        'oeh.patient',
+        'inom.patient',
         required=True
     )
 

@@ -3,8 +3,8 @@
 
     <!-- OT Schedule Tree View -->
     <record id="view_ot_schedule_tree" model="ir.ui.view">
-        <field name="name">oehealth.ot.schedule.tree</field>
-        <field name="model">oehealth.ot.schedule</field>
+        <field name="name">inom.ot.schedule.tree</field>
+        <field name="model">inom.ot.schedule</field>
         <field name="arch" type="xml">
             <list string="OT Schedule">
                 <field name="surgery_id"/>
@@ -18,8 +18,8 @@
 
     <!-- OT Schedule Form View -->
     <record id="view_ot_schedule_form" model="ir.ui.view">
-        <field name="name">oehealth.ot.schedule.form</field>
-        <field name="model">oehealth.ot.schedule</field>
+        <field name="name">inom.ot.schedule.form</field>
+        <field name="model">inom.ot.schedule</field>
         <field name="arch" type="xml">
             <form string="OT Schedule">
 
@@ -51,7 +51,7 @@
     <!-- OT Schedule Action -->
     <record id="action_ot_schedule" model="ir.actions.act_window">
         <field name="name">OT Scheduling</field>
-        <field name="res_model">oehealth.ot.schedule</field>
+        <field name="res_model">inom.ot.schedule</field>
         <field name="view_mode">list,form</field>
     </record>
 

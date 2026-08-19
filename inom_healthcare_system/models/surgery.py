@@ -2,7 +2,7 @@ from odoo import models, fields, api
 
 
 class Surgery(models.Model):
-    _name = 'oehealth.surgery'
+    _name = 'inom.surgery'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Surgery Management'
     _rec_name = 'name'
@@ -15,13 +15,13 @@ class Surgery(models.Model):
     )
 
     patient_id = fields.Many2one(
-        'oeh.patient',
+        'inom.patient',
         string="Patient",
         required=True
     )
 
     doctor_id = fields.Many2one(
-        'oeh.doctor',
+        'inom.doctor',
         string="Surgeon",
         required=True
     )
@@ -59,17 +59,17 @@ class Surgery(models.Model):
     rcri_score = fields.Integer()
 
     team_ids = fields.One2many(
-        'oehealth.surgical.team',
+        'inom.surgical.team',
         'surgery_id'
     )
 
     ot_ids = fields.One2many(
-        'oehealth.ot.schedule',
+        'inom.ot.schedule',
         'surgery_id'
     )
 
     anesthesia_ids = fields.One2many(
-        'oehealth.anesthesia.record',
+        'inom.anesthesia.record',
         'surgery_id'
     )
 
@@ -82,7 +82,7 @@ class Surgery(models.Model):
                 vals['name'] = self.env[
                     'ir.sequence'
                 ].next_by_code(
-                    'oehealth.surgery'
+                    'inom.surgery'
                 ) or 'New'
 
         return super().create(vals_list)

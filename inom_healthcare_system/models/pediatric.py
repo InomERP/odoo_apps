@@ -3,7 +3,7 @@ from odoo.exceptions import ValidationError
 
 
 class OEPediatric(models.Model):
-    _name = 'oeh.pediatric'
+    _name = 'inom.pediatric'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Pediatric Care'
     _rec_name = 'name'
@@ -11,7 +11,7 @@ class OEPediatric(models.Model):
 
     # ---- Existing fields (preserved) ----
     name = fields.Char(default='New', readonly=True, copy=False, tracking=True)
-    patient_id = fields.Many2one('oeh.patient', required=True, tracking=True)
+    patient_id = fields.Many2one('inom.patient', required=True, tracking=True)
     age = fields.Integer(tracking=True)
     height = fields.Float(string='Height (cm)')
     weight = fields.Float(string='Weight (kg)')
@@ -117,7 +117,7 @@ class OEPediatric(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if vals.get('name', 'New') == 'New':
-                vals['name'] = self.env['ir.sequence'].next_by_code('oeh.specialty') or 'New'
+                vals['name'] = self.env['ir.sequence'].next_by_code('inom.specialty') or 'New'
         return super().create(vals_list)
 
     # ---- Workflow ----
@@ -135,7 +135,7 @@ class OEPediatric(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Pediatric History'),
-            'res_model': 'oeh.pediatric',
+            'res_model': 'inom.pediatric',
             'view_mode': 'list,form',
             'domain': [('patient_id', '=', self.patient_id.id)],
             'context': {'default_patient_id': self.patient_id.id},

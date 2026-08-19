@@ -1,12 +1,12 @@
 from odoo import models, fields
 
 class OTSchedule(models.Model):
-    _name='oehealth.ot.schedule'
+    _name='inom.ot.schedule'
     _description='OT Scheduling'
     _rec_name='surgery_id'
 
     surgery_id=fields.Many2one(
-        'oehealth.surgery',
+        'inom.surgery',
         required=True
     )
 

@@ -4,15 +4,15 @@ from odoo.exceptions import ValidationError
 
 class OEBilling(models.Model):
 
-    _name = 'oeh.billing'
+    _name = 'inom.billing'
     _description = 'Billing Management'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
 
     name = fields.Char(default='New', readonly=True, tracking=True)
 
-    patient_id = fields.Many2one('oeh.patient', required=True, tracking=True)
-    doctor_id = fields.Many2one('oeh.doctor')
+    patient_id = fields.Many2one('inom.patient', required=True, tracking=True)
+    doctor_id = fields.Many2one('inom.doctor')
 
     bill_date = fields.Date(default=fields.Date.context_today)
 
@@ -55,7 +55,7 @@ class OEBilling(models.Model):
     # -------------------------
     tax_amount = fields.Float(string='Tax', tracking=True)
     insurance_claim_id = fields.Many2one(
-        'oeh.insurance.claim', string='Insurance Claim', tracking=True)
+        'inom.insurance.claim', string='Insurance Claim', tracking=True)
     insurance_coverage = fields.Float(string='Insurance Coverage', tracking=True)
     patient_payable = fields.Float(
         string='Patient Payable', compute='_compute_patient_payable', store=True)
@@ -63,7 +63,7 @@ class OEBilling(models.Model):
     # -------------------------
     # PAYMENT HISTORY / SMART BUTTON
     # -------------------------
-    payment_ids = fields.One2many('oeh.payment', 'billing_id', string='Payments')
+    payment_ids = fields.One2many('inom.payment', 'billing_id', string='Payments')
     payment_count = fields.Integer(compute='_compute_payment_count')
 
     @api.depends('total_amount', 'tax_amount', 'insurance_coverage')
@@ -101,7 +101,7 @@ class OEBilling(models.Model):
 
         for vals in vals_list:
             if vals.get('name', 'New') == 'New':
-                vals['name'] = self.env['ir.sequence'].next_by_code('oeh.billing') or 'New'
+                vals['name'] = self.env['ir.sequence'].next_by_code('inom.billing') or 'New'
 
         return super().create(vals_list)
 
@@ -234,7 +234,7 @@ class OEBilling(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Payments'),
-            'res_model': 'oeh.payment',
+            'res_model': 'inom.payment',
             'view_mode': 'list,form',
             'domain': [('billing_id', '=', self.id)],
             'context': {'default_billing_id': self.id},

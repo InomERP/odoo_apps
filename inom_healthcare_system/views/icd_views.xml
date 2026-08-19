@@ -2,7 +2,7 @@
 
     <record id="icd_tree" model="ir.ui.view">
         <field name="name">icd.tree</field>
-        <field name="model">oeh.icd</field>
+        <field name="model">inom.icd</field>
         <field name="arch" type="xml">
             <list decoration-muted="active == False">
                 <field name="code"/>
@@ -17,7 +17,7 @@
 
     <record id="icd_form" model="ir.ui.view">
         <field name="name">icd.form</field>
-        <field name="model">oeh.icd</field>
+        <field name="model">inom.icd</field>
         <field name="arch" type="xml">
             <form>
                 <sheet>
@@ -49,7 +49,7 @@
 
     <record id="icd_action" model="ir.actions.act_window">
         <field name="name">ICD 10 / ICD 11</field>
-        <field name="res_model">oeh.icd</field>
+        <field name="res_model">inom.icd</field>
         <field name="view_mode">list,form</field>
     </record>
 

@@ -3,31 +3,31 @@
 
     <record id="action_report_billing" model="ir.actions.report">
         <field name="name">Hospital Bill</field>
-        <field name="model">oeh.billing</field>
+        <field name="model">inom.billing</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">inom_healthcare_system.report_billing_doc</field>
         <field name="report_file">inom_healthcare_system.report_billing_doc</field>
-        <field name="binding_model_id" ref="model_oeh_billing"/>
+        <field name="binding_model_id" ref="model_inom_billing"/>
         <field name="binding_type">report</field>
     </record>
 
     <record id="action_report_payment" model="ir.actions.report">
         <field name="name">Payment Receipt</field>
-        <field name="model">oeh.payment</field>
+        <field name="model">inom.payment</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">inom_healthcare_system.report_payment_doc</field>
         <field name="report_file">inom_healthcare_system.report_payment_doc</field>
-        <field name="binding_model_id" ref="model_oeh_payment"/>
+        <field name="binding_model_id" ref="model_inom_payment"/>
         <field name="binding_type">report</field>
     </record>
 
     <record id="action_report_claim" model="ir.actions.report">
         <field name="name">Insurance Claim</field>
-        <field name="model">oeh.insurance.claim</field>
+        <field name="model">inom.insurance.claim</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">inom_healthcare_system.report_claim_doc</field>
         <field name="report_file">inom_healthcare_system.report_claim_doc</field>
-        <field name="binding_model_id" ref="model_oeh_insurance_claim"/>
+        <field name="binding_model_id" ref="model_inom_insurance_claim"/>
         <field name="binding_type">report</field>
     </record>
 

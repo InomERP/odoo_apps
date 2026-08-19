@@ -3,13 +3,13 @@ from odoo import models, fields
 
 class OESample(models.Model):
 
-    _name = 'oeh.sample'
+    _name = 'inom.sample'
     _description = 'Sample Tracking'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'barcode'
 
     patient_id = fields.Many2one(
-        'oeh.patient',
+        'inom.patient',
         required=True,
         tracking=True
     )

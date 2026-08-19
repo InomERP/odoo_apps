@@ -3,15 +3,15 @@ from odoo.exceptions import ValidationError
 
 
 class OEWard(models.Model):
-    _name = 'oeh.ward'
+    _name = 'inom.ward'
     _description = 'Hospital Ward'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'name'
 
     # ---- Existing fields (preserved) ----
     name = fields.Char(required=True, tracking=True)
-    building_id = fields.Many2one('oeh.building', required=True, tracking=True)
-    bed_ids = fields.One2many('oeh.bed', 'ward_id')
+    building_id = fields.Many2one('inom.building', required=True, tracking=True)
+    bed_ids = fields.One2many('inom.bed', 'ward_id')
 
     # ---- Professional additions ----
     code = fields.Char(string='Ward Code', default='New', readonly=True, copy=False, index=True)
@@ -50,7 +50,7 @@ class OEWard(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if vals.get('code', 'New') in (False, 'New'):
-                vals['code'] = self.env['ir.sequence'].next_by_code('oeh.ward') or 'New'
+                vals['code'] = self.env['ir.sequence'].next_by_code('inom.ward') or 'New'
         return super().create(vals_list)
 
     # ---- Workflow ----
@@ -68,7 +68,7 @@ class OEWard(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Beds'),
-            'res_model': 'oeh.bed',
+            'res_model': 'inom.bed',
             'view_mode': 'list,form',
             'domain': [('ward_id', '=', self.id)],
             'context': {'default_ward_id': self.id},

@@ -3,7 +3,7 @@ from odoo.exceptions import ValidationError
 
 
 class OECampus(models.Model):
-    _name = 'oeh.campus'
+    _name = 'inom.campus'
     _description = 'Multi Campus'
     _rec_name = 'name'
 
@@ -19,7 +19,7 @@ class OECampus(models.Model):
     company_id = fields.Many2one(
         'res.company', string='Company',
         default=lambda self: self.env.company)
-    building_ids = fields.One2many('oeh.building', 'campus_id', string='Buildings')
+    building_ids = fields.One2many('inom.building', 'campus_id', string='Buildings')
     building_count = fields.Integer(compute='_compute_building_count')
 
     def _compute_building_count(self):
@@ -30,7 +30,7 @@ class OECampus(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if vals.get('code', 'New') in (False, 'New'):
-                vals['code'] = self.env['ir.sequence'].next_by_code('oeh.campus') or 'New'
+                vals['code'] = self.env['ir.sequence'].next_by_code('inom.campus') or 'New'
         return super().create(vals_list)
 
     def action_view_buildings(self):
@@ -38,7 +38,7 @@ class OECampus(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Buildings'),
-            'res_model': 'oeh.building',
+            'res_model': 'inom.building',
             'view_mode': 'list,form',
             'domain': [('campus_id', '=', self.id)],
             'context': {'default_campus_id': self.id},

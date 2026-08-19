@@ -3,7 +3,7 @@
 
     <record id="therapy_tree" model="ir.ui.view">
         <field name="name">therapy.tree</field>
-        <field name="model">oeh.therapy</field>
+        <field name="model">inom.therapy</field>
         <field name="arch" type="xml">
             <list decoration-success="state == 'done'" decoration-info="state == 'in_progress'"
                   decoration-muted="state == 'cancel'">
@@ -20,7 +20,7 @@
 
     <record id="therapy_form" model="ir.ui.view">
         <field name="name">therapy.form</field>
-        <field name="model">oeh.therapy</field>
+        <field name="model">inom.therapy</field>
         <field name="arch" type="xml">
             <form>
                 <header>
@@ -84,7 +84,7 @@
 
     <record id="therapy_kanban" model="ir.ui.view">
         <field name="name">therapy.kanban</field>
-        <field name="model">oeh.therapy</field>
+        <field name="model">inom.therapy</field>
         <field name="arch" type="xml">
             <kanban default_group_by="state">
                 <field name="patient_id"/>
@@ -106,7 +106,7 @@
 
     <record id="action_therapy" model="ir.actions.act_window">
         <field name="name">Physical Therapy</field>
-        <field name="res_model">oeh.therapy</field>
+        <field name="res_model">inom.therapy</field>
         <field name="view_mode">list,kanban,form</field>
     </record>
 

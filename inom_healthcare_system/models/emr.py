@@ -2,7 +2,7 @@
 #
 #  Electronic Medical Record (EMR) extension
 #  ------------------------------------------
-#  This module EXTENDS the existing ``oeh.patient`` model. It only ADDS
+#  This module EXTENDS the existing ``inom.patient`` model. It only ADDS
 #  computed convenience fields and helper actions used to surface a
 #  patient's clinical history as smart buttons on the patient form.
 #
@@ -12,8 +12,8 @@
 from odoo import models, fields, api
 
 
-class OehPatientEMR(models.Model):
-    _inherit = 'oeh.patient'
+class InomPatientEMR(models.Model):
+    _inherit = 'inom.patient'
 
     # ------------------------------------------------------------------
     # EMR summary counters (non-stored: computed on demand for the form)
@@ -43,12 +43,12 @@ class OehPatientEMR(models.Model):
         """
         models_map = {
             'visit_count': 'patient.visit',
-            'appointment_count': 'oeh.appointment',
-            'lab_count': 'oeh.laboratory',
-            'radiology_count': 'oeh.radiology',
-            'prescription_count': 'oeh.prescription',
-            'surgery_count': 'oehealth.surgery',
-            'billing_count': 'oeh.billing',
+            'appointment_count': 'inom.appointment',
+            'lab_count': 'inom.laboratory',
+            'radiology_count': 'inom.radiology',
+            'prescription_count': 'inom.prescription',
+            'surgery_count': 'inom.surgery',
+            'billing_count': 'inom.billing',
             'allergy_count': 'patient.allergy',
         }
         ids = self.ids
@@ -86,22 +86,22 @@ class OehPatientEMR(models.Model):
         return self._emr_action('Visits', 'patient.visit')
 
     def action_view_appointments(self):
-        return self._emr_action('Appointments', 'oeh.appointment')
+        return self._emr_action('Appointments', 'inom.appointment')
 
     def action_view_labs(self):
-        return self._emr_action('Lab Tests', 'oeh.laboratory')
+        return self._emr_action('Lab Tests', 'inom.laboratory')
 
     def action_view_radiology(self):
-        return self._emr_action('Radiology', 'oeh.radiology')
+        return self._emr_action('Radiology', 'inom.radiology')
 
     def action_view_prescriptions(self):
-        return self._emr_action('Prescriptions', 'oeh.prescription')
+        return self._emr_action('Prescriptions', 'inom.prescription')
 
     def action_view_surgeries(self):
-        return self._emr_action('Surgeries', 'oehealth.surgery')
+        return self._emr_action('Surgeries', 'inom.surgery')
 
     def action_view_bills(self):
-        return self._emr_action('Bills', 'oeh.billing')
+        return self._emr_action('Bills', 'inom.billing')
 
     def action_view_allergies(self):
         return self._emr_action('Allergies', 'patient.allergy')

@@ -5,7 +5,7 @@
     <record id="view_communication_tree" model="ir.ui.view">
 
         <field name="name">communication.tree</field>
-        <field name="model">oeh.communication</field>
+        <field name="model">inom.communication</field>
 
         <field name="arch" type="xml">
             <list>
@@ -22,7 +22,7 @@
     <record id="view_communication_form" model="ir.ui.view">
 
         <field name="name">communication.form</field>
-        <field name="model">oeh.communication</field>
+        <field name="model">inom.communication</field>
 
         <field name="arch" type="xml">
 
@@ -52,7 +52,7 @@
     <record id="action_communication" model="ir.actions.act_window">
 
         <field name="name">Communication</field>
-        <field name="res_model">oeh.communication</field>
+        <field name="res_model">inom.communication</field>
         <field name="view_mode">list,form</field>
 
     </record>

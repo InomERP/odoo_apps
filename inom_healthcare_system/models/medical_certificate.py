@@ -4,21 +4,21 @@ from odoo.exceptions import ValidationError
 
 class MedicalCertificate(models.Model):
 
-    _name = 'oeh.certificate'
+    _name = 'inom.certificate'
     _description = 'Medical Certificate'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'patient_id'
     _order = 'id desc'
 
     # ---- Existing fields (preserved) ----
-    patient_id = fields.Many2one('oeh.patient', required=True, tracking=True)
+    patient_id = fields.Many2one('inom.patient', required=True, tracking=True)
     issue_date = fields.Date(tracking=True)
     valid_until = fields.Date(tracking=True)
     details = fields.Html()
 
     # ---- Professional additions ----
     name = fields.Char(string='Certificate No.', default='New', readonly=True, copy=False, index=True)
-    doctor_id = fields.Many2one('oeh.doctor', string='Issuing Doctor', tracking=True)
+    doctor_id = fields.Many2one('inom.doctor', string='Issuing Doctor', tracking=True)
     certificate_type = fields.Selection([
         ('fitness', 'Fitness Certificate'),
         ('sick', 'Sick Leave'),
@@ -53,7 +53,7 @@ class MedicalCertificate(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if vals.get('name', 'New') in (False, 'New'):
-                vals['name'] = self.env['ir.sequence'].next_by_code('oeh.certificate') or 'New'
+                vals['name'] = self.env['ir.sequence'].next_by_code('inom.certificate') or 'New'
         return super().create(vals_list)
 
     @api.constrains('issue_date', 'valid_until')

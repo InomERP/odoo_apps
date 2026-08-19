@@ -2,13 +2,13 @@ from odoo import models, fields, api, _
 
 
 class OENursing(models.Model):
-    _name = 'oeh.nursing'
+    _name = 'inom.nursing'
     _description = 'Nursing Plan'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'patient_id'
 
     # ---- Existing fields (preserved) ----
-    patient_id = fields.Many2one('oeh.patient', required=True, tracking=True)
+    patient_id = fields.Many2one('inom.patient', required=True, tracking=True)
     nurse = fields.Char(required=True)
     care_plan = fields.Text()
     notes = fields.Text()
@@ -35,7 +35,7 @@ class OENursing(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if vals.get('name', 'New') in (False, 'New'):
-                vals['name'] = self.env['ir.sequence'].next_by_code('oeh.nursing') or 'New'
+                vals['name'] = self.env['ir.sequence'].next_by_code('inom.nursing') or 'New'
         return super().create(vals_list)
 
     @api.depends('name', 'patient_id')

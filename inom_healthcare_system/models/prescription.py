@@ -3,15 +3,15 @@ from odoo import models, fields, api, _
 
 class Prescription(models.Model):
 
-    _name = 'oeh.prescription'
+    _name = 'inom.prescription'
     _description = 'Prescription'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'medicine'
     _order = 'date desc, id desc'
 
     # ---- Existing fields (preserved) ----
-    patient_id = fields.Many2one('oeh.patient', required=True, tracking=True)
-    doctor_id = fields.Many2one('oeh.doctor', required=True, tracking=True)
+    patient_id = fields.Many2one('inom.patient', required=True, tracking=True)
+    doctor_id = fields.Many2one('inom.doctor', required=True, tracking=True)
     date = fields.Date(required=True, default=fields.Date.context_today, tracking=True)
     medicine = fields.Char(required=True, tracking=True)
     dosage = fields.Char(required=True)
@@ -19,7 +19,7 @@ class Prescription(models.Model):
 
     # ---- Professional additions ----
     name = fields.Char(string='Prescription No.', default='New', readonly=True, copy=False, index=True)
-    diagnosis_id = fields.Many2one('oeh.icd', string='Diagnosis (ICD)')
+    diagnosis_id = fields.Many2one('inom.icd', string='Diagnosis (ICD)')
 
     state = fields.Selection([
         ('draft', 'Draft'),
@@ -44,7 +44,7 @@ class Prescription(models.Model):
     prescription_count = fields.Integer(compute='_compute_prescription_count')
 
     def _compute_dispense_count(self):
-        Dispense = self.env['oeh.prescription.dispense']
+        Dispense = self.env['inom.prescription.dispense']
         for rec in self:
             rec.dispense_count = Dispense.search_count([('prescription_id', '=', rec.id)])
 
@@ -57,7 +57,7 @@ class Prescription(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if vals.get('name', 'New') in (False, 'New'):
-                vals['name'] = self.env['ir.sequence'].next_by_code('oeh.prescription') or 'New'
+                vals['name'] = self.env['ir.sequence'].next_by_code('inom.prescription') or 'New'
         return super().create(vals_list)
 
     @api.depends('name', 'medicine')
@@ -90,7 +90,7 @@ class Prescription(models.Model):
         self.ensure_one()
         return {
             'type': 'ir.actions.act_window', 'name': _('Dispenses'),
-            'res_model': 'oeh.prescription.dispense', 'view_mode': 'list,form',
+            'res_model': 'inom.prescription.dispense', 'view_mode': 'list,form',
             'domain': [('prescription_id', '=', self.id)],
             'context': {'default_prescription_id': self.id,
                         'default_patient_id': self.patient_id.id},
@@ -100,7 +100,7 @@ class Prescription(models.Model):
         self.ensure_one()
         return {
             'type': 'ir.actions.act_window', 'name': _('Prescription History'),
-            'res_model': 'oeh.prescription', 'view_mode': 'list,form',
+            'res_model': 'inom.prescription', 'view_mode': 'list,form',
             'domain': [('patient_id', '=', self.patient_id.id)],
             'context': {'default_patient_id': self.patient_id.id},
         }

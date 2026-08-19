@@ -2,13 +2,13 @@ from odoo import models, fields, api, _
 
 
 class OEEmergency(models.Model):
-    _name = 'oeh.emergency'
+    _name = 'inom.emergency'
     _description = 'Emergency & Triage'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'patient_id'
 
     # ---- Existing fields (preserved) ----
-    patient_id = fields.Many2one('oeh.patient', required=True, tracking=True)
+    patient_id = fields.Many2one('inom.patient', required=True, tracking=True)
     # original keys (low/medium/high) kept for dashboard compatibility
     triage_level = fields.Selection([
         ('low', 'Low'),
@@ -21,7 +21,7 @@ class OEEmergency(models.Model):
     # ---- Professional additions ----
     name = fields.Char(string='ER Ref', default='New', readonly=True, copy=False, index=True)
     arrival_time = fields.Datetime(default=fields.Datetime.now, tracking=True)
-    attending_doctor_id = fields.Many2one('oeh.doctor', string='Attending Doctor', tracking=True)
+    attending_doctor_id = fields.Many2one('inom.doctor', string='Attending Doctor', tracking=True)
     triage_color = fields.Selection([
         ('green', 'Green'),
         ('yellow', 'Yellow'),
@@ -33,7 +33,7 @@ class OEEmergency(models.Model):
         ('admitted', 'Admitted'),
         ('discharged', 'Discharged'),
     ], default='waiting', tracking=True)
-    ipd_id = fields.Many2one('oeh.ipd', string='Admission', copy=False, readonly=True)
+    ipd_id = fields.Many2one('inom.ipd', string='Admission', copy=False, readonly=True)
 
     @api.depends('triage_level')
     def _compute_triage_color(self):
@@ -45,7 +45,7 @@ class OEEmergency(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if vals.get('name', 'New') in (False, 'New'):
-                vals['name'] = self.env['ir.sequence'].next_by_code('oeh.emergency') or 'New'
+                vals['name'] = self.env['ir.sequence'].next_by_code('inom.emergency') or 'New'
         return super().create(vals_list)
 
     # ---- Triage workflow ----
@@ -62,7 +62,7 @@ class OEEmergency(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Admit Patient'),
-            'res_model': 'oeh.ipd',
+            'res_model': 'inom.ipd',
             'view_mode': 'form',
             'target': 'current',
             'context': {'default_patient_id': self.patient_id.id},

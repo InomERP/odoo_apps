@@ -3,7 +3,7 @@ from odoo import models, fields, api
 
 class OEPatient(models.Model):
 
-    _name = 'oeh.patient'
+    _name = 'inom.patient'
     _description = 'Patient'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'name'
@@ -53,8 +53,8 @@ class OEPatient(models.Model):
     emergency_contact = fields.Char()
 
     family_member_ids = fields.Many2many(
-        'oeh.patient',
-        'oeh_patient_family_rel',
+        'inom.patient',
+        'inom_patient_family_rel',
         'patient_id',
         'family_id',
         string="Family Members"
@@ -112,7 +112,7 @@ class OEPatient(models.Model):
         for rec in self:
 
             rec.appointment_count = self.env[
-                'oeh.appointment'
+                'inom.appointment'
             ].search_count([
                 ('patient_id', '=', rec.id)
             ])
@@ -137,7 +137,7 @@ class OEPatient(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': 'Appointments',
-            'res_model': 'oeh.appointment',
+            'res_model': 'inom.appointment',
             'view_mode': 'list,form',
             'domain': [
                 ('patient_id', '=', self.id)
@@ -173,7 +173,7 @@ class OEPatient(models.Model):
                 vals['patient_id'] = self.env[
                     'ir.sequence'
                 ].next_by_code(
-                    'oeh.patient'
+                    'inom.patient'
                 ) or 'New'
 
         return super().create(vals_list)
@@ -208,7 +208,7 @@ class OEPatient(models.Model):
 
 # class OEPatient(models.Model):
 
-#     _name = 'oeh.patient'
+#     _name = 'inom.patient'
 #     _description = 'Patient'
 #     _inherit = ['mail.thread', 'mail.activity.mixin']
 
@@ -263,8 +263,8 @@ class OEPatient(models.Model):
 
 #     # Self relation fixed
 #     family_member_ids = fields.Many2many(
-#         'oeh.patient',
-#         'oeh_patient_family_rel',
+#         'inom.patient',
+#         'inom_patient_family_rel',
 #         'patient_id',
 #         'family_id',
 #         string="Family Members"
@@ -310,7 +310,7 @@ class OEPatient(models.Model):
 #                 vals['patient_id'] = self.env[
 #                     'ir.sequence'
 #                 ].next_by_code(
-#                     'oeh.patient'
+#                     'inom.patient'
 #                 ) or 'New'
 
 #         return super().create(vals_list)

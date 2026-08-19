@@ -4,7 +4,7 @@ from odoo.exceptions import ValidationError
 
 class OEInsurance(models.Model):
 
-    _name = 'oeh.insurance.claim'
+    _name = 'inom.insurance.claim'
     _description = 'Insurance Claim'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'patient_id'
@@ -15,7 +15,7 @@ class OEInsurance(models.Model):
         index=True, tracking=True)
 
     patient_id = fields.Many2one(
-        'oeh.patient',
+        'inom.patient',
         tracking=True,
         required=True
     )
@@ -41,7 +41,7 @@ class OEInsurance(models.Model):
     approval_notes = fields.Text()
     rejection_reason = fields.Text()
     attachment_ids = fields.Many2many(
-        'ir.attachment', 'oeh_claim_attachment_rel',
+        'ir.attachment', 'inom_claim_attachment_rel',
         'claim_id', 'attachment_id', string='Claim Documents')
 
     claim_status = fields.Selection([
@@ -69,7 +69,7 @@ class OEInsurance(models.Model):
         for rec in self:
 
             rec.claim_count = self.env[
-                'oeh.insurance.claim'
+                'inom.insurance.claim'
             ].search_count([
                 ('patient_id', '=', rec.patient_id.id)
             ])
@@ -78,7 +78,7 @@ class OEInsurance(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': 'Insurance Claims',
-            'res_model': 'oeh.insurance.claim',
+            'res_model': 'inom.insurance.claim',
             'view_mode': 'list,form',
             'domain': [('patient_id', '=', self.patient_id.id)]
         }
@@ -89,7 +89,7 @@ class OEInsurance(models.Model):
         for vals in vals_list:
             if vals.get('name', 'New') in (False, 'New'):
                 vals['name'] = self.env['ir.sequence'].next_by_code(
-                    'oeh.insurance.claim') or 'New'
+                    'inom.insurance.claim') or 'New'
         return super().create(vals_list)
 
     @api.depends('claim_amount', 'approved_amount')
@@ -155,11 +155,11 @@ class OEInsurance(models.Model):
 
 # class OEInsurance(models.Model):
 
-#     _name='oeh.insurance.claim'
+#     _name='inom.insurance.claim'
 #     _description='Insurance Claim'
 
 #     patient_id=fields.Many2one(
-#         'oeh.patient'
+#         'inom.patient'
 #     )
 
 #     insurance_company=fields.Char()

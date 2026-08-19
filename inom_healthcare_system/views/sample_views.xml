@@ -2,8 +2,8 @@
 
     <!-- TREE VIEW -->
     <record id="sample_tree_view" model="ir.ui.view">
-        <field name="name">oeh.sample.tree</field>
-        <field name="model">oeh.sample</field>
+        <field name="name">inom.sample.tree</field>
+        <field name="model">inom.sample</field>
         <field name="arch" type="xml">
 
             <list>
@@ -20,8 +20,8 @@
 
     <!-- FORM VIEW -->
     <record id="sample_form_view" model="ir.ui.view">
-        <field name="name">oeh.sample.form</field>
-        <field name="model">oeh.sample</field>
+        <field name="name">inom.sample.form</field>
+        <field name="model">inom.sample</field>
         <field name="arch" type="xml">
 
             <form>
@@ -52,7 +52,7 @@
     <!-- ACTION -->
     <record id="sample_action" model="ir.actions.act_window">
         <field name="name">Sample Tracking</field>
-        <field name="res_model">oeh.sample</field>
+        <field name="res_model">inom.sample</field>
         <field name="view_mode">list,form</field>
     </record>
 

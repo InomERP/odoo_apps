@@ -4,7 +4,7 @@ from odoo.exceptions import ValidationError
 
 class OEPayment(models.Model):
 
-    _name = 'oeh.payment'
+    _name = 'inom.payment'
     _description = 'Payments'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'name'
@@ -12,7 +12,7 @@ class OEPayment(models.Model):
 
     # ---- Existing fields (preserved) ----
     billing_id = fields.Many2one(
-        'oeh.billing',
+        'inom.billing',
         required=True
     )
 
@@ -47,7 +47,7 @@ class OEPayment(models.Model):
     ], string='Type', default='regular', tracking=True)
 
     patient_id = fields.Many2one(
-        'oeh.patient', related='billing_id.patient_id',
+        'inom.patient', related='billing_id.patient_id',
         store=True, readonly=True)
 
     @api.model_create_multi
@@ -55,7 +55,7 @@ class OEPayment(models.Model):
         for vals in vals_list:
             if vals.get('name', 'New') in (False, 'New'):
                 vals['name'] = self.env['ir.sequence'].next_by_code(
-                    'oeh.payment') or 'New'
+                    'inom.payment') or 'New'
         return super().create(vals_list)
 
     @api.depends('name', 'amount', 'billing_id')

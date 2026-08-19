@@ -3,15 +3,15 @@ from odoo.exceptions import ValidationError
 
 
 class OEIPD(models.Model):
-    _name = 'oeh.ipd'
+    _name = 'inom.ipd'
     _description = 'IPD Admission'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'name'
 
     # ---- Existing fields (preserved) ----
     name = fields.Char(default='New', readonly=True, copy=False, tracking=True)
-    patient_id = fields.Many2one('oeh.patient', required=True, tracking=True)
-    bed_id = fields.Many2one('oeh.bed', required=True, tracking=True)
+    patient_id = fields.Many2one('inom.patient', required=True, tracking=True)
+    bed_id = fields.Many2one('inom.bed', required=True, tracking=True)
     admission_date = fields.Datetime(tracking=True)
     discharge_date = fields.Datetime(tracking=True)
 
@@ -25,7 +25,7 @@ class OEIPD(models.Model):
 
     # ---- Professional additions ----
     ward_id = fields.Many2one(related='bed_id.ward_id', string='Ward', store=True, readonly=True)
-    attending_doctor_id = fields.Many2one('oeh.doctor', string='Attending Doctor', tracking=True)
+    attending_doctor_id = fields.Many2one('inom.doctor', string='Attending Doctor', tracking=True)
     nurse_in_charge = fields.Char(string='Nurse In-Charge')
     reason = fields.Text(string='Reason for Admission')
     diagnosis = fields.Text()
@@ -33,7 +33,7 @@ class OEIPD(models.Model):
     company_id = fields.Many2one(
         'res.company', string='Company', default=lambda self: self.env.company)
 
-    billing_id = fields.Many2one('oeh.billing', string='Bill', copy=False)
+    billing_id = fields.Many2one('inom.billing', string='Bill', copy=False)
     billing_count = fields.Integer(compute='_compute_billing_count')
 
     def _compute_billing_count(self):
@@ -45,7 +45,7 @@ class OEIPD(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if vals.get('name', 'New') == 'New':
-                vals['name'] = self.env['ir.sequence'].next_by_code('oeh.ipd') or 'New'
+                vals['name'] = self.env['ir.sequence'].next_by_code('inom.ipd') or 'New'
         records = super().create(vals_list)
         for rec in records:
             if rec.status == 'admitted' and rec.bed_id:
@@ -94,7 +94,7 @@ class OEIPD(models.Model):
     def action_create_billing(self):
         self.ensure_one()
         if not self.billing_id:
-            self.billing_id = self.env['oeh.billing'].create({
+            self.billing_id = self.env['inom.billing'].create({
                 'patient_id': self.patient_id.id,
                 'doctor_id': self.attending_doctor_id.id if self.attending_doctor_id else False,
                 'total_amount': 0.0,
@@ -102,7 +102,7 @@ class OEIPD(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Bill'),
-            'res_model': 'oeh.billing',
+            'res_model': 'inom.billing',
             'res_id': self.billing_id.id,
             'view_mode': 'form',
             'target': 'current',
@@ -112,7 +112,7 @@ class OEIPD(models.Model):
         self.ensure_one()
         return {
             'type': 'ir.actions.act_window',
-            'res_model': 'oeh.bed',
+            'res_model': 'inom.bed',
             'res_id': self.bed_id.id,
             'view_mode': 'form',
             'target': 'current',

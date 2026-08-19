@@ -3,21 +3,21 @@
 
     <record id="action_report_certificate" model="ir.actions.report">
         <field name="name">Medical Certificate</field>
-        <field name="model">oeh.certificate</field>
+        <field name="model">inom.certificate</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">inom_healthcare_system.report_certificate_doc</field>
         <field name="report_file">inom_healthcare_system.report_certificate_doc</field>
-        <field name="binding_model_id" ref="model_oeh_certificate"/>
+        <field name="binding_model_id" ref="model_inom_certificate"/>
         <field name="binding_type">report</field>
     </record>
 
     <record id="action_report_prescription" model="ir.actions.report">
         <field name="name">Prescription</field>
-        <field name="model">oeh.prescription</field>
+        <field name="model">inom.prescription</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">inom_healthcare_system.report_prescription_doc</field>
         <field name="report_file">inom_healthcare_system.report_prescription_doc</field>
-        <field name="binding_model_id" ref="model_oeh_prescription"/>
+        <field name="binding_model_id" ref="model_inom_prescription"/>
         <field name="binding_type">report</field>
     </record>
 

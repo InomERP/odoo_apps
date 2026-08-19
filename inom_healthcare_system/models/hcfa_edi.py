@@ -1,21 +1,21 @@
 from odoo import models, fields, api, _
 
 
-class OEHCFA(models.Model):
+class InomHCFA(models.Model):
 
-    _name = 'oeh.hcfa'
+    _name = 'inom.hcfa'
     _description = 'HCFA EDI'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'name'
 
     # ---- Existing fields (preserved) ----
     patient_id = fields.Many2one(
-        'oeh.patient',
+        'inom.patient',
         required=True
     )
 
     claim_id = fields.Many2one(
-        'oeh.insurance.claim',
+        'inom.insurance.claim',
         required=True
     )
 
@@ -45,7 +45,7 @@ class OEHCFA(models.Model):
     policy_number = fields.Char(related='claim_id.policy_number', readonly=True)
     claim_amount = fields.Float(related='claim_id.claim_amount', readonly=True)
 
-    diagnosis_id = fields.Many2one('oeh.icd', string='Diagnosis (ICD)')
+    diagnosis_id = fields.Many2one('inom.icd', string='Diagnosis (ICD)')
     procedure_description = fields.Char(string='Procedure / Service')
 
     @api.model_create_multi
@@ -53,7 +53,7 @@ class OEHCFA(models.Model):
         for vals in vals_list:
             if vals.get('name', 'New') in (False, 'New'):
                 vals['name'] = self.env['ir.sequence'].next_by_code(
-                    'oeh.hcfa') or 'New'
+                    'inom.hcfa') or 'New'
         return super().create(vals_list)
 
     @api.depends('name', 'patient_id')

@@ -8,7 +8,7 @@ class Allergy(models.Model):
 
 
     patient_id=fields.Many2one(
-        'oeh.patient',
+        'inom.patient',
         required=True
     )
 
