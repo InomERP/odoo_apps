@@ -1,7 +1,7 @@
 from odoo import models, fields, api, _
 
 
-class OEICU(models.Model):
+class InomICU(models.Model):
     _name = 'inom.icu'
     _description = 'ICU Critical Care'
     _inherit = ['mail.thread', 'mail.activity.mixin']

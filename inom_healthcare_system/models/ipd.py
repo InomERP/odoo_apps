@@ -2,7 +2,7 @@ from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
 
-class OEIPD(models.Model):
+class InomIPD(models.Model):
     _name = 'inom.ipd'
     _description = 'IPD Admission'
     _inherit = ['mail.thread', 'mail.activity.mixin']

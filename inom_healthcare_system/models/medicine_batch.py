@@ -2,7 +2,7 @@ from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
 
-class OEMedicineBatch(models.Model):
+class InomMedicineBatch(models.Model):
 
     _name = 'inom.medicine.batch'
     _description = 'Medicine Batch'

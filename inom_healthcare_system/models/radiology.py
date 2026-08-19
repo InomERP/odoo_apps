@@ -1,7 +1,7 @@
 from odoo import models, fields
 
 
-class OERadiology(models.Model):
+class InomRadiology(models.Model):
 
     _name = 'inom.radiology'
     _description = 'Radiology'

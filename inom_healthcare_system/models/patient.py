@@ -1,7 +1,7 @@
 from odoo import models, fields, api
 
 
-class OEPatient(models.Model):
+class InomPatient(models.Model):
 
     _name = 'inom.patient'
     _description = 'Patient'
@@ -206,7 +206,7 @@ class OEPatient(models.Model):
 # from odoo import models, fields, api
 
 
-# class OEPatient(models.Model):
+# class InomPatient(models.Model):
 
 #     _name = 'inom.patient'
 #     _description = 'Patient'

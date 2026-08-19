@@ -2,7 +2,7 @@ from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
 
-class OEPhysicalTherapy(models.Model):
+class InomPhysicalTherapy(models.Model):
 
     _name = 'inom.therapy'
     _description = 'Physical Therapy'

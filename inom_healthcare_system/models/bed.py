@@ -2,7 +2,7 @@ from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
 
-class OEBed(models.Model):
+class InomBed(models.Model):
     _name = 'inom.bed'
     _description = 'Hospital Bed'
     _inherit = ['mail.thread', 'mail.activity.mixin']
