@@ -1,7 +1,7 @@
 from odoo import models, fields, api, _
 
 
-class OENursing(models.Model):
+class InomNursing(models.Model):
     _name = 'inom.nursing'
     _description = 'Nursing Plan'
     _inherit = ['mail.thread', 'mail.activity.mixin']

@@ -2,7 +2,7 @@ from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
 
-class OEInsurance(models.Model):
+class InomInsurance(models.Model):
 
     _name = 'inom.insurance.claim'
     _description = 'Insurance Claim'
@@ -153,7 +153,7 @@ class OEInsurance(models.Model):
 
 # from odoo import models,fields
 
-# class OEInsurance(models.Model):
+# class InomInsurance(models.Model):
 
 #     _name='inom.insurance.claim'
 #     _description='Insurance Claim'

@@ -1,7 +1,7 @@
 from odoo import models, fields, api, _
 
 
-class OEEmergency(models.Model):
+class InomEmergency(models.Model):
     _name = 'inom.emergency'
     _description = 'Emergency & Triage'
     _inherit = ['mail.thread', 'mail.activity.mixin']

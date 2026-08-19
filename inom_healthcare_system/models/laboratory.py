@@ -1,7 +1,7 @@
 from odoo import models, fields
 
 
-class OELaboratory(models.Model):
+class InomLaboratory(models.Model):
 
     _name = 'inom.laboratory'
     _description = 'Laboratory'
