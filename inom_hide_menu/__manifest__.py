@@ -17,7 +17,7 @@ Features:
 - Easy configuration from the User form
 - Better UI control for administrators
 """,
-    "author": "Inomerp",
+    "author": "InomERP",
     "website": "https://inomerp.in/",
     "support": "info@inomerp.in",
     'images': ['static/description/banner.png'],
