@@ -49,7 +49,8 @@ AssetCare - Complete Asset & Maintenance Suite
         'views/menus.xml',
     ],
   'images': [
-        'static/description/banner.png',
+        # 'static/description/banner.png',
+        'static/description/banner.gif',
     ],
 
     'installable': True,
