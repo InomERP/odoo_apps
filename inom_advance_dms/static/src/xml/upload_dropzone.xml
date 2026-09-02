@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="inom_advance_dms.UploadDropzone">
+        <div class="edm-uploader">
+
+            <div class="edm-up-header">
+                <div class="edm-up-title">
+                    <i class="fa fa-cloud-upload me-2"/>
+                    <span>Upload Documents</span>
+                </div>
+                <button class="btn btn-sm btn-light" t-on-click="openDocuments">
+                    <i class="fa fa-folder-open me-1"/> Go to Documents
+                </button>
+            </div>
+
+            <!-- OPTIONS -->
+            <div class="edm-up-options">
+                <div class="edm-up-field">
+                    <label>Document Name</label>
+                    <input type="text" t-model="state.documentName" class="form-control" placeholder="Enter document name"/>
+                </div>
+                <div class="edm-up-field">
+                    <label>File Name</label>
+                    <input type="text" t-model="state.fileName" class="form-control" placeholder="Enter file name"/>
+                </div>
+                <div class="edm-up-field">
+                    <label>Workspace</label>
+                    <select t-model="state.workspaceId" class="edm-up-select">
+                        <option value="">— None —</option>
+                        <option t-foreach="state.workspaces" t-as="ws" t-key="ws.id"
+                                t-att-value="ws.id" t-esc="ws.name"/>
+                    </select>
+                </div>
+                <div class="edm-up-field edm-up-fav">
+                    <label class="edm-up-check">
+                        <input type="checkbox" t-model="state.isFavorite"/>
+                        <span>Mark as favorite</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- DROP ZONE -->
+            <div class="edm-dropzone"
+                 t-att-class="state.dragging ? 'dragging' : ''"
+                 t-on-dragover="onDragOver"
+                 t-on-dragleave="onDragLeave"
+                 t-on-drop="onDrop"
+                 t-on-click="onBrowseClick">
+
+                <input type="file" multiple="multiple" t-ref="fileInput"
+                       class="edm-hidden-input"
+                       t-att-accept="acceptAttr"
+                       t-on-change="onFileInputChange"/>
+
+                <div class="edm-dropzone-inner">
+                    <div class="edm-dropzone-icon">
+                        <i class="fa fa-cloud-upload"/>
+                    </div>
+                    <div class="edm-dropzone-text">
+                        <strong>Drag &amp; drop files here</strong>
+                        <span>or click to browse</span>
+                    </div>
+                    <div class="edm-dropzone-hint">
+                        PDF, DOC, DOCX, XLS, XLSX, PNG, JPG, JPEG, TXT, ZIP · up to 25&#160;MB each
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUMMARY BAR -->
+            <div t-if="state.files.length" class="edm-up-summary">
+                <span><i class="fa fa-files-o me-1"/><t t-esc="state.files.length"/> file(s)</span>
+                <span t-if="state.done" class="text-success">
+                    <i class="fa fa-check me-1"/><t t-esc="state.done"/> done
+                </span>
+                <span t-if="state.failed" class="text-danger">
+                    <i class="fa fa-times me-1"/><t t-esc="state.failed"/> failed
+                </span>
+                <div class="edm-up-summary-actions">
+                    <button class="btn btn-sm btn-light" t-att-disabled="state.uploading" t-on-click="clearAll">Clear</button>
+                    <button class="btn btn-sm btn-primary" t-att-disabled="!hasPending || state.uploading" t-on-click="uploadAll">
+                        <t t-if="state.uploading"><span class="edm-mini-spinner"/> Uploading...</t>
+                        <t t-else=""><i class="fa fa-upload me-1"/> Upload All</t>
+                    </button>
+                </div>
+            </div>
+
+            <!-- FILE PREVIEW CARDS -->
+            <div t-if="state.files.length" class="edm-file-list">
+                <div class="edm-file-card" t-foreach="state.files" t-as="f" t-key="f.uid"
+                     t-att-class="{'is-done': f.status === 'done', 'is-error': f.status === 'error' || f.status === 'invalid', 'is-uploading': f.status === 'uploading'}">
+                    <div class="edm-file-icon"><i class="fa" t-att-class="iconFor(f.ext)"/></div>
+                    <div class="edm-file-info">
+                        <div class="edm-file-name" t-esc="f.name"/>
+                        <div class="edm-file-sub">
+                            <span t-esc="humanSize(f.size)"/>
+                            <span t-if="f.status === 'done' &amp;&amp; f.duplicate" class="edm-file-warn">· duplicate name</span>
+                            <span t-if="f.error" class="edm-file-err" t-esc="' · ' + f.error"/>
+                        </div>
+                        <div t-if="f.status === 'uploading' || f.status === 'done'" class="edm-progress">
+                            <div class="edm-progress-bar" t-att-style="'width:' + f.progress + '%'"/>
+                        </div>
+                    </div>
+                    <div class="edm-file-status">
+                        <t t-if="f.status === 'pending'"><i class="fa fa-clock-o text-muted" title="Ready"/></t>
+                        <t t-elif="f.status === 'uploading'"><span t-esc="f.progress + '%'" class="edm-pct"/></t>
+                        <t t-elif="f.status === 'done'"><i class="fa fa-check-circle text-success"/></t>
+                        <t t-else=""><i class="fa fa-exclamation-circle text-danger"/></t>
+                        <button t-if="f.status !== 'uploading'" class="edm-file-remove" title="Remove" t-on-click.stop="() => this.removeFile(f.uid)">
+                            <i class="fa fa-times"/>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </t>
+
+</templates>
