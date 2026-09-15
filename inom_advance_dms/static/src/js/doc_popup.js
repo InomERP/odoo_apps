@@ -21,10 +21,23 @@ export class DocPopupBody extends Component {
     }
     async annotate() {
         try {
-            const recs = await this.orm.read("edm.document", [this.props.docId], ["file", "name"]);
+            // Only metadata goes through the ORM; the binary is streamed, so
+            // opening the annotator no longer pulls a base64 copy of the whole
+            // PDF through a JSON-RPC payload.
+            const recs = await this.orm.read(
+                "edm.document", [this.props.docId], ["name", "file_name"]);
             const r = (recs && recs[0]) || {};
+            const response = await fetch("/edm/document/preview/" + this.props.docId);
+            if (!response.ok) {
+                throw new Error("HTTP " + response.status);
+            }
+            const buffer = await response.arrayBuffer();
             if (this.props.close) { this.props.close(); }
-            if (r.file) { openAnnotator(this.props.docId, r.file, r.name || this.props.name); }
+            openAnnotator(
+                this.props.docId,
+                new Uint8Array(buffer),
+                r.file_name || r.name || this.props.name
+            );
         } catch (e) {
             console.error(e);
         }

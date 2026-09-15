@@ -11,7 +11,16 @@
                 <field name="workspace_id"/>
                 <field name="folder_id"/>
                 <field name="tag_ids"/>
+                <field name="group_id"/>
+                <field name="category_id"/>
+                <field name="project_reference"/>
+                <field name="reference"/>
+                <field name="description"/>
+                <field name="file_name" string="File Name"/>
+                <field name="file_extension" string="File Type"/>
 
+                <filter string="My Documents" name="my_documents" domain="[('owner_id','=',uid)]"/>
+                <separator/>
                 <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
                 <filter string="Waiting" name="waiting" domain="[('state','=','waiting')]"/>
                 <filter string="Approved" name="approved" domain="[('state','=','approved')]"/>
@@ -28,6 +37,16 @@
                 <filter string="Recycle Bin" name="trash" domain="[('is_trashed','=',True)]"/>
                 <filter string="Expired" name="expired" domain="[('expiry_status','=','expired')]"/>
                 <filter string="Expiring Soon" name="expiring" domain="[('expiry_status','=','expiring_soon')]"/>
+                <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+
+                <separator/>
+
+                <filter string="Created Today" name="created_today"
+                        domain="[('create_date','&gt;=', datetime.datetime.combine(context_today(), datetime.time(0,0,0)))]"/>
+                <filter string="Created This Month" name="created_this_month"
+                        domain="[('create_date','&gt;=', (context_today() + relativedelta(day=1)).strftime('%Y-%m-%d'))]"/>
+                <filter string="Modified This Week" name="modified_this_week"
+                        domain="[('write_date','&gt;=', (context_today() - relativedelta(days=7)).strftime('%Y-%m-%d'))]"/>
 
                 <separator/>
 
@@ -36,6 +55,18 @@
                 <filter string="Folder" name="group_folder" context="{'group_by':'folder_id'}"/>
                 <filter string="Owner" name="group_owner" context="{'group_by':'owner_id'}"/>
                 <filter string="State" name="group_state" context="{'group_by':'state'}"/>
+                <filter string="Group" name="group_group" context="{'group_by':'group_id'}"/>
+                <filter string="Category" name="group_category" context="{'group_by':'category_id'}"/>
+                <filter string="Tags" name="group_tags" context="{'group_by':'tag_ids'}"/>
+                <filter string="Created On" name="group_create_date" context="{'group_by':'create_date'}"/>
+
+                <searchpanel>
+                    <field name="workspace_id" string="Workspaces" icon="fa-briefcase" enable_counters="1"/>
+                    <field name="folder_id" string="Folders" icon="fa-folder" enable_counters="1"/>
+                    <field name="group_id" string="Groups" icon="fa-object-group" enable_counters="1"/>
+                    <field name="category_id" string="Categories" icon="fa-tags" enable_counters="1"/>
+                    <field name="tag_ids" string="Tags" icon="fa-tags" select="multi"/>
+                </searchpanel>
             </search>
         </field>
     </record>
@@ -44,19 +75,38 @@
         <field name="name">edm.document.list</field>
         <field name="model">edm.document</field>
         <field name="arch" type="xml">
-            <list string="Documents">
+            <list string="Documents" multi_edit="1" limit="80">
+                <field name="sequence" widget="handle"/>
                 <field name="name"/>
-                <field name="state"/>
-                <field name="document_type"/>
-                <field name="file_extension"/>
-                <field name="version_no"/>
-                <field name="expiry_status"/>
-                <field name="workspace_id"/>
-                <field name="folder_id"/>
-                <field name="tag_ids" widget="many2many_tags"/>
-                <field name="owner_id"/>
-                <field name="is_favorite"/>
-                <field name="create_date"/>
+                <field name="file_extension" string="Type"/>
+                <field name="file_size_display" string="Size" optional="show"/>
+                <field name="write_date" string="Modified" optional="show"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'approved'"
+                       decoration-danger="state == 'rejected'"
+                       decoration-warning="state == 'waiting'"/>
+                <field name="group_id" optional="show"/>
+                <field name="category_id" optional="show"/>
+                <field name="project_reference" optional="hide"/>
+                <field name="reference" optional="hide"/>
+                <field name="folder_id" optional="show"/>
+                <field name="workspace_id" optional="hide"/>
+                <field name="tag_ids" widget="many2many_tags"
+                       options="{'color_field': 'color'}" optional="show"/>
+                <field name="owner_id" optional="hide"/>
+                <field name="document_type" optional="hide"/>
+                <field name="version_no" string="Ver." optional="hide"/>
+                <field name="expiry_status" optional="hide"/>
+                <field name="create_date" optional="hide"/>
+                <field name="is_favorite" optional="hide"/>
+                <field name="is_locked" column_invisible="1"/>
+                <field name="active" column_invisible="1"/>
+                <button name="action_download_document" type="object"
+                        icon="fa-download" title="Download"
+                        invisible="document_type == 'url'"/>
+                <button name="action_replace_file" type="object"
+                        icon="fa-refresh" title="Replace / Update File"
+                        invisible="document_type == 'url' or is_locked"/>
             </list>
         </field>
     </record>
@@ -74,6 +124,7 @@
                 <field name="owner_id"/>
                 <field name="is_favorite"/>
                 <field name="document_type"/>
+                <field name="is_locked"/>
                 <field name="file_extension"/>
                 <field name="url"
                     widget="url"
@@ -111,6 +162,69 @@
                                 <div class="dropdown">
                                     <a href="#" class="btn btn-sm btn-link text-muted p-0 ms-1" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="Actions"><i class="fa fa-ellipsis-v"/></a>
                                     <ul class="dropdown-menu dropdown-menu-end" role="menu">
+
+                                        <li>
+                                            <a type="object" name="action_download_document" class="dropdown-item"
+                                               invisible="document_type == 'url'">
+                                                <i class="fa fa-download me-2"/>
+                                                Download
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a type="object" name="action_open_url" class="dropdown-item"
+                                               invisible="document_type != 'url'">
+                                                <i class="fa fa-external-link me-2"/>
+                                                Open Link
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a type="object" name="action_edit_metadata" class="dropdown-item">
+                                                <i class="fa fa-pencil me-2"/>
+                                                Rename / Edit Metadata
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a type="object" name="action_replace_file" class="dropdown-item"
+                                               invisible="document_type == 'url' or is_locked">
+                                                <i class="fa fa-refresh me-2"/>
+                                                Replace / Update File
+                                            </a>
+                                        </li>
+
+                                        <li><hr class="dropdown-divider"/></li>
+
+                                        <li>
+                                            <a type="object" name="action_move_dialog" class="dropdown-item">
+                                                <i class="fa fa-folder-open-o me-2"/>
+                                                Move to Folder
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a type="object" name="action_group_dialog" class="dropdown-item">
+                                                <i class="fa fa-object-group me-2"/>
+                                                Add to Group
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a type="object" name="action_tags_dialog" class="dropdown-item">
+                                                <i class="fa fa-tags me-2"/>
+                                                Add / Remove Tags
+                                            </a>
+                                        </li>
+
+                                        <li><hr class="dropdown-divider"/></li>
+
+                                        <li>
+                                            <a type="object" name="action_open_share_wizard" class="dropdown-item">
+                                                <i class="fa fa-users me-2"/>
+                                                Share With Users
+                                            </a>
+                                        </li>
 
                                         <li>
                                             <a type="object" name="action_generate_share_link" class="dropdown-item">
@@ -198,6 +312,34 @@
 
             <header>
 
+                <button name="action_open_pdf_annotator"
+                        string="Annotate PDF"
+                        type="object"
+                        class="btn-secondary"
+                        icon="fa-pencil-square-o"
+                        invisible="file_extension != 'pdf' or is_trashed"/>
+
+                <button name="action_open_share_wizard"
+                        string="Share"
+                        type="object"
+                        class="btn-secondary"
+                        icon="fa-users"
+                        invisible="is_trashed"/>
+
+                <button name="action_archive_unarchive_document"
+                        string="Archive"
+                        type="object"
+                        icon="fa-archive"
+                        confirm="Archive this document? It stays available through the Archived view and can be restored at any time."
+                        invisible="not active or is_trashed"/>
+
+                <button name="action_archive_unarchive_document"
+                        string="Unarchive"
+                        type="object"
+                        class="btn-success"
+                        icon="fa-archive"
+                        invisible="active"/>
+
                 <button name="action_submit_approval"
                         string="Submit for Approval"
                         type="object"
@@ -252,6 +394,23 @@
                         class="btn-secondary"
                         invisible="document_type != 'url'"/>
 
+                <button name="action_replace_file"
+                        string="Replace / Update File"
+                        type="object"
+                        class="btn-secondary"
+                        invisible="document_type == 'url' or is_locked or is_trashed"/>
+
+                <button name="action_download_document"
+                        string="Download"
+                        type="object"
+                        class="btn-secondary"
+                        invisible="document_type == 'url'"/>
+
+                <button name="action_quick_trash"
+                        string="Send to Recycle Bin"
+                        type="object"
+                        invisible="is_trashed"/>
+
                 <field name="state"
                        widget="statusbar"
                        statusbar_visible="draft,waiting,approved,rejected"
@@ -265,9 +424,19 @@
             </header>
 
             <sheet>
-                <group>
+                <widget name="web_ribbon" title="Archived"
+                        bg_color="text-bg-danger" invisible="active"/>
+                <widget name="web_ribbon" title="Recycle Bin"
+                        bg_color="text-bg-warning" invisible="not is_trashed"/>
 
-                    <field name="name"/>
+                <div class="oe_title">
+                    <label for="name" string="Document Name"/>
+                    <h1>
+                        <field name="name" placeholder="e.g. A-101 Ground Floor Plan"/>
+                    </h1>
+                </div>
+
+                <group>
 
                     <field name="document_type"/>
 
@@ -286,8 +455,24 @@
 
                     <field name="folder_id"/>
 
+                    <field name="group_id"
+                           options="{'no_quick_create': True}"/>
+
+                    <field name="category_id"/>
+
+                    <field name="project_reference"/>
+
+                    <field name="reference"/>
+
+                    <field name="mimetype" readonly="1"
+                           invisible="document_type == 'url'"/>
+
+                    <field name="company_id"
+                           groups="base.group_multi_company"/>
+
                     <field name="tag_ids"
-                           widget="many2many_tags"/>
+                           widget="many2many_tags"
+                           options="{'color_field': 'color'}"/>
 
                     <field name="owner_id"/>
 
@@ -299,12 +484,32 @@
                     <field name="version_no"
                            readonly="1"/>
 
+                    <field name="sequence"/>
+
+                    <field name="file_size_display"
+                           string="File Size"
+                           invisible="document_type == 'url'"/>
+
                     <field name="is_favorite"/>
+
+                    <field name="share_expiry_date"
+                           invisible="not is_public"/>
+
+                    <field name="is_public" invisible="1"/>
+                    <field name="is_locked" invisible="1"/>
+                    <field name="is_trashed" invisible="1"/>
+                    <field name="active" invisible="1"/>
+                    <field name="file_extension" invisible="1"/>
 
                 </group>
 
                 <notebook>
-                    <page string="Description" name="description_tab">
+                    <page string="Description" name="document_description_tab">
+                        <field name="description" nolabel="1"
+                               placeholder="Describe this document..."/>
+                    </page>
+
+                    <page string="Annotation Notes" name="description_tab">
                         <field name="annotation_description"
                                placeholder="Description added from the annotator appears here. You can also edit it directly."
                                nolabel="1"/>
@@ -357,6 +562,21 @@
         <field name="search_view_id" ref="view_edm_document_search"/>
     </record>
 
+    <!-- Archived (active = False) but NOT trashed. Without a dedicated
+         entry these records are reachable only through the search filter. -->
+    <record id="action_edm_document_archived" model="ir.actions.act_window">
+        <field name="name">Archived</field>
+        <field name="res_model">edm.document</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="domain">[('is_trashed','=',False),('active','=',False)]</field>
+        <field name="context">{'active_test': False}</field>
+        <field name="search_view_id" ref="view_edm_document_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No archived document</p>
+            <p>Archived documents keep all their data and can be restored at any time.</p>
+        </field>
+    </record>
+
     <record id="action_edm_document_trash" model="ir.actions.act_window">
         <field name="name">Recycle Bin</field>
         <field name="res_model">edm.document</field>
@@ -364,6 +584,161 @@
         <field name="domain">[('is_trashed','=',True)]</field>
         <field name="context">{'active_test': False}</field>
         <field name="search_view_id" ref="view_edm_document_search"/>
+    </record>
+
+    <!--
+        GRID / CARD VIEW
+        Tile presentation of the repository. Only metadata is read - the file
+        binary is never fetched to render a card.
+    -->
+    <record id="view_edm_document_kanban_grid" model="ir.ui.view">
+        <field name="name">edm.document.kanban.grid</field>
+        <field name="model">edm.document</field>
+        <field name="arch" type="xml">
+            <kanban class="o_edm_grid_kanban">
+                <field name="file_extension"/>
+                <field name="file_color"/>
+                <field name="document_type"/>
+                <field name="is_locked"/>
+                <field name="is_favorite"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="o_edm_grid_card text-center">
+                            <div class="o_edm_grid_thumb"
+                                 t-attf-style="background: {{record.file_color.raw_value}}1a; color: {{record.file_color.raw_value}};">
+                                <span class="o_edm_grid_ext"
+                                      t-esc="(record.file_extension.value or 'file').toUpperCase()"/>
+                            </div>
+                            <div class="o_edm_grid_name" t-att-title="record.name.value">
+                                <field name="name"/>
+                            </div>
+                            <div class="o_edm_grid_meta">
+                                <field name="file_size_display"/>
+                                <span class="mx-1">·</span>
+                                <field name="write_date"/>
+                            </div>
+                            <div class="o_edm_grid_tags">
+                                <field name="tag_ids" widget="many2many_tags"
+                                       options="{'color_field': 'color'}"/>
+                            </div>
+                            <div class="o_edm_grid_footer">
+                                <div class="dropdown me-auto">
+                                    <a href="#" role="button" class="btn btn-sm btn-link text-muted p-0"
+                                       data-bs-toggle="dropdown" aria-expanded="false" title="Actions">
+                                        <i class="fa fa-ellipsis-v"/>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li>
+                                            <a type="object" name="action_download_document" class="dropdown-item"
+                                               invisible="document_type == 'url'">
+                                                <i class="fa fa-download me-2"/>Download
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a type="object" name="action_edit_metadata" class="dropdown-item">
+                                                <i class="fa fa-pencil me-2"/>Rename / Edit Metadata
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a type="object" name="action_replace_file" class="dropdown-item"
+                                               invisible="document_type == 'url' or is_locked">
+                                                <i class="fa fa-refresh me-2"/>Replace / Update File
+                                            </a>
+                                        </li>
+                                        <li><hr class="dropdown-divider"/></li>
+                                        <li>
+                                            <a type="object" name="action_move_dialog" class="dropdown-item">
+                                                <i class="fa fa-folder-open-o me-2"/>Move to Folder
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a type="object" name="action_group_dialog" class="dropdown-item">
+                                                <i class="fa fa-object-group me-2"/>Add to Group
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a type="object" name="action_tags_dialog" class="dropdown-item">
+                                                <i class="fa fa-tags me-2"/>Add / Remove Tags
+                                            </a>
+                                        </li>
+                                        <li><hr class="dropdown-divider"/></li>
+                                        <li>
+                                            <a type="object" name="action_archive_unarchive_document" class="dropdown-item">
+                                                <i class="fa fa-archive me-2"/>Archive / Restore
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a type="object" name="action_quick_trash" class="dropdown-item text-danger">
+                                                <i class="fa fa-trash me-2"/>Send to Recycle Bin
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <span t-if="record.state.raw_value == 'approved'"
+                                      class="badge text-bg-success">Approved</span>
+                                <span t-elif="record.state.raw_value == 'rejected'"
+                                      class="badge text-bg-danger">Rejected</span>
+                                <span t-elif="record.state.raw_value == 'waiting'"
+                                      class="badge text-bg-warning">Waiting</span>
+                                <span t-else="" class="badge text-bg-light">Draft</span>
+                                <a type="object" name="action_toggle_favorite" role="button"
+                                   class="btn btn-sm btn-link p-0 ms-2" title="Favorite">
+                                    <i t-att-class="record.is_favorite.raw_value ? 'fa fa-star text-warning' : 'fa fa-star-o text-muted'"/>
+                                </a>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- GRID VIEW ACTION (list <-> grid switcher) -->
+    <record id="action_edm_document_grid" model="ir.actions.act_window">
+        <field name="name">Documents (Grid)</field>
+        <field name="res_model">edm.document</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('is_trashed','=',False)]</field>
+        <field name="search_view_id" ref="view_edm_document_search"/>
+    </record>
+
+    <record id="action_edm_document_grid_kanban_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="view_edm_document_kanban_grid"/>
+        <field name="act_window_id" ref="action_edm_document_grid"/>
+    </record>
+
+    <record id="action_edm_document_grid_list_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="view_edm_document_list"/>
+        <field name="act_window_id" ref="action_edm_document_grid"/>
+    </record>
+
+    <record id="action_edm_document_grid_form_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_edm_document_form"/>
+        <field name="act_window_id" ref="action_edm_document_grid"/>
+    </record>
+
+    <!-- BOARD VIEW: kanban columns per group -->
+    <record id="action_edm_document_board" model="ir.actions.act_window">
+        <field name="name">Documents (Board)</field>
+        <field name="res_model">edm.document</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('is_trashed','=',False)]</field>
+        <field name="context">{'search_default_group_group': 1}</field>
+        <field name="search_view_id" ref="view_edm_document_search"/>
+    </record>
+
+    <record id="action_edm_document_board_kanban_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="view_edm_document_kanban_grid"/>
+        <field name="act_window_id" ref="action_edm_document_board"/>
     </record>
 
 </odoo>

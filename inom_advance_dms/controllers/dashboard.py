@@ -76,6 +76,17 @@ class EdmDashboardController(http.Controller):
         ``folder_id`` may be ``None`` (or falsy) to list the root level.
         Records are read with the caller's own rights so access rules apply.
         """
+        if not request.env.user.has_group('inom_advance_dms.group_edm_user'):
+            return {
+                "status": "error",
+                "message": "You do not have access to the Document "
+                           "Management System. Ask an administrator to add "
+                           "you to the 'Document User' group.",
+                "subfolders": [],
+                "documents": [],
+                "breadcrumb": [],
+            }
+
         Document = request.env["edm.document"]
         Folder = request.env["edm.folder"]
 
@@ -227,18 +238,26 @@ class EdmDashboardController(http.Controller):
 
         # --- Chart: upload trend (last 30 days) ----------------------------
         trend_days = 30
+        first_trend_day = today - timedelta(days=trend_days - 1)
+        # One grouped query instead of one COUNT per day.
+        daily_rows = Document._read_group(
+            base_domain + [("create_date", ">=", "%s 00:00:00" % first_trend_day)],
+            groupby=["create_date:day"],
+            aggregates=["__count"],
+        )
+        daily_map = {}
+        for bucket, count in daily_rows:
+            if not bucket:
+                continue
+            key = bucket.date() if hasattr(bucket, "date") else bucket
+            daily_map[key] = daily_map.get(key, 0) + count
+
         trend_labels = []
         trend_counts = []
         for offset in range(trend_days - 1, -1, -1):
             day = today - timedelta(days=offset)
-            day_start = "%s 00:00:00" % day
-            day_end = "%s 23:59:59" % day
-            count = Document.search_count(
-                base_domain
-                + [("create_date", ">=", day_start), ("create_date", "<=", day_end)]
-            )
             trend_labels.append(day.strftime("%d %b"))
-            trend_counts.append(count)
+            trend_counts.append(daily_map.get(day, 0))
 
         # --- Chart: monthly statistics (last 12 months) --------------------
         month_labels = []
@@ -251,21 +270,24 @@ class EdmDashboardController(http.Controller):
             # step back one month
             prev_month_last_day = cursor - timedelta(days=1)
             cursor = prev_month_last_day.replace(day=1)
+        earliest_month = months[-1] if months else today.replace(day=1)
+        monthly_rows = Document._read_group(
+            base_domain + [("create_date", ">=", "%s 00:00:00" % earliest_month)],
+            groupby=["create_date:month"],
+            aggregates=["__count"],
+        )
+        monthly_map = {}
+        for bucket, count in monthly_rows:
+            if not bucket:
+                continue
+            key = bucket.date() if hasattr(bucket, "date") else bucket
+            monthly_map[(key.year, key.month)] = \
+                monthly_map.get((key.year, key.month), 0) + count
+
         for month_start in reversed(months):
-            if month_start.month == 12:
-                next_month = month_start.replace(year=month_start.year + 1, month=1)
-            else:
-                next_month = month_start.replace(month=month_start.month + 1)
-            month_end = next_month - timedelta(days=1)
-            count = Document.search_count(
-                base_domain
-                + [
-                    ("create_date", ">=", "%s 00:00:00" % month_start),
-                    ("create_date", "<=", "%s 23:59:59" % month_end),
-                ]
-            )
             month_labels.append(month_start.strftime("%b %Y"))
-            month_counts.append(count)
+            month_counts.append(
+                monthly_map.get((month_start.year, month_start.month), 0))
 
         # --- Chart: status distribution ------------------------------------
         status_map = OrderedDict(
@@ -277,10 +299,12 @@ class EdmDashboardController(http.Controller):
             ]
         )
         status_labels = list(status_map.values())
-        status_counts = [
-            Document.search_count(range_domain + [("state", "=", key)])
-            for key in status_map.keys()
-        ]
+        status_rows = dict(
+            Document._read_group(
+                range_domain, groupby=["state"], aggregates=["__count"]
+            )
+        )
+        status_counts = [status_rows.get(key, 0) for key in status_map.keys()]
 
         # --- Chart: user activity (top 8 owners) ---------------------------
         user_rows = Document._read_group(

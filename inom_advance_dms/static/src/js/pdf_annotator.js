@@ -141,21 +141,53 @@ function buildOverlay() {
 }
 
 // ---------------------------------------------------------------
-// 2.  Load PDF.js from CDN (once)
+// 2.  Load PDF.js (once)
+//
+// The library ships inside the module, so the annotator works on an
+// offline or air-gapped server. The CDN copy is kept only as a fallback
+// for the case where the bundled file cannot be served.
 // ---------------------------------------------------------------
+const LIB_BASE = '/inom_advance_dms/static/lib';
+
+const PDFJS = {
+    local: LIB_BASE + '/pdfjs/pdf.min.js',
+    localWorker: LIB_BASE + '/pdfjs/pdf.worker.min.js',
+    cdn: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js',
+    cdnWorker: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js',
+};
+
+const JSPDF = {
+    local: LIB_BASE + '/jspdf/jspdf.umd.min.js',
+    cdn: 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',
+};
+
+const HTML2CANVAS = {
+    local: LIB_BASE + '/html2canvas/html2canvas.min.js',
+    cdn: 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
+};
+
 let pdfJsLoaded = false;
 function ensurePdfJs(cb) {
     if (pdfJsLoaded && window.pdfjsLib) { cb(); return; }
 
-    const script = document.createElement('script');
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
-    script.onload = () => {
-        window.pdfjsLib.GlobalWorkerOptions.workerSrc =
-            'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-        pdfJsLoaded = true;
-        cb();
-    };
-    document.head.appendChild(script);
+    function attach(src, workerSrc, onFail) {
+        const script = document.createElement('script');
+        script.src = src;
+        script.onload = () => {
+            window.pdfjsLib.GlobalWorkerOptions.workerSrc = workerSrc;
+            pdfJsLoaded = true;
+            cb();
+        };
+        script.onerror = onFail;
+        document.head.appendChild(script);
+    }
+
+    attach(PDFJS.local, PDFJS.localWorker, function () {
+        console.warn('Bundled PDF.js unavailable, falling back to the CDN copy.');
+        attach(PDFJS.cdn, PDFJS.cdnWorker, function () {
+            console.error('PDF.js could not be loaded.');
+        });
+    });
 }
 
 // ---------------------------------------------------------------
@@ -223,28 +255,6 @@ async function loadAnnotations() {
 // ---------------------------------------------------------------
 // 6.  Render PDF page
 // ---------------------------------------------------------------
-// Fit the page width to the visible container so the document is fully visible on load.
-async function fitToWidth() {
-    try {
-        if (!State.pdfDoc) { return; }
-        const page = await State.pdfDoc.getPage(State.currentPage || 1);
-        const base = page.getViewport({ scale: 1 });
-        const cont = document.getElementById('edm-pdf-canvas-container');
-        if (!cont || !base.width) { return; }
-        const cs = window.getComputedStyle(cont);
-        const padL = parseFloat(cs.paddingLeft) || 0;
-        const padR = parseFloat(cs.paddingRight) || 0;
-        const avail = cont.clientWidth - padL - padR;
-        if (avail > 0) {
-            let s = avail / base.width;
-            s = Math.max(0.5, Math.min(s, 2.5));
-            State.scale = s;
-        }
-    } catch (e) {
-        // keep default scale on failure
-    }
-}
-
 async function renderPage(num) {
     const page = await State.pdfDoc.getPage(num);
     const viewport = page.getViewport({ scale: State.scale });
@@ -752,14 +762,21 @@ function closeNotePopup() {
 // ---------------------------------------------------------------
 // 12.  Export notes as text
 // ---------------------------------------------------------------
-function _loadLib(src, check, cb){
+function _loadLib(src, check, cb, fallback){
     if (check()) { cb(); return; }
-    var sc=document.createElement('script'); sc.src=src; sc.onload=cb; sc.onerror=function(){ toast('Could not load export library', true); }; document.head.appendChild(sc);
+    var sc=document.createElement('script');
+    sc.src=src;
+    sc.onload=cb;
+    sc.onerror=function(){
+        if (fallback) { _loadLib(fallback, check, cb); return; }
+        toast('Could not load export library', true);
+    };
+    document.head.appendChild(sc);
 }
 async function downloadAnnotatedPdf(){
     toast('Preparing annotated PDF...');
-    await new Promise(function(res){ _loadLib('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js', function(){return window.jspdf && window.jspdf.jsPDF;}, res); });
-    await new Promise(function(res){ _loadLib('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js', function(){return window.html2canvas;}, res); });
+    await new Promise(function(res){ _loadLib(JSPDF.local, function(){return window.jspdf && window.jspdf.jsPDF;}, res, JSPDF.cdn); });
+    await new Promise(function(res){ _loadLib(HTML2CANVAS.local, function(){return window.html2canvas;}, res, HTML2CANVAS.cdn); });
     if(!window.jspdf || !window.html2canvas){ toast('Export library failed to load', true); return; }
     var JsPDF = window.jspdf.jsPDF;
     var pdf=null; var keep=State.currentPage;
@@ -782,8 +799,8 @@ async function downloadAnnotatedPdf(){
 }
 async function saveAnnotatedVersion(){
     toast('Building version...');
-    await new Promise(function(res){ _loadLib('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js', function(){return window.jspdf && window.jspdf.jsPDF;}, res); });
-    await new Promise(function(res){ _loadLib('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js', function(){return window.html2canvas;}, res); });
+    await new Promise(function(res){ _loadLib(JSPDF.local, function(){return window.jspdf && window.jspdf.jsPDF;}, res, JSPDF.cdn); });
+    await new Promise(function(res){ _loadLib(HTML2CANVAS.local, function(){return window.html2canvas;}, res, HTML2CANVAS.cdn); });
     if(!window.jspdf || !window.html2canvas){ toast('Export library failed to load', true); return; }
     var JsPDF = window.jspdf.jsPDF; var pdf=null; var keep=State.currentPage;
     for (var p=1; p<=State.totalPages; p++){
@@ -804,8 +821,8 @@ async function saveAnnotatedVersion(){
 }
 async function shareAnnotatedPdf(){
     toast('Preparing share link...');
-    await new Promise(function(res){ _loadLib('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js', function(){return window.jspdf && window.jspdf.jsPDF;}, res); });
-    await new Promise(function(res){ _loadLib('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js', function(){return window.html2canvas;}, res); });
+    await new Promise(function(res){ _loadLib(JSPDF.local, function(){return window.jspdf && window.jspdf.jsPDF;}, res, JSPDF.cdn); });
+    await new Promise(function(res){ _loadLib(HTML2CANVAS.local, function(){return window.html2canvas;}, res, HTML2CANVAS.cdn); });
     if(!window.jspdf || !window.html2canvas){ toast('Export library failed to load', true); return; }
     var JsPDF=window.jspdf.jsPDF; var pdf=null; var keep=State.currentPage;
     for (var p=1; p<=State.totalPages; p++){
@@ -1165,14 +1182,24 @@ export async function openAnnotator(documentId, fileBase64, fileName) {
 
     ensurePdfJs(async () => {
         try {
-            const pdfData = atob(fileBase64);
-            const uint8 = new Uint8Array(pdfData.length);
-            for (let i = 0; i < pdfData.length; i++) uint8[i] = pdfData.charCodeAt(i);
+            // Accepts either a base64 string (legacy callers) or the raw
+            // bytes streamed from /edm/document/preview/<id>. Streaming keeps
+            // a large PDF from being inflated ~33% over the wire and from
+            // being held twice in memory.
+            let uint8;
+            if (fileBase64 instanceof Uint8Array) {
+                uint8 = fileBase64;
+            } else if (fileBase64 instanceof ArrayBuffer) {
+                uint8 = new Uint8Array(fileBase64);
+            } else {
+                const pdfData = atob(fileBase64);
+                uint8 = new Uint8Array(pdfData.length);
+                for (let i = 0; i < pdfData.length; i++) uint8[i] = pdfData.charCodeAt(i);
+            }
 
             State.pdfDoc = await window.pdfjsLib.getDocument({ data: uint8 }).promise;
             State.totalPages = State.pdfDoc.numPages;
 
-            await fitToWidth();
             await renderPage(1);
             await loadAnnotations();
         } catch (err) {

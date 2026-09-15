@@ -37,5 +37,78 @@
         <field name="domain_force">[('access_type', 'in', ('manager', 'users'))]</field>
     </record>
 
+
+    <!-- ===== WRITE =====
+         The two rules above declare perm_read only. In Odoo that means NO
+         rule applies to write, create or unlink, so any Document User could
+         modify or destroy any document in the database. These rules close
+         that gap (section 12 of the requirements). -->
+
+    <record id="rule_edm_document_user_write" model="ir.rule">
+        <field name="name">Document: write own and fully-shared</field>
+        <field name="model_id" ref="model_edm_document"/>
+        <field name="groups" eval="[(4, ref('group_edm_user'))]"/>
+        <field name="perm_read" eval="False"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="domain_force">['|', ('owner_id', '=', user.id), '&amp;', '&amp;', ('access_type', '=', 'users'), ('allowed_user_ids', 'in', user.id), ('share_access_level', '=', 'annotate')]</field>
+    </record>
+
+    <record id="rule_edm_document_manager_write" model="ir.rule">
+        <field name="name">Document: manager write</field>
+        <field name="model_id" ref="model_edm_document"/>
+        <field name="groups" eval="[(4, ref('group_edm_manager'))]"/>
+        <field name="perm_read" eval="False"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="domain_force">['|', ('owner_id', '=', user.id), ('access_type', 'in', ('manager', 'users'))]</field>
+    </record>
+
+    <!-- ===== UNLINK =====
+         Deletion is stricter than editing: only the owner (or a manager
+         within their scope) may destroy a document, however it was shared. -->
+
+    <record id="rule_edm_document_user_unlink" model="ir.rule">
+        <field name="name">Document: delete own only</field>
+        <field name="model_id" ref="model_edm_document"/>
+        <field name="groups" eval="[(4, ref('group_edm_user'))]"/>
+        <field name="perm_read" eval="False"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="True"/>
+        <field name="domain_force">[('owner_id', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_edm_document_manager_unlink" model="ir.rule">
+        <field name="name">Document: manager delete</field>
+        <field name="model_id" ref="model_edm_document"/>
+        <field name="groups" eval="[(4, ref('group_edm_manager'))]"/>
+        <field name="perm_read" eval="False"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="True"/>
+        <field name="domain_force">['|', ('owner_id', '=', user.id), ('access_type', 'in', ('manager', 'users'))]</field>
+    </record>
+
+    <!-- ===== MULTI-COMPANY =====
+         Global rules are AND-ed with everything above. Records created before
+         this version carry no company and stay visible to everyone. -->
+
+    <record id="rule_edm_document_company" model="ir.rule">
+        <field name="name">Document: multi-company</field>
+        <field name="model_id" ref="model_edm_document"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_edm_document_category_company" model="ir.rule">
+        <field name="name">Document Category: multi-company</field>
+        <field name="model_id" ref="model_edm_document_category"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
 </odoo>
 

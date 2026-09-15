@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_edm_document_bulk_wizard_form" model="ir.ui.view">
+        <field name="name">edm.document.bulk.wizard.form</field>
+        <field name="model">edm.document.bulk.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Bulk Actions">
+
+                <div class="alert alert-info d-flex align-items-center" role="status">
+                    <i class="fa fa-files-o me-2"/>
+                    <span>
+                        <b><field name="document_count" readonly="1" nolabel="1" class="oe_inline"/></b>
+                        document(s) selected
+                    </span>
+                </div>
+
+                <group>
+                    <field name="action_type"/>
+                </group>
+
+                <!-- MOVE -->
+                <group invisible="action_type != 'move'">
+                    <field name="folder_id" options="{'no_create_edit': True}"
+                           placeholder="Select a destination folder..."
+                           required="action_type == 'move' and not workspace_id"/>
+                    <field name="keep_workspace"/>
+                    <field name="workspace_id" invisible="keep_workspace"
+                           placeholder="Select a destination workspace..."
+                           options="{'no_create_edit': True}"/>
+                </group>
+
+                <!-- GROUP -->
+                <group invisible="action_type != 'group'">
+                    <field name="group_mode" widget="radio" options="{'horizontal': True}"/>
+                    <field name="group_id" invisible="group_mode != 'existing'"
+                           required="action_type == 'group' and group_mode == 'existing'"/>
+                    <field name="new_group_name" invisible="group_mode != 'new'"
+                           required="action_type == 'group' and group_mode == 'new'"
+                           placeholder="e.g. Architectural Plans - Level 01"/>
+                    <field name="group_description" invisible="group_mode != 'new'"/>
+                </group>
+
+                <!-- REORDER -->
+                <group invisible="action_type != 'reorder'">
+                    <field name="sequence_start"/>
+                    <field name="sequence_step"/>
+                    <div colspan="2" class="text-muted">
+                        Documents keep their current relative order and are
+                        renumbered starting from the position above. The whole
+                        selection is renumbered in a single database statement.
+                    </div>
+                </group>
+
+                <!-- TAGS -->
+                <group invisible="action_type != 'tags'">
+                    <field name="tag_mode" widget="radio" options="{'horizontal': True}"/>
+                    <field name="tag_ids" widget="many2many_tags"
+                           options="{'color_field': 'color'}"/>
+                </group>
+
+                <!-- CATEGORY -->
+                <group invisible="action_type != 'category'">
+                    <field name="category_id"
+                           invisible="clear_category"
+                           required="action_type == 'category' and not clear_category"/>
+                    <field name="clear_category"/>
+                </group>
+
+                <!-- STATUS -->
+                <group invisible="action_type != 'state'">
+                    <field name="state"/>
+                </group>
+
+                <!-- ARCHIVE -->
+                <group invisible="action_type != 'archive'">
+                    <field name="archive_mode" widget="radio" options="{'horizontal': True}"/>
+                </group>
+
+                <!-- TRASH / DELETE WARNINGS -->
+                <div class="alert alert-warning" role="alert"
+                     invisible="action_type != 'trash'">
+                    <i class="fa fa-exclamation-triangle me-1"/>
+                    The selected documents will be moved to the Recycle Bin.
+                    They can be restored from there.
+                </div>
+
+                <div class="alert alert-danger" role="alert"
+                     invisible="action_type != 'delete'">
+                    <i class="fa fa-exclamation-triangle me-1"/>
+                    This permanently deletes the selected documents and their
+                    files. Consider <b>Archive</b> or <b>Send to Recycle Bin</b>
+                    instead - both are reversible.
+                </div>
+
+                <notebook>
+                    <page string="Selected Documents" name="selection">
+                        <field name="document_ids" readonly="1" nolabel="1">
+                            <list create="0" delete="0" limit="10">
+                                <field name="name"/>
+                                <field name="file_extension" string="Type"/>
+                                <field name="file_size_display" string="Size"/>
+                                <field name="folder_id"/>
+                                <field name="group_id"/>
+                                <field name="is_locked" string="Locked"/>
+                            </list>
+                        </field>
+                    </page>
+                </notebook>
+
+                <footer>
+                    <button name="action_apply" string="Apply" type="object"
+                            class="btn-primary"
+                            invisible="action_type == 'delete'"/>
+                    <button name="action_apply" string="Delete Permanently"
+                            type="object" class="btn-danger"
+                            invisible="action_type != 'delete'"
+                            confirm="Are you sure you want to permanently delete the selected documents? This cannot be undone."/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!--
+        BULK ACTION BINDINGS
+        Each entry appears in the "Actions" dropdown of the document list and
+        kanban views once records are selected. Adding a new bulk action later
+        only means adding one more record here - the selection mechanism and
+        the wizard stay untouched.
+    -->
+    <record id="action_edm_bulk_move" model="ir.actions.act_window">
+        <field name="name">Move to Folder</field>
+        <field name="res_model">edm.document.bulk.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_action_type': 'move'}</field>
+        <field name="binding_model_id" ref="model_edm_document"/>
+        <field name="binding_view_types">list,kanban</field>
+    </record>
+
+    <record id="action_edm_bulk_group" model="ir.actions.act_window">
+        <field name="name">Group Documents</field>
+        <field name="res_model">edm.document.bulk.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_action_type': 'group'}</field>
+        <field name="binding_model_id" ref="model_edm_document"/>
+        <field name="binding_view_types">list,kanban</field>
+    </record>
+
+    <record id="action_edm_bulk_reorder" model="ir.actions.act_window">
+        <field name="name">Reorder</field>
+        <field name="res_model">edm.document.bulk.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_action_type': 'reorder'}</field>
+        <field name="binding_model_id" ref="model_edm_document"/>
+        <field name="binding_view_types">list,kanban</field>
+    </record>
+
+    <record id="action_edm_bulk_tags" model="ir.actions.act_window">
+        <field name="name">Change Tags</field>
+        <field name="res_model">edm.document.bulk.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_action_type': 'tags'}</field>
+        <field name="binding_model_id" ref="model_edm_document"/>
+        <field name="binding_view_types">list,kanban</field>
+    </record>
+
+    <record id="action_edm_bulk_category" model="ir.actions.act_window">
+        <field name="name">Change Category</field>
+        <field name="res_model">edm.document.bulk.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_action_type': 'category'}</field>
+        <field name="binding_model_id" ref="model_edm_document"/>
+        <field name="binding_view_types">list,kanban</field>
+    </record>
+
+    <record id="action_edm_bulk_state" model="ir.actions.act_window">
+        <field name="name">Change Status</field>
+        <field name="res_model">edm.document.bulk.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_action_type': 'state'}</field>
+        <field name="binding_model_id" ref="model_edm_document"/>
+        <field name="binding_view_types">list,kanban</field>
+    </record>
+
+    <record id="action_edm_bulk_archive" model="ir.actions.act_window">
+        <field name="name">Archive / Restore</field>
+        <field name="res_model">edm.document.bulk.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_action_type': 'archive'}</field>
+        <field name="binding_model_id" ref="model_edm_document"/>
+        <field name="binding_view_types">list,kanban</field>
+    </record>
+
+    <record id="action_edm_bulk_trash" model="ir.actions.act_window">
+        <field name="name">Send to Recycle Bin</field>
+        <field name="res_model">edm.document.bulk.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_action_type': 'trash'}</field>
+        <field name="binding_model_id" ref="model_edm_document"/>
+        <field name="binding_view_types">list,kanban</field>
+    </record>
+
+    <record id="action_edm_bulk_delete" model="ir.actions.act_window">
+        <field name="name">Delete Permanently</field>
+        <field name="res_model">edm.document.bulk.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_action_type': 'delete'}</field>
+        <field name="binding_model_id" ref="model_edm_document"/>
+        <field name="binding_view_types">list,kanban</field>
+    </record>
+
+    <!-- Direct (no dialog) bulk download -->
+    <record id="action_edm_bulk_download" model="ir.actions.server">
+        <field name="name">Download Selected</field>
+        <field name="model_id" ref="model_edm_document"/>
+        <field name="binding_model_id" ref="model_edm_document"/>
+        <field name="binding_view_types">list,kanban</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_bulk_download()</field>
+    </record>
+
+    <!-- Replace file wizard action (post-upload management) -->
+    <record id="action_edm_document_version_wizard" model="ir.actions.act_window">
+        <field name="name">Replace / Update File</field>
+        <field name="res_model">edm.document.version.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

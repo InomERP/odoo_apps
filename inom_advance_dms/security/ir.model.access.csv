@@ -33,5 +33,10 @@ access_edm_document_request_manager,access.edm.document.request.manager,model_ed
 access_edm_document_annotation_user,access.edm.document.annotation.user,model_edm_document_annotation,group_edm_user,1,1,1,1
 access_edm_document_annotation_manager,access.edm.document.annotation.manager,model_edm_document_annotation,group_edm_manager,1,1,1,1
 
+access_edm_document_group_user,access.edm.document.group.user,model_edm_document_group,group_edm_user,1,1,1,0
+access_edm_document_group_manager,access.edm.document.group.manager,model_edm_document_group,group_edm_manager,1,1,1,1
 
+access_edm_document_bulk_wizard,access.edm.document.bulk.wizard,model_edm_document_bulk_wizard,group_edm_user,1,1,1,1
 
+access_edm_document_category_user,access.edm.document.category.user,model_edm_document_category,group_edm_user,1,1,1,0
+access_edm_document_category_manager,access.edm.document.category.manager,model_edm_document_category,group_edm_manager,1,1,1,1
