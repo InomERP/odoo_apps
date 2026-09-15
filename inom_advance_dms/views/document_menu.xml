@@ -8,76 +8,124 @@
               web_icon="inom_advance_dms,static/description/icon.png"
               sequence="1"/>
 
-    <!-- DASHBOARD (professional analytics) -->
+    <!-- =========================================================
+         Five top-level entries only. Eleven of them overflowed the
+         menu bar on a laptop screen and collided with the systray.
+         ========================================================= -->
+
+    <!-- 1. DASHBOARD -->
     <menuitem id="menu_edm_dashboard"
               name="Dashboard"
               parent="menu_edm_root"
               action="action_edm_dashboard_pro"
               sequence="1"/>
 
-    <!-- DOCUMENTS -->
-    <menuitem id="menu_edm_documents"
+    <!-- 2. DOCUMENTS -->
+    <menuitem id="menu_edm_views"
               name="Documents"
               parent="menu_edm_root"
-              action="action_edm_document"
               sequence="2"/>
 
-    <!-- WORKSPACES -->
-    <menuitem id="menu_edm_workspace"
-              name="Workspaces"
-              parent="menu_edm_root"
-              action="action_edm_workspace"
+    <menuitem id="menu_edm_documents"
+              name="All Documents"
+              parent="menu_edm_views"
+              action="action_edm_document"
+              sequence="1"/>
+
+    <menuitem id="menu_edm_documents_grid"
+              name="Grid View"
+              parent="menu_edm_views"
+              action="action_edm_document_grid"
+              sequence="2"/>
+
+    <menuitem id="menu_edm_documents_board"
+              name="Board View"
+              parent="menu_edm_views"
+              action="action_edm_document_board"
               sequence="3"/>
 
-    <!-- FOLDERS -->
-    <menuitem id="menu_edm_folder"
-              name="Folders"
-              parent="menu_edm_root"
-              action="action_edm_folder"
+    <menuitem id="menu_edm_document_group"
+              name="Groups"
+              parent="menu_edm_views"
+              action="action_edm_document_group"
               sequence="4"/>
 
-    <!-- REQUESTS -->
-    <menuitem id="menu_edm_document_request"
-              name="File Requests"
-              parent="menu_edm_root"
-              action="action_edm_document_request"
-              sequence="5"/>
-
-    <!-- CREATE REQUEST -->
-    <menuitem id="menu_edm_create_request"
-              name="New File Request"
-              parent="menu_edm_root"
-              action="action_edm_document_request_wizard"
-              sequence="6"/>
-
-
-    <!-- ADD URL -->
-    <menuitem id="menu_edm_add_url"
-              name="Add Link"
-              parent="menu_edm_root"
-              action="action_edm_add_url_wizard"
+    <menuitem id="menu_edm_documents_archived"
+              name="Archived"
+              parent="menu_edm_views"
+              action="action_edm_document_archived"
               sequence="8"/>
 
-    <!-- MULTI UPLOAD -->
-    <menuitem id="menu_edm_multi_upload"
-              name="Bulk Upload"
-              parent="menu_edm_root"
-              action="action_edm_multi_upload_document_wizard"
-              sequence="9"/>
-
-    <!-- TAGS -->
-    <menuitem id="menu_edm_tag"
-              name="Tags"
-              parent="menu_edm_root"
-              action="action_edm_tag"
-              sequence="10"/>
-
-    <!-- TRASH -->
     <menuitem id="menu_edm_trash"
               name="Recycle Bin"
-              parent="menu_edm_root"
+              parent="menu_edm_views"
               action="action_edm_document_trash"
-              sequence="99"/>
+              sequence="9"/>
+
+    <!-- 3. UPLOAD -->
+    <menuitem id="menu_edm_upload_root"
+              name="Upload"
+              parent="menu_edm_root"
+              sequence="3"/>
+
+    <menuitem id="menu_edm_multi_upload"
+              name="Bulk Upload"
+              parent="menu_edm_upload_root"
+              action="action_edm_multi_upload_document_wizard"
+              sequence="1"/>
+
+    <menuitem id="menu_edm_add_url"
+              name="Add Link"
+              parent="menu_edm_upload_root"
+              action="action_edm_add_url_wizard"
+              sequence="2"/>
+
+    <!-- 4. REQUESTS -->
+    <menuitem id="menu_edm_requests_root"
+              name="Requests"
+              parent="menu_edm_root"
+              sequence="4"/>
+
+    <menuitem id="menu_edm_document_request"
+              name="File Requests"
+              parent="menu_edm_requests_root"
+              action="action_edm_document_request"
+              sequence="1"/>
+
+    <menuitem id="menu_edm_create_request"
+              name="New File Request"
+              parent="menu_edm_requests_root"
+              action="action_edm_document_request_wizard"
+              sequence="2"/>
+
+    <!-- 5. CONFIGURATION -->
+    <menuitem id="menu_edm_config_root"
+              name="Configuration"
+              parent="menu_edm_root"
+              sequence="5"/>
+
+    <menuitem id="menu_edm_workspace"
+              name="Workspaces"
+              parent="menu_edm_config_root"
+              action="action_edm_workspace"
+              sequence="1"/>
+
+    <menuitem id="menu_edm_folder"
+              name="Folders"
+              parent="menu_edm_config_root"
+              action="action_edm_folder"
+              sequence="2"/>
+
+    <menuitem id="menu_edm_document_category"
+              name="Categories"
+              parent="menu_edm_config_root"
+              action="action_edm_document_category"
+              sequence="3"/>
+
+    <menuitem id="menu_edm_tag"
+              name="Tags"
+              parent="menu_edm_config_root"
+              action="action_edm_tag"
+              sequence="4"/>
 
 </odoo>
-

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_edm_document_group_list" model="ir.ui.view">
+        <field name="name">edm.document.group.list</field>
+        <field name="model">edm.document.group</field>
+        <field name="arch" type="xml">
+            <list string="Document Groups">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="workspace_id"/>
+                <field name="folder_id"/>
+                <field name="owner_id"/>
+                <field name="document_count" string="Documents"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edm_document_group_form" model="ir.ui.view">
+        <field name="name">edm.document.group.form</field>
+        <field name="model">edm.document.group</field>
+        <field name="arch" type="xml">
+            <form string="Document Group">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_documents" type="object"
+                                class="oe_stat_button" icon="fa-files-o">
+                            <field name="document_count" widget="statinfo"
+                                   string="Documents"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger"
+                            invisible="active"/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. Architectural Plans - Level 01"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="workspace_id"/>
+                            <field name="folder_id"/>
+                        </group>
+                        <group>
+                            <field name="owner_id"/>
+                            <field name="sequence"/>
+                            <field name="color" widget="color_picker"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Description">
+                        <field name="description" nolabel="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Documents" name="documents">
+                            <field name="document_ids">
+                                <list string="Documents" limit="40">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="file_extension" string="Type"/>
+                                    <field name="file_size_display" string="Size"/>
+                                    <field name="folder_id"/>
+                                    <field name="state"/>
+                                    <field name="write_date" string="Modified"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_edm_document_group_kanban" model="ir.ui.view">
+        <field name="name">edm.document.group.kanban</field>
+        <field name="model">edm.document.group</field>
+        <field name="arch" type="xml">
+            <kanban highlight_color="color">
+                <field name="color"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex align-items-start">
+                            <i class="fa fa-folder-open-o fa-2x me-3 mt-1 text-primary" title="Group"/>
+                            <div class="flex-grow-1">
+                                <div class="fw-bold fs-5"><field name="name"/></div>
+                                <div class="text-muted small">
+                                    <field name="workspace_id"/>
+                                </div>
+                                <div class="mt-2">
+                                    <span class="badge text-bg-secondary">
+                                        <field name="document_count"/> documents
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_edm_document_group_search" model="ir.ui.view">
+        <field name="name">edm.document.group.search</field>
+        <field name="model">edm.document.group</field>
+        <field name="arch" type="xml">
+            <search string="Search Groups">
+                <field name="name"/>
+                <field name="workspace_id"/>
+                <field name="folder_id"/>
+                <filter string="My Groups" name="my_groups"
+                        domain="[('owner_id','=',uid)]"/>
+                <filter string="Archived" name="inactive"
+                        domain="[('active','=',False)]"/>
+                <separator/>
+                <filter string="Workspace" name="group_workspace"
+                        context="{'group_by':'workspace_id'}"/>
+                <filter string="Folder" name="group_folder"
+                        context="{'group_by':'folder_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_edm_document_group" model="ir.actions.act_window">
+        <field name="name">Document Groups</field>
+        <field name="res_model">edm.document.group</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_edm_document_group_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create a document group</p>
+            <p>
+                Groups gather related documents without duplicating any file.
+                Select documents in the Documents view and use
+                <b>Actions &gt; Group Documents</b>.
+            </p>
+        </field>
+    </record>
+
+</odoo>

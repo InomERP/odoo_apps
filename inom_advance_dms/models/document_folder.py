@@ -1,4 +1,5 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
 
 
 class EdmFolder(models.Model):
@@ -18,6 +19,20 @@ class EdmFolder(models.Model):
         store=True,
         recursive=True,
     )
+
+    @api.constrains('parent_id')
+    def _check_folder_recursion(self):
+        """Refuse a folder loop.
+
+        Without this a folder can end up as its own ancestor. Odoo's search
+        panel then walks the parent chain forever, which hangs the request
+        thread and leaves the document views stuck on "Loading" - with no
+        error anywhere, because nothing actually fails.
+        """
+        if not self._check_recursion():
+            raise ValidationError(_(
+                "A folder cannot be placed inside itself or inside one of "
+                "its own sub-folders."))
 
     @api.depends('name', 'parent_id', 'parent_id.complete_name')
     def _compute_complete_name(self):
