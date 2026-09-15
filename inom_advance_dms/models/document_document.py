@@ -472,6 +472,12 @@ class EdmDocument(models.Model):
 
     share_token = fields.Char(string="Share Token", copy=False)
     is_public = fields.Boolean(string="Public Share", default=False)
+    share_expiry_date = fields.Datetime(
+        string="Share Link Expiry",
+        copy=False,
+        help="Optional. After this date and time the public share link stops "
+             "working. Leave empty for a link that never expires.",
+    )
     annotated_file = fields.Binary(string="Annotated File")
     annotated_file_name = fields.Char(string="Annotated File Name")
 
@@ -496,9 +502,12 @@ class EdmDocument(models.Model):
         return {
             'type': 'ir.actions.client',
             'tag': 'edm_open_pdf_annotator',
+            # The binary is deliberately NOT passed through the action
+            # context: a large PDF would become a multi-megabyte JSON payload.
+            # The client streams it from /edm/document/preview/<id> instead.
             'context': {
                 'document_id': self.id,
-                'file_data': self.file if isinstance(self.file, str) else self.file.decode('utf-8'),
+                'file_url': '/edm/document/preview/%s' % self.id,
                 'file_name': self.file_name or 'document.pdf',
             },
         }

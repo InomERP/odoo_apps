@@ -613,9 +613,3 @@ html .o_web_client > .o_action_manager:has(.edm-dashboard),
 .edm-pro-fav.is-fav { color: #f43f5e; }
 
 
-
-/* No text caret / I-beam / selection on dashboard cards */
-.edm-dashboard .edm-pro-card,
-.edm-dashboard .edm-pro-card * { -webkit-user-select: none; user-select: none; }
-.edm-dashboard .edm-pro-card-name,
-.edm-dashboard .edm-pro-card-meta { cursor: pointer; }

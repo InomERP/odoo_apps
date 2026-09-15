@@ -8,3 +8,6 @@ from . import document_version
 from . import document_wizard
 from . import document_workspace
 from . import res_config_settings
+from . import document_category
+from . import document_group
+from . import document_document_ext

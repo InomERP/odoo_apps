@@ -1,25 +1,74 @@
-from odoo import http
+from odoo import fields, http
+from odoo.addons.portal.controllers.portal import pager as portal_pager
 from odoo.http import request
 from werkzeug.exceptions import NotFound, Forbidden
-from markupsafe import Markup
+from markupsafe import Markup, escape
 import base64
 
 
 class DocumentPortalController(http.Controller):
 
-    @http.route(['/my/documents'], type='http', auth='user', website=True)
-    def portal_my_documents(self, **kw):
-        user = request.env.user
-        documents = request.env['edm.document'].sudo().search([
+    # Documents per portal page. The repository is never loaded in full.
+    _items_per_page = 20
+
+    def _get_shared_document(self, token):
+        """Return the publicly shared document for ``token``.
+
+        A document is reachable only while it is flagged public, not trashed
+        and its share link has not expired. An empty expiry date means the
+        link never expires.
+        """
+        if not token:
+            return request.env['edm.document'].browse()
+
+        return request.env['edm.document'].sudo().search([
+            ('share_token', '=', token),
+            ('is_public', '=', True),
             ('is_trashed', '=', False),
             '|',
-                ('owner_id', '=', user.id),
-                ('allowed_user_ids', 'in', user.id),
-        ])
+            ('share_expiry_date', '=', False),
+            ('share_expiry_date', '>', fields.Datetime.now()),
+        ], limit=1)
+
+    @http.route(['/my/documents', '/my/documents/page/<int:page>'],
+                type='http', auth='user', website=True)
+    def portal_my_documents(self, page=1, search=None, **kw):
+        user = request.env.user
+        Document = request.env['edm.document'].sudo()
+
+        domain = [
+            ('is_trashed', '=', False),
+            '|',
+            ('owner_id', '=', user.id),
+            ('allowed_user_ids', 'in', user.id),
+        ]
+        if search:
+            domain = [('name', 'ilike', search)] + domain
+
+        total = Document.search_count(domain)
+        pager = portal_pager(
+            url='/my/documents',
+            url_args={'search': search} if search else {},
+            total=total,
+            page=page,
+            step=self._items_per_page,
+        )
+        documents = Document.search(
+            domain,
+            limit=self._items_per_page,
+            offset=pager['offset'],
+            order='create_date desc',
+        )
 
         return request.render(
             'inom_advance_dms.portal_my_documents',
-            {'documents': documents, 'user': user}
+            {
+                'documents': documents,
+                'user': user,
+                'pager': pager,
+                'search': search or '',
+                'total': total,
+            }
         )
 
     def _portal_access_doc(self, document_id):
@@ -108,16 +157,12 @@ class DocumentPortalController(http.Controller):
 
     @http.route(['/documents/share/<string:token>'], type='http', auth='public', website=True)
     def shared_document(self, token=None, **kwargs):
-        document = request.env['edm.document'].sudo().search([
-            ('share_token', '=', token),
-            ('is_public', '=', True),
-            ('is_trashed', '=', False),
-        ], limit=1)
+        document = self._get_shared_document(token)
 
         if not document:
             raise NotFound()
 
-        download_url = '/documents/share/%s/download' % token
+        download_url = '/documents/share/%s/download' % escape(token)
 
         html = """
         <html>
@@ -143,10 +188,10 @@ class DocumentPortalController(http.Controller):
             </body>
         </html>
         """ % (
-            document.name or '',
-            document.workspace_id.name or '-',
-            document.folder_id.name or '-',
-            document.owner_id.name or '-',
+            escape(document.name or ''),
+            escape(document.workspace_id.name or '-'),
+            escape(document.folder_id.name or '-'),
+            escape(document.owner_id.name or '-'),
             download_url,
         )
 
@@ -157,11 +202,7 @@ class DocumentPortalController(http.Controller):
 
     @http.route(['/documents/share/<string:token>/download'], type='http', auth='public', website=True)
     def shared_document_download(self, token=None, **kwargs):
-        document = request.env['edm.document'].sudo().search([
-            ('share_token', '=', token),
-            ('is_public', '=', True),
-            ('is_trashed', '=', False),
-        ], limit=1)
+        document = self._get_shared_document(token)
 
         if not document or not document.file:
             raise NotFound()

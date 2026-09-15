@@ -75,6 +75,23 @@
                     <li class="breadcrumb-item active">Documents</li>
                 </ol>
 
+                <form class="row g-2 mb-3" method="get" action="/my/documents">
+                    <div class="col-sm-6 col-md-4">
+                        <input type="text" name="search"
+                               class="form-control form-control-sm"
+                               placeholder="Search documents..."
+                               t-att-value="search"/>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-sm btn-primary">
+                            <i class="fa fa-search me-1"/>Search
+                        </button>
+                    </div>
+                    <div class="col text-end text-muted small align-self-center">
+                        <t t-esc="total"/> document(s)
+                    </div>
+                </form>
+
                 <table class="table table-sm table-striped">
                     <thead>
                         <tr>
@@ -116,6 +133,10 @@
                         </t>
                     </tbody>
                 </table>
+
+                <div t-if="pager" class="d-flex justify-content-center">
+                    <t t-call="portal.pager"/>
+                </div>
             </div>
         </t>
     </template>

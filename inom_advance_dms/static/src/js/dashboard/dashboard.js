@@ -14,7 +14,6 @@
 import { Component, useState, onWillStart, onWillUnmount, useExternalListener } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
-import { jsonrpc } from "@web/core/network/rpc_service";
 import { session } from "@web/session";
 import { openAnnotator } from "../pdf_annotator";
 
@@ -57,6 +56,9 @@ export class EdmDashboard extends Component {
         this.action = useService("action");
         this.notification = useService("notification");
         this.orm = useService("orm");
+        // The rpc service is available on every supported release; the
+        // standalone rpc function only exists from Odoo 18.
+        this.rpc = useService("rpc");
 
         this.state = useState({
             loading: true,
@@ -103,7 +105,7 @@ export class EdmDashboard extends Component {
     // ------------------------------------------------------------------
     async loadSummary() {
         try {
-            const result = await jsonrpc("/edm/dashboard/data", {
+            const result = await this.rpc("/edm/dashboard/data", {
                 date_from: null,
                 date_to: null,
             });
@@ -166,7 +168,7 @@ export class EdmDashboard extends Component {
         this.state.error = false;
         this.state.menu.open = false;
         try {
-            const result = await jsonrpc("/edm/dashboard/folder", {
+            const result = await this.rpc("/edm/dashboard/folder", {
                 folder_id: folderId || null,
             });
             if (result && result.status === "ok") {

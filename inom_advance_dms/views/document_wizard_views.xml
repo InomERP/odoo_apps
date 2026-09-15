@@ -7,15 +7,15 @@
         <field name="model">edm.upload.document.wizard</field>
         <field name="arch" type="xml">
             <form string="Upload Document">
+                <div class="alert alert-info" role="alert">
+                    <i class="fa fa-info-circle me-2"/>
+                    Drag &amp; Drop a file here or click below to upload.
+                </div>
+
                 <group>
                     <field name="name"/>
-
-                    <div class="alert alert-info" role="alert">
-                        Drag &amp; Drop file here or click below to upload.
-                    </div>
-
                     <field name="file" filename="file_name"/>
-                    <field name="file_name"/>
+                    <field name="file_name" invisible="1"/>
                     <field name="workspace_id"/>
                     <field name="is_favorite"/>
                 </group>
@@ -47,13 +47,15 @@
                 <group>
                     <field name="workspace_id"/>
                     <field name="is_favorite"/>
-
-                    <div class="alert alert-info" role="alert">
-                        Select multiple files. Each file creates a separate document record.
-                    </div>
-
-                    <field name="attachment_ids" widget="many2many_binary"/>
                 </group>
+
+                <div class="alert alert-info" role="alert">
+                    <i class="fa fa-info-circle me-2"/>
+                    Select multiple files. Each file creates a separate document record.
+                </div>
+
+                <field name="attachment_ids" widget="many2many_binary"
+                       nolabel="1"/>
 
                 <footer>
                     <button name="action_multi_upload_document"

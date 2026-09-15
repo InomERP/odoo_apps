@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_edm_document_category_list" model="ir.ui.view">
+        <field name="name">edm.document.category.list</field>
+        <field name="model">edm.document.category</field>
+        <field name="arch" type="xml">
+            <tree string="Document Categories" multi_edit="1" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code" optional="show"/>
+                <field name="default_expiry_days" optional="show"/>
+                <field name="document_count" string="Documents" readonly="1"/>
+                <field name="company_id" groups="base.group_multi_company"
+                       optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_edm_document_category_form" model="ir.ui.view">
+        <field name="name">edm.document.category.form</field>
+        <field name="model">edm.document.category</field>
+        <field name="arch" type="xml">
+            <form string="Document Category">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_documents" type="object"
+                                class="oe_stat_button" icon="fa-files-o">
+                            <field name="document_count" widget="statinfo"
+                                   string="Documents"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived"
+                            bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name"
+                                   placeholder="e.g. Structural Drawing"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="sequence"/>
+                            <field name="color" widget="color_picker"/>
+                        </group>
+                        <group>
+                            <field name="default_expiry_days"/>
+                            <field name="company_id"
+                                   groups="base.group_multi_company"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Description">
+                        <field name="description" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edm_document_category" model="ir.actions.act_window">
+        <field name="name">Categories</field>
+        <field name="res_model">edm.document.category</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Define your document categories</p>
+            <p>
+                A category describes what a document <i>is</i> (Contract, Drawing,
+                Certificate). Folders describe where it lives and groups bundle
+                documents together - the three work independently.
+            </p>
+        </field>
+    </record>
+
+</odoo>

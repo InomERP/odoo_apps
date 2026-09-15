@@ -41,7 +41,7 @@ class EdmDashboard(models.Model):
             'type': 'ir.actions.act_window',
             'name': title,
             'res_model': 'edm.document',
-            'view_mode': 'kanban,list,form',
+            'view_mode': 'kanban,tree,form',
             'domain': domain,
             'target': 'current',
         }
@@ -51,7 +51,7 @@ class EdmDashboard(models.Model):
             'type': 'ir.actions.act_window',
             'name': title,
             'res_model': 'edm.document.request',
-            'view_mode': 'list,form',
+            'view_mode': 'tree,form',
             'domain': domain,
             'target': 'current',
         }
