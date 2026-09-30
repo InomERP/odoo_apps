@@ -41,7 +41,7 @@
                             invisible="claim_status in ('draft','settled')"/>
 
                     <button class="oe_stat_button" type="object"
-                            name="action_view_claims" icon="fa-file-text-o">
+                            name="action_view_claims" icon="article">
                         <field name="claim_count" widget="statinfo" string="Claims"/>
                     </button>
 

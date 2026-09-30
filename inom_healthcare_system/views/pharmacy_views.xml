@@ -29,11 +29,11 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_view_batches" type="object"
-                                class="oe_stat_button" icon="fa-cubes">
+                                class="oe_stat_button" icon="deployed_code">
                             <field name="batch_count" widget="statinfo" string="Batches"/>
                         </button>
                         <button name="action_view_dispenses" type="object"
-                                class="oe_stat_button" icon="fa-shopping-bag">
+                                class="oe_stat_button" icon="shopping_bag">
                             <field name="dispense_count" widget="statinfo" string="Dispenses"/>
                         </button>
                     </div>

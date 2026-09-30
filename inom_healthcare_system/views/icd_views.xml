@@ -23,7 +23,7 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_view_treatments" type="object"
-                                class="oe_stat_button" icon="fa-stethoscope">
+                                class="oe_stat_button" icon="stethoscope">
                             <field name="treatment_count" widget="statinfo" string="Treatments"/>
                         </button>
                     </div>

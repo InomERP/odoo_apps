@@ -70,7 +70,7 @@
                             <strong><field name="name"/></strong>
                             <div><field name="ward_id"/></div>
                             <div t-if="record.current_patient_id.raw_value">
-                                <i class="fa fa-user"/> <field name="current_patient_id"/>
+                                <i class="oi" title="Patient" data-icon="person"/> <field name="current_patient_id"/>
                             </div>
                             <span class="badge text-bg-secondary"><field name="status"/></span>
                         </div>

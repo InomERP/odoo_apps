@@ -36,10 +36,10 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_view_beds" type="object"
-                                class="oe_stat_button" icon="fa-bed">
+                                class="oe_stat_button" icon="bed">
                             <field name="bed_count" widget="statinfo" string="Beds"/>
                         </button>
-                        <button class="oe_stat_button" icon="fa-line-chart" disabled="1">
+                        <button class="oe_stat_button" icon="show_chart" disabled="1">
                             <field name="occupancy_rate" widget="statinfo" string="Occupancy %"/>
                         </button>
                     </div>

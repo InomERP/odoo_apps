@@ -39,10 +39,10 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_create_billing" type="object"
-                                class="oe_stat_button" icon="fa-money">
+                                class="oe_stat_button" icon="payments">
                             <field name="billing_count" widget="statinfo" string="Bill"/>
                         </button>
-                        <button class="oe_stat_button" icon="fa-list" disabled="1">
+                        <button class="oe_stat_button" icon="format_list_bulleted" disabled="1">
                             <field name="session_count" widget="statinfo" string="Sessions"/>
                         </button>
                     </div>
@@ -95,8 +95,8 @@
                     <t t-name="card">
                         <div class="oe_kanban_global_click o_kanban_record">
                             <strong><field name="patient_id"/></strong>
-                            <div><i class="fa fa-user-md"/> <field name="therapist"/></div>
-                            <div><i class="fa fa-calendar"/> <field name="session_date"/></div>
+                            <div><i class="oi" title="Doctor" data-icon="medical_services"/> <field name="therapist"/></div>
+                            <div><i class="oi" title="Date" data-icon="calendar_today"/> <field name="session_date"/></div>
                         </div>
                     </t>
                 </templates>

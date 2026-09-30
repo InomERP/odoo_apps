@@ -33,7 +33,7 @@
                         name="action_view_attendance"
                         type="object"
                         class="oe_stat_button"
-                        icon="fa-calendar">
+                        icon="calendar_today">
 
                         <field
                             name="attendance_count"
@@ -47,7 +47,7 @@
                         name="action_view_leave"
                         type="object"
                         class="oe_stat_button"
-                        icon="fa-clock-o">
+                        icon="schedule">
 
                         <field
                             name="leave_count"

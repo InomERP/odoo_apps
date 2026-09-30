@@ -6,7 +6,6 @@
         <field name="model">inom.certificate</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">inom_healthcare_system.report_certificate_doc</field>
-        <field name="report_file">inom_healthcare_system.report_certificate_doc</field>
         <field name="binding_model_id" ref="model_inom_certificate"/>
         <field name="binding_type">report</field>
     </record>
@@ -16,7 +15,6 @@
         <field name="model">inom.prescription</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">inom_healthcare_system.report_prescription_doc</field>
-        <field name="report_file">inom_healthcare_system.report_prescription_doc</field>
         <field name="binding_model_id" ref="model_inom_prescription"/>
         <field name="binding_type">report</field>
     </record>

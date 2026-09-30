@@ -15,7 +15,7 @@
                         name="action_view_appointments"
                         type="object"
                         class="oe_stat_button"
-                        icon="fa-calendar">
+                        icon="calendar_today">
 
                         <field
                             name="appointment_count"
@@ -28,7 +28,7 @@
                         name="action_view_visits"
                         type="object"
                         class="oe_stat_button"
-                        icon="fa-history">
+                        icon="history">
 
                         <field
                             name="visit_count"

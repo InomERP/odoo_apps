@@ -41,10 +41,10 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_create_billing" type="object"
-                                class="oe_stat_button" icon="fa-money">
+                                class="oe_stat_button" icon="payments">
                             <field name="billing_count" widget="statinfo" string="Bill"/>
                         </button>
-                        <button class="oe_stat_button" icon="fa-history" disabled="1">
+                        <button class="oe_stat_button" icon="history" disabled="1">
                             <field name="case_count" widget="statinfo" string="Cases"/>
                         </button>
                     </div>

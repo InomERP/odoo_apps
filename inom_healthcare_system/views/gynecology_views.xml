@@ -37,7 +37,7 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_view_history" type="object"
-                                class="oe_stat_button" icon="fa-history">
+                                class="oe_stat_button" icon="history">
                             <field name="visit_count" widget="statinfo" string="Visits"/>
                         </button>
                     </div>

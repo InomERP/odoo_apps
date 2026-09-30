@@ -24,10 +24,10 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_view_wards" type="object"
-                                class="oe_stat_button" icon="fa-hospital-o">
+                                class="oe_stat_button" icon="local_hospital">
                             <field name="ward_count" widget="statinfo" string="Wards"/>
                         </button>
-                        <button class="oe_stat_button" icon="fa-bed" disabled="1">
+                        <button class="oe_stat_button" icon="bed" disabled="1">
                             <field name="bed_count" widget="statinfo" string="Beds"/>
                         </button>
                     </div>

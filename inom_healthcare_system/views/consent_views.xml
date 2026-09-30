@@ -84,7 +84,7 @@
                     <t t-name="card">
                         <div class="oe_kanban_global_click o_kanban_record">
                             <strong><field name="consent_type"/></strong>
-                            <div><i class="fa fa-user"/> <field name="patient_id"/></div>
+                            <div><i class="oi" title="Patient" data-icon="person"/> <field name="patient_id"/></div>
                         </div>
                     </t>
                 </templates>

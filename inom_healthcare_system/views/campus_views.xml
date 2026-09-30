@@ -24,7 +24,7 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_view_buildings" type="object"
-                                class="oe_stat_button" icon="fa-building">
+                                class="oe_stat_button" icon="business">
                             <field name="building_count" widget="statinfo" string="Buildings"/>
                         </button>
                     </div>

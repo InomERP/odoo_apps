@@ -24,10 +24,10 @@ class ICD(models.Model):
     description = fields.Text()
     treatment_count = fields.Integer(compute='_compute_usage')
 
-    _sql_constraints = [
-        ('icd_code_type_uniq', 'unique(code, type)',
-         'This ICD code already exists for the selected classification.'),
-    ]
+    _icd_code_type_uniq = models.Constraint(
+        'unique(code, type)',
+        'This ICD code already exists for the selected classification.',
+    )
 
     def _compute_usage(self):
         Treatment = self.env['inom.treatment']

@@ -1,14 +1,16 @@
 {
     'name': 'Inom Health Care System',
 
-    'version': '19.0.1.0',
+    'version': '20.0.1.0',
 
     'category': 'Healthcare',
 
-    'summary': 'Comprehensive Odoo Healthcare & Hospital Management System for Patients, Doctors, Appointments, Surgery, Pharmacy, Billing, Laboratory, IPD, ICU, and Clinical Operations',
+    'summary': 'Odoo 20: Comprehensive Odoo Healthcare & Hospital Management System for Patients, Doctors, Appointments, Surgery, Pharmacy, Billing, Laboratory, IPD, ICU, and Clinical Operations',
 
     'description': """
         Hospital Management System Core
+
+        Compatible with Odoo 20 (Community & Enterprise).
 
         Features:
         - Patient Management
@@ -60,7 +62,7 @@
 
         # Security
         'security/hospital_security.xml',
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
 
         # Sequences
         'data/patient_sequence.xml',
