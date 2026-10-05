@@ -1,0 +1,549 @@
+// Design direction: instrument panel, not "dashboard".
+//
+// The reference is a strip-chart recorder -- a light, high-legibility ground
+// you can stare at for an hour, hairline rules, tabular numerals, and one
+// continuously scrolling multi-channel trace that carries all the boldness.
+// Everything else stays quiet.
+//
+// IMPORTANT: every custom property is declared INSIDE .o_inom_health, never on
+// :root. Declaring on :root would leak these tokens into every other backend
+// view sharing the bundle.
+
+.o_inom_health {
+    --inom-surface:   #{$o-white};
+    --inom-ink-soft:  #5A6572;
+    --inom-ink-faint: #8B95A1;
+    --inom-rule:      #E3E7EC;
+    --inom-rule-soft: #EFF2F5;
+
+    // Signal palette. Each channel keeps its colour everywhere it appears:
+    // in the trace, in the legend, and as its tile keyline.
+    --inom-ch-cpu:  #0E7C86;
+    --inom-ch-mem:  #4250C4;
+    --inom-ch-db:   #8A3FA0;
+    --inom-ch-load: #B06A00;
+    --inom-ch-users: #1F6F3F;
+
+    --inom-warn:      #A66200;
+    --inom-danger:    #BE3A2B;
+    --inom-ok:        #10796B;
+    --inom-warn-bg:   #FFF6E6;
+    --inom-danger-bg: #FDEEEC;
+
+    --inom-shadow: 0 1px 2px rgba(15, 23, 32, .05),
+                   0 8px 24px -16px rgba(15, 23, 32, .25);
+    --inom-mono: #{$font-family-monospace};
+
+    padding: 24px;
+    overflow: auto;
+    background: #F6F7F9;
+
+    // ---- masthead --------------------------------------------------------
+
+    .o_inom_masthead {
+        display: flex;
+        align-items: baseline;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+
+        h1 {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -.01em;
+            margin: 0;
+        }
+    }
+
+    .o_inom_spacer { flex: 1; }
+
+    .o_inom_live {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        font-family: var(--inom-mono);
+        font-size: 11px;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+        color: var(--inom-ink-soft);
+    }
+
+    .o_inom_dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--inom-ok);
+        position: relative;
+
+        &::after {
+            content: "";
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            border: 1px solid var(--inom-ok);
+            opacity: .5;
+            animation: o-inom-ping 2.4s ease-out infinite;
+        }
+    }
+
+    &.o_inom_paused .o_inom_dot {
+        background: var(--inom-ink-faint);
+
+        &::after {
+            animation: none;
+            border-color: var(--inom-ink-faint);
+        }
+    }
+
+    .o_inom_ctl {
+        font-size: 12px;
+        font-weight: 500;
+        border: 1px solid var(--inom-rule);
+        background: var(--inom-surface);
+        color: inherit;
+        border-radius: 5px;
+        padding: 4px 11px;
+        cursor: pointer;
+
+        &:hover { border-color: var(--inom-ink-faint); }
+
+        &.o_inom_ctl_quiet {
+            border-color: transparent;
+            background: none;
+            color: var(--inom-ink-faint);
+            padding: 2px 7px;
+
+            &:hover {
+                background: var(--inom-rule-soft);
+                color: var(--inom-ink-soft);
+            }
+        }
+    }
+
+    .o_inom_demo_banner {
+        border: 1px solid var(--inom-warn);
+        border-left-width: 3px;
+        background: var(--inom-warn-bg);
+        color: var(--inom-warn);
+        border-radius: 6px;
+        padding: 9px 13px;
+        margin-bottom: 16px;
+        font-size: 13px;
+
+        code {
+            font-family: var(--inom-mono);
+            font-size: 12px;
+        }
+    }
+
+    // ---- the trace -------------------------------------------------------
+
+    .o_inom_strip {
+        background: var(--inom-surface);
+        border: 1px solid var(--inom-rule);
+        border-radius: 8px;
+        box-shadow: var(--inom-shadow);
+        padding: 14px 16px 12px;
+        margin-bottom: 16px;
+    }
+
+    .o_inom_strip_head {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        flex-wrap: wrap;
+        margin-bottom: 8px;
+    }
+
+    .o_inom_eyebrow {
+        font-family: var(--inom-mono);
+        font-size: 11px;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        color: var(--inom-ink-faint);
+    }
+
+    .o_inom_legend {
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+        margin-left: auto;
+
+        button {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--inom-ink-soft);
+            background: none;
+            border: 1px solid transparent;
+            border-radius: 5px;
+            padding: 3px 8px;
+            cursor: pointer;
+
+            &:hover { background: var(--inom-rule-soft); }
+            &[aria-pressed="false"] { opacity: .38; }
+        }
+    }
+
+    .o_inom_swatch {
+        width: 10px;
+        height: 3px;
+        border-radius: 2px;
+    }
+
+    .o_inom_legend_val {
+        font-family: var(--inom-mono);
+        font-size: 12px;
+        font-weight: 500;
+        color: inherit;
+        min-width: 46px;
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .o_inom_canvas_shell {
+        position: relative;
+        height: 240px;
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    // ---- alerts ----------------------------------------------------------
+
+    .o_inom_alerts {
+        display: grid;
+        gap: 8px;
+        margin-bottom: 16px;
+
+        &:empty { display: none; }
+    }
+
+    .o_inom_alert {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        border: 1px solid var(--inom-rule);
+        border-left-width: 3px;
+        border-radius: 6px;
+        padding: 9px 13px;
+        background: var(--inom-surface);
+        font-size: 13px;
+        margin-bottom: 8px;
+        animation: o-inom-slide-in .22s ease-out;
+
+        &[data-sev="warning"] {
+            border-left-color: var(--inom-warn);
+            background: var(--inom-warn-bg);
+
+            .o_inom_who { color: var(--inom-warn); }
+        }
+
+        &[data-sev="danger"] {
+            border-left-color: var(--inom-danger);
+            background: var(--inom-danger-bg);
+
+            .o_inom_who { color: var(--inom-danger); }
+        }
+    }
+
+    .o_inom_who {
+        font-family: var(--inom-mono);
+        font-size: 10px;
+        letter-spacing: .07em;
+        text-transform: uppercase;
+        padding-top: 2px;
+        white-space: nowrap;
+        color: var(--inom-ink-faint);
+    }
+
+    // ---- tiles -----------------------------------------------------------
+
+    .o_inom_grid {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        margin-bottom: 16px;
+    }
+
+    .o_inom_tile {
+        background: var(--inom-surface);
+        border: 1px solid var(--inom-rule);
+        border-radius: 8px;
+        box-shadow: var(--inom-shadow);
+        padding: 14px 16px;
+        position: relative;
+        overflow: hidden;
+
+        // The channel colour bleeds in as a keyline, tying tile to trace.
+        &::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--inom-tile-accent, var(--inom-rule));
+        }
+
+        &[data-sev="warning"] {
+            --inom-tile-accent: var(--inom-warn);
+
+            .o_inom_tile_value { color: var(--inom-warn); }
+        }
+
+        &[data-sev="danger"] {
+            --inom-tile-accent: var(--inom-danger);
+
+            .o_inom_tile_value { color: var(--inom-danger); }
+        }
+    }
+
+    .o_inom_tile_label {
+        font-family: var(--inom-mono);
+        font-size: 10px;
+        letter-spacing: .09em;
+        text-transform: uppercase;
+        color: var(--inom-ink-faint);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .o_inom_tag {
+        font-size: 9px;
+        letter-spacing: .04em;
+        background: var(--inom-rule-soft);
+        color: var(--inom-ink-soft);
+        border-radius: 3px;
+        padding: 1px 5px;
+        text-transform: none;
+    }
+
+    .o_inom_tile_value {
+        font-family: var(--inom-mono);
+        font-size: 30px;
+        font-weight: 500;
+        letter-spacing: -.02em;
+        line-height: 1.15;
+        margin-top: 4px;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .o_inom_unit {
+        font-size: 15px;
+        color: var(--inom-ink-faint);
+        font-weight: 400;
+    }
+
+    .o_inom_tile_note {
+        font-family: var(--inom-mono);
+        font-size: 11px;
+        color: var(--inom-ink-soft);
+        margin-top: 3px;
+        font-variant-numeric: tabular-nums;
+    }
+
+    // ---- panels ----------------------------------------------------------
+
+    .o_inom_cols {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: 1.35fr 1fr;
+
+        @media (max-width: 900px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .o_inom_panel {
+        background: var(--inom-surface);
+        border: 1px solid var(--inom-rule);
+        border-radius: 8px;
+        box-shadow: var(--inom-shadow);
+        padding: 14px 16px;
+
+        h2 {
+            font-family: var(--inom-mono);
+            font-size: 10px;
+            letter-spacing: .09em;
+            text-transform: uppercase;
+            color: var(--inom-ink-faint);
+            margin: 0 0 10px;
+            font-weight: 500;
+        }
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-variant-numeric: tabular-nums;
+
+        th {
+            font-family: var(--inom-mono);
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: .07em;
+            text-transform: uppercase;
+            color: var(--inom-ink-faint);
+            text-align: left;
+            padding: 0 8px 6px 0;
+            border-bottom: 1px solid var(--inom-rule);
+        }
+
+        td {
+            font-family: var(--inom-mono);
+            font-size: 12.5px;
+            padding: 7px 8px 7px 0;
+            border-bottom: 1px solid var(--inom-rule-soft);
+        }
+
+        tr:last-child td { border-bottom: none; }
+    }
+
+    .o_inom_num { text-align: right; }
+
+    .o_inom_role {
+        color: var(--inom-ink-soft);
+        font-size: 12px;
+    }
+
+    // Shared meter, used for worker RSS and disk fill.
+    .o_inom_meter {
+        position: relative;
+        height: 5px;
+        border-radius: 3px;
+        background: var(--inom-rule-soft);
+        overflow: hidden;
+        min-width: 68px;
+
+        i {
+            position: absolute;
+            inset: 0 auto 0 0;
+            border-radius: 3px;
+            background: var(--inom-ch-mem);
+            transition: width .5s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        &[data-sev="warning"] i { background: var(--inom-warn); }
+        &[data-sev="danger"] i { background: var(--inom-danger); }
+    }
+
+    .o_inom_roster {
+        display: grid;
+        gap: 1px;
+    }
+
+    .o_inom_person {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 7px 0;
+        border-bottom: 1px solid var(--inom-rule-soft);
+
+        &:last-child { border-bottom: none; }
+    }
+
+    .o_inom_person_name {
+        flex: 1;
+        font-size: 13px;
+    }
+
+    // Presence dot. Colour is the only thing distinguishing the states, so it
+    // also carries a title via the data attribute for anyone who cannot see it.
+    .o_inom_status {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex: none;
+        background: var(--inom-ink-faint);
+
+        &[data-status="online"] { background: var(--inom-ok); }
+        &[data-status="away"] { background: var(--inom-warn); }
+    }
+
+    .o_inom_mount {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 9px 0;
+        border-bottom: 1px solid var(--inom-rule-soft);
+
+        &:last-of-type { border-bottom: none; }
+
+        .o_inom_path {
+            font-family: var(--inom-mono);
+            font-size: 12.5px;
+            flex: 1;
+            word-break: break-all;
+        }
+
+        .o_inom_meter {
+            width: 96px;
+            flex: none;
+        }
+    }
+
+    .o_inom_free {
+        font-family: var(--inom-mono);
+        font-size: 11.5px;
+        color: var(--inom-ink-soft);
+    }
+
+    .o_inom_mount_pct {
+        width: 46px;
+        text-align: right;
+    }
+
+    .o_inom_storage_note { margin-top: 10px; }
+
+    .o_inom_empty {
+        color: var(--inom-ink-faint);
+        font-size: 13px;
+        margin: 0;
+    }
+
+    // ---- footer ----------------------------------------------------------
+
+    .o_inom_foot {
+        display: flex;
+        gap: 18px;
+        flex-wrap: wrap;
+        font-family: var(--inom-mono);
+        font-size: 11px;
+        color: var(--inom-ink-faint);
+        margin-top: 18px;
+        padding-top: 12px;
+        border-top: 1px solid var(--inom-rule);
+
+        b {
+            font-weight: 500;
+            color: var(--inom-ink-soft);
+        }
+    }
+}
+
+@keyframes o-inom-ping {
+    0%   { transform: scale(.6); opacity: .6; }
+    70%  { transform: scale(1.5); opacity: 0; }
+    100% { opacity: 0; }
+}
+
+@keyframes o-inom-slide-in {
+    from { opacity: 0; transform: translateY(-4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .o_inom_health {
+        *,
+        *::after {
+            animation: none !important;
+            transition: none !important;
+        }
+    }
+}

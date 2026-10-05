@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="cron_capture_sample" model="ir.cron">
+        <field name="name">Server Health: capture sample</field>
+        <field name="model_id" ref="model_inom_server_health_sample"/>
+        <field name="state">code</field>
+        <field name="code">model._capture()</field>
+        <!-- One row a minute. At 30-day retention that is ~43k rows, which is
+             nothing, and it is what makes the trace useful after a restart.
+             The cost is one cheap probe per minute, not per dashboard. -->
+        <field name="interval_number">1</field>
+        <field name="interval_type">minutes</field>
+        <field name="active" eval="True"/>
+    </record>
+
+    <record id="cron_vacuum_samples" model="ir.cron">
+        <field name="name">Server Health: vacuum old samples</field>
+        <field name="model_id" ref="model_inom_server_health_sample"/>
+        <field name="state">code</field>
+        <field name="code">model._vacuum()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active" eval="True"/>
+    </record>
+
+    <record id="param_poll_interval" model="ir.config_parameter">
+        <field name="key">inom_server_health.poll_interval_s</field>
+        <field name="value">10</field>
+    </record>
+
+    <record id="param_retention" model="ir.config_parameter">
+        <field name="key">inom_server_health.retention_days</field>
+        <field name="value">30</field>
+    </record>
+
+    <!-- Starter rules. Thresholds are deliberately conservative and the
+         debounce counts deliberately high: an alerting system that cries wolf
+         gets muted, and a muted alert is worse than no alert. -->
+
+    <record id="rule_cpu" model="inom.server.health.rule">
+        <field name="name">CPU sustained above 85%</field>
+        <field name="metric">cpu_percent</field>
+        <field name="operator">&gt;=</field>
+        <field name="threshold">85</field>
+        <field name="consecutive_breaches">6</field>
+        <field name="cooldown_minutes">60</field>
+        <field name="severity">warning</field>
+    </record>
+
+    <record id="rule_memory" model="inom.server.health.rule">
+        <field name="name">Memory above 92%</field>
+        <field name="metric">memory_percent</field>
+        <field name="operator">&gt;=</field>
+        <field name="threshold">92</field>
+        <field name="consecutive_breaches">3</field>
+        <field name="cooldown_minutes">30</field>
+        <field name="severity">danger</field>
+    </record>
+
+    <record id="rule_disk" model="inom.server.health.rule">
+        <field name="name">Disk above 90%</field>
+        <field name="metric">disk_percent</field>
+        <field name="operator">&gt;=</field>
+        <field name="threshold">90</field>
+        <field name="consecutive_breaches">2</field>
+        <field name="cooldown_minutes">360</field>
+        <field name="severity">danger</field>
+    </record>
+
+    <record id="rule_conn" model="inom.server.health.rule">
+        <field name="name">DB connections above 85% of max</field>
+        <field name="metric">pg_conn_percent</field>
+        <field name="operator">&gt;=</field>
+        <field name="threshold">85</field>
+        <field name="consecutive_breaches">3</field>
+        <field name="cooldown_minutes">30</field>
+        <field name="severity">danger</field>
+    </record>
+
+    <record id="rule_cache" model="inom.server.health.rule">
+        <field name="name">DB cache hit ratio below 95%</field>
+        <field name="metric">pg_cache_hit_pct</field>
+        <field name="operator">&lt;=</field>
+        <field name="threshold">95</field>
+        <field name="consecutive_breaches">12</field>
+        <field name="cooldown_minutes">720</field>
+        <field name="severity">warning</field>
+    </record>
+
+    <record id="rule_cron" model="inom.server.health.rule">
+        <field name="name">Scheduled actions falling behind</field>
+        <field name="metric">cron_late_count</field>
+        <field name="operator">&gt;=</field>
+        <field name="threshold">1</field>
+        <field name="consecutive_breaches">3</field>
+        <field name="cooldown_minutes">120</field>
+        <field name="severity">warning</field>
+    </record>
+
+    <record id="rule_mail_failed" model="inom.server.health.rule">
+        <field name="name">Emails failing to send</field>
+        <field name="metric">mail_failed</field>
+        <field name="operator">&gt;=</field>
+        <field name="threshold">5</field>
+        <field name="consecutive_breaches">2</field>
+        <field name="cooldown_minutes">180</field>
+        <field name="severity">danger</field>
+    </record>
+
+    <record id="rule_slow_query" model="inom.server.health.rule">
+        <field name="name">Query running longer than 5 minutes</field>
+        <field name="metric">pg_longest_query_s</field>
+        <field name="operator">&gt;=</field>
+        <field name="threshold">300</field>
+        <field name="consecutive_breaches">2</field>
+        <field name="cooldown_minutes">60</field>
+        <field name="severity">warning</field>
+    </record>
+
+</odoo>

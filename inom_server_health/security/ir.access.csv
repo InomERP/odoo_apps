@@ -1,0 +1,10 @@
+id,name,model_id,group_id/id,operation,domain
+access_health_sample_viewer,health.sample.viewer,inom.server.health.sample,inom_server_health.group_server_health_viewer,r,
+access_health_sample_manager,health.sample.manager,inom.server.health.sample,inom_server_health.group_server_health_manager,rd,
+rule_health_sample_all,"Server health samples: server-wide, not per company",inom.server.health.sample,,crud,
+access_health_rule_viewer,health.rule.viewer,inom.server.health.rule,inom_server_health.group_server_health_viewer,r,
+access_health_rule_manager,health.rule.manager,inom.server.health.rule,inom_server_health.group_server_health_manager,crud,
+rule_health_rule_all,"Server health alert rules: server-wide, not per company",inom.server.health.rule,,crud,
+access_health_alert_viewer,health.alert.viewer,inom.server.health.alert,inom_server_health.group_server_health_viewer,r,
+access_health_alert_manager,health.alert.manager,inom.server.health.alert,inom_server_health.group_server_health_manager,rud,
+rule_health_alert_all,"Server health alerts: server-wide, not per company",inom.server.health.alert,,crud,

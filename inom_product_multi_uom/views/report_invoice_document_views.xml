@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        F-11: Show "Secondary Qty" and "Secondary UoM" columns on the
+        customer invoice PDF, right after the base Quantity column.
+
+        The columns appear only when at least one invoice line carries a
+        secondary UoM (display_secondary). When no line uses a secondary
+        UoM the report is byte-for-byte identical to the standard one, so
+        existing invoices are never affected. Section/subsection rows keep
+        their alignment because their name colspan is widened by 2 only
+        when the columns are shown.
+    -->
+    <template id="report_invoice_document_inom_secondary_uom"
+              inherit_id="account.report_invoice_document">
+
+        <!-- Decide once whether any line uses a secondary UoM -->
+        <xpath expr="//t[@t-set='display_taxes']" position="after">
+            <t t-set="display_secondary"
+               t-value="any(l.secondary_uom_id for l in o.invoice_line_ids)"/>
+        </xpath>
+
+        <!-- Header columns -->
+        <xpath expr="//th[@name='th_quantity']" position="after">
+            <th name="th_secondary_qty" t-if="display_secondary" class="text-end">
+                <span>Secondary Qty</span>
+            </th>
+            <th name="th_secondary_uom" t-if="display_secondary" class="text-end">
+                <span>Secondary UoM</span>
+            </th>
+        </xpath>
+
+        <!-- Standard product row cells -->
+        <xpath expr="//td[@name='td_quantity']" position="after">
+            <td name="td_secondary_qty" t-if="display_secondary" class="text-end">
+                <span t-if="line.secondary_uom_id" class="text-nowrap"
+                      t-field="line.secondary_qty"/>
+            </td>
+            <td name="td_secondary_uom" t-if="display_secondary" class="text-end">
+                <span t-if="line.secondary_uom_id"
+                      t-out="line.secondary_uom_id.display_name"/>
+            </td>
+        </xpath>
+
+        <!-- Standard section/subsection rows: widen the name colspan by 2 -->
+        <xpath expr="//t[@t-set='line_colspan' and contains(@t-value, 'line.tax_ids')]"
+               position="replace">
+            <t t-set="line_colspan"
+               t-value="3 + (2 if display_secondary else 0) + (1 if display_discount else 0) + (1 if display_taxes and not line.tax_ids else 0)"/>
+        </xpath>
+
+        <!-- Grouped / hidden print mode: keep alignment with two matching cells -->
+        <xpath expr="//td[@name='td_quantity_grouped']" position="after">
+            <td name="td_secondary_qty_grouped" colspan="1" class="text-end"
+                t-if="display_secondary and (hide_details or (hide_prices and grouped_line['display_type'] not in ('line_section', 'line_subsection', 'line_note')))"/>
+            <td name="td_secondary_uom_grouped" colspan="1" class="text-end"
+                t-if="display_secondary and (hide_details or (hide_prices and grouped_line['display_type'] not in ('line_section', 'line_subsection', 'line_note')))"/>
+        </xpath>
+
+        <!-- Grouped section rows: widen the name colspan by 2 -->
+        <xpath expr="//t[@t-set='line_colspan' and contains(@t-value, &quot;grouped_line.get('taxes')&quot;)]"
+               position="replace">
+            <t t-set="line_colspan"
+               t-value="3 + (2 if display_secondary else 0) + (1 if display_discount else 0) + (1 if display_taxes and not grouped_line.get('taxes') else 0)"/>
+        </xpath>
+
+    </template>
+
+</odoo>

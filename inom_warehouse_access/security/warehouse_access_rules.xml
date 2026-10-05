@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="0">
+
+    <!--
+        Logic
+        =====
+        * A location is global when its effective authorized users set is empty.
+        * Otherwise the record is visible only to its effective authorized users
+          (own authorized users + the ones inherited from all parents).
+        * Restrictions apply to "Inventory User" (stock.group_stock_user).
+        * The "Super Warehouse Manager" group (and the Administrator, who implies
+          it) bypasses every restriction.
+        * Create is left to standard behaviour to avoid blocking normal document
+          creation; restrictions cover read / update / delete.
+
+        Odoo 20 (ir.access)
+        ===================
+        Group-bound accesses are permissions and are OR-ed with the standard
+        permissions of the stock module, so they cannot narrow access. The
+        restrictions below are therefore global (no group_id, AND-ed for every
+        user) and their domain only filters records for Inventory Users that are
+        not Super Warehouse Managers; any other user gets [(1, '=', 1)].
+    -->
+
+    <!-- ============================ LOCATIONS ============================ -->
+    <record id="access_inom_location_restriction" model="ir.access">
+        <field name="name">Warehouse Access: Locations</field>
+        <field name="model_id" ref="stock.model_stock_location"/>
+        <field name="operation">rud</field>
+        <field name="domain">[(1, '=', 1)] if user.has_group('inom_warehouse_access.inom_group_super_warehouse_manager') or not user.has_group('stock.group_stock_user') else [
+            '|', ('inom_effective_user_ids', '=', False), ('inom_effective_user_ids', 'in', user.ids),
+        ]</field>
+    </record>
+
+    <!-- ============================== QUANTS ============================= -->
+    <record id="access_inom_quant_restriction" model="ir.access">
+        <field name="name">Warehouse Access: On-hand quantities</field>
+        <field name="model_id" ref="stock.model_stock_quant"/>
+        <field name="operation">rud</field>
+        <field name="domain">[(1, '=', 1)] if user.has_group('inom_warehouse_access.inom_group_super_warehouse_manager') or not user.has_group('stock.group_stock_user') else [
+            '|', ('location_id.inom_effective_user_ids', '=', False), ('location_id.inom_effective_user_ids', 'in', user.ids),
+        ]</field>
+    </record>
+
+    <!-- ============================= PICKINGS =========================== -->
+    <record id="access_inom_picking_restriction" model="ir.access">
+        <field name="name">Warehouse Access: Transfers</field>
+        <field name="model_id" ref="stock.model_stock_picking"/>
+        <field name="operation">rud</field>
+        <field name="domain">[(1, '=', 1)] if user.has_group('inom_warehouse_access.inom_group_super_warehouse_manager') or not user.has_group('stock.group_stock_user') else [
+            '|', '|',
+            '&amp;', ('location_id.inom_effective_user_ids', '=', False), ('location_dest_id.inom_effective_user_ids', '=', False),
+            ('location_id.inom_effective_user_ids', 'in', user.ids),
+            ('location_dest_id.inom_effective_user_ids', 'in', user.ids),
+        ]</field>
+    </record>
+
+    <!-- ========================= OPERATION TYPES ======================== -->
+    <record id="access_inom_picking_type_restriction" model="ir.access">
+        <field name="name">Warehouse Access: Operation types</field>
+        <field name="model_id" ref="stock.model_stock_picking_type"/>
+        <field name="operation">rud</field>
+        <field name="domain">[(1, '=', 1)] if user.has_group('inom_warehouse_access.inom_group_super_warehouse_manager') or not user.has_group('stock.group_stock_user') else [
+            '|', '|',
+            '&amp;', ('default_location_src_id.inom_effective_user_ids', '=', False), ('default_location_dest_id.inom_effective_user_ids', '=', False),
+            ('default_location_src_id.inom_effective_user_ids', 'in', user.ids),
+            ('default_location_dest_id.inom_effective_user_ids', 'in', user.ids),
+        ]</field>
+    </record>
+
+    <!-- ============================== MOVES ============================= -->
+    <record id="access_inom_move_restriction" model="ir.access">
+        <field name="name">Warehouse Access: Stock moves</field>
+        <field name="model_id" ref="stock.model_stock_move"/>
+        <field name="operation">rud</field>
+        <field name="domain">[(1, '=', 1)] if user.has_group('inom_warehouse_access.inom_group_super_warehouse_manager') or not user.has_group('stock.group_stock_user') else [
+            '|', '|',
+            '&amp;', ('location_id.inom_effective_user_ids', '=', False), ('location_dest_id.inom_effective_user_ids', '=', False),
+            ('location_id.inom_effective_user_ids', 'in', user.ids),
+            ('location_dest_id.inom_effective_user_ids', 'in', user.ids),
+        ]</field>
+    </record>
+
+    <!-- ============================ MOVE LINES ========================== -->
+    <record id="access_inom_move_line_restriction" model="ir.access">
+        <field name="name">Warehouse Access: Detailed operations</field>
+        <field name="model_id" ref="stock.model_stock_move_line"/>
+        <field name="operation">rud</field>
+        <field name="domain">[(1, '=', 1)] if user.has_group('inom_warehouse_access.inom_group_super_warehouse_manager') or not user.has_group('stock.group_stock_user') else [
+            '|', '|',
+            '&amp;', ('location_id.inom_effective_user_ids', '=', False), ('location_dest_id.inom_effective_user_ids', '=', False),
+            ('location_id.inom_effective_user_ids', 'in', user.ids),
+            ('location_dest_id.inom_effective_user_ids', 'in', user.ids),
+        ]</field>
+    </record>
+
+</odoo>

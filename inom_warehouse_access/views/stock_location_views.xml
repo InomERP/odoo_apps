@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_location_form_inom_access" model="ir.ui.view">
+        <field name="name">stock.location.form.inom.access</field>
+        <field name="model">stock.location</field>
+        <field name="inherit_id" ref="stock.view_location_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="Warehouse Access Control" name="inom_access_control">
+                    <field name="inom_authorized_user_ids"
+                           widget="many2many_tags"
+                           options="{'no_create_edit': True, 'no_quick_create': True}"/>
+                    <div colspan="2" class="text-muted">
+                        Leave empty to keep this location accessible to everyone.
+                        Authorized users automatically gain access to all child
+                        locations.
+                    </div>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

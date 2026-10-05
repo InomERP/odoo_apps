@@ -1,0 +1,53 @@
+# Translation template for inom_product_multi_uom.
+# This file is distributed under the same license as the module.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: inom_product_multi_uom 19.0.4.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: inom_product_multi_uom
+msgid "Need Secondary UoMs"
+msgstr ""
+
+#. module: inom_product_multi_uom
+msgid "Secondary UoM"
+msgstr ""
+
+#. module: inom_product_multi_uom
+msgid "Secondary Qty"
+msgstr ""
+
+#. module: inom_product_multi_uom
+msgid "Ratio"
+msgstr ""
+
+#. module: inom_product_multi_uom
+msgid "Conversion"
+msgstr ""
+
+#. module: inom_product_multi_uom
+msgid "Create Secondary UoM's"
+msgstr ""
+
+#. module: inom_product_multi_uom
+msgid "The ratio to the base UoM must be strictly greater than zero."
+msgstr ""
+
+#. module: inom_product_multi_uom
+msgid "The secondary UoM '%s' is already defined for this product."
+msgstr ""
+
+#. module: inom_product_multi_uom
+msgid "The secondary UoM cannot be the same as the product's base UoM '%s'."
+msgstr ""
+
+#. module: inom_product_multi_uom
+msgid "The selected secondary UoM is not valid for the product '%s'."
+msgstr ""
