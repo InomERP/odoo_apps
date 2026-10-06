@@ -1,0 +1,141 @@
+<odoo>
+    <!-- ============================ FORM ============================ -->
+    <record id="view_credit_approval_request_form" model="ir.ui.view">
+        <field name="name">credit.approval.request.form</field>
+        <field name="model">credit.approval.request</field>
+        <field name="arch" type="xml">
+            <form string="Credit Approval Request">
+                <header>
+                    <button name="action_approve" type="object"
+                            string="Approve" class="btn-primary"
+                            invisible="state != 'to_approve'"
+                            groups="inom_customer_credit_limit.group_credit_approval_manager"
+                            confirm="Approve this credit request and confirm the sale order?"/>
+                    <button name="action_open_reject_wizard" type="object"
+                            string="Reject" class="btn-danger"
+                            invisible="state != 'to_approve'"
+                            groups="inom_customer_credit_limit.group_credit_approval_manager"/>
+                    <field name="state" widget="statusbar" readonly="1"
+                           statusbar_visible="to_approve,approved,rejected"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_sale_order" type="object"
+                                class="oe_stat_button" icon="fa-shopping-cart">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Sale Order</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Request">
+                            <field name="sale_order_id" readonly="1"/>
+                            <field name="partner_id" readonly="1"/>
+                            <field name="requested_by" readonly="1"/>
+                            <field name="request_date" readonly="1"/>
+                            <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <group string="Credit Exposure">
+                            <field name="credit_limit" readonly="1"/>
+                            <field name="outstanding_amount" readonly="1"/>
+                            <field name="confirmed_so_amount" readonly="1"/>
+                            <field name="order_amount" readonly="1"/>
+                            <field name="available_credit" readonly="1"/>
+                            <field name="excess_amount" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Reason / Notes">
+                        <field name="reason" nolabel="1" readonly="1"
+                               placeholder="No reason provided."/>
+                    </group>
+                    <group string="Approval Decision"
+                           invisible="state == 'rejected'">
+                        <field name="approval_notes"
+                               readonly="state != 'to_approve'"
+                               placeholder="Optional notes recorded with the approval."/>
+                        <field name="approved_by" readonly="1"
+                               invisible="state != 'approved'"/>
+                        <field name="approval_date" readonly="1"
+                               invisible="state != 'approved'"/>
+                    </group>
+                    <group string="Rejection Details" invisible="state != 'rejected'">
+                        <field name="rejected_by" readonly="1"/>
+                        <field name="rejection_date" readonly="1"/>
+                        <field name="rejection_reason" readonly="1"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============================ LIST ============================ -->
+    <record id="view_credit_approval_request_list" model="ir.ui.view">
+        <field name="name">credit.approval.request.list</field>
+        <field name="model">credit.approval.request</field>
+        <field name="arch" type="xml">
+            <list string="Credit Approval Requests"
+                  decoration-warning="state == 'to_approve'"
+                  decoration-success="state == 'approved'"
+                  decoration-danger="state == 'rejected'">
+                <field name="name"/>
+                <field name="sale_order_id"/>
+                <field name="partner_id"/>
+                <field name="requested_by"/>
+                <field name="request_date"/>
+                <field name="order_amount"/>
+                <field name="excess_amount"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="state" widget="badge"
+                       decoration-warning="state == 'to_approve'"
+                       decoration-success="state == 'approved'"
+                       decoration-danger="state == 'rejected'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ===================== LIST VIEW (Sale Order) ===================== -->
+    <record id="view_order_tree_credit_approval" model="ir.ui.view">
+        <field name="name">sale.order.list.credit.approval</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_status']" position="after">
+                <field name="credit_approval_status" widget="badge"
+                       string="Credit Approval"
+                       decoration-warning="credit_approval_status == 'pending'"
+                       decoration-success="credit_approval_status == 'approved'"
+                       decoration-danger="credit_approval_status == 'rejected'"
+                       decoration-muted="credit_approval_status == 'none'"/>
+            </xpath>
+        </field>
+    </record>
+
+
+    <!-- =========================== ACTION =========================== -->
+    <record id="action_credit_approval_request" model="ir.actions.act_window">
+        <field name="name">Credit Approvals</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_id" ref="view_order_tree_credit_approval"/>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('credit_approval_status', '!=', 'none')]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No credit approval requests yet</p>
+            <p>Credit approval requests are created automatically when a sale order exceeds a customer's credit limit.</p>
+        </field>
+    </record>
+
+    <!-- ============================ MENU ============================ -->
+    <menuitem id="menu_credit_approval_request"
+              name="Credit Approvals"
+              parent="sale.sale_menu_root"
+              action="action_credit_approval_request"
+              groups="sales_team.group_sale_manager,inom_customer_credit_limit.group_credit_approval_manager"
+              sequence="30"/>
+</odoo>

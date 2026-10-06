@@ -1,0 +1,20 @@
+<odoo>
+    <record id="view_credit_approval_reject_wizard_form" model="ir.ui.view">
+        <field name="name">credit.approval.reject.wizard.form</field>
+        <field name="model">credit.approval.reject.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Reject Credit Approval">
+                <group>
+                    <field name="approval_request_id" invisible="1"/>
+                    <field name="rejection_reason"
+                           placeholder="State the reason for rejecting this credit approval request."/>
+                </group>
+                <footer>
+                    <button name="action_confirm_reject" type="object"
+                            string="Reject" class="btn-danger"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

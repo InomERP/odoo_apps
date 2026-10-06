@@ -1,0 +1,19 @@
+<odoo>
+    <!-- ============================================================== -->
+    <!-- Credit Limit Approver group                                      -->
+    <!-- Note: in Odoo 20 res.groups uses the current group/privilege structure; the group is -->
+    <!-- left uncategorized intentionally (categorization is cosmetic).   -->
+    <!-- ============================================================== -->
+    <record id="group_credit_approval_manager" model="res.groups">
+        <field name="name">Credit Limit Approver</field>
+    </record>
+
+    <!-- Every System Administrator is also a Credit Limit Approver.
+         In Odoo 20, user group membership is exposed through group_ids and
+         inherited membership through all_group_ids. Making the system group
+         imply the approval group keeps this additive and upgrade-safe. -->
+    <record id="base.group_system" model="res.groups">
+        <field name="implied_ids" eval="[Command.link(ref('group_credit_approval_manager'))]"/>
+    </record>
+
+</odoo>

@@ -1,0 +1,126 @@
+<odoo>
+    <!-- ============================================================== -->
+    <!-- 1) Credit Approval REQUEST (sent to approvers)                  -->
+    <!-- ============================================================== -->
+    <record id="mail_template_credit_approval_request" model="mail.template">
+        <field name="name">Credit Approval: Request</field>
+        <field name="model_id" ref="model_credit_approval_request"/>
+        <field name="subject">Credit Approval Required - {{ object.sale_order_id.name }}</field>
+        <field name="email_from">{{ (object.create_uid.email_formatted or user.email_formatted) }}</field>
+        <field name="email_to">{{ object.requested_by.email or '' }}</field>
+        <field name="body_html" type="html">
+            <div style="font-family: Arial, sans-serif; color:#333;">
+                <p>Dear Credit Approval Manager,</p>
+                <p>
+                    A sale order has exceeded the customer's credit limit and
+                    requires your approval.
+                </p>
+                <table style="border-collapse:collapse; width:100%; max-width:600px;">
+                    <tr><td style="padding:6px; border:1px solid #ddd;"><b>Approval Reference</b></td>
+                        <td style="padding:6px; border:1px solid #ddd;"><t t-out="object.name"/></td></tr>
+                    <tr><td style="padding:6px; border:1px solid #ddd;"><b>Sale Order</b></td>
+                        <td style="padding:6px; border:1px solid #ddd;"><t t-out="object.sale_order_id.name"/></td></tr>
+                    <tr><td style="padding:6px; border:1px solid #ddd;"><b>Customer</b></td>
+                        <td style="padding:6px; border:1px solid #ddd;"><t t-out="object.partner_id.name"/></td></tr>
+                    <tr><td style="padding:6px; border:1px solid #ddd;"><b>Credit Limit</b></td>
+                        <td style="padding:6px; border:1px solid #ddd;"><t t-out="object.currency_id.symbol or ''"/> <t t-out="'%.2f' % object.credit_limit"/></td></tr>
+                    <tr><td style="padding:6px; border:1px solid #ddd;"><b>Current Exposure</b></td>
+                        <td style="padding:6px; border:1px solid #ddd;"><t t-out="object.currency_id.symbol or ''"/> <t t-out="'%.2f' % (object.outstanding_amount + object.confirmed_so_amount + object.order_amount)"/></td></tr>
+                    <tr><td style="padding:6px; border:1px solid #ddd;"><b>Order Amount</b></td>
+                        <td style="padding:6px; border:1px solid #ddd;"><t t-out="object.currency_id.symbol or ''"/> <t t-out="'%.2f' % object.order_amount"/></td></tr>
+                    <tr><td style="padding:6px; border:1px solid #ddd;"><b>Excess Amount</b></td>
+                        <td style="padding:6px; border:1px solid #ddd; color:#c0392b;"><b><t t-out="object.currency_id.symbol or ''"/> <t t-out="'%.2f' % object.excess_amount"/></b></td></tr>
+                    <tr t-if="object.reason"><td style="padding:6px; border:1px solid #ddd;"><b>Reason / Notes</b></td>
+                        <td style="padding:6px; border:1px solid #ddd;"><t t-out="object.reason"/></td></tr>
+                </table>
+                <p style="margin-top:16px;">
+                    <a t-attf-href="{{ object.get_base_url() }}/web#id={{ object.id }}&amp;model=credit.approval.request&amp;view_type=form"
+                       style="background:#714B67; color:#fff; padding:10px 16px; text-decoration:none; border-radius:4px;">
+                        Review Approval Request
+                    </a>
+                </p>
+                <p>Regards,<br/>InomERP Credit Control</p>
+            </div>
+        </field>
+        <field name="lang">{{ object.partner_id.lang }}</field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+    <!-- ============================================================== -->
+    <!-- 2) Credit Approval APPROVED (sent to salesperson)               -->
+    <!-- ============================================================== -->
+    <record id="mail_template_credit_approval_approved" model="mail.template">
+        <field name="name">Credit Approval: Approved</field>
+        <field name="model_id" ref="model_credit_approval_request"/>
+        <field name="subject">Credit Approval APPROVED - {{ object.sale_order_id.name }}</field>
+        <field name="email_from">{{ (object.approved_by.email_formatted or user.email_formatted) }}</field>
+        <field name="email_to">{{ (object.sale_order_id.user_id.email or object.requested_by.email) or '' }}</field>
+        <field name="body_html" type="html">
+            <div style="font-family: Arial, sans-serif; color:#333;">
+                <p>Hello,</p>
+                <p>
+                    The credit approval request <b><t t-out="object.name"/></b> for
+                    sale order <b><t t-out="object.sale_order_id.name"/></b>
+                    (customer <b><t t-out="object.partner_id.name"/></b>) has been
+                    <b style="color:#27ae60;">APPROVED</b>.
+                </p>
+                <table style="border-collapse:collapse; width:100%; max-width:600px;">
+                    <tr><td style="padding:6px; border:1px solid #ddd;"><b>Approved By</b></td>
+                        <td style="padding:6px; border:1px solid #ddd;"><t t-out="object.approved_by.name"/></td></tr>
+                    <tr><td style="padding:6px; border:1px solid #ddd;"><b>Approval Date</b></td>
+                        <td style="padding:6px; border:1px solid #ddd;"><t t-out="object.approval_date"/></td></tr>
+                    <tr t-if="object.approval_notes"><td style="padding:6px; border:1px solid #ddd;"><b>Notes</b></td>
+                        <td style="padding:6px; border:1px solid #ddd;"><t t-out="object.approval_notes"/></td></tr>
+                </table>
+                <p style="margin-top:16px;">
+                    <a t-attf-href="{{ object.get_base_url() }}/web#id={{ object.sale_order_id.id }}&amp;model=sale.order&amp;view_type=form"
+                       style="background:#714B67; color:#fff; padding:10px 16px; text-decoration:none; border-radius:4px;">
+                        Open Sale Order
+                    </a>
+                </p>
+                <p>Regards,<br/>InomERP Credit Control</p>
+            </div>
+        </field>
+        <field name="lang">{{ object.partner_id.lang }}</field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+    <!-- ============================================================== -->
+    <!-- 3) Credit Approval REJECTED (sent to salesperson)               -->
+    <!-- ============================================================== -->
+    <record id="mail_template_credit_approval_rejected" model="mail.template">
+        <field name="name">Credit Approval: Rejected</field>
+        <field name="model_id" ref="model_credit_approval_request"/>
+        <field name="subject">Credit Approval REJECTED - {{ object.sale_order_id.name }}</field>
+        <field name="email_from">{{ (object.rejected_by.email_formatted or user.email_formatted) }}</field>
+        <field name="email_to">{{ (object.sale_order_id.user_id.email or object.requested_by.email) or '' }}</field>
+        <field name="body_html" type="html">
+            <div style="font-family: Arial, sans-serif; color:#333;">
+                <p>Hello,</p>
+                <p>
+                    The credit approval request <b><t t-out="object.name"/></b> for
+                    sale order <b><t t-out="object.sale_order_id.name"/></b>
+                    (customer <b><t t-out="object.partner_id.name"/></b>) has been
+                    <b style="color:#c0392b;">REJECTED</b>.
+                </p>
+                <table style="border-collapse:collapse; width:100%; max-width:600px;">
+                    <tr><td style="padding:6px; border:1px solid #ddd;"><b>Rejected By</b></td>
+                        <td style="padding:6px; border:1px solid #ddd;"><t t-out="object.rejected_by.name"/></td></tr>
+                    <tr><td style="padding:6px; border:1px solid #ddd;"><b>Rejection Date</b></td>
+                        <td style="padding:6px; border:1px solid #ddd;"><t t-out="object.rejection_date"/></td></tr>
+                    <tr><td style="padding:6px; border:1px solid #ddd;"><b>Reason</b></td>
+                        <td style="padding:6px; border:1px solid #ddd;"><t t-out="object.rejection_reason"/></td></tr>
+                </table>
+                <p style="margin-top:16px;">
+                    <a t-attf-href="{{ object.get_base_url() }}/web#id={{ object.sale_order_id.id }}&amp;model=sale.order&amp;view_type=form"
+                       style="background:#714B67; color:#fff; padding:10px 16px; text-decoration:none; border-radius:4px;">
+                        Open Sale Order
+                    </a>
+                </p>
+                <p>Regards,<br/>InomERP Credit Control</p>
+            </div>
+        </field>
+        <field name="lang">{{ object.partner_id.lang }}</field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+</odoo>
