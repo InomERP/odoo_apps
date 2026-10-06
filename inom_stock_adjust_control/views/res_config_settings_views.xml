@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form_stock_adjust" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.stock.adjust</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="stock.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='stock']" position="inside">
+                <block title="Inventory Adjustment Control"
+                       id="inom_stock_adjust_control_block">
+                    <setting string="Require Approval for All Adjustments"
+                             help="Every adjustment made by a non-approver requires approval, regardless of thresholds.">
+                        <field name="adjust_approval_require_all"/>
+                    </setting>
+                    <setting string="Quantity Difference Threshold"
+                             help="Adjustments at or above this absolute quantity difference require approval. 0 disables this check.">
+                        <field name="adjust_approval_qty_threshold"/>
+                    </setting>
+                    <setting string="Value Impact Threshold"
+                             help="Adjustments at or above this absolute value impact require approval. 0 disables this check.">
+                        <div class="content-group">
+                            <field name="adjust_settings_currency_id" invisible="1"/>
+                            <field name="adjust_approval_value_threshold"/>
+                        </div>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

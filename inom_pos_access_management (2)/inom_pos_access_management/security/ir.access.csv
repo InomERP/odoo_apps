@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+access_pos_access_rights_user,pos.access.rights.user,pos.access.rights,point_of_sale.group_pos_user,r,
+access_pos_access_rights_manager,pos.access.rights.manager,pos.access.rights,inom_pos_access_management.group_pos_access_manager,crud,
+rule_pos_access_rights_multi_company,POS Access Rights: multi-company,pos.access.rights,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+rule_pos_session_user_isolation,POS Session: POS users only see their own open sessions,pos.session,,crud,"[] if (not user.has_group('point_of_sale.group_pos_user') or user.has_group('point_of_sale.group_pos_manager') or user.has_group('base.group_system')) else ['|', ('user_id', '=', user.id), ('state', '=', 'closed')]"

@@ -1,0 +1,89 @@
+/*
+ * Simplify POS Access Management – visual hide rules.
+ *
+ * The classes  body.o_pos_ar_<flag>  are toggled at POS startup by
+ * pos_store.js.  Most buttons are already removed/disabled through Odoo's
+ * PosAccessRightPlugin (see plugins/access_right_plugin.js); the rules
+ * below hide the buttons that have no such hook, or that core only
+ * disables while the access rule asks to hide them.
+ */
+
+/* ===================================================================
+ * PAYMENT
+ * ================================================================ */
+
+/* Main "Payment" button and fast-payment buttons on the product screen */
+body.o_pos_ar_hide_payment_button .pay-order-button,
+body.o_pos_ar_hide_payment_button .fast-pay-button {
+    display: none !important;
+}
+
+/* Customer button on the payment screen */
+body.o_pos_ar_hide_payment_customer_button .payment-screen .partner-button {
+    display: none !important;
+}
+
+/* Validate button on the payment screen */
+body.o_pos_ar_hide_payment_validate_button .payment-screen .validation-button.next {
+    display: none !important;
+}
+
+/* Tip button on the payment screen */
+body.o_pos_ar_hide_payment_tip_button .payment-screen [name="tip-order"] button:has(i[data-icon="favorite"]) {
+    display: none !important;
+}
+
+/* Ship Later button on the payment screen (pos_stock) */
+body.o_pos_ar_hide_payment_ship_later_button .payment-screen button:has(i[data-icon="schedule"]) {
+    display: none !important;
+}
+
+/* Invoice toggle on the payment screen */
+body.o_pos_ar_hide_payment_invoice_button .payment-screen .js_invoice {
+    display: none !important;
+}
+
+/* ===================================================================
+ * CUSTOMER
+ * ================================================================ */
+
+/* Customer/Partner selection button on the product screen */
+body.o_pos_ar_hide_customer_button .set-partner {
+    display: none !important;
+}
+
+/* "Add a customer" button in the partner list */
+body.o_pos_ar_hide_create_customer_button button[aria-label="Add a customer"] {
+    display: none !important;
+}
+
+/* Save button in the partner editor */
+body.o_pos_ar_hide_save_customer_button .modal button.o_form_button_save {
+    display: none !important;
+}
+
+/* ===================================================================
+ * NUMPAD
+ * ================================================================ */
+
+body.o_pos_ar_hide_numpad_buttons .numpad {
+    display: none !important;
+}
+
+/* ===================================================================
+ * ACTION BUTTONS
+ * ================================================================ */
+
+/* Transfer / Merge button (pos_restaurant) */
+body.o_pos_ar_hide_transfer_button .control-buttons-modal button:has(i[data-icon="east"]) {
+    display: none !important;
+}
+
+/* ===================================================================
+ * ORDER
+ * ================================================================ */
+
+/* Only Show Active Order — hide non-active order tabs */
+body.o_pos_ar_only_show_active_order .btn.btn-lg.btn-secondary.text-truncate.mx-1.border-transparent:not(.active) {
+    display: none !important;
+}

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ================================================================
+         LIST VIEW
+    ================================================================= -->
+    <record id="view_pos_access_rights_list" model="ir.ui.view">
+        <field name="name">pos.access.rights.list</field>
+        <field name="model">pos.access.rights</field>
+        <field name="arch" type="xml">
+            <list string="POS Access Rights" sample="1">
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="employee_id" optional="show"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ================================================================
+         FORM VIEW
+    ================================================================= -->
+    <record id="view_pos_access_rights_form" model="ir.ui.view">
+        <field name="name">pos.access.rights.form</field>
+        <field name="model">pos.access.rights</field>
+        <field name="arch" type="xml">
+            <form string="POS Access Rule">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived"
+                            bg_color="text-bg-danger"
+                            invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. POS Access – John Doe"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="user_id" options="{'no_create': True}"/>
+                            <field name="employee_id" options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company"
+                                   options="{'no_create': True}"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        
+                        <!-- <page string="Salesperson" name="salesperson">
+                            <group>
+                                <group string="Visibility Restrictions">
+                                    <field name="restrict_salesperson_orders" widget="boolean_toggle"/>
+                                    <field name="restrict_salesperson_customers" widget="boolean_toggle"/>
+                                </group>
+                            </group>
+                        </page> -->
+
+                        <!-- ============= Payment ============= -->
+                        <page string="Payment" name="payment">
+                            <group>
+                                <group string="Buttons">
+                                    <field name="hide_payment_button" widget="boolean_toggle"/>
+                                    <field name="hide_payment_validate_button" widget="boolean_toggle"/>
+                                    <field name="hide_payment_customer_button" widget="boolean_toggle"/>
+                                    <field name="hide_payment_tip_button" widget="boolean_toggle"/>
+                                    <field name="hide_payment_ship_later_button" widget="boolean_toggle"/>
+                                    <field name="hide_payment_invoice_button" widget="boolean_toggle"/>
+                                </group>
+                                <group string="Payment Methods">
+                                    <field name="restrict_payment_method" widget="boolean_toggle"/>
+                                    <field name="restrict_payment_method_ids"
+                                           widget="many2many_tags"
+                                           options="{'no_create': True}"
+                                           invisible="not restrict_payment_method"
+                                           required="restrict_payment_method"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ============= Order ============= -->
+                        <page string="Order" name="order">
+                            <group>
+                                <group string="Order Buttons">
+                                    <field name="hide_delete_order_button" widget="boolean_toggle"/>
+                                    <field name="only_show_active_order" widget="boolean_toggle"/>
+                                </group>
+                                <group string="POS Categories">
+                                    <field name="restrict_pos_categories" widget="boolean_toggle"/>
+                                    <field name="restrict_pos_category_ids"
+                                           widget="many2many_tags"
+                                           options="{'no_create': True}"
+                                           invisible="not restrict_pos_categories"
+                                           required="restrict_pos_categories"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ============= Customer ============= -->
+                        <page string="Customer" name="customer">
+                            <group>
+                                <group string="Customer Buttons">
+                                    <field name="hide_customer_button" widget="boolean_toggle"/>
+                                    <field name="hide_create_customer_button" widget="boolean_toggle"/>
+                                    <field name="hide_save_customer_button" widget="boolean_toggle"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ============= Numpad ============= -->
+                        <page string="Numpad" name="numpad">
+                            <group>
+                                <group string="Numpad Access">
+                                    <field name="hide_numpad_buttons" widget="boolean_toggle"/>
+                                </group>
+                                <group string="Disable Modes" invisible="hide_numpad_buttons">
+                                    <field name="disable_price_button" widget="boolean_toggle"/>
+                                    <field name="disable_qty_button" widget="boolean_toggle"/>
+                                    <field name="disable_discount_button" widget="boolean_toggle"/>
+                                    <field name="disable_plus_minus_button" widget="boolean_toggle"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ============= Action ============= -->
+                        <page string="Action" name="action">
+                            <group>
+                                <group string="Action Buttons">
+                                    <field name="hide_customer_note_button" widget="boolean_toggle"/>
+                                    <field name="hide_refund_button" widget="boolean_toggle"/>
+                                    <field name="hide_info_button" widget="boolean_toggle"/>
+                                    <field name="hide_quotation_button" widget="boolean_toggle"/>
+                                </group>
+                                <group string="Other Action Buttons">
+                                    <field name="hide_fiscal_button" widget="boolean_toggle"/>
+                                    <field name="hide_pricelist_button" widget="boolean_toggle"/>
+                                    <field name="hide_transfer_button" widget="boolean_toggle"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ============= General ============= -->
+                        <page string="General" name="general">
+                            <group>
+                                <group string="General POS Controls">
+                                    <field name="hide_close_pos_button" widget="boolean_toggle"/>
+                                    <field name="hide_backend_pos_button" widget="boolean_toggle"/>
+                                    <field name="hide_cash_in_out_button" widget="boolean_toggle"/>
+                                    <field name="hide_debug_window" widget="boolean_toggle"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ================================================================
+         ACTION
+    ================================================================= -->
+    <record id="action_pos_access_rights" model="ir.actions.act_window">
+        <field name="name">POS Access Rights</field>
+        <field name="res_model">pos.access.rights</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first POS Access Rule
+            </p>
+            <p>
+                Assign access rights to users and employees of your Point of Sale.<br/>
+                Hide or disable specific POS buttons in one click — no technical skills required.
+            </p>
+        </field>
+    </record>
+
+</odoo>

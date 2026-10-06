@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Add 'POS Management Permission' to the Users form -->
+    <record id="view_users_form_pos_access" model="ir.ui.view">
+        <field name="name">res.users.form.pos.access.management</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="POS Access Management" name="pos_access_management">
+                    <group>
+                        <group string="Permissions">
+                            <field name="pos_management_permission"
+                                   widget="boolean_toggle"
+                                   help="Enable to allow this user to manage POS access rights."/>
+                        </group>
+                    </group>
+                    <separator string="POS Access Rules"/>
+                    <field name="pos_access_rights_ids" readonly="1">
+                        <list>
+                            <field name="name"/>
+                            <field name="employee_id"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
