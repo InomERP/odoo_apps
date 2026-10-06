@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="inom_voice_assistant.Systray">
+        <div class="o_inom_voice_assistant_systray d-flex align-items-center">
+            <button type="button"
+                    class="btn o_voice_btn"
+                    t-att-class="{ 'o_voice_listening': this.state.status === 'listening', 'text-muted': !this.state.supported }"
+                    t-att-title="this.state.supported ? 'Voice command (Ctrl+Space)' : 'Voice not supported in this browser'"
+                    t-on-click="this.onClick">
+                <i class="oi" data-icon="mic"/>
+            </button>
+        </div>
+    </t>
+
+</templates>

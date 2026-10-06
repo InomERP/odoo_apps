@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="inom_voice_assistant.Overlay">
+        <div t-if="this.state.visible"
+             class="o_voice_overlay"
+             t-att-class="{ 'o_voice_overlay_error': this.state.status === 'error' }">
+            <div class="o_voice_pill">
+
+                <!-- Animated waveform while listening -->
+                <div t-if="this.state.status === 'listening'" class="o_voice_wave">
+                    <span/><span/><span/><span/><span/>
+                </div>
+
+                <!-- Status icon for the other states (Odoo 20 "oi" icons) -->
+                <i t-elif="this.state.status === 'ready'" class="oi o_voice_icon" data-icon="mic"/>
+                <i t-elif="this.state.status === 'recognized'" class="oi o_voice_icon" data-icon="translate"/>
+                <i t-elif="this.state.status === 'processing'" class="oi oi-spin o_voice_icon" data-icon="progress_activity"/>
+                <i t-elif="this.state.status === 'success'" class="oi o_voice_icon" data-icon="check"/>
+                <i t-elif="this.state.status === 'error'" class="oi o_voice_icon" data-icon="warning"/>
+
+                <span class="o_voice_label" t-out="this.state.text"/>
+
+                <!-- Live mic input level: if this stays empty while you talk, the
+                     browser is not receiving audio (wrong/muted input device). -->
+                <div t-if="this.state.status === 'listening'" class="o_voice_level" title="Mic level">
+                    <div class="o_voice_level_fill" t-att-style="'width: ' + this.state.level + '%'"/>
+                </div>
+
+                <i class="oi o_voice_close" data-icon="close" t-on-click="this.onClose" role="button" aria-label="Close"/>
+            </div>
+        </div>
+    </t>
+
+</templates>
