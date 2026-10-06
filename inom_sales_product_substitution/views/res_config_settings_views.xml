@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form_inom_substitution" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.inom.substitution</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='sale_management']" position="inside">
+                <block title="Alternative Products" id="inom_alternative_products_block">
+                    <setting id="inom_manage_alternative_products_setting"
+                             string="Manage Alternative Products"
+                             help="Show the Alternatives section on product variants so substitutes can be defined.">
+                        <field name="inom_manage_alternative_products"/>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

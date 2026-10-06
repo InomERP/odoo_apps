@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_sale_order_form_discount" model="ir.ui.view">
+        <field name="name">sale.order.form.discount</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='order_line']" position="after">
+
+                <group string="Global Discount">
+
+                    <field name="discount_type"/>
+                    <field name="discount_rate"/>
+                    <field name="global_discount_amount" readonly="1"/>
+
+                </group>
+
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <odoo>
+
+    <record id="view_sale_order_form_discount" model="ir.ui.view">
+        <field name="name">sale.order.form.discount</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='order_line']" position="after">
+
+                <group string="Global Discount">
+
+                    <field name="discount_type"/>
+
+                    <field name="discount_rate"/>
+
+                    <field name="global_discount_amount" readonly="1"/>
+
+                </group>
+
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>
+
+
+
+
+ -->

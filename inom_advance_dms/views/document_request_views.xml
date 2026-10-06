@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_edm_document_request_list" model="ir.ui.view">
+        <field name="name">edm.document.request.list</field>
+        <field name="model">edm.document.request</field>
+        <field name="arch" type="xml">
+           <list string="Document Requests">
+    <field name="name"/>
+    <field name="requested_by"/>
+    <field name="requested_to"/>
+    <field name="request_date"/>
+    <field name="workspace_id"/>
+    <field name="document_id"/>
+    <field name="state"
+           widget="badge"
+           decoration-warning="state == 'requested'"
+           decoration-success="state == 'accepted'"
+           decoration-danger="state == 'rejected'"/>
+</list>
+        </field>
+    </record>
+
+    <record id="view_edm_document_request_form" model="ir.ui.view">
+        <field name="name">edm.document.request.form</field>
+        <field name="model">edm.document.request</field>
+        <field name="arch" type="xml">
+            <form string="Document Request">
+                <header>
+                    <button name="action_create_document_from_request"
+                            string="Upload &amp; Accept"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state != 'requested'"/>
+
+                    <button name="action_accept_request"
+                            string="Accept"
+                            type="object"
+                            class="btn-success"
+                            invisible="state != 'requested'"/>
+
+                    <button name="action_reject_request"
+                            string="Reject"
+                            type="object"
+                            class="btn-danger"
+                            invisible="state != 'requested'"/>
+
+                    <field name="state"
+                           widget="statusbar"
+                           statusbar_visible="requested,accepted,rejected"/>
+                </header>
+
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="requested_by" readonly="1"/>
+                        <field name="requested_to"/>
+                        <field name="request_date" readonly="1"/>
+                        <field name="workspace_id"/>
+                        <field name="document_id" readonly="1"/>
+                        <field name="note"/>
+                        <field name="deadline"/>
+                    </group>
+
+                    <group string="Upload Document">
+                        <field name="upload_file" filename="upload_file_name"/>
+                        <field name="upload_file_name"/>
+                    </group>
+                </sheet>
+
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edm_document_request" model="ir.actions.act_window">
+        <field name="name">Document Requests</field>
+        <field name="res_model">edm.document.request</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

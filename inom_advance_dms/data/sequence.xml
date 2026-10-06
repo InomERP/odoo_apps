@@ -1,0 +1,10 @@
+<odoo>
+    <record id="seq_edm_document" model="ir.sequence">
+        <field name="name">Document Sequence</field>
+        <field name="code">edm.document</field>
+        <field name="prefix">DOC/</field>
+        <field name="padding">5</field>
+        <field name="number_next">1</field>
+        <field name="number_increment">1</field>
+    </record>
+</odoo>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- /my dashboard cards (Odoo 20 portal entries). Shown, like in Odoo 19,
+         only when the counter finds records, i.e. only for vendors in the
+         matching portal group (see _prepare_portal_counter_values). -->
+    <record id="portal_entry_vendor_products" model="portal.entry">
+        <field name="name">My Products</field>
+        <field name="description">Manage the catalog you offer us</field>
+        <field name="url">/my/vendor-products</field>
+        <field name="placeholder_count">vendor_product_count</field>
+        <field name="category">vendor_category</field>
+        <field name="sequence" eval="150"/>
+    </record>
+
+    <record id="portal_entry_vendor_stocks" model="portal.entry">
+        <field name="name">My Stock</field>
+        <field name="description">Keep us posted on your stock levels</field>
+        <field name="url">/my/vendor-stocks</field>
+        <field name="placeholder_count">vendor_stock_count</field>
+        <field name="category">vendor_category</field>
+        <field name="sequence" eval="160"/>
+    </record>
+</odoo>

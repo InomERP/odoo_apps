@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ================================================================
+         /my dashboard: one card per enabled feature
+         ================================================================ -->
+
+    <!-- The /my dashboard cards are portal.entry records in Odoo 20
+         (data/portal_entry_data.xml). -->
+
+    <template id="portal_breadcrumbs_vendor_product" name="Portal Breadcrumbs: Vendor Products"
+              inherit_id="portal.portal_breadcrumbs" priority="30">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'vendor_product'" class="breadcrumb-item">
+                <a t-if="vendor_product or kind" href="/my/vendor-products">My Products</a>
+                <t t-else="">My Products</t>
+            </li>
+            <li t-if="page_name == 'vendor_stock'" class="breadcrumb-item">
+                <a t-if="vendor_stock or kind" href="/my/vendor-stocks">My Stock</a>
+                <t t-else="">My Stock</t>
+            </li>
+            <li t-if="kind" class="breadcrumb-item active">Import</li>
+            <li t-elif="vendor_product" class="breadcrumb-item active">
+                <t t-out="vendor_product.vendor_product_name"/>
+            </li>
+            <li t-elif="vendor_stock" class="breadcrumb-item active">
+                <t t-out="vendor_stock.display_name"/>
+            </li>
+        </xpath>
+    </template>
+
+    <!-- ================================================================
+         Shared bits
+         ================================================================ -->
+
+    <template id="portal_vendor_error" name="Portal Vendor Error Banner">
+        <div t-if="error_message" class="alert alert-danger" role="alert">
+            <t t-out="error_message"/>
+        </div>
+    </template>
+
+    <!-- ================================================================
+         Vendor products
+         ================================================================ -->
+
+    <template id="portal_my_vendor_products" name="My Vendor Products">
+        <t t-call="portal.portal_layout" breadcrumbs_searchbar="True">
+            <t t-call="portal.portal_searchbar" breadcrumbs_searchbar="True" title.translate="My Products"/>
+
+            <div class="d-flex flex-wrap gap-2 mb-3">
+                <a href="/my/vendor-products/new" class="btn btn-primary">
+                    <i class="oi me-1" data-icon="add"/>New Product
+                </a>
+                <a href="/my/vendor-products/import" class="btn btn-secondary">
+                    <i class="oi me-1" data-icon="upload"/>Import from Excel
+                </a>
+            </div>
+
+            <p t-if="not vendor_products" class="alert alert-warning">
+                You have no products registered with us yet. Add them one by one,
+                or import them from the Excel template.
+            </p>
+
+            <t t-if="vendor_products" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th>Reference</th>
+                        <th>Product</th>
+                        <th class="text-end">Price</th>
+                        <th class="text-end d-none d-md-table-cell">Total Stock</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="vendor_products" t-as="vp">
+                        <td>
+                            <a t-attf-href="/my/vendor-products/#{vp.id}">
+                                <t t-out="vp.vendor_code or 'No reference'"/>
+                            </a>
+                        </td>
+                        <td><t t-out="vp.vendor_product_name"/></td>
+                        <td class="text-end">
+                            <span t-field="vp.vendor_price"
+                                  t-options="{'widget': 'monetary', 'display_currency': vp.currency_id}"/>
+                            <span t-if="vp.price_outdated" class="badge text-bg-warning ms-1">Outdated</span>
+                        </td>
+                        <td class="text-end d-none d-md-table-cell">
+                            <t t-out="vp.total_vendor_stock_qty"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </t>
+        </t>
+    </template>
+
+    <template id="portal_vendor_product_form" name="Vendor Product Form">
+        <t t-call="portal.portal_layout">
+            <div class="o_portal_my_doc">
+                <h4 class="mb-3">
+                    <t t-if="vendor_product">Edit product</t>
+                    <t t-else="">New product</t>
+                </h4>
+
+                <t t-call="inom_vender_product_management.portal_vendor_error"/>
+                <div t-if="request.params.get('message') == 'saved'"
+                     class="alert alert-success" role="alert">Your changes were saved.</div>
+
+                <form action="/my/vendor-products/save" method="post" class="row g-3">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <input t-if="vendor_product" type="hidden" name="product_id"
+                           t-att-value="vendor_product.id"/>
+
+                    <div class="col-12 col-md-6">
+                        <label class="form-label" for="vendor_product_name">Product Name</label>
+                        <input type="text" class="form-control" id="vendor_product_name"
+                               name="vendor_product_name" required="required"
+                               t-att-value="form.get('vendor_product_name') or (vendor_product and vendor_product.vendor_product_name) or ''"/>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label" for="vendor_code">Your Reference</label>
+                        <input type="text" class="form-control" id="vendor_code" name="vendor_code"
+                               t-att-value="form.get('vendor_code') or (vendor_product and vendor_product.vendor_code) or ''"/>
+                        <div class="form-text">
+                            Keep this stable between imports - we use it to recognise the product.
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label" for="vendor_price">
+                            Price (<t t-out="currency.name"/>)
+                        </label>
+                        <input type="text" class="form-control" id="vendor_price" name="vendor_price"
+                               t-att-value="form.get('vendor_price') or (vendor_product and vendor_product.vendor_price) or ''"/>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label" for="note">Notes</label>
+                        <textarea class="form-control" id="note" name="note" rows="3">
+                            <t t-out="form.get('note') or (vendor_product and vendor_product.note) or ''"/>
+                        </textarea>
+                    </div>
+
+                    <div t-if="vendor_product and vendor_product.stock_ids" class="col-12">
+                        <h6 class="mt-3">Stock reported for this product</h6>
+                        <t t-call="portal.portal_table">
+                            <thead>
+                                <tr class="active">
+                                    <th>Location</th>
+                                    <th class="text-end">Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="vendor_product.stock_ids" t-as="line">
+                                    <td><t t-out="line.location_id.name"/></td>
+                                    <td class="text-end"><t t-out="line.quantity"/></td>
+                                </tr>
+                            </tbody>
+                        </t>
+                    </div>
+
+                    <div class="col-12 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <a href="/my/vendor-products" class="btn btn-link">Back to my products</a>
+                    </div>
+                </form>
+            </div>
+        </t>
+    </template>
+
+    <!-- ================================================================
+         Vendor stocks
+         ================================================================ -->
+
+    <template id="portal_my_vendor_stocks" name="My Vendor Stock">
+        <t t-call="portal.portal_layout" breadcrumbs_searchbar="True">
+            <t t-call="portal.portal_searchbar" breadcrumbs_searchbar="True" title.translate="My Stock"/>
+
+            <div class="d-flex flex-wrap gap-2 mb-3">
+                <a href="/my/vendor-stocks/new" class="btn btn-primary">
+                    <i class="oi me-1" data-icon="add"/>New Stock Line
+                </a>
+                <a href="/my/vendor-stocks/import" class="btn btn-secondary">
+                    <i class="oi me-1" data-icon="upload"/>Import from Excel
+                </a>
+            </div>
+
+            <p t-if="not vendor_stocks" class="alert alert-warning">
+                No stock levels registered yet. Add them one by one, or import
+                them from the Excel template.
+            </p>
+
+            <t t-if="vendor_stocks" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th>Product</th>
+                        <th>Location</th>
+                        <th class="text-end">Quantity</th>
+                        <th class="d-none d-md-table-cell">Last Updated</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="vendor_stocks" t-as="line">
+                        <td>
+                            <a t-attf-href="/my/vendor-stocks/#{line.id}">
+                                <t t-out="line.vendor_product_id.vendor_product_name"/>
+                            </a>
+                        </td>
+                        <td><t t-out="line.location_id.name"/></td>
+                        <td class="text-end">
+                            <t t-out="line.quantity"/>
+                            <span t-if="line.uom_mismatch" class="badge text-bg-warning ms-1">
+                                UoM mismatch
+                            </span>
+                        </td>
+                        <td class="d-none d-md-table-cell">
+                            <span t-field="line.last_updated" t-options="{'widget': 'date'}"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </t>
+        </t>
+    </template>
+
+    <template id="portal_vendor_stock_form" name="Vendor Stock Form">
+        <t t-call="portal.portal_layout">
+            <div class="o_portal_my_doc">
+                <h4 class="mb-3">
+                    <t t-if="vendor_stock">Edit stock line</t>
+                    <t t-else="">New stock line</t>
+                </h4>
+
+                <t t-call="inom_vender_product_management.portal_vendor_error"/>
+                <div t-if="request.params.get('message') == 'saved'"
+                     class="alert alert-success" role="alert">Your changes were saved.</div>
+
+                <form action="/my/vendor-stocks/save" method="post" class="row g-3">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <input t-if="vendor_stock" type="hidden" name="stock_id"
+                           t-att-value="vendor_stock.id"/>
+
+                    <div class="col-12 col-md-6">
+                        <label class="form-label" for="vendor_product_id">Product</label>
+                        <t t-if="vendor_stock">
+                            <input type="text" class="form-control" readonly="readonly"
+                                   t-att-value="vendor_stock.vendor_product_id.vendor_product_name"/>
+                            <div class="form-text">
+                                Create a new line if you need a different product or location.
+                            </div>
+                        </t>
+                        <select t-else="" class="form-select" id="vendor_product_id"
+                                name="vendor_product_id" required="required">
+                            <option value="">Select a product...</option>
+                            <option t-foreach="vendor_products" t-as="vp" t-att-value="vp.id"
+                                    t-att-selected="'selected' if form.get('vendor_product_id') == str(vp.id) else None">
+                                <t t-out="vp.vendor_product_name"/>
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label class="form-label" for="location_id">Location</label>
+                        <t t-if="vendor_stock">
+                            <input type="text" class="form-control" readonly="readonly"
+                                   t-att-value="vendor_stock.location_id.name"/>
+                        </t>
+                        <t t-else="">
+                            <select class="form-select mb-2" id="location_id" name="location_id">
+                                <option value="">Select a location...</option>
+                                <option t-foreach="vendor_locations" t-as="loc" t-att-value="loc.id"
+                                        t-att-selected="'selected' if form.get('location_id') == str(loc.id) else None">
+                                    <t t-out="loc.name"/>
+                                </option>
+                            </select>
+                            <input type="text" class="form-control" name="new_location_name"
+                                   placeholder="...or type a new location name"
+                                   t-att-value="form.get('new_location_name') or ''"/>
+                        </t>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label class="form-label" for="quantity">Quantity</label>
+                        <input type="text" class="form-control" id="quantity" name="quantity"
+                               required="required"
+                               t-att-value="form.get('quantity') or (vendor_stock and vendor_stock.quantity) or ''"/>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label class="form-label" for="uom_id">Unit of Measure</label>
+                        <select class="form-select" id="uom_id" name="uom_id">
+                            <option value="">Use the product's unit</option>
+                            <option t-foreach="uoms" t-as="uom" t-att-value="uom.id"
+                                    t-att-selected="'selected' if (form.get('uom_id') == str(uom.id) or (not form and vendor_stock and vendor_stock.uom_id.id == uom.id)) else None">
+                                <t t-out="uom.name"/>
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label" for="stock_note">Note</label>
+                        <input type="text" class="form-control" id="stock_note" name="note"
+                               t-att-value="form.get('note') or (vendor_stock and vendor_stock.note) or ''"/>
+                    </div>
+
+                    <div class="col-12 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <a href="/my/vendor-stocks" class="btn btn-link">Back to my stock</a>
+                    </div>
+                </form>
+            </div>
+        </t>
+    </template>
+
+    <!-- ================================================================
+         Excel import (shared by both features)
+         ================================================================ -->
+
+    <template id="portal_vendor_import" name="Vendor Portal Import">
+        <t t-call="portal.portal_layout">
+            <div class="o_portal_my_doc">
+                <h4 class="mb-3">
+                    <t t-if="kind == 'product'">Import my products</t>
+                    <t t-else="">Import my stock levels</t>
+                </h4>
+
+                <t t-call="inom_vender_product_management.portal_vendor_error"/>
+
+                <div t-if="stats is not None" class="alert alert-success" role="alert">
+                    <h6 class="alert-heading">Import finished</h6>
+                    <ul class="mb-0">
+                        <li><b t-out="stats['created']"/> line(s) created</li>
+                        <li><b t-out="stats['updated']"/> line(s) updated</li>
+                        <li t-if="stats.get('archived')">
+                            <b t-out="stats['archived']"/> product(s) archived
+                        </li>
+                        <li t-if="stats.get('archived_products')">
+                            <b t-out="stats['archived_products']"/> product(s) archived
+                        </li>
+                        <li t-if="stats.get('archived_stocks')">
+                            <b t-out="stats['archived_stocks']"/> stock line(s) archived
+                        </li>
+                        <li t-if="stats['skipped']">
+                            <b t-out="stats['skipped']"/> row(s) skipped (not chosen)
+                        </li>
+                        <li><b t-out="len(stats['errors'])"/> error(s)</li>
+                    </ul>
+                </div>
+                <div t-if="stats is not None and stats['errors']" class="alert alert-warning">
+                    <h6 class="alert-heading">Details</h6>
+                    <ul class="mb-0">
+                        <li t-foreach="stats['errors']" t-as="error"><t t-out="error"/></li>
+                    </ul>
+                </div>
+
+                <div class="mb-3">
+                    <a t-att-href="template_url" class="btn btn-secondary">
+                        <i class="oi me-1" data-icon="download"/>Download the template
+                    </a>
+                </div>
+
+                <div class="text-muted mb-4" t-out="help_html"/>
+
+                <form t-attf-action="/my/vendor-#{'products' if kind == 'product' else 'stocks'}/import"
+                      method="post" enctype="multipart/form-data" class="row g-3">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                    <div class="col-12">
+                        <label class="form-label" for="import_file">Table to import</label>
+                        <input type="file" class="form-control" id="import_file"
+                               name="import_file" accept=".xlsx,.xls" required="required"/>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="1"
+                                   id="import_only_chosen_lines" name="import_only_chosen_lines"/>
+                            <label class="form-check-label" for="import_only_chosen_lines">
+                                Import only the rows marked "Yes" in the file
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="1"
+                                   id="archive_other_products" name="archive_other_products"/>
+                            <label class="form-check-label" for="archive_other_products">
+                                Archive my other products that are not in this file
+                            </label>
+                        </div>
+                        <div t-if="kind == 'product'" class="form-check">
+                            <input class="form-check-input" type="checkbox" value="1"
+                                   id="mark_previous_prices_outdated"
+                                   name="mark_previous_prices_outdated"/>
+                            <label class="form-check-label" for="mark_previous_prices_outdated">
+                                Mark my previous prices as outdated
+                            </label>
+                        </div>
+                        <div t-if="kind == 'stock'" class="form-check">
+                            <input class="form-check-input" type="checkbox" value="1"
+                                   id="archive_previous_stocks" name="archive_previous_stocks"/>
+                            <label class="form-check-label" for="archive_previous_stocks">
+                                Archive my previous stock lines that are not in this file
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-12 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Import</button>
+                        <a t-attf-href="/my/vendor-#{'products' if kind == 'product' else 'stocks'}"
+                           class="btn btn-link">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </t>
+    </template>
+
+</odoo>

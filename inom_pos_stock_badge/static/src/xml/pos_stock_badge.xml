@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <t t-inherit="point_of_sale.ProductCard" t-inherit-mode="extension">
+        <xpath expr="//article" position="inside">
+            <t t-if="this.showStockBadge">
+                <span t-att-class="this.stockBadgeClass"
+                    t-att-style="this.stockBadgeStyle"
+                    t-on-click.stop="this.onClickBadge"
+                    t-out="this.stockQtyDisplay"/>
+                <div t-if="this.locationState.show"
+                    t-att-class="this.locationPopupClass"
+                    class="position-absolute bg-white border rounded shadow p-0"
+                    t-on-click.stop="() => {}">
+                    <div class="p-2 fw-bold text-white inom-location-popup-header">
+                        <i class="oi oi-fw" data-icon="location_on" aria-hidden="true"/> Stock By Location
+                    </div>
+                    <div t-if="this.locationState.loading" class="p-2 text-center text-muted small">
+                        <i class="oi oi-fw oi-spin" data-icon="autorenew" aria-hidden="true"/> Loading...
+                    </div>
+                    <div t-elif="this.locationState.data.length === 0" class="p-2 text-center text-muted small">
+                        No stock found
+                    </div>
+                    <t t-else="">
+                        <t t-foreach="this.locationState.data" t-as="loc" t-key="loc_index">
+                            <div class="d-flex justify-content-between px-2 py-1 border-bottom small">
+                                <span class="text-truncate me-2" t-out="loc.location"/>
+                                <span class="fw-bold" t-out="loc.qty"/>
+                            </div>
+                        </t>
+                    </t>
+                </div>
+            </t>
+        </xpath>
+    </t>
+</templates>

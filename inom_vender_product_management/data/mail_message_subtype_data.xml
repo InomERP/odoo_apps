@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- ====================================================================
+         Subtypes shown in the "Edit Subscription" popup of a Vendor Product
+         record. Followers of a vendor.product pick exactly which of these
+         they want to be notified about instead of getting every message.
+         ==================================================================== -->
+
+    <record id="mt_vendor_product_new" model="mail.message.subtype">
+        <field name="name">New vendor product</field>
+        <field name="res_model">vendor.product</field>
+        <field name="default" eval="True"/>
+        <field name="description">A new vendor product was added to the catalog</field>
+    </record>
+
+    <record id="mt_vendor_product_price_update" model="mail.message.subtype">
+        <field name="name">Price update</field>
+        <field name="res_model">vendor.product</field>
+        <field name="default" eval="True"/>
+        <field name="description">The vendor's price for this product changed</field>
+    </record>
+
+    <record id="mt_vendor_product_stock_update" model="mail.message.subtype">
+        <field name="name">Stocks update</field>
+        <field name="res_model">vendor.product</field>
+        <field name="default" eval="True"/>
+        <field name="description">The vendor's stock level for this product changed</field>
+    </record>
+
+    <!-- ====================================================================
+         Matching subtypes on the vendor's own contact (res.partner), so a
+         buyer can just follow the vendor once and get every catalog update
+         for all of that vendor's products in one place, without having to
+         follow each vendor.product record individually.
+         ==================================================================== -->
+
+    <record id="mt_partner_vendor_product_new" model="mail.message.subtype">
+        <field name="name">New vendor products</field>
+        <field name="res_model">res.partner</field>
+        <field name="default" eval="True"/>
+        <field name="description">A new product was added to this vendor's catalog</field>
+    </record>
+
+    <record id="mt_partner_vendor_product_price_update" model="mail.message.subtype">
+        <field name="name">Vendor products: price update</field>
+        <field name="res_model">res.partner</field>
+        <field name="default" eval="True"/>
+        <field name="description">A price changed on one of this vendor's products</field>
+    </record>
+
+    <record id="mt_partner_vendor_product_stock_update" model="mail.message.subtype">
+        <field name="name">Vendor products: stocks update</field>
+        <field name="res_model">res.partner</field>
+        <field name="default" eval="True"/>
+        <field name="description">A stock level changed on one of this vendor's products</field>
+    </record>
+
+</odoo>

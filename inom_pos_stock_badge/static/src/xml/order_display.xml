@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <!-- "Total   Total Number Of Items: N   $ amount" on the order total line. -->
+    <t t-inherit="point_of_sale.OrderDisplay" t-inherit-mode="extension">
+        <xpath expr="//span[hasclass('total')]" position="before">
+            <span class="inom-total-items fs-6 fw-bold align-self-center">
+                Total Number Of Items: <t t-out="this.order.totalItemQuantity"/>
+            </span>
+        </xpath>
+    </t>
+</templates>

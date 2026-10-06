@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_document_share_wizard_form" model="ir.ui.view">
+        <field name="name">edm.document.share.wizard.form</field>
+        <field name="model">edm.document.share.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Share Document">
+
+                <group>
+                    <field name="document_id" readonly="1"/>
+                    <field name="is_pdf" invisible="1"/>
+                    <field name="user_ids" widget="many2many_tags"/>
+                    <field name="access_level"/>
+                    <field name="note"/>
+                </group>
+                <div class="text-muted" invisible="not is_pdf">
+                    <i class="fa fa-info-circle"/>
+                    The "Annotate" level lets shared users add PDF annotations.
+                </div>
+
+                <footer>
+                    <button name="action_share"
+                            string="Share"
+                            type="object"
+                            class="btn-primary"/>
+
+                    <button string="Cancel"
+                            class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+
+            </form>
+        </field>
+    </record>
+
+</odoo>

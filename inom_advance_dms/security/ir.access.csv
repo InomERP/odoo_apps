@@ -1,0 +1,32 @@
+id,name,model_id,group_id/id,operation,domain
+access_edm_document_user,Documents: user read,edm.document,group_edm_user,r,"['|', ('owner_id', '=', user.id), '&', ('access_type', '=', 'users'), ('allowed_user_ids', 'in', user.id)]"
+access_edm_document_user_write,Documents: user write,edm.document,group_edm_user,u,"['|', ('owner_id', '=', user.id), '&', '&', ('access_type', '=', 'users'), ('allowed_user_ids', 'in', user.id), ('share_access_level', '=', 'annotate')]"
+access_edm_document_user_create,Documents: user create,edm.document,group_edm_user,c,
+access_edm_document_user_unlink,Documents: user delete own,edm.document,group_edm_user,d,"[('owner_id', '=', user.id)]"
+access_edm_document_manager,Documents: manager read/write,edm.document,group_edm_manager,cru,"['|', ('owner_id', '=', user.id), ('access_type', 'in', ('manager', 'users'))]"
+access_edm_document_manager_unlink,Documents: manager delete,edm.document,group_edm_manager,d,"['|', ('owner_id', '=', user.id), ('access_type', 'in', ('manager', 'users'))]"
+access_edm_document_company,Documents: multi-company restriction,edm.document,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_edm_document_category_company,Document Categories: multi-company restriction,edm.document.category,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_edm_workspace_user,access.edm.workspace.user,edm.workspace,group_edm_user,crud,
+access_edm_workspace_manager,access.edm.workspace.manager,edm.workspace,group_edm_manager,crud,
+access_edm_upload_document_wizard,access.edm.upload.document.wizard,edm.upload.document.wizard,group_edm_user,crud,
+access_edm_add_url_wizard,access.edm.add.url.wizard,edm.add.url.wizard,group_edm_user,crud,
+access_edm_folder_user,access.edm.folder.user,edm.folder,group_edm_user,crud,
+access_edm_folder_manager,access.edm.folder.manager,edm.folder,group_edm_manager,crud,
+access_edm_tag_user,access.edm.tag.user,edm.tag,group_edm_user,crud,
+access_edm_tag_manager,access.edm.tag.manager,edm.tag,group_edm_manager,crud,
+access_edm_multi_upload_document_wizard,access.edm.multi.upload.document.wizard,edm.multi.upload.document.wizard,group_edm_user,crud,
+access_edm_dashboard,access.edm.dashboard,edm.dashboard,base.group_user,crud,
+access_edm_document_version,access.edm.document.version,edm.document.version,group_edm_user,crud,
+access_edm_document_version_wizard,access.edm.document.version.wizard,edm.document.version.wizard,group_edm_user,crud,
+access_edm_document_share_wizard,access.edm.document.share.wizard,edm.document.share.wizard,base.group_user,crud,
+access_edm_document_request_wizard,access.edm.document.request.wizard,edm.document.request.wizard,base.group_user,crud,
+access_edm_document_request_user,access.edm.document.request,edm.document.request,group_edm_user,crud,
+access_edm_document_request_manager,access.edm.document.request.manager,edm.document.request,group_edm_manager,crud,
+access_edm_document_annotation_user,access.edm.document.annotation.user,edm.document.annotation,group_edm_user,crud,
+access_edm_document_annotation_manager,access.edm.document.annotation.manager,edm.document.annotation,group_edm_manager,crud,
+access_edm_document_group_user,access.edm.document.group.user,edm.document.group,group_edm_user,cru,
+access_edm_document_group_manager,access.edm.document.group.manager,edm.document.group,group_edm_manager,crud,
+access_edm_document_bulk_wizard,access.edm.document.bulk.wizard,edm.document.bulk.wizard,group_edm_user,crud,
+access_edm_document_category_user,access.edm.document.category.user,edm.document.category,group_edm_user,cru,
+access_edm_document_category_manager,access.edm.document.category.manager,edm.document.category,group_edm_manager,crud,

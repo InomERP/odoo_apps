@@ -1,0 +1,16 @@
+id,name,model_id/id,group_id/id,operation,domain
+access_vendor_import_settings,vendor.import.settings,model_vendor_import_settings,base.group_everyone,r,
+access_vendor_product_purchase_user,vendor.product.purchase.user,model_vendor_product,purchase.group_purchase_user,cru,
+access_vendor_product_purchase_manager,vendor.product.purchase.manager,model_vendor_product,purchase.group_purchase_manager,crud,
+access_vendor_location_purchase_user,vendor.location.purchase.user,model_vendor_location,purchase.group_purchase_user,cru,
+access_vendor_location_purchase_manager,vendor.location.purchase.manager,model_vendor_location,purchase.group_purchase_manager,crud,
+access_vendor_stock_purchase_user,vendor.stock.purchase.user,model_vendor_stock,purchase.group_purchase_user,cru,
+access_vendor_stock_purchase_manager,vendor.stock.purchase.manager,model_vendor_stock,purchase.group_purchase_manager,crud,
+access_vendor_product_import_wizard,vendor.product.import.wizard,model_vendor_product_import_wizard,purchase.group_purchase_user,crud,
+access_vendor_stock_import_wizard,vendor.stock.import.wizard,model_vendor_stock_import_wizard,purchase.group_purchase_user,crud,
+access_vendor_import_result,vendor.import.result,model_vendor_import_result,purchase.group_purchase_user,crud,
+access_vendor_product_portal,vendor.product.portal,model_vendor_product,group_vendor_product_portal,cru,"[('vendor_id', '=', user.partner_id.commercial_partner_id.id)]"
+access_vendor_product_portal_stock,vendor.product.portal.stock,model_vendor_product,group_vendor_stock_portal,r,"[('vendor_id', '=', user.partner_id.commercial_partner_id.id)] if user.has_group('inom_vender_product_management.group_vendor_product_portal') else [(1, '=', 1)]"
+access_vendor_location_portal_product,vendor.location.portal.product,model_vendor_location,group_vendor_product_portal,r,"[('vendor_id', '=', user.partner_id.commercial_partner_id.id)]"
+access_vendor_location_portal_stock,vendor.location.portal.stock,model_vendor_location,group_vendor_stock_portal,cru,"[('vendor_id', '=', user.partner_id.commercial_partner_id.id)]"
+access_vendor_stock_portal,vendor.stock.portal,model_vendor_stock,group_vendor_stock_portal,cru,"[('vendor_id', '=', user.partner_id.commercial_partner_id.id)]"

@@ -1,0 +1,4 @@
+id,name,model_id/id,group_id/id,operation,domain
+access_website_wallet_transaction_user,Wallet Transactions: Internal users full access,model_website_wallet_transaction,base.group_user,crud,
+access_website_wallet_transaction_portal,Wallet Transactions: Portal users see own only,model_website_wallet_transaction,base.group_portal,r,"[('partner_id', '=', user.partner_id.commercial_partner_id.id)]"
+access_add_wallet_balance_wizard,add.wallet.balance.wizard,model_add_wallet_balance_wizard,base.group_user,crud,

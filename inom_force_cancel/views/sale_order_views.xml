@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="inom_view_order_form_force_cancel" model="ir.ui.view">
+        <field name="name">sale.order.form.inom.force.cancel</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="inom_can_force_cancel" invisible="1"/>
+                <button name="action_inom_force_cancel"
+                        type="object"
+                        string="Force Cancel"
+                        class="btn-secondary"
+                        confirm="This will cancel the order, its deliveries and invoices, restore the delivered stock and break any payment reconciliation. Do you want to continue?"
+                        invisible="state in ('draft', 'sent', 'cancel') or not inom_can_force_cancel"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

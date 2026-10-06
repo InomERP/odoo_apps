@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form_contract" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.contract</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app string="Contracts" name="inom_contract_management"
+                     groups="inom_contract_management.group_contract_manager">
+                    <block title="Contracts">
+                        <setting id="use_contract_approval_setting"
+                                 string="Approval Workflow"
+                                 help="Require contracts to go through a multi-step approval workflow before becoming active">
+                            <field name="use_contract_approval"/>
+                        </setting>
+                        <setting id="use_contract_for_invoice_setting"
+                                 string="Use on Invoices"
+                                 help="Allow contracts to be used as a source/template for customer invoices and vendor bills">
+                            <field name="use_contract_for_invoice"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

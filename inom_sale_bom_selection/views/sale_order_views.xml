@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_order_form_inom_bom_selection" model="ir.ui.view">
+        <field name="name">sale.order.form.inom.bom.selection</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <!-- BoM field in Sale Order Lines list -->
+            <xpath expr="//field[@name='order_line']/list/column[@name='product_and_description']"
+                   position="after">
+
+                <field name="allowed_bom_ids" column_invisible="1"/>
+
+                <field name="bom_id"
+                       string="Bill of Material"
+                       optional="show"
+                       column_invisible="parent.state == 'cancel'"
+                       readonly="display_type or not product_id"/>
+
+            </xpath>
+
+            <!-- BoM field in Sale Order Line form -->
+            <xpath expr="//field[@name='order_line']/form//field[@name='product_id']"
+                   position="after">
+
+                <field name="allowed_bom_ids" invisible="1"/>
+
+                <label for="bom_id"
+                       string="Bill of Material"
+                       invisible="display_type"/>
+
+                <div name="inom_bom"
+                     invisible="display_type">
+
+                    <field name="bom_id"
+                           nolabel="1"
+                           readonly="not product_id"/>
+
+                </div>
+
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

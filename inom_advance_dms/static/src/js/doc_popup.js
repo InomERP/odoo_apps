@@ -1,0 +1,97 @@
+/** @odoo-module **/
+import { registry } from "@web/core/registry";
+import { Component, proxy, useProps } from "@odoo/owl";
+import { useService } from "@web/core/utils/hooks";
+import { Dialog } from "@web/core/dialog/dialog";
+import { openAnnotator } from "./pdf_annotator";
+
+export class DocPopupBody extends Component {
+    setup() {
+        this.props = useProps();
+        this.state = proxy({ preview: this.props.isPdf });
+        this.orm = useService("orm");
+    }
+    get previewUrl() {
+        return "/web/content/edm.document/" + this.props.docId + "/file#toolbar=1";
+    }
+    togglePreview() {
+        this.state.preview = !this.state.preview;
+    }
+    download() {
+        window.location.href = "/web/content/edm.document/" + this.props.docId + "/file?download=true";
+    }
+    async annotate() {
+        try {
+            // Only metadata goes through the ORM; the binary is streamed, so
+            // opening the annotator no longer pulls a base64 copy of the whole
+            // PDF through a JSON-RPC payload.
+            const recs = await this.orm.read(
+                "edm.document", [this.props.docId], ["name", "file_name"]);
+            const r = (recs && recs[0]) || {};
+            const response = await fetch("/edm/document/preview/" + this.props.docId);
+            if (!response.ok) {
+                throw new Error("HTTP " + response.status);
+            }
+            const buffer = await response.arrayBuffer();
+            if (this.props.close) { this.props.close(); }
+            openAnnotator(
+                this.props.docId,
+                new Uint8Array(buffer),
+                r.file_name || r.name || this.props.name
+            );
+        } catch (e) {
+            console.error(e);
+        }
+    }
+}
+DocPopupBody.template = "inom_advance_dms.DocPopupBody";
+DocPopupBody.components = { Dialog };
+export class EdmDocPopupWidget extends Component {
+    props = useProps();
+
+    setup() {
+        this.dialog = useService("dialog");
+    }
+    get rec() {
+        return this.props.record.data;
+    }
+    iconClass() {
+        const e = (this.rec.file_extension || "").toLowerCase();
+        if (e === "pdf") return "file";
+        if (e === "xls" || e === "xlsx") return "table";
+        if (e === "doc" || e === "docx") return "file";
+        if (["png", "jpg", "jpeg"].includes(e)) return "image";
+        if (e === "url") return "link";
+        return "file";
+    }
+
+    iconColor() {
+        const e = (this.rec.file_extension || "").toLowerCase();
+        const map = {
+            pdf: "#f43f5e",
+            doc: "#3b82f6", docx: "#3b82f6",
+            xls: "#10b981", xlsx: "#10b981", csv: "#14b8a6",
+            ppt: "#ea580c", pptx: "#ea580c",
+            png: "#8b5cf6", jpg: "#8b5cf6", jpeg: "#8b5cf6",
+            gif: "#8b5cf6", svg: "#8b5cf6", webp: "#8b5cf6",
+            txt: "#64748b", zip: "#f59e0b", url: "#06b6d4",
+        };
+        return map[e] || "#6366f1";
+    }
+    open(ev) {
+        if (ev) {
+            ev.stopPropagation();
+            if (ev.stopImmediatePropagation) { ev.stopImmediatePropagation(); }
+            ev.preventDefault();
+        }
+        const e = (this.rec.file_extension || "").toLowerCase();
+        this.dialog.add(DocPopupBody, {
+            docId: this.props.record.resId,
+            name: this.rec.name || "Document",
+            isPdf: e === "pdf",
+            ext: e,
+        });
+    }
+}
+EdmDocPopupWidget.template = "inom_advance_dms.DocPopupWidget";
+registry.category("view_widgets").add("edm_doc_popup", { component: EdmDocPopupWidget });

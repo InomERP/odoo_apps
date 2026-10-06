@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Default service products used when an approved estimate is converted
+        into a sales quotation. Material lines that already carry a product use
+        that product; everything else falls back to these. They can be replaced
+        from Settings > Job Costing.
+    -->
+    <record id="product_inom_material_generic" model="product.product">
+        <field name="name">Material (as per estimate)</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="list_price">0.0</field>
+        <field name="default_code">INOM-EST-MAT</field>
+    </record>
+
+    <record id="product_inom_labour" model="product.product">
+        <field name="name">Manpower Charges</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="list_price">0.0</field>
+        <field name="default_code">INOM-EST-LAB</field>
+    </record>
+
+    <record id="product_inom_equipment" model="product.product">
+        <field name="name">Equipment Charges</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="list_price">0.0</field>
+        <field name="default_code">INOM-EST-EQP</field>
+    </record>
+
+    <record id="product_inom_overhead" model="product.product">
+        <field name="name">Indirect Cost Charges</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="list_price">0.0</field>
+        <field name="default_code">INOM-EST-OVH</field>
+    </record>
+</odoo>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Portal "My Account" home: Wallet Transactions card -->
+    <record id="portal_my_home_wallet_entry" model="portal.entry">
+        <field name="name">Wallet Transactions</field>
+        <field name="description">View your wallet balance and transactions.</field>
+        <field name="url">/my/wallet/transactions</field>
+        <field name="placeholder_count">wallet_count</field>
+        <field name="is_config_card" eval="True"/>
+    </record>
+</odoo>

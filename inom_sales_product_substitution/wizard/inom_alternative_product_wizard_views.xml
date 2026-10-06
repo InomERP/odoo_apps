@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="inom_alternative_product_wizard_form" model="ir.ui.view">
+        <field name="name">inom.alternative.product.wizard.form</field>
+        <field name="model">inom.alternative.product.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Alternative Products" class="inom_alt_wizard">
+                <!-- Technical fields used by domains / logic -->
+                <field name="sale_order_line_id" invisible="1"/>
+                <field name="order_id" invisible="1"/>
+                <field name="allowed_alternative_ids" invisible="1"
+                       widget="many2many_tags"/>
+
+                <!-- ============================================= -->
+                <!-- Original product header (stat row)            -->
+                <!-- ============================================= -->
+                <div class="d-flex flex-wrap align-items-end justify-content-between
+                            gap-3 mb-3 pb-3 border-bottom">
+                    <div class="d-flex flex-wrap gap-5">
+                        <div class="d-flex flex-column">
+                            <span class="text-muted small">Product Name</span>
+                            <span class="fw-bold fs-6 text-truncate"
+                                  style="max-width: 16rem;">
+                                <field name="product_id" nolabel="1"
+                                       readonly="1" options="{'no_open': True}"/>
+                            </span>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <span class="text-muted small">Internal Reference</span>
+                            <span class="fw-bold fs-6">
+                                <field name="original_default_code"
+                                       nolabel="1" readonly="1"/>
+                            </span>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <span class="text-muted small">Sales Price</span>
+                            <span class="fw-bold fs-5">
+                                <field name="original_list_price"
+                                       nolabel="1" readonly="1"/>
+                            </span>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <span class="text-muted small">Stock</span>
+                            <span class="fw-bold fs-5">
+                                <field name="available_qty"
+                                       nolabel="1" readonly="1"/>
+                            </span>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <span class="text-muted small">General Stock</span>
+                            <span class="fw-bold fs-5">
+                                <field name="original_general_stock"
+                                       nolabel="1" readonly="1"/>
+                            </span>
+                        </div>
+                    </div>
+                    <div>
+                        <button name="action_view_original_stock"
+                                type="object"
+                                string="View Stock"
+                                class="btn btn-primary"
+                                help="Show warehouse-wise stock of the original product."/>
+                    </div>
+                </div>
+
+                <!-- ============================================= -->
+                <!-- Replacing product selection                  -->
+                <!-- ============================================= -->
+                <div class="row mb-3 align-items-center">
+                    <label for="replacing_product_id"
+                           string="Replacing Products"
+                           class="col-sm-3 col-form-label fw-bold"/>
+                    <div class="col-sm-9">
+                        <field name="replacing_product_id"
+                               nolabel="1"
+                               placeholder="Select a product to replace with..."
+                               domain="[('id', 'in', allowed_alternative_ids)]"
+                               options="{'no_create': True, 'no_open': True}"/>
+                    </div>
+                </div>
+
+                <!-- ============================================= -->
+                <!-- Alternate products grid                      -->
+                <!-- ============================================= -->
+                <div class="row">
+                    <span class="col-sm-3 col-form-label fw-bold o_form_label">
+                        Alternate Products
+                    </span>
+                    <div class="col-sm-9">
+                        <field name="line_ids" nolabel="1">
+                            <list create="false" delete="false" edit="false">
+                                <field name="product_id"
+                                       column_invisible="1"
+                                       force_save="1"/>
+                                <field name="default_code"
+                                       string="Internal Reference"
+                                       readonly="1"/>
+                                <field name="product_name"
+                                       string="Product Name"
+                                       readonly="1"/>
+                                <field name="list_price"
+                                       string="Sales Price"
+                                       readonly="1" force_save="1"/>
+                                <field name="qty_available"
+                                       string="Stock"
+                                       readonly="1" force_save="1"/>
+                                <field name="general_stock"
+                                       string="General Stock"
+                                       readonly="1" force_save="1"/>
+                                <button name="action_view_stock"
+                                        type="object"
+                                        string="View Stock"
+                                        class="btn btn-primary btn-sm"
+                                        help="Show warehouse-wise stock of this product."/>
+                            </list>
+                        </field>
+                    </div>
+                </div>
+
+                <footer>
+                    <button name="action_replace"
+                            type="object"
+                            string="Replace"
+                            class="btn-primary"
+                            data-hotkey="q"/>
+                    <button string="Cancel"
+                            class="btn-secondary"
+                            special="cancel"
+                            data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="inom_alternative_product_wizard_action" model="ir.actions.act_window">
+        <field name="name">Alternative Products</field>
+        <field name="res_model">inom.alternative.product.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'dialog_size': 'xl'}</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,31 @@
+id,name,model_id,group_id/id,operation,domain
+access_inom_cost_estimate_user,inom.cost.estimate.user,inom.cost.estimate,group_inom_cost_user,cru,
+access_inom_cost_estimate_manager,inom.cost.estimate.manager,inom.cost.estimate,group_inom_cost_manager,crud,
+access_inom_cost_material_line_user,inom.cost.material.line.user,inom.cost.material.line,group_inom_cost_user,crud,
+access_inom_cost_labour_line_user,inom.cost.labour.line.user,inom.cost.labour.line,group_inom_cost_user,crud,
+access_inom_cost_overhead_line_user,inom.cost.overhead.line.user,inom.cost.overhead.line,group_inom_cost_user,crud,
+access_inom_cost_category_user,inom.cost.category.user,inom.cost.category,group_inom_cost_user,r,
+access_inom_cost_category_manager,inom.cost.category.manager,inom.cost.category,group_inom_cost_manager,crud,
+access_inom_cost_template_user,inom.cost.template.user,inom.cost.template,group_inom_cost_user,r,
+access_inom_cost_template_manager,inom.cost.template.manager,inom.cost.template,group_inom_cost_manager,crud,
+access_inom_cost_template_line_user,inom.cost.template.line.user,inom.cost.template.line,group_inom_cost_user,r,
+access_inom_cost_template_line_manager,inom.cost.template.line.manager,inom.cost.template.line,group_inom_cost_manager,crud,
+access_inom_cost_equipment_line_user,inom.cost.equipment.line.user,inom.cost.equipment.line,group_inom_cost_user,crud,
+access_inom_cost_dashboard_user,inom.cost.dashboard.user,inom.cost.dashboard,group_inom_cost_user,crud,
+access_inom_cost_approval_log_user,inom.cost.approval.log.user,inom.cost.approval.log,group_inom_cost_user,r,
+access_inom_cost_approval_log_manager,inom.cost.approval.log.manager,inom.cost.approval.log,group_inom_cost_manager,rd,
+access_inom_cost_loss_reason_user,inom.cost.loss.reason.user,inom.cost.loss.reason,group_inom_cost_user,r,
+access_inom_cost_loss_reason_manager,inom.cost.loss.reason.manager,inom.cost.loss.reason,group_inom_cost_manager,crud,
+access_inom_cost_reject_wizard_user,inom.cost.reject.wizard.user,inom.cost.reject.wizard,group_inom_cost_user,crud,
+access_inom_cost_takeoff_line_user,inom.cost.takeoff.line.user,inom.cost.takeoff.line,group_inom_cost_user,crud,
+access_inom_rate_card_user,inom.rate.card.user,inom.rate.card,inom_job_cost_estimation.group_inom_cost_user,r,
+access_inom_rate_card_mgr,inom.rate.card.mgr,inom.rate.card,inom_job_cost_estimation.group_inom_cost_manager,crud,
+access_inom_rate_card_line_user,inom.rate.card.line.user,inom.rate.card.line,inom_job_cost_estimation.group_inom_cost_user,r,
+access_inom_rate_card_line_mgr,inom.rate.card.line.mgr,inom.rate.card.line,inom_job_cost_estimation.group_inom_cost_manager,crud,
+rule_inom_cost_estimate_company,Job Cost Estimate: multi-company,inom.cost.estimate,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+rule_inom_cost_estimate_portal,Job Cost Estimate: portal read own,inom.cost.estimate,base.group_portal,r,"[('partner_id', 'child_of', user.partner_id.commercial_partner_id.id)]"
+rule_inom_cost_material_line_portal,Job Cost Material Line: portal read own,inom.cost.material.line,base.group_portal,r,"[('estimate_id.partner_id', 'child_of', user.partner_id.commercial_partner_id.id)]"
+rule_inom_cost_labour_line_portal,Job Cost Manpower Line: portal read own,inom.cost.labour.line,base.group_portal,r,"[('estimate_id.partner_id', 'child_of', user.partner_id.commercial_partner_id.id)]"
+rule_inom_cost_overhead_line_portal,Job Cost Indirect Line: portal read own,inom.cost.overhead.line,base.group_portal,r,"[('estimate_id.partner_id', 'child_of', user.partner_id.commercial_partner_id.id)]"
+rule_inom_cost_equipment_line_portal,Equipment Line: portal read own,inom.cost.equipment.line,base.group_portal,r,"[('estimate_id.partner_id', 'child_of', user.partner_id.commercial_partner_id.id)]"
+rule_inom_cost_takeoff_line_portal,Takeoff Line: portal read own,inom.cost.takeoff.line,base.group_portal,r,"[('material_line_id.estimate_id.partner_id', 'child_of', user.partner_id.commercial_partner_id.id)]"

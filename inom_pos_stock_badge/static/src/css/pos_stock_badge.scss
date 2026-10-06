@@ -1,0 +1,120 @@
+/**
+ * inom_pos_stock_badge — Badge Styles
+ *
+ * The product card (article.product-card) must have position: relative
+ * (Odoo 20's ProductCard template adds the position-relative class).
+ *
+ * Badge is absolutely positioned inside the card via the
+ * .inom-badge-{position} modifier classes.
+ */
+
+// ── Base badge styles ────────────────────────────────────────────────────────
+.inom-stock-badge {
+    position: absolute;
+    z-index: 10;
+
+    // Typography
+    font-size: 0.65rem;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+
+    // Shape
+    padding: 3px 6px;
+    border-radius: 10px;
+    min-width: 20px;
+    text-align: center;
+
+    // Depth
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+
+    // Smooth color transitions when threshold changes
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+// ── Position modifiers ───────────────────────────────────────────────────────
+.inom-badge-top_left {
+    top: 4px;
+    left: 4px;
+}
+
+.inom-badge-top_right {
+    top: 4px;
+    right: 4px;
+}
+
+.inom-badge-bottom_right {
+    bottom: 4px;
+    right: 4px;
+}
+
+// ── State modifiers (for test selectors & accessibility) ─────────────────────
+// Colors are set inline via JS; these classes serve as semantic markers only.
+.inom-badge-state-out {
+    // out-of-stock: red (set inline)
+}
+
+.inom-badge-state-low {
+    // low-stock: orange (set inline)
+}
+
+.inom-badge-state-normal {
+    // normal: user-configured (set inline)
+}
+// ── Stock-by-location popup (opens over the card, never wider than it) ─────
+.inom-location-popup {
+    z-index: 20;
+    left: 4px;
+    right: 4px;
+    min-width: 0;
+    cursor: default;
+
+    &.inom-location-popup-top_left,
+    &.inom-location-popup-top_right {
+        top: 28px;
+    }
+
+    &.inom-location-popup-bottom_right {
+        bottom: 28px;
+    }
+
+    .inom-location-popup-header {
+        background: #1a1a2e;
+    }
+
+    // Phones: cards are too narrow, show the list as a panel at the bottom of the screen.
+    @media (max-width: 575.98px) {
+        position: fixed !important;
+        top: auto !important;
+        bottom: 8px !important;
+        left: 8px;
+        right: 8px;
+        z-index: 1050;
+        max-height: 50vh;
+        overflow-y: auto;
+    }
+}
+
+// ── Low stock navbar popup ───────────────────────────────────────────────────
+.inom-low-stock-popup {
+    top: 110%;
+    right: 0;
+    min-width: 320px;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 1050;
+
+    // Phones: the button sits near the left edge, keep the list inside the screen.
+    @media (max-width: 575.98px) {
+        position: fixed !important;
+        top: 64px;
+        left: 8px;
+        right: 8px;
+        min-width: 0;
+        max-height: 70vh;
+    }
+}
+
+.inom-total-items {
+    color: #00A09D;
+}

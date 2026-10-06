@@ -1,0 +1,142 @@
+.inom_cs {
+    border: 1px solid #E3E6EB;
+    border-radius: 10px;
+    background: #FFFFFF;
+    overflow: hidden;
+    margin-bottom: 16px;
+    font-size: 13px;
+
+    .inom_cs_head {
+        padding: 10px 16px;
+        background: #F7F8FA;
+        border-bottom: 1px solid #E3E6EB;
+        font-weight: 600;
+        letter-spacing: .02em;
+        text-transform: uppercase;
+        font-size: 11px;
+        color: #6B7280;
+    }
+
+    .inom_cs_badge {
+        margin-left: auto;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: .02em;
+        padding: 2px 8px;
+        border-radius: 10px;
+    }
+
+    .inom_cs_badge_hi { background: #FDECEA; color: #B42318; }
+    .inom_cs_badge_lo { background: #E7F6EF; color: #17845C; }
+
+    .inom_cs_head { display: flex; align-items: center; }
+
+    .inom_cs_body {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        padding: 18px 16px;
+    }
+
+    .inom_cs_chart { flex: 0 0 auto; }
+
+    .inom_cs_donut {
+        position: relative;
+        width: 112px;
+        height: 112px;
+        border-radius: 50%;
+    }
+
+    .inom_cs_donut_hole {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 68px;
+        height: 68px;
+        border-radius: 50%;
+        background: #FFFFFF;
+    }
+
+    .inom_cs_bars { flex: 1 1 auto; min-width: 0; }
+
+    .inom_cs_row + .inom_cs_row { margin-top: 12px; }
+
+    .inom_cs_row_head {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+    }
+
+    .inom_cs_dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        margin-right: 8px;
+        flex: 0 0 auto;
+    }
+
+    .inom_cs_label { color: #374151; }
+
+    .inom_cs_amount {
+        margin-left: auto;
+        font-variant-numeric: tabular-nums;
+        font-weight: 500;
+    }
+
+    .inom_cs_track {
+        height: 6px;
+        border-radius: 3px;
+        background: #EEF0F4;
+        overflow: hidden;
+    }
+
+    .inom_cs_fill {
+        height: 100%;
+        border-radius: 3px;
+    }
+
+    .inom_cs_totals {
+        padding: 14px 16px 16px;
+        border-top: 1px solid #E3E6EB;
+        background: #FCFCFD;
+    }
+
+    .inom_cs_line {
+        display: flex;
+        justify-content: space-between;
+        padding: 3px 0;
+        color: #374151;
+    }
+
+    .inom_cs_sub {
+        color: #6B7280;
+        font-size: 12px;
+    }
+
+    .inom_cs_val {
+        font-variant-numeric: tabular-nums;
+        font-weight: 500;
+    }
+
+    .inom_cs_pos { color: #17845C; }
+
+    .inom_cs_final {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid #E3E6EB;
+        font-size: 16px;
+        font-weight: 600;
+        color: #111827;
+    }
+}
+
+@media (max-width: 767px) {
+    .inom_cs .inom_cs_body {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .inom_cs .inom_cs_chart { align-self: center; }
+}

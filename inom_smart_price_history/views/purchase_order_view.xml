@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="purchase_order_form_inom_price_history" model="ir.ui.view">
+        <field name="name">purchase.order.form.inom.price.history</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <!-- Odoo 20 groups product and description in one column, so the
+                 button goes right after it (right after the product, as in v19). -->
+            <xpath expr="//field[@name='order_line']/list/column[@name='product_and_description']"
+                   position="after">
+                <button name="action_view_bill_price_history"
+                        type="object"
+                        icon="history"
+                        title="Bill Price History"
+                        invisible="not product_id"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

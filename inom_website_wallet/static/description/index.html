@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Inom Advanced Email Control (CC / BCC)</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
+    <style>
+        :root {
+            --primary-color: #7f54b3;
+            --bg-white: #fff;
+            --text-color: #121212;
+            --text-color-light: #64728f;
+        }
+
+        body {
+            font-family: "Montserrat", sans-serif;
+        }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+            color: #121212;
+            font-family: Montserrat;
+            font-size: 16px !important;
+            font-weight: 500 !important;
+            border-radius: 30px;
+            line-height: normal;
+            text-transform: capitalize;
+            background-color: #F5F5F5;
+            border: none;
+            margin-bottom: 0;
+            padding: 8px 20px;
+        }
+
+        .nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
+            border-color: transparent;
+            isolation: isolate;
+        }
+
+        .nav-tabs .nav-link:focus-visible {
+            border-color: transparent;
+            box-shadow: none;
+        }
+
+        /* owl-carosel */
+        .owl-carousel .owl-nav {
+            position: absolute;
+            top: 42%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-42%);
+        }
+
+        .owl-carousel .owl-nav button.owl-prev {
+            position: absolute;
+            right: -36px;
+            font-size: 28px;
+            background-color: #e4e4e4;
+            border-radius: 20px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .owl-carousel .owl-nav button.owl-next {
+            position: absolute;
+            left: -36px;
+            font-size: 28px;
+            background-color: #e4e4e4;
+            border-radius: 20px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+    </style>
+</head>
+<body>
+<!-- overview -->
+<div class="container">
+    <div class="my-5">
+        <!-- button tab -->
+        <!--  -->
+        <!-- version support -->
+        <div class="my-3 d-flex align-items-center justify-content-end">
+            <div class="text-center"
+                 style="background-color:#017E84 !important; font-size:0.8rem !important; color:#fff !important; font-weight:500 !important; padding:4px !important; margin:0 3px !important; border-radius:50px !important; min-width:120px !important">
+                Community
+            </div>
+           <div class="text-center"
+                 style="background-color:#875A7B !important; color:#fff !important; font-size:0.8rem !important; font-weight:500 !important; padding:4px !important; margin:0 3px !important; border-radius:50px !important; min-width:120px !important">
+                Enterprise
+            </div>
+           <div class="text-center"
+            style="background-color:#7C7BAD !important; color:#fff !important; font-size:0.8rem !important; font-weight:500 !important; padding:4px !important; margin:0 3px !important; border-radius:50px !important; min-width:120px !important">
+            Odoo.sh </div>
+        </div>
+       <div class="tab-content" id="myTabContent">
+    <!-- description -->
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        
+        <div class="position-relative" style="border-radius: 16px; background: #f8f8f8; padding: 20px 0;">
+            
+            <div class="row" style="padding: 2rem 0rem 0 !important;">
+                
+                <!-- Heading -->
+                <div class="col-lg-8 mx-auto gap-4 d-flex flex-column align-items-center">
+                    
+                    <p class="my-1 text-center text-uppercase"
+                       style="letter-spacing: 4px; color: #7f54b3; font-weight: 600; font-size: 14px;">
+                       POS Receipt Design
+                    </p>
+
+                    <h1 class="text-center text-uppercase my-0"
+                        style="color: #121212; font-size: 46px; font-weight: 700;">
+                        Inom POS Receipt Design
+                    </h1>
+
+                </div>
+
+                <!-- SAME IMAGE (No Change) -->
+                <div class="col-lg-12 d-flex justify-content-center align-items-center"
+                     style="margin: 1rem 0;">
+                    <img src="./assets/icons/logo.png"
+                         style="width: 30%; height: auto;"
+                         class="img-responsive"/>
+                </div>
+
+                <!-- Buttons -->
+                <div class="col-md-12 text-center">
+                    
+                    <a href="mailto:info@inomerp.in"
+                       target="_blank"
+                       style="background-color: transparent;
+                              border-radius: 35px;
+                              padding: 7px 23px;
+                              border: 1px solid #7f54b3;
+                              color: #7f54b3;
+                              text-decoration: none;"
+                       class="mx-1 mb-2">
+                        <img style="width: 24px" src="./assets/icons/mail.svg"/>
+                        <span style="font-size: 16px;">Email Us</span>
+                    </a>
+
+                    <!-- <a href="https://teams.microsoft.com"
+                       target="_blank"
+                       style="background-color: #7f289b;
+                              padding: 7px 33px;
+                              border-radius: 35px;
+                              color: #fff;
+                              text-decoration: none;"
+                       class="mx-1 mb-2">
+                        <img style="width: 24px" src="./assets/icons/tms.png"/>
+                        <span style="font-size: 16px;">Teams</span>
+                    </a> -->
+
+                </div>
+
+                <!-- SAME GIF (No Change) -->
+                <div class="d-flex justify-content-center mt-2">
+                    <img src="./assets/icons/InomERP dashboard and global connections.png"
+                         class="w-100"
+                         style="z-index: 3; height: auto;">
+                </div>
+
+            </div>
+
+            <!-- Background SAME -->
+            <div class="position-absolute bottom-0" style="z-index: 1; width: 100%;">
+                <img src="./assets/icons/banner-bg.svg" class="img-fluid w-100">
+            </div>
+
+            <div class="position-absolute bottom-0 end-0" style="z-index: 2;">
+                <img src="./assets/icons/patter.svg">
+            </div>
+
+        </div>
+    </div>
+</div>
+                <!-- ===================== KEY HIGHLIGHTS ===================== -->
+                <div class="" style="border-radius: 16px; padding: 60px 40px; border: 1px solid #EBEEF2; background: #F5F5F7; box-shadow: 0px 5px 20px -11px rgba(0,0,0,0.25); margin-top: 2rem;">
+                    <div class="row">
+                        <div class="col-lg-12 d-flex flex-column justify-content-center align-items-center">
+                            <h2 style="color: #121212; text-align: center; font-size: 40px; font-weight: 700; text-transform: uppercase; padding-bottom: 50px;">
+                                Key Highlights
+                            </h2>
+                        </div>
+
+                        <!-- Highlight 1 -->
+                        <div class="col-lg-4">
+                            <div class="mb-4 d-flex flex-column justify-content-center gap-3"
+                                 style="border-radius: 12px; border: 1px solid #B6BCCD; background: #FFF; padding: 32px;">
+                                <div class="d-flex justify-content-center align-items-center"
+                                     style="background-color:#7847D9 !important; border-radius:8px !important; height:42px; width:42px">
+                                    <img src="./assets/icons/feature-icon.svg" class="img-responsive" height="26px" width="26px">
+                                </div>
+                                <h5 class="m-0" style="color:#000 !important; font-weight:bold">
+                                    Flexible Wallet Configuration
+                                </h5>
+                                <p class="m-0" style="color:var(--text-color-light); font-size: 16px; font-weight: 400;">
+                                    Enable or disable the wallet system from Website Settings. Set a dedicated recharge product and control minimum and maximum recharge amounts — all without any code changes.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Highlight 2 -->
+                        <div class="col-lg-4">
+                            <div class="mb-4 d-flex flex-column justify-content-center gap-3"
+                                 style="border-radius: 12px; border: 1px solid #B6BCCD; background: #FFF; padding: 32px;">
+                                <div class="d-flex justify-content-center align-items-center"
+                                     style="background-color:#7847D9 !important; border-radius:8px !important; height:42px; width:42px">
+                                    <img src="./assets/icons/feature-icon.svg" class="img-responsive" height="26px" width="26px">
+                                </div>
+                                <h5 class="m-0" style="color:#000 !important; font-weight:bold">
+                                    Seamless Online Recharge
+                                </h5>
+                                <p class="m-0" style="color:var(--text-color-light); font-size: 16px; font-weight: 400;">
+                                    Customers top up their wallet directly from the website by choosing an amount. The recharge product is added to the cart at the selected price and processed through Odoo's standard checkout — no special gateway needed.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Highlight 3 -->
+                        <div class="col-lg-4">
+                            <div class="mb-4 d-flex flex-column justify-content-center gap-3"
+                                 style="border-radius: 12px; border: 1px solid #B6BCCD; background: #FFF; padding: 32px;">
+                                <div class="d-flex justify-content-center align-items-center"
+                                     style="background-color:#7847D9; border-radius:8px !important; height:42px; width:42px">
+                                    <img src="./assets/icons/feature-icon.svg" class="img-responsive" height="26px" width="26px">
+                                </div>
+                                <h5 class="m-0" style="color:#000 !important; font-weight:bold">
+                                    Pay Orders & Invoices with Wallet
+                                </h5>
+                                <p class="m-0" style="color:var(--text-color-light); font-size: 16px; font-weight: 400;">
+                                    A "Use Wallet" button appears on the cart whenever the customer has a positive balance. Wallet funds can also be applied directly to customer invoices from the backend with a single click.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Highlight 4 -->
+                        <div class="col-lg-4">
+                            <div class="mb-4 d-flex flex-column justify-content-center gap-3"
+                                 style="border-radius: 12px; border: 1px solid #B6BCCD; background: #FFF; padding: 32px;">
+                                <div class="d-flex justify-content-center align-items-center"
+                                     style="background-color:#7847D9; border-radius:8px !important; height:42px; width:42px">
+                                    <img src="./assets/icons/feature-icon.svg" class="img-responsive" height="26px" width="26px">
+                                </div>
+                                <h5 class="m-0" style="color:#000 !important; font-weight:bold">
+                                    Real-Time Balance & Transaction History
+                                </h5>
+                                <p class="m-0" style="color:var(--text-color-light); font-size: 16px; font-weight: 400;">
+                                    Wallet balance is computed in real-time from all confirmed credit and debit transactions. Customers view their balance and full transaction history in the Customer Portal under "My Account".
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Highlight 5 -->
+                        <div class="col-lg-4">
+                            <div class="mb-4 d-flex flex-column justify-content-center gap-3"
+                                 style="border-radius: 12px; border: 1px solid #B6BCCD; background: #FFF; padding: 32px;">
+                                <div class="d-flex justify-content-center align-items-center"
+                                     style="background-color:#7847D9; border-radius:8px !important; height:42px; width:42px">
+                                    <img src="./assets/icons/feature-icon.svg" class="img-responsive" height="26px" width="26px">
+                                </div>
+                                <h5 class="m-0" style="color:#000 !important; font-weight:bold">
+                                    Full Accounting Integration
+                                </h5>
+                                <p class="m-0" style="color:var(--text-color-light); font-size: 16px; font-weight: 400;">
+                                    Every confirmed wallet transaction automatically creates an <code>account.payment</code> on a dedicated Wallet journal (auto-created per company). Wallet usage also registers a payment against the invoice, updating its payment state instantly.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Highlight 6 -->
+                        <div class="col-lg-4">
+                            <div class="mb-4 d-flex flex-column justify-content-center gap-3"
+                                 style="border-radius: 12px; border: 1px solid #B6BCCD; background: #FFF; padding: 32px;">
+                                <div class="d-flex justify-content-center align-items-center"
+                                     style="background-color:#7847D9; border-radius:8px !important; height:42px; width:42px">
+                                    <img src="./assets/icons/feature-icon.svg" class="img-responsive" height="26px" width="26px">
+                                </div>
+                                <h5 class="m-0" style="color:#000 !important; font-weight:bold">
+                                    Automatic Email Notifications
+                                </h5>
+                                <p class="m-0" style="color:var(--text-color-light); font-size: 16px; font-weight: 400;">
+                                    Customers receive a branded email notification on every wallet recharge (credit) and every wallet usage (debit), keeping them informed without any manual follow-up required.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!--code  -->
+                <div class="my-5">
+                    <div style=" padding: 5rem 4rem 5rem 4rem; background-color: #0A1425; border-radius: 12px; position: relative;">
+                        <div class="wrapper-info"
+                             style="display: flex; flex-direction: column; gap: 20px;">
+                            <span class="wrapper-subtitle"
+                                  style="font-size: 40px; font-weight: 700; color: #fff;line-height: 60px; text-transform: capitalize; width: 450px;">Inom Website Wallet</span>
+                            <h3 class="wrapper-details"
+                                style="font-size: 20px; font-weight: 400; color: #fff; line-height: 32px; ">
+                                Give your customers a fast, trusted digital wallet <br>
+                                experience — right inside your Odoo store.
+                                <br>Install and configure in minutes!
+                            </h3>
+                            <div class="d-flex gap-3">
+                             <!--    <a href="mailto:odoo@cybrosys.com"
+                                   class="shop-btn" style="cursor: pointer; border-radius: 16px; display: flex; justify-content: center; align-items: center; gap: 7px;
+            border: 1px solid  #ffffff33;
+            background-color: #ffffff14;
+            backdrop-filter: blur(10px); color: #fff; padding: 12px 16px 12px 16px; text-decoration: none;"> -->
+            <!--  <span style="border-radius: 12px;
+             background-color: #ffffff1a;
+             backdrop-filter: blur(6px);padding: 12px;  ">
+              <img src="./assets/icons/banner-mail.svg">
+           </span>
+                                    <span style="font-weight: 500;">odoo@cybrosys.com</span>
+                                </a>
+                                <a href="https://wa.me/919074270811" target="_blank" class="shop-btn"
+                                   style="cursor: pointer; border-radius: 16px; display: flex; justify-content: center; align-items: center; gap: 7px;
+             border: 1px solid  #ffffff33;
+             background-color: #ffffff14;
+            backdrop-filter: blur(10px); color: #fff; padding: 12px 22px 12px 18px; text-decoration: none;">
+             <span style="border-radius: 12px;
+             background: var(--DarkOverlayElement-DO10, rgba(255, 255, 255, 0.10));
+             backdrop-filter: blur(6px);padding: 12px;">
+              <img src="./assets/icons/banner-call.svg">
+           </span> -->
+                                    <!-- <span style="font-weight: 500;">+91 9074270811</span> -->
+                                </a>
+                            </div>
+                        </div>
+                        <div class=""
+                             style="position: absolute; bottom: 0; right: 0;">
+                            <img src="./assets/icons/banner-pattern.svg"
+                                 style="width: 540px;">
+                        </div>
+                    </div>
+                </div>
+                <!-- end-code -->
+                <!--  -->
+                                <!-- ===================== FEATURES DETAIL ===================== -->
+                <div style="border-radius: 16px; border: 1px solid #EBEEF2; background: #FFF; padding: 60px 40px; box-shadow: 0px 5px 20px -11px rgba(0,0,0,0.25);">
+                    <div class="row">
+                        <div class="col-lg-12 d-flex justify-content-center">
+                            <h2 style="color:#121212; text-align:center; font-size:40px; font-weight:700; text-transform:uppercase; padding-bottom:50px;">
+                                Features
+                            </h2>
+                        </div>
+
+                        <!-- Feature A -->
+                        <div class="col-lg-6 mb-5">
+                            <div class="d-flex gap-3">
+                                <div class="flex-shrink-0 d-flex justify-content-center align-items-center"
+                                     style="background-color:#EEE6F9; border-radius:10px; height:52px; width:52px; min-width:52px;">
+                                    <i class="fa fa-sliders" style="color:#7847D9; font-size:22px;"></i>
+                                </div>
+                                <div>
+                                    <h5 style="font-weight:700; color:#121212;">Wallet Settings in Website Configuration</h5>
+                                    <p style="color:var(--text-color-light); font-size:15px; line-height:1.7;">
+                                        Navigate to <strong>Website → Configuration → Settings → Wallet</strong> to enable the module, assign a Wallet Recharge Product (service type), and define the minimum and maximum amounts a customer can load per transaction. Changes take effect immediately — no restart required.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Feature B -->
+                        <div class="col-lg-6 mb-5">
+                            <div class="d-flex gap-3">
+                                <div class="flex-shrink-0 d-flex justify-content-center align-items-center"
+                                     style="background-color:#EEE6F9; border-radius:10px; height:52px; width:52px; min-width:52px;">
+                                    <i class="fa fa-globe" style="color:#7847D9; font-size:22px;"></i>
+                                </div>
+                                <div>
+                                    <h5 style="font-weight:700; color:#121212;">Wallet Landing Page (/shop/wallet)</h5>
+                                    <p style="color:var(--text-color-light); font-size:15px; line-height:1.7;">
+                                        A dedicated public-facing wallet page is automatically added to the website menu after installation. Logged-in customers see their current balance, an amount input form to recharge, and a direct link to their transaction history — all branded consistently with the store.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Feature C -->
+                        <div class="col-lg-6 mb-5">
+                            <div class="d-flex gap-3">
+                                <div class="flex-shrink-0 d-flex justify-content-center align-items-center"
+                                     style="background-color:#EEE6F9; border-radius:10px; height:52px; width:52px; min-width:52px;">
+                                    <i class="fa fa-cart-shopping" style="color:#7847D9; font-size:22px;"></i>
+                                </div>
+                                <div>
+                                    <h5 style="font-weight:700; color:#121212;">Cart-Based Recharge Flow</h5>
+                                    <p style="color:var(--text-color-light); font-size:15px; line-height:1.7;">
+                                        When a customer submits the recharge form, the configured Wallet Recharge Product is added to the shopping cart at the customer-specified price. The checkout process remains entirely standard — payment providers, discount codes, and tax rules all apply normally.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Feature D -->
+                        <div class="col-lg-6 mb-5">
+                            <div class="d-flex gap-3">
+                                <div class="flex-shrink-0 d-flex justify-content-center align-items-center"
+                                     style="background-color:#EEE6F9; border-radius:10px; height:52px; width:52px; min-width:52px;">
+                                    <i class="fa fa-bolt" style="color:#7847D9; font-size:22px;"></i>
+                                </div>
+                                <div>
+                                    <h5 style="font-weight:700; color:#121212;">Automatic Credit on Order Confirmation</h5>
+                                    <p style="color:var(--text-color-light); font-size:15px; line-height:1.7;">
+                                        The moment a recharge sale order is confirmed — whether by online payment (card, UPI, etc.) or manual bank transfer — a confirmed <strong>Credit</strong> wallet transaction is created and the customer's balance is updated. The process is idempotent: if the payment hook fires multiple times, no duplicate credits are created.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Feature E -->
+                        <div class="col-lg-6 mb-5">
+                            <div class="d-flex gap-3">
+                                <div class="flex-shrink-0 d-flex justify-content-center align-items-center"
+                                     style="background-color:#EEE6F9; border-radius:10px; height:52px; width:52px; min-width:52px;">
+                                    <i class="fa fa-wallet" style="color:#7847D9; font-size:22px;"></i>
+                                </div>
+                                <div>
+                                    <h5 style="font-weight:700; color:#121212;">Use Wallet at Checkout</h5>
+                                    <p style="color:var(--text-color-light); font-size:15px; line-height:1.7;">
+                                        A "Use Wallet" button is injected into the website cart page for customers with a positive balance. Clicking it applies the available balance (up to the order total) as an instant <strong>Debit</strong> transaction. If the wallet covers the full amount, the order is automatically confirmed and the customer is sent to the order confirmation page.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Feature F -->
+                        <div class="col-lg-6 mb-5">
+                            <div class="d-flex gap-3">
+                                <div class="flex-shrink-0 d-flex justify-content-center align-items-center"
+                                     style="background-color:#EEE6F9; border-radius:10px; height:52px; width:52px; min-width:52px;">
+                                    <i class="fa fa-file-invoice-dollar" style="color:#7847D9; font-size:22px;"></i>
+                                </div>
+                                <div>
+                                    <h5 style="font-weight:700; color:#121212;">Invoice Wallet Payment Button</h5>
+                                    <p style="color:var(--text-color-light); font-size:15px; line-height:1.7;">
+                                        On any posted customer invoice in the backend, an <strong>Apply Wallet Balance</strong> button appears when the customer has available funds. Clicking it creates a debit transaction, registers an accounting payment on the Wallet journal, and updates the invoice's payment state — all in one action.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Feature G -->
+                        <div class="col-lg-6 mb-5">
+                            <div class="d-flex gap-3">
+                                <div class="flex-shrink-0 d-flex justify-content-center align-items-center"
+                                     style="background-color:#EEE6F9; border-radius:10px; height:52px; width:52px; min-width:52px;">
+                                    <i class="fa fa-user-circle" style="color:#7847D9; font-size:22px;"></i>
+                                </div>
+                                <div>
+                                    <h5 style="font-weight:700; color:#121212;">Customer Portal – My Wallet</h5>
+                                    <p style="color:var(--text-color-light); font-size:15px; line-height:1.7;">
+                                        The <strong>My Account</strong> portal home shows the customer's current wallet balance and a transaction count tile. From there, customers navigate to a paginated transaction list (sortable by date, amount, or reference) and can drill into any individual transaction's detail page.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Feature H -->
+                        <div class="col-lg-6 mb-5">
+                            <div class="d-flex gap-3">
+                                <div class="flex-shrink-0 d-flex justify-content-center align-items-center"
+                                     style="background-color:#EEE6F9; border-radius:10px; height:52px; width:52px; min-width:52px;">
+                                    <i class="fa fa-address-card" style="color:#7847D9; font-size:22px;"></i>
+                                </div>
+                                <div>
+                                    <h5 style="font-weight:700; color:#121212;">Partner Smart Button & Manual Adjustment</h5>
+                                    <p style="color:var(--text-color-light); font-size:15px; line-height:1.7;">
+                                        Every customer (res.partner) record displays a <strong>Wallet Balance</strong> smart button. Managers can open the "Add Money to Wallet" wizard directly from the partner form to manually credit or debit any amount with a custom memo — ideal for gifting, refunds, and corrections.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Feature I -->
+                        <div class="col-lg-6 mb-5">
+                            <div class="d-flex gap-3">
+                                <div class="flex-shrink-0 d-flex justify-content-center align-items-center"
+                                     style="background-color:#EEE6F9; border-radius:10px; height:52px; width:52px; min-width:52px;">
+                                    <i class="fa fa-list" style="color:#7847D9; font-size:22px;"></i>
+                                </div>
+                                <div>
+                                    <h5 style="font-weight:700; color:#121212;">Backend Transaction List & Workflow</h5>
+                                    <p style="color:var(--text-color-light); font-size:15px; line-height:1.7;">
+                                        Access all transactions from <strong>Sales → Configuration → Wallet Transactions</strong>. Each transaction moves through Draft → Confirmed → Cancelled states. Confirmed transactions cannot be deleted, only cancelled. Full chatter/message thread tracking is included on every record.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Feature J -->
+                        <div class="col-lg-6 mb-5">
+                            <div class="d-flex gap-3">
+                                <div class="flex-shrink-0 d-flex justify-content-center align-items-center"
+                                     style="background-color:#EEE6F9; border-radius:10px; height:52px; width:52px; min-width:52px;">
+                                    <i class="fa fa-book" style="color:#7847D9; font-size:22px;"></i>
+                                </div>
+                                <div>
+                                    <h5 style="font-weight:700; color:#121212;">Dedicated Wallet Accounting Journal</h5>
+                                    <p style="color:var(--text-color-light); font-size:15px; line-height:1.7;">
+                                        A <strong>Wallet (WLLT)</strong> cash-type journal is auto-created per company on first use. Each confirmed transaction posts an <code>account.payment</code> (inbound for credit, outbound for debit) to this journal, so wallet activity appears cleanly in the company's general ledger.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Feature K -->
+                        <div class="col-lg-6 mb-5">
+                            <div class="d-flex gap-3">
+                                <div class="flex-shrink-0 d-flex justify-content-center align-items-center"
+                                     style="background-color:#EEE6F9; border-radius:10px; height:52px; width:52px; min-width:52px;">
+                                    <i class="fa fa-envelope" style="color:#7847D9; font-size:22px;"></i>
+                                </div>
+                                <div>
+                                    <h5 style="font-weight:700; color:#121212;">Automated Email Notifications</h5>
+                                    <p style="color:var(--text-color-light); font-size:15px; line-height:1.7;">
+                                        Two separate email templates — one for wallet recharges (credit) and one for wallet usage (debit) — are sent automatically when a transaction is confirmed. Emails are dispatched immediately (<code>force_send=True</code>) without waiting for the mail queue cron job.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Feature L -->
+                        <div class="col-lg-6 mb-5">
+                            <div class="d-flex gap-3">
+                                <div class="flex-shrink-0 d-flex justify-content-center align-items-center"
+                                     style="background-color:#EEE6F9; border-radius:10px; height:52px; width:52px; min-width:52px;">
+                                    <i class="fa fa-shield" style="color:#7847D9; font-size:22px;"></i>
+                                </div>
+                                <div>
+                                    <h5 style="font-weight:700; color:#121212;">Insufficient Balance Protection</h5>
+                                    <p style="color:var(--text-color-light); font-size:15px; line-height:1.7;">
+                                        Before confirming any debit transaction, the system validates that the customer's available balance is sufficient. If not, a clear user-friendly error is raised. This constraint is enforced at both the model level and the controller level, preventing any overdraft scenario.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+              
+<!-- ===================== SCREENSHOTS ===================== -->
+<div class="my-5" style="border-radius: 16px; border: 1px solid #EBEEF2; background: #F5F5F7; padding: 60px 40px; box-shadow: 0px 5px 20px -11px rgba(0,0,0,0.25);">
+    <h2 style="color:#121212; text-align:center; font-size:40px; font-weight:700; text-transform:uppercase; padding-bottom:50px;">
+        Screenshots
+    </h2>
+
+    <!-- Group 1: Configuration -->
+    <div class="mb-5">
+        <h4 style="font-weight:700; color:#7847D9; font-size:18px; border-left:4px solid #7847D9; padding-left:12px; margin-bottom:24px;">
+            Wallet Configuration
+        </h4>
+        <div class="row g-4">
+            <div class="col-lg-12">
+                <div style="border-radius:12px; overflow:hidden; border:1px solid #EBEEF2; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+                    <img src="./Screenshot1.png" class="img-fluid w-100" style="display:block;" alt="Wallet Settings in Website Configuration">
+                </div>
+                <p style="text-align:center; color:var(--text-color-light); font-size:14px; margin-top:10px;">Enable the Wallet, assign a Recharge Product, and set min/max amounts under Website &rarr; Configuration &rarr; Settings</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Group 2: Frontend Wallet Pages -->
+    <div class="mb-5">
+        <h4 style="font-weight:700; color:#7847D9; font-size:18px; border-left:4px solid #7847D9; padding-left:12px; margin-bottom:24px;">
+            Customer Wallet Pages (Frontend)
+        </h4>
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div style="border-radius:12px; overflow:hidden; border:1px solid #EBEEF2; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+                    <img src="./Screenshot2.png" class="img-fluid w-100" style="display:block;" alt="Wallet Landing Page">
+                </div>
+                <p style="text-align:center; color:var(--text-color-light); font-size:14px; margin-top:10px;">Wallet landing page (/shop/wallet) showing current balance and Add Wallet Balance form</p>
+            </div>
+            <div class="col-lg-6">
+                <div style="border-radius:12px; overflow:hidden; border:1px solid #EBEEF2; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+                    <img src="./Screenshot3.png" class="img-fluid w-100" style="display:block;" alt="My Account Portal">
+                </div>
+                <p style="text-align:center; color:var(--text-color-light); font-size:14px; margin-top:10px;">My Account portal with Wallet Transactions tile integrated into the customer dashboard</p>
+            </div>
+            <div class="col-lg-12">
+                <div style="border-radius:12px; overflow:hidden; border:1px solid #EBEEF2; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+                    <img src="./Screenshot4.png" class="img-fluid w-100" style="display:block;" alt="My Wallet Transactions">
+                </div>
+                <p style="text-align:center; color:var(--text-color-light); font-size:14px; margin-top:10px;">My Wallet portal page showing available balance and paginated transaction history with Credit/Debit status badges</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Group 3: Wallet Recharge Flow -->
+    <div class="mb-5">
+        <h4 style="font-weight:700; color:#7847D9; font-size:18px; border-left:4px solid #7847D9; padding-left:12px; margin-bottom:24px;">
+            Wallet Recharge Flow
+        </h4>
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div style="border-radius:12px; overflow:hidden; border:1px solid #EBEEF2; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+                    <img src="./Screenshot5.png" class="img-fluid w-100" style="display:block;" alt="Cart with Recharge Product">
+                </div>
+                <p style="text-align:center; color:var(--text-color-light); font-size:14px; margin-top:10px;">Recharge product added to the cart at the customer-selected amount, proceeding through standard checkout</p>
+            </div>
+            <div class="col-lg-6">
+                <div style="border-radius:12px; overflow:hidden; border:1px solid #EBEEF2; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+                    <img src="./Screenshot6.png" class="img-fluid w-100" style="display:block;" alt="Payment Page">
+                </div>
+                <p style="text-align:center; color:var(--text-color-light); font-size:14px; margin-top:10px;">Checkout payment page showing current wallet balance with the Use Wallet button for instant payment</p>
+            </div>
+            <div class="col-lg-6">
+                <div style="border-radius:12px; overflow:hidden; border:1px solid #EBEEF2; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+                    <img src="./Screenshot7.png" class="img-fluid w-100" style="display:block;" alt="Order Confirmation">
+                </div>
+                <p style="text-align:center; color:var(--text-color-light); font-size:14px; margin-top:10px;">Thank You / Order confirmation page after successful recharge payment is processed</p>
+            </div>
+            <div class="col-lg-6">
+                <div style="border-radius:12px; overflow:hidden; border:1px solid #EBEEF2; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+                    <img src="./Screenshot8.png" class="img-fluid w-100" style="display:block;" alt="Sale Order Form">
+                </div>
+                <p style="text-align:center; color:var(--text-color-light); font-size:14px; margin-top:10px;">Backend Sale Order form showing the Wallet Used smart button and the recharge product order line</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Group 4: Pay Orders with Wallet -->
+    <div class="mb-5">
+        <h4 style="font-weight:700; color:#7847D9; font-size:18px; border-left:4px solid #7847D9; padding-left:12px; margin-bottom:24px;">
+            Pay Orders with Wallet Balance
+        </h4>
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div style="border-radius:12px; overflow:hidden; border:1px solid #EBEEF2; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+                    <img src="./Screenshot9.png" class="img-fluid w-100" style="display:block;" alt="Shop Page">
+                </div>
+                <p style="text-align:center; color:var(--text-color-light); font-size:14px; margin-top:10px;">Website shop with Wallet menu item visible in the navigation bar for logged-in customers</p>
+            </div>
+            <div class="col-lg-6">
+                <div style="border-radius:12px; overflow:hidden; border:1px solid #EBEEF2; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+                    <img src="./Screenshot10.png" class="img-fluid w-100" style="display:block;" alt="Cart Regular Product">
+                </div>
+                <p style="text-align:center; color:var(--text-color-light); font-size:14px; margin-top:10px;">Shopping cart with a regular product ready for checkout using wallet balance</p>
+            </div>
+            <div class="col-lg-6">
+                <div style="border-radius:12px; overflow:hidden; border:1px solid #EBEEF2; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+                    <img src="./Screenshot11.png" class="img-fluid w-100" style="display:block;" alt="Use Wallet on Payment">
+                </div>
+                <p style="text-align:center; color:var(--text-color-light); font-size:14px; margin-top:10px;">Payment page displaying wallet balance (&#8377;20,000) with Use Wallet button — click confirms the order instantly</p>
+            </div>
+            <div class="col-lg-6">
+                <div style="border-radius:12px; overflow:hidden; border:1px solid #EBEEF2; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+                    <img src="./Screenshot12.png" class="img-fluid w-100" style="display:block;" alt="Order Confirmed via Wallet">
+                </div>
+                <p style="text-align:center; color:var(--text-color-light); font-size:14px; margin-top:10px;">Order S00044 auto-confirmed after wallet fully covered the total — no manual payment step needed</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Group 5: Backend Management -->
+    <div class="mb-5">
+        <h4 style="font-weight:700; color:#7847D9; font-size:18px; border-left:4px solid #7847D9; padding-left:12px; margin-bottom:24px;">
+            Backend Management
+        </h4>
+        <div class="row g-4">
+            <div class="col-lg-12">
+                <div style="border-radius:12px; overflow:hidden; border:1px solid #EBEEF2; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+                    <img src="./Screenshot13.png" class="img-fluid w-100" style="display:block;" alt="Sales Quotations">
+                </div>
+                <p style="text-align:center; color:var(--text-color-light); font-size:14px; margin-top:10px;">Sales quotations list showing wallet recharge orders alongside regular orders, all tracked in one place</p>
+            </div>
+            <div class="col-lg-12">
+                <div style="border-radius:12px; overflow:hidden; border:1px solid #EBEEF2; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+                    <img src="./Screenshot17.png" class="img-fluid w-100" style="display:block;" alt="Wallet Transactions Backend">
+                </div>
+                <p style="text-align:center; color:var(--text-color-light); font-size:14px; margin-top:10px;">Wallet Transactions list (Sales &rarr; Configuration &rarr; Wallet Transactions) with Credit/Debit types, amounts, linked orders and Confirmed status</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Group 6: Invoice Integration -->
+    <div class="mb-5">
+        <h4 style="font-weight:700; color:#7847D9; font-size:18px; border-left:4px solid #7847D9; padding-left:12px; margin-bottom:24px;">
+            Invoice &amp; Partner Integration
+        </h4>
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div style="border-radius:12px; overflow:hidden; border:1px solid #EBEEF2; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+                    <img src="./Screenshot15.png" class="img-fluid w-100" style="display:block;" alt="Invoices List">
+                </div>
+                <p style="text-align:center; color:var(--text-color-light); font-size:14px; margin-top:10px;">Customer invoices list showing wallet recharge invoices in Posted state</p>
+            </div>
+            <div class="col-lg-6">
+                <div style="border-radius:12px; overflow:hidden; border:1px solid #EBEEF2; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+                    <img src="./Screenshot16.png" class="img-fluid w-100" style="display:block;" alt="Customer Form Wallet Balance">
+                </div>
+                <p style="text-align:center; color:var(--text-color-light); font-size:14px; margin-top:10px;">Customer (res.partner) form showing Wallet Balance smart button (&#8377;20,000) alongside Sales and Invoiced smart buttons</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Group 7: Accounting -->
+    <div class="mb-5">
+        <h4 style="font-weight:700; color:#7847D9; font-size:18px; border-left:4px solid #7847D9; padding-left:12px; margin-bottom:24px;">
+            Accounting Integration
+        </h4>
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div style="border-radius:12px; overflow:hidden; border:1px solid #EBEEF2; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+                    <img src="./Screenshot18.png" class="img-fluid w-100" style="display:block;" alt="Journals List">
+                </div>
+                <p style="text-align:center; color:var(--text-color-light); font-size:14px; margin-top:10px;">Journals list showing the auto-created Wallet journal (code: WLLT, type: Cash) added to the chart of accounts</p>
+            </div>
+            <div class="col-lg-6">
+                <div style="border-radius:12px; overflow:hidden; border:1px solid #EBEEF2; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+                    <img src="./Screenshot19.png" class="img-fluid w-100" style="display:block;" alt="Journal Items">
+                </div>
+                <p style="text-align:center; color:var(--text-color-light); font-size:14px; margin-top:10px;">Journal items / accounting entries showing wallet recharge lines with debit/credit postings per invoice</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+              
+                <!-- service-section -->
+
+                <section id="services" class="mt-5" style="border-radius: 16px;
+                                                            border: 1px solid #EBEEF2;
+                                                            background: var(--Neutral-N0, #FFF);
+                                                            padding: 30px 20px;
+                                                            box-shadow: 0px 5px 20px -11px rgba(0, 0, 0, 0.25);">
+                    <div class="text-center mt-4"><h3 class="mb-0" style="color: #000;
+                                                                  text-align: center;
+                                                                  font-family: Montserrat;
+                                                                  font-size: 40px;
+                                                                  font-style: normal;
+                                                                  font-weight: 700;
+                                                                  line-height: normal;
+                                                                  text-transform: uppercase;
+                                                                  padding-bottom: 50px;">
+                        Our Services</h3></div>
+                    <div class="row mt-3">
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold;background-color:#FFE2E5; margin:auto; gap: 16px; border-radius: 8px;">
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#FA5A7D; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/gear.svg"
+                                             class="img-responsive"
+                                             height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px;
+                                  color: var(--text-color);
+                                  font-weight: 600;"> Odoo Customization</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold;background-color:#FFF4DE; margin:auto; gap: 16px; border-radius: 8px;">
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#FF947A; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/wrench-icon.svg"
+                                             class="img-responsive"
+                                             height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px;
+                    color: var(--text-color);
+                    font-weight: 600;"> Odoo Implementation</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold;background-color:#DCFCE7; margin:auto; gap: 16px; border-radius: 8px;">
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#3CD856; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/life-ring-icon.svg"
+                                             class="img-responsive"
+                                             height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px;
+                  color: var(--text-color);
+                  font-weight: 600;">Odoo Support</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold;background-color:#F3E8FF; margin:auto; gap: 16px; border-radius: 8px;">
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#BF83FF; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/arrows-repeat.svg"
+                                             class="img-responsive"
+                                             height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px;
+                color: var(--text-color);
+                font-weight: 600;">Odoo Migration</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold;background-color:#F1F9FF; margin:auto; gap: 16px; border-radius: 8px;">
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#01649C; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/puzzle-piece-icon.svg"
+                                             class="img-responsive"
+                                             height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px;
+              color: var(--text-color);
+              font-weight: 600;">Odoo integration</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold;background-color:#EDF8ED; margin:auto; gap: 16px; border-radius: 8px;">
+
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#69CC70; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/odoo-consultancy.svg"
+                                             class="img-responsive"
+                                             height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px;
+            color: var(--text-color);
+            font-weight: 600;">Odoo Consultancy</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold;background-color:#F1F6FF; margin:auto; gap: 16px; border-radius: 8px;">
+
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#2E4556; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/odoo-licencing.svg"
+                                             class="img-responsive"
+                                             height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px;
+          color: var(--text-color);
+          font-weight: 600;">Odoo Licensing</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold;background-color:#FAF6EA; margin:auto; gap: 16px; border-radius: 8px;">
+
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#FCD12C; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/hire-odoo.svg"
+                                             class="img-responsive"
+                                             height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px;
+          color: var(--text-color);
+          font-weight: 600;">Hire Odoo Developer</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+            </div>
+            <!-- licence -->
+            <div class="tab-pane fade" id="profile" role="tabpanel"
+                 aria-labelledby="profile-tab">
+                <div class="px-5">
+                    ....
+                </div>
+            </div>
+            <!--  -->
+        </div>
+        </section>
+        <!--  -->
+    </div>
+</div>
+<div style="max-width:850px;margin:10px auto;
+padding:35px 25px;
+border-radius:16px;
+background-color:#0f172a;
+color:#fff;
+font-family: 'Segoe UI', sans-serif;
+box-shadow:0 10px 30px rgba(0,0,0,0.2);">
+
+    <!-- HEADER -->
+    <div style="text-align:center;margin-bottom:20px;">
+        <h2 style="margin:0;font-size:26px;font-weight:600;">
+            Support & Customization
+        </h2>
+        <p style="color:#94a3b8;font-size:14px;margin-top:6px;">
+            We're here to help you with setup, customization & support
+        </p>
+    </div>
+
+    <!-- EMAIL BUTTON -->
+    <div style="text-align:center;margin-bottom:25px;">
+        <a href="mailto:info@inomerp.in"
+           style="background:linear-gradient(135deg,#7f54b3,#9b6cff);
+           color:#fff;
+           padding:10px 22px;
+           border-radius:30px;
+           text-decoration:none;
+           font-size:14px;
+           font-weight:500;
+           display:inline-block;
+           box-shadow:0 4px 10px rgba(127,84,179,0.4);">
+            📩 info@inomerp.in
+        </a>
+    </div>
+
+    <!-- SUPPORT CARD -->
+    <div style="background:rgba(255,255,255,0.05);
+                padding:18px 20px;
+                border-radius:12px;
+                border:1px solid rgba(255,255,255,0.08);
+                backdrop-filter: blur(6px);">
+
+        <h4 style="color:#f87171;font-size:17px;margin-bottom:6px;">
+            🚀 Free Installation Support
+        </h4>
+
+        <p style="font-size:13px;color:#e2e8f0;margin-bottom:6px;">
+            One-time free setup on Odoo server with proper configuration.
+        </p>
+
+        <p style="font-size:12px;color:#94a3b8;margin:0;">
+            Third-party or custom development requests may be chargeable.
+        </p>
+    </div>
+
+    <!-- BUTTON -->
+    <div style="text-align:center;margin-top:25px;">
+        <a href="https://inomerp.in"
+           target="_blank"
+           style="border:1px solid #7f54b3;
+           color:#fff;
+           padding:9px 22px;
+           border-radius:30px;
+           text-decoration:none;
+           font-size:13px;
+           transition:0.3s;">
+            🌐 Visit Website
+        </a>
+    </div>
+
+    <!-- FOOTER -->
+    <div style="text-align:center;margin-top:30px;
+                border-top:1px solid rgba(255,255,255,0.1);
+                padding-top:15px;">
+
+        <strong style="font-size:14px;letter-spacing:1px;">
+            INOM ERP
+        </strong>
+
+        <p style="font-size:12px;color:#94a3b8;margin-top:5px;">
+            Odoo Experts | ERP Solutions | Custom Development
+        </p>
+    </div>
+
+</div>
+</div>
+
+</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script>
+    $('.owl-carousel').owlCarousel({
+     rtl:true,
+     loop:true,
+     margin:10,
+     nav:true,
+     responsive:{
+         0:{
+             items:1
+         },
+         600:{
+             items:3
+         },
+         1000:{
+             items:3
+         }
+     }
+ })
+</script>
+</html>

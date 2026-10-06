@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Backend security reuses the standard Purchase groups
+        (see ir.model.access.csv):
+          - purchase.group_purchase_user    -> read / create / write
+          - purchase.group_purchase_manager -> read / create / write / unlink
+
+        Phase 4 adds two portal feature groups. They are toggled from
+        Purchase > Settings > Vendor Product Management and are only ever
+        implied by base.group_portal, so enabling a portal feature never
+        widens what internal users can reach.
+    -->
+
+    <record id="group_vendor_product_portal" model="res.groups">
+        <field name="name">Vendor Products Portal</field>
+        <field name="share" eval="True"/>
+        <field name="comment">Lets a vendor manage their own product catalog from the Odoo portal.</field>
+    </record>
+
+    <record id="group_vendor_stock_portal" model="res.groups">
+        <field name="name">Vendor Stocks in Portal</field>
+        <field name="share" eval="True"/>
+        <field name="comment">Lets a vendor observe, manage and import their own stock levels from the Odoo portal.</field>
+    </record>
+
+    <!--
+        Odoo 20 has no ir.rule: the Odoo 19 "own records only" portal
+        record rules are the domains on the portal lines in ir.access.csv.
+    -->
+
+</odoo>

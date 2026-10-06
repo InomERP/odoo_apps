@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="inom_advance_dms.Dashboard">
+        <div class="edm-dashboard">
+
+            <!-- HEADER -->
+            <header class="edm-pro-head">
+                <div class="edm-pro-head-text">
+                    <h1 class="edm-pro-title">Documents</h1>
+                    <p class="edm-pro-subtitle">Manage, review and share your files in one place</p>
+                </div>
+                <div class="edm-pro-head-actions">
+                    <button class="edm-pro-btn ghost" t-on-click="this.openNewFolder">
+                        <i class="oi" data-icon="plus"/> New Folder
+                    </button>
+                    <button class="edm-pro-btn ghost" t-on-click="() => this.openNewRequest()">
+                        <i class="oi" data-icon="send"/> New Request
+                    </button>
+                    <button class="edm-pro-btn primary" t-on-click="this.openUpload">
+                        <i class="oi" data-icon="upload"/> Add New File
+                    </button>
+                </div>
+            </header>
+
+            <!-- STAT CARDS -->
+            <div class="edm-pro-stats">
+                <div class="edm-pro-stat" style="--c:#3b82f6;--c2:#60a5fa" t-on-click="() => this.openCard('my')">
+                    <div class="edm-pro-stat-top"><span class="edm-pro-stat-badge"><i class="oi" data-icon="file"/></span></div>
+                    <div class="edm-pro-stat-value" t-out="this.state.stats.my_documents || 0"/>
+                    <div class="edm-pro-stat-label">My Documents</div>
+                </div>
+                <div class="edm-pro-stat" style="--c:#8b5cf6;--c2:#a78bfa" t-on-click="() => this.openCard('shared')">
+                    <div class="edm-pro-stat-top"><span class="edm-pro-stat-badge"><i class="oi" data-icon="share"/></span></div>
+                    <div class="edm-pro-stat-value" t-out="this.state.stats.shared_with_me || 0"/>
+                    <div class="edm-pro-stat-label">Shared With Me</div>
+                </div>
+                <div class="edm-pro-stat" style="--c:#f59e0b;--c2:#fbbf24" t-on-click="() => this.openCard('review')">
+                    <div class="edm-pro-stat-top">
+                        <span class="edm-pro-stat-badge"><i class="oi" data-icon="eye"/></span>
+                        <span t-if="this.state.stats.need_my_review" class="edm-pro-trend warn">Action needed</span>
+                    </div>
+                    <div class="edm-pro-stat-value" t-out="this.state.stats.need_my_review || 0"/>
+                    <div class="edm-pro-stat-label">Need My Review</div>
+                </div>
+                <div class="edm-pro-stat" style="--c:#f43f5e;--c2:#fb7185" t-on-click="() => this.openCard('pending')">
+                    <div class="edm-pro-stat-top">
+                        <span class="edm-pro-stat-badge"><i class="oi" data-icon="clock"/></span>
+                        <span t-if="this.state.stats.pending_with_others" class="edm-pro-trend warn">Awaiting reply</span>
+                    </div>
+                    <div class="edm-pro-stat-value" t-out="this.state.stats.pending_with_others || 0"/>
+                    <div class="edm-pro-stat-label">Pending With Others</div>
+                </div>
+            </div>
+
+            <div t-if="this.state.error" class="edm-pro-error">
+                <i class="oi me-2" data-icon="warning"/> Unable to load dashboard data. Please refresh.
+            </div>
+
+            <!-- BODY -->
+            <div class="edm-pro-body">
+
+                <!-- SIDEBAR -->
+                <aside class="edm-pro-side">
+                    <div class="edm-pro-side-head">
+                        <span>Folders</span>
+                        <span class="edm-pro-side-total" t-out="this.state.folders.length"/>
+                    </div>
+                    <div class="edm-pro-side-search">
+                        <i class="oi" data-icon="search"/>
+                        <input type="text" placeholder="Quick find..." t-model="this.sideSearch"/>
+                    </div>
+                    <nav class="edm-pro-tree">
+                        <a class="edm-pro-node" t-att-class="!this.state.currentFolderId ? 'active-node' : ''"
+                           style="--fc:#94a3b8" t-on-click="() => this.goHome()">
+                            <span class="edm-pro-node-dot"/>
+                            <span class="edm-pro-node-name"><i class="oi me-1" data-icon="home"/>Home</span>
+                        </a>
+                        <t t-foreach="this.filteredSidebar || []" t-as="folder" t-key="folder.id">
+                            <a class="edm-pro-node" t-att-class="this.state.currentFolderId === folder.id ? 'active-node' : ''"
+                               t-att-style="'--fc:' + this.colorFor(folder_index)"
+                               t-on-click="() => this.openFolder(folder.id, folder.name)">
+                                <span class="edm-pro-node-dot"/>
+                                <span class="edm-pro-node-name" t-out="folder.name"/>
+                                <span class="edm-pro-node-count" t-out="folder.count"/>
+                            </a>
+                        </t>
+                        <div t-if="this.filteredSidebar.length === 0" class="edm-pro-side-empty">No folders found.</div>
+                    </nav>
+                </aside>
+
+                <!-- MAIN -->
+                <section class="edm-pro-main">
+                    <div class="edm-pro-main-top">
+                        <div class="edm-pro-crumb">
+                            <span class="edm-pro-crumb-link" t-on-click="() => this.goHome()"><i class="oi" data-icon="home"/> Home</span>
+                            <t t-foreach="this.state.breadcrumb || []" t-as="crumb" t-key="crumb.id">
+                                <i class="oi edm-pro-crumb-sep" data-icon="chevron-right"/>
+                                <span class="edm-pro-crumb-link" t-att-class="crumb_last ? 'edm-pro-crumb-active' : ''"
+                                      t-on-click="() => this.goCrumb(crumb.id, crumb.name)" t-out="crumb.name"/>
+                            </t>
+                        </div>
+                        <div class="edm-pro-tabs">
+                            <button class="edm-pro-tab" t-att-class="this.state.activeTab === 'all' ? 'active' : ''" t-on-click="() => this.onTab('all')">All</button>
+                            <button class="edm-pro-tab" t-att-class="this.state.activeTab === 'files' ? 'active' : ''" t-on-click="() => this.onTab('files')">Files</button>
+                            <button class="edm-pro-tab" t-att-class="this.state.activeTab === 'shared' ? 'active' : ''" t-on-click="() => this.onTab('shared')">Shared</button>
+                        </div>
+                    </div>
+
+                    <div class="edm-pro-toolbar">
+                        <div class="edm-pro-search">
+                            <i class="oi" data-icon="search"/>
+                            <input type="text" placeholder="Search in this folder..." t-model="this.search"/>
+                        </div>
+                        <div class="edm-pro-tools">
+                            <button class="edm-pro-tool" t-on-click="this.openAllDocuments"><i class="oi" data-icon="folder"/> All Documents</button>
+                            <button class="edm-pro-tool icon" title="Refresh" t-on-click="this.onRefresh"><i class="oi" data-icon="refresh"/></button>
+                        </div>
+                    </div>
+
+                    <!-- DROP ZONE + GRID -->
+                    <div class="edm-pro-drop" t-att-class="this.state.dragActive ? 'drag-active' : ''"
+                         t-on-dragenter.prevent.stop="this.onDragEnter" t-on-dragover.prevent.stop="this.onDragOver" t-on-dragleave.prevent.stop="this.onDragLeave" t-on-drop.prevent.stop="this.onDrop">
+
+                        <div t-if="this.state.dragActive" class="edm-pro-drop-overlay">
+                            <i class="oi" data-icon="upload"/>
+                            <div>Drop files to upload here</div>
+                        </div>
+
+                        <div t-if="this.state.uploading" class="edm-pro-uploading">
+                            <i class="oi me-2" data-icon="loader"/> Uploading...
+                        </div>
+
+                        <div class="edm-pro-grid-wrap">
+                            <div t-if="this.pagedItems.length === 0 and !this.state.uploading" class="edm-pro-empty">
+                                <i class="oi" data-icon="folder"/>
+                                <div>This folder is empty.</div>
+                                <div class="edm-pro-empty-hint">Drag &amp; drop files here, or use "Add New File".</div>
+                            </div>
+
+                            <div t-else="" class="edm-pro-grid">
+                                <t t-foreach="this.pagedItems || []" t-as="item" t-key="item.kind + '-' + item.id">
+
+                                    <!-- FOLDER CARD -->
+                                    <div t-if="item.kind === 'folder'" class="edm-pro-card"
+                                         t-att-style="'--fc:' + this.colorFor(item_index)"
+                                         t-on-click="() => this.openFolder(item.id, item.name)">
+                                        <div class="edm-pro-card-top"><div class="edm-pro-card-ico"/></div>
+                                        <div class="edm-pro-card-name" t-out="item.name"/>
+                                        <div class="edm-pro-card-meta"><t t-out="item.count"/> <t t-out="item.count === 1 ? 'item' : 'items'"/></div>
+                                    </div>
+
+                                    <!-- DOCUMENT CARD -->
+                                    <div t-else="" class="edm-pro-card edm-pro-doc-card"
+                                         t-att-style="'--fc:' + this.extColor(item.extension)"
+                                         t-on-click="() => this.openDocument(item.id)">
+                                        <div class="edm-pro-card-top">
+                                            <div class="edm-pro-file-ico"><i class="oi" t-att-data-icon="this.iconFor(item.extension)"/></div>
+                                            <div class="edm-pro-card-actions">
+                                                <button class="edm-pro-fav" t-att-class="item.is_favorite ? 'is-fav' : ''" t-att-title="item.is_favorite ? 'Remove from favorites' : 'Add to favorites'" t-on-click.stop="(ev) => this.toggleFavorite(item, ev)">
+                                                    <i class="oi" t-att-data-icon="item.is_favorite ? 'star' : 'star'"/>
+                                                </button>
+                                                <button class="edm-pro-kebab" t-on-click.stop="(ev) => this.toggleMenu(item, ev)">
+                                                    <i class="oi" data-icon="more-vert"/>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="edm-pro-card-name" t-out="item.name"/>
+                                        <div class="edm-pro-card-meta">
+                                            <span class="edm-pro-ext" t-out="item.extension"/>
+                                            <span t-att-class="'edm-pro-st state-' + item.state" t-out="item.state"/>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="edm-pro-foot">
+                        <div class="edm-pro-foot-info">
+                            Showing <b t-out="this.rangeStart"/>-<b t-out="this.rangeEnd"/> of <b t-out="this.filteredItems.length"/> items
+                        </div>
+                        <div class="edm-pro-pager">
+                            <button class="edm-pro-pg" t-att-disabled="this.state.page &lt;= 1" t-on-click="this.prevPage"><i class="oi" data-icon="chevron-left"/></button>
+                            <span class="edm-pro-pg num active" t-out="this.state.page"/>
+                            <button class="edm-pro-pg" t-att-disabled="this.state.page >= this.totalPages" t-on-click="this.nextPage"><i class="oi" data-icon="chevron-right"/></button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- FLOATING KEBAB MENU (rendered at root, never clipped) -->
+            <div t-if="this.state.menu.open" class="edm-pro-menu floating"
+                 t-att-style="'top:' + this.state.menu.y + 'px;left:' + this.state.menu.x + 'px'"
+                 t-on-click.stop="() => {}">
+                <button class="edm-pro-mi" t-on-click.stop="() => this.openDocument(this.state.menu.id)"><i class="oi" data-icon="folder"/> Open</button>
+                <button class="edm-pro-mi" t-on-click.stop="() => this.downloadDoc(this.state.menu.id)"><i class="oi" data-icon="download"/> Download</button>
+                <button class="edm-pro-mi" t-on-click.stop="() => this.shareDoc(this.state.menu.id)"><i class="oi" data-icon="share"/> Share access</button>
+                <button class="edm-pro-mi" t-on-click.stop="() => this.requestApproval(this.state.menu.id)"><i class="oi" data-icon="check"/> Request approval</button>
+                <button t-if="this.state.menu.isPdf" class="edm-pro-mi annotate" t-on-click.stop="() => this.annotateDoc(this.state.menu.id)"><i class="oi" data-icon="edit"/> Annotate PDF</button>
+            </div>
+
+            <!-- DOCUMENT POPUP -->
+            <div t-if="this.state.popup.open" class="edm-docpop-overlay" t-on-click="() => this.closePopup()">
+                <div class="edm-docpop" t-on-click.stop="() => {}">
+                    <div class="edm-docpop-head">
+                        <div class="edm-docpop-title">
+                            <i class="oi" t-att-data-icon="this.iconFor(this.state.popup.ext)"/>
+                            <span t-out="this.state.popup.name"/>
+                        </div>
+                        <button class="edm-docpop-x" t-on-click="() => this.closePopup()"><i class="oi" data-icon="close"/></button>
+                    </div>
+                    <div class="edm-docpop-body">
+                        <div t-if="this.state.popup.preview and this.state.popup.isPdf" class="edm-docpop-preview">
+                            <iframe t-att-src="this.previewUrl" frameborder="0" t-on-load="(ev) => this.onPreviewLoad(ev)"/>
+                        </div>
+                        <div t-elif="this.state.popup.isImage" class="edm-docpop-imgwrap">
+                            <img t-att-src="this.imageUrl" class="edm-docpop-img" alt="Document preview"/>
+                        </div>
+                        <div t-else="" class="edm-docpop-icon">
+                            <i class="oi" t-att-data-icon="this.iconFor(this.state.popup.ext)"/>
+                            <div class="edm-docpop-ext" t-out="this.state.popup.ext || 'file'"/>
+                        </div>
+                    </div>
+                    <div class="edm-docpop-actions">
+                        <button t-if="this.state.popup.isPdf or this.state.popup.isImage" class="edm-docpop-btn" t-on-click="() => this.togglePreview()">
+                            <i class="oi" data-icon="eye"/> <t t-out="this.state.popup.preview ? 'Hide preview' : 'Preview'"/>
+                        </button>
+                        <button t-if="this.state.popup.isPdf and this.state.popup.canAnnotate" class="edm-docpop-btn primary" t-on-click="() => this.popupAnnotate()"><i class="oi" data-icon="edit"/> Annotate</button>
+                        <button class="edm-docpop-btn ghost" t-on-click="() => this.popupForm()"><i class="oi" data-icon="external-link"/> Open details</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SHARED-WITH-ME POPUP -->
+            <div t-if="this.state.sharedPopup.open" class="edm-docpop-overlay" t-on-click="() => this.closeSharedPopup()">
+                <div class="edm-docpop edm-share-pop" t-on-click.stop="() => {}">
+                    <div class="edm-docpop-head">
+                        <div class="edm-docpop-title">
+                            <span class="edm-share-hicon"><i class="oi" data-icon="share"/></span>
+                            <span>Shared with me</span>
+                            <span class="edm-share-count" t-out="this.state.sharedDocs.length"/>
+                        </div>
+                        <button class="edm-docpop-x" t-on-click="() => this.closeSharedPopup()"><i class="oi" data-icon="close"/></button>
+                    </div>
+                    <div class="edm-shared-list">
+                        <t t-foreach="this.state.sharedDocs || []" t-as="doc" t-key="doc.id">
+                            <div class="edm-shared-row" t-on-click="() => this.openSharedDoc(doc.id)">
+                                <div class="edm-shared-ico"><i class="oi" t-att-data-icon="this.iconFor(doc.extension)"/></div>
+                                <div class="edm-shared-info">
+                                    <div class="edm-shared-name" t-out="doc.name"/>
+                                    <div class="edm-shared-meta">
+                                        <span class="edm-shared-by">Shared by <t t-out="doc.owner"/></span>
+                                        <span class="edm-shared-pill" t-out="doc.extension"/>
+                                    </div>
+                                </div>
+                                <span class="edm-shared-go"><i class="oi" data-icon="chevron-right"/></span>
+                            </div>
+                        </t>
+                        <div t-if="!this.state.sharedDocs.length" class="edm-shared-empty">No documents shared with you yet.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div t-if="this.state.loading" class="edm-pro-loading">
+                <div class="edm-pro-spinner"/>
+                <div>Loading...</div>
+            </div>
+
+        </div>
+    </t>
+
+</templates>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="inom_pos_stock_badge.LowStockButton">
+        <div class="position-relative">
+            <button class="btn btn-warning btn-lg lh-lg" t-on-click="this.togglePopup">
+                <i class="oi oi-fw" data-icon="warning" aria-hidden="true"/> Low Stock
+            </button>
+            <div t-if="this.state.show" class="inom-low-stock-popup position-absolute bg-white border rounded shadow p-0">
+                <t t-set="products" t-value="this.lowStockProducts"/>
+                <div class="p-2 bg-warning text-dark fw-bold d-flex justify-content-between align-items-center">
+                    <span><i class="oi oi-fw" data-icon="warning" aria-hidden="true"/> Low Stock Products</span>
+                    <span class="badge bg-dark" t-out="products.length"/>
+                </div>
+                <div t-if="products.length === 0" class="p-3 text-center text-muted">No low stock products</div>
+                <t t-foreach="products" t-as="product" t-key="product.id">
+                    <div class="d-flex justify-content-between align-items-center px-3 py-2 border-bottom">
+                        <span class="text-truncate me-2" t-out="product.name"/>
+                        <span t-if="product.qty &lt;= 0" class="badge bg-danger fw-bold" t-out="product.qty"/>
+                        <span t-else="" class="badge bg-warning text-dark fw-bold" t-out="product.qty"/>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </t>
+
+    <t t-inherit="point_of_sale.Navbar" t-inherit-mode="extension">
+        <xpath expr="//CashierName" position="before">
+            <LowStockButton t-if="this.pos.config.display_stock and this.pos.config.show_low_stock_button"/>
+        </xpath>
+    </t>
+
+</templates>

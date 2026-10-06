@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_vendor_stock_list" model="ir.ui.view">
+        <field name="name">vendor.stock.list</field>
+        <field name="model">vendor.stock</field>
+        <field name="arch" type="xml">
+            <list string="Vendor Stock" editable="bottom">
+                <field name="vendor_id"/>
+                <field name="vendor_product_id"/>
+                <field name="location_id"/>
+                <field name="quantity"/>
+                <field name="uom_id"/>
+                <field name="quantity_product_uom" readonly="1"/>
+                <field name="uom_mismatch" widget="boolean_toggle" readonly="1"
+                       decoration-danger="uom_mismatch"/>
+                <field name="last_updated"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_vendor_stock_form" model="ir.ui.view">
+        <field name="name">vendor.stock.form</field>
+        <field name="model">vendor.stock</field>
+        <field name="arch" type="xml">
+            <form string="Vendor Stock">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                            invisible="active"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="vendor_product_id"
+                                   options="{'no_create': True}"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Vendor Stock">
+                            <field name="vendor_id" readonly="1"/>
+                            <field name="location_id"
+                                   domain="[('vendor_id', '=', vendor_id)]"/>
+                            <field name="quantity"/>
+                            <field name="uom_id"/>
+                            <field name="quantity_product_uom" readonly="1"/>
+                            <field name="uom_mismatch" widget="boolean_toggle" readonly="1"/>
+                        </group>
+                        <group string="Info">
+                            <field name="product_uom_id" readonly="1"/>
+                            <field name="last_updated"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="note" placeholder="Note about this stock line..."/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_vendor_stock_search" model="ir.ui.view">
+        <field name="name">vendor.stock.search</field>
+        <field name="model">vendor.stock</field>
+        <field name="arch" type="xml">
+            <search string="Vendor Stock">
+                <field name="vendor_id"/>
+                <field name="vendor_product_id"/>
+                <field name="location_id"/>
+                <filter string="UoM Mismatch" name="mismatch" domain="[('uom_mismatch', '=', True)]"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter string="Vendor" name="group_vendor" context="{'group_by': 'vendor_id'}"/>
+                    <filter string="Location" name="group_location" context="{'group_by': 'location_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_vendor_stock" model="ir.actions.act_window">
+        <field name="name">Vendor Stock</field>
+        <field name="res_model">vendor.stock</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_vendor_stock_search"/>
+        <field name="context">{'search_default_group_vendor': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No vendor stock recorded yet
+            </p>
+            <p>
+                Vendor stock is informational only - it is fully independent
+                of your Odoo warehouses. Levels are updated manually or via
+                the Import Vendor Stocks wizard, and are especially useful
+                for make-to-order and drop-shipping decisions.
+            </p>
+        </field>
+    </record>
+
+</odoo>

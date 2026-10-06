@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_vendor_product_list" model="ir.ui.view">
+        <field name="name">vendor.product.list</field>
+        <field name="model">vendor.product</field>
+        <field name="arch" type="xml">
+            <list string="Vendor Products" decoration-danger="price_outdated">
+                <field name="vendor_id"/>
+                <field name="vendor_product_name"/>
+                <field name="vendor_code"/>
+                <field name="product_id"/>
+                <field name="product_tmpl_id"/>
+                <field name="vendor_price"/>
+                <field name="price_outdated" widget="boolean_toggle" readonly="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_vendor_product_form" model="ir.ui.view">
+        <field name="name">vendor.product.form</field>
+        <field name="model">vendor.product</field>
+        <field name="arch" type="xml">
+            <form string="Vendor Product">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                            invisible="active"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_vendor_stock"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="inventory_2">
+                            <field name="vendor_stock_count" widget="statinfo" string="Stock Locations"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="vendor_product_name" placeholder="e.g. Office Lamp"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Vendor Information">
+                            <field name="vendor_id"/>
+                            <field name="vendor_code"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="vendor_price"/>
+                            <field name="price_outdated" widget="boolean_toggle"/>
+                            <field name="price_last_updated" readonly="1"/>
+                        </group>
+                        <group string="Matched Odoo Product">
+                            <field name="product_tmpl_id" readonly="1"/>
+                            <field name="product_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Vendor Stock" name="vendor_stock">
+                            <div class="alert alert-info" role="alert">
+                                Vendor stock is informational only. It is fully independent of
+                                your Odoo warehouses - there is no double-entry, since you cannot
+                                control a supplier's own stock moves. Update levels manually or
+                                via import.
+                            </div>
+                            <group>
+                                <field name="total_vendor_stock_qty" readonly="1"/>
+                            </group>
+                            <field name="stock_ids">
+                                <list editable="bottom" decoration-danger="uom_mismatch">
+                                    <field name="location_id"
+                                           domain="[('vendor_id', '=', parent.vendor_id)]"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="quantity_product_uom" readonly="1"/>
+                                    <field name="uom_mismatch" widget="boolean_toggle" readonly="1"
+                                           decoration-danger="uom_mismatch"/>
+                                    <field name="last_updated"/>
+                                    <field name="note"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="note" placeholder="Internal notes about this vendor product..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_vendor_product_search" model="ir.ui.view">
+        <field name="name">vendor.product.search</field>
+        <field name="model">vendor.product</field>
+        <field name="arch" type="xml">
+            <search string="Vendor Products">
+                <field name="vendor_id"/>
+                <field name="vendor_product_name"/>
+                <field name="vendor_code"/>
+                <field name="product_id"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <filter string="Unmatched (no product)" name="unmatched" domain="[('product_id', '=', False)]"/>
+                <group>
+                    <filter string="Vendor" name="group_vendor" context="{'group_by': 'vendor_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_vendor_product" model="ir.actions.act_window">
+        <field name="name">Vendor Products</field>
+        <field name="res_model">vendor.product</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_vendor_product_search"/>
+        <field name="context">{'search_default_group_vendor': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first vendor product
+            </p>
+            <p>
+                Vendor products let you catalog what each supplier offers,
+                matched to your own products, complete with the vendor's
+                own price. Use the Import Vendor Products wizard to load a
+                whole catalog at once from an Excel file.
+            </p>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_vendor_product_root"
+              name="Vendor Products"
+              parent="purchase.menu_purchase_root"
+              sequence="14"/>
+
+    <menuitem id="menu_vendor_products"
+              name="Vendor Products"
+              parent="menu_vendor_product_root"
+              action="action_vendor_product"
+              sequence="15"/>
+
+    <menuitem id="menu_vendor_location"
+              name="Vendor Locations"
+              parent="menu_vendor_product_root"
+              action="action_vendor_location"
+              sequence="16"/>
+
+    <menuitem id="menu_vendor_stock"
+              name="Vendor Stock"
+              parent="menu_vendor_product_root"
+              action="action_vendor_stock"
+              sequence="17"/>
+
+
+    <menuitem id="menu_vendor_product_import_wizard"
+              name="Import Vendor Products"
+              parent="menu_vendor_product_root"
+              action="action_vendor_product_import_wizard"
+              sequence="18"/>
+
+    <menuitem id="menu_vendor_stock_import_wizard"
+              name="Import Vendor Stocks"
+              parent="menu_vendor_product_root"
+              action="action_vendor_stock_import_wizard"
+              sequence="19"/>
+
+    <!-- Import Templates lives under the standard Purchase Configuration
+         menu; the module deliberately does not add a second Configuration
+         root of its own. -->
+    <menuitem id="menu_vendor_import_templates_config"
+              name="Import Templates"
+              parent="purchase.menu_purchase_config"
+              sequence="90"
+              groups="purchase.group_purchase_manager"/>
+
+    <menuitem id="menu_vendor_product_import_template_download"
+              name="Vendor Products Template"
+              parent="menu_vendor_import_templates_config"
+              action="action_download_vendor_product_template"
+              sequence="10"/>
+
+    <menuitem id="menu_vendor_stock_import_template_download"
+              name="Vendor Stocks Template"
+              parent="menu_vendor_import_templates_config"
+              action="action_download_vendor_stock_template"
+              sequence="20"/>
+
+</odoo>

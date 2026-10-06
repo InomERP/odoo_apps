@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Document User Group -->
+    <record id="group_edm_user" model="res.groups">
+        <field name="name">Document User</field>
+    </record>
+
+    <!-- Document Manager Group -->
+    <record id="group_edm_manager" model="res.groups">
+        <field name="name">Document Manager</field>
+        <field name="implied_ids" eval="[(4, ref('group_edm_user'))]"/>
+    </record>
+</odoo>

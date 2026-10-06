@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form_vendor_product" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.vendor.product</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="40"/>
+        <field name="inherit_id" ref="purchase.res_config_settings_view_form_purchase"/>
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='purchase']" position="inside">
+                <block title="Vendor Product Management" name="vendor_product_management_container">
+                    <setting id="vendor_products_portal"
+                             help="Turn on to let vendors manage products in the Odoo portal by themselves.">
+                        <field name="group_vendor_product_portal"/>
+                    </setting>
+                    <setting id="vendor_stocks_portal"
+                             help="Let vendors observe, manage, and import their stock levels.">
+                        <field name="group_vendor_stock_portal"/>
+                    </setting>
+                    <setting id="vendor_product_import_template"
+                             string="Template for vendor products import"
+                             help="This attachment will be shown for users as a template for the table to import vendor products. Make sure it is public.">
+                        <field name="vendor_product_import_template_id"
+                               options="{'no_create': True}"/>
+                    </setting>
+                    <setting id="vendor_stock_import_template"
+                             string="Template for vendor stocks import"
+                             help="This attachment will be shown for users as a template for the table to import vendor stocks. Make sure it is public.">
+                        <field name="vendor_stock_import_template_id"
+                               options="{'no_create': True}"/>
+                    </setting>
+                    <setting id="vendor_product_import_help_text"
+                             string="Help text for importing vendor products"
+                             help="Shown on the Help tab of the Import Vendor Products wizard and on the vendor's portal import page."
+                             class="col-12 col-lg-12 o_setting_box">
+                        <field name="vendor_product_import_help" widget="html"
+                               options="{'style-inline': true}"/>
+                    </setting>
+                    <setting id="vendor_stock_import_help_text"
+                             string="Help text for importing vendor stocks"
+                             help="Shown on the Help tab of the Import Vendor Stocks wizard and on the vendor's portal import page."
+                             class="col-12 col-lg-12 o_setting_box">
+                        <field name="vendor_stock_import_help" widget="html"
+                               options="{'style-inline': true}"/>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

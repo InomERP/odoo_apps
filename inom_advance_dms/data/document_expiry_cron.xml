@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="ir_cron_document_expiry_check" model="ir.cron">
+        <field name="name">Document Expiry Check</field>
+        <field name="model_id" ref="model_edm_document"/>
+        <field name="state">code</field>
+        <field name="code">model.cron_check_document_expiry()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active">True</field>
+    </record>
+</odoo>

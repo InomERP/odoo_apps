@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="attachment_vendor_product_import_template" model="ir.attachment">
+        <field name="name">Vendor Products Import Template.xlsx</field>
+        <field name="raw" type="bytes"
+               file="inom_vender_product_management/static/xlsx/vendor_product_import_template.xlsx"/>
+        <field name="public" eval="True"/>
+        <field name="res_model">ir.ui.view</field>
+        <field name="type">binary</field>
+        <field name="mimetype">application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</field>
+    </record>
+
+    <record id="attachment_vendor_stock_import_template" model="ir.attachment">
+        <field name="name">Vendor Stocks Import Template.xlsx</field>
+        <field name="raw" type="bytes"
+               file="inom_vender_product_management/static/xlsx/vendor_stock_import_template.xlsx"/>
+        <field name="public" eval="True"/>
+        <field name="res_model">ir.ui.view</field>
+        <field name="type">binary</field>
+        <field name="mimetype">application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</field>
+    </record>
+
+</odoo>

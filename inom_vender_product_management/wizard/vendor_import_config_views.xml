@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Menu entries under Purchase > Configuration > Import Templates that
+         download whichever attachment is currently configured in
+         Purchase > Settings > Vendor Product Management.
+
+         Server actions rather than plain act_url records: the target
+         attachment is a setting now, so the URL cannot be baked into the
+         action at install time. -->
+
+    <record id="action_download_vendor_product_template" model="ir.actions.server">
+        <field name="name">Vendor Products Template</field>
+        <field name="model_id" ref="model_vendor_product"/>
+        <field name="state">code</field>
+        <field name="code">
+url = env['vendor.import.settings'].get_template_url('product')
+if not url:
+    raise UserError("No import template is configured. Pick one in Purchase &gt; Settings &gt; Vendor Product Management.")
+action = {'type': 'ir.actions.act_url', 'url': url, 'target': 'self'}
+        </field>
+    </record>
+
+    <record id="action_download_vendor_stock_template" model="ir.actions.server">
+        <field name="name">Vendor Stocks Template</field>
+        <field name="model_id" ref="model_vendor_stock"/>
+        <field name="state">code</field>
+        <field name="code">
+url = env['vendor.import.settings'].get_template_url('stock')
+if not url:
+    raise UserError("No import template is configured. Pick one in Purchase &gt; Settings &gt; Vendor Product Management.")
+action = {'type': 'ir.actions.act_url', 'url': url, 'target': 'self'}
+        </field>
+    </record>
+
+</odoo>

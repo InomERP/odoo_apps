@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="mail_template_estimate" model="mail.template">
+            <field name="name">Job Cost Estimate: Send by Email</field>
+            <field name="model_id" ref="model_inom_cost_estimate"/>
+            <field name="subject">{{ object.company_id.name }} Estimate {{ object.name }}</field>
+            <field name="email_from">{{ (object.user_id.email_formatted or object.company_id.email_formatted) }}</field>
+            <field name="partner_to">{{ object.partner_id.id }}</field>
+            <field name="report_template_ids" eval="[(4, ref('action_report_inom_estimate'))]"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html" type="html">
+                <div style="margin:0px;padding:0px;font-size:13px;">
+                    <p>Dear <t t-out="object.partner_id.name or ''">Customer</t>,</p>
+                    <p>
+                        Please find below the summary of job cost estimate
+                        <strong t-out="object.name or ''">EST/0001</strong><t t-if="object.revision"> (revision <t t-out="object.revision or ''">1</t>)</t>.
+                        The full estimate is attached as a PDF.
+                    </p>
+                    <table width="100%" cellpadding="4" cellspacing="0"
+                           style="border-collapse:collapse;margin:12px 0;max-width:420px;">
+                        <tr>
+                            <td style="border-bottom:1px solid #dee2e6;">Subtotal</td>
+                            <td align="right" style="border-bottom:1px solid #dee2e6;">
+                                <t t-out="format_amount(object.amount_sell, object.currency_id) or ''">$ 0.00</t>
+                            </td>
+                        </tr>
+                        <tr t-if="object.amount_tax">
+                            <td style="border-bottom:1px solid #dee2e6;">Taxes</td>
+                            <td align="right" style="border-bottom:1px solid #dee2e6;">
+                                <t t-out="format_amount(object.amount_tax, object.currency_id) or ''">$ 0.00</t>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border-top:2px solid #495057;"><strong>Total</strong></td>
+                            <td align="right" style="border-top:2px solid #495057;">
+                                <strong t-out="format_amount(object.amount_total, object.currency_id) or ''">$ 0.00</strong>
+                            </td>
+                        </tr>
+                    </table>
+                    <p t-if="object.date_expiry">
+                        This estimate is valid until
+                        <strong t-out="format_date(object.date_expiry) or ''">2026-12-31</strong>.
+                    </p>
+                    <div style="margin:16px 0;">
+                        <a t-att-href="object.get_portal_url()"
+                           style="background-color:#875A7B;padding:8px 16px;text-decoration:none;color:#fff;border-radius:5px;font-size:13px;">
+                            View &amp; Approve Estimate
+                        </a>
+                    </div>
+                    <p>Do not hesitate to contact us if you have any questions.</p>
+                    <p>Best regards,<br/>
+                        <t t-out="object.user_id.name or ''">Sales Person</t>
+                    </p>
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>

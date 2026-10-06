@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_inom_price_history_graph_search" model="ir.ui.view">
+        <field name="name">inom.price.history.graph.search</field>
+        <field name="model">inom.price.history.graph</field>
+        <field name="arch" type="xml">
+            <search string="Product Price History">
+                <field name="product_id"/>
+                <field name="source"/>
+                <filter name="filter_date" string="Date" date="change_date"/>
+                <separator/>
+                <filter name="group_by_product" string="Product"
+                        context="{'group_by': 'product_id'}"/>
+                <filter name="group_by_source" string="Source"
+                        context="{'group_by': 'source'}"/>
+                <filter name="group_by_date" string="Date"
+                        context="{'group_by': 'change_date:day'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_inom_price_history_graph" model="ir.ui.view">
+        <field name="name">inom.price.history.graph.graph</field>
+        <field name="model">inom.price.history.graph</field>
+        <field name="arch" type="xml">
+            <graph string="Product Price History" type="bar" sample="1">
+                <field name="source"/>
+                <field name="new_price" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_inom_price_history_graph_list" model="ir.ui.view">
+        <field name="name">inom.price.history.graph.list</field>
+        <field name="model">inom.price.history.graph</field>
+        <field name="arch" type="xml">
+            <list string="Product Price History" create="false" edit="false" delete="false">
+                <field name="product_id"/>
+                <field name="source"/>
+                <field name="old_price"/>
+                <field name="new_price"/>
+                <field name="change_date"/>
+                <field name="company_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_inom_price_history_graph" model="ir.actions.act_window">
+        <field name="name">Product Price History Graph Report</field>
+        <field name="res_model">inom.price.history.graph</field>
+        <field name="view_mode">graph,list</field>
+        <field name="search_view_id" ref="view_inom_price_history_graph_search"/>
+        <field name="context">{'search_default_group_by_product': 0}</field>
+    </record>
+
+</odoo>

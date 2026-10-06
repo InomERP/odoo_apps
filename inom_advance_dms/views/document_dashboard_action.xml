@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Professional analytics dashboard (OWL client action) -->
+    <record id="action_edm_dashboard_pro" model="ir.actions.client">
+        <field name="name">Dashboard</field>
+        <field name="tag">edm_dashboard_pro</field>
+    </record>
+
+    <!-- Drag &amp; drop upload (OWL client action) -->
+    <record id="action_edm_dropzone_upload" model="ir.actions.client">
+        <field name="name">Upload Documents</field>
+        <field name="tag">edm_dropzone_upload</field>
+    </record>
+
+</odoo>

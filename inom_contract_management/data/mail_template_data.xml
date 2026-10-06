@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Approver notification: it is your turn to approve -->
+        <record id="mail_template_contract_approval_request" model="mail.template">
+            <field name="name">Contract: Approval Request</field>
+            <field name="model_id" ref="model_inom_contract"/>
+            <field name="subject">Approval needed: {{ object.name }}</field>
+            <field name="email_from">{{ (object.company_id.email or user.email_formatted) }}</field>
+            <field name="description">Sent to approvers when a contract reaches their approval step.</field>
+            <field name="body_html" type="html">
+                <div style="margin:0px;padding:0px;font-size:13px;">
+                    <p>Hello,</p>
+                    <p>
+                        The contract
+                        <strong><t t-out="object.name or ''">CONT/2026/0001</t></strong>
+                        is waiting for your approval.
+                    </p>
+                    <ul>
+                        <li>Partner: <t t-out="object.partner_id.display_name or '-'"></t></li>
+                        <li>Type: <t t-out="object.contract_type or ''"></t></li>
+                        <li>Amount: <t t-out="format_amount(object.amount_total, object.currency_id) or ''"></t></li>
+                        <li>Responsible: <t t-out="object.user_id.name or '-'"></t></li>
+                    </ul>
+                    <p>Please review and approve or return it for correction.</p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <!-- Correction notification: returned to responsible -->
+        <record id="mail_template_contract_returned" model="mail.template">
+            <field name="name">Contract: Returned for Correction</field>
+            <field name="model_id" ref="model_inom_contract"/>
+            <field name="subject">Returned for correction: {{ object.name }}</field>
+            <field name="email_from">{{ (object.company_id.email or user.email_formatted) }}</field>
+            <field name="partner_to">{{ object.user_id.partner_id.id }}</field>
+            <field name="description">Sent to the responsible person when a contract is returned for correction.</field>
+            <field name="body_html" type="html">
+                <div style="margin:0px;padding:0px;font-size:13px;">
+                    <p>Hello <t t-out="object.user_id.name or ''"></t>,</p>
+                    <p>
+                        Your contract
+                        <strong><t t-out="object.name or ''">CONT/2026/0001</t></strong>
+                        has been returned for correction.
+                    </p>
+                    <p t-if="ctx.get('return_comment')">
+                        <strong>Reason:</strong>
+                        <t t-out="ctx.get('return_comment')"></t>
+                    </p>
+                    <p>Please review the comments, make the necessary changes and submit it again.</p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <!-- Approval complete: contract is now running -->
+        <record id="mail_template_contract_approved" model="mail.template">
+            <field name="name">Contract: Fully Approved</field>
+            <field name="model_id" ref="model_inom_contract"/>
+            <field name="subject">Approved: {{ object.name }}</field>
+            <field name="email_from">{{ (object.company_id.email or user.email_formatted) }}</field>
+            <field name="partner_to">{{ object.user_id.partner_id.id }}</field>
+            <field name="description">Sent to the responsible person when a contract is fully approved.</field>
+            <field name="body_html" type="html">
+                <div style="margin:0px;padding:0px;font-size:13px;">
+                    <p>Hello <t t-out="object.user_id.name or ''"></t>,</p>
+                    <p>
+                        Good news! The contract
+                        <strong><t t-out="object.name or ''">CONT/2026/0001</t></strong>
+                        has been fully approved and is now Running.
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <!-- Expiry warning: one week before end date -->
+        <record id="mail_template_contract_expiry" model="mail.template">
+            <field name="name">Contract: Expiry Warning</field>
+            <field name="model_id" ref="model_inom_contract"/>
+            <field name="subject">Expiring soon: {{ object.name }}</field>
+            <field name="email_from">{{ (object.company_id.email or user.email_formatted) }}</field>
+            <field name="partner_to">{{ object.user_id.partner_id.id }}</field>
+            <field name="description">Sent to the responsible person about one week before the contract end date.</field>
+            <field name="body_html" type="html">
+                <div style="margin:0px;padding:0px;font-size:13px;">
+                    <p>Hello <t t-out="object.user_id.name or ''"></t>,</p>
+                    <p>
+                        The contract
+                        <strong><t t-out="object.name or ''">CONT/2026/0001</t></strong>
+                        is going to expire on
+                        <strong><t t-out="object.date_end or ''"></t></strong>.
+                    </p>
+                    <p>Please take any action required before it ends.</p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

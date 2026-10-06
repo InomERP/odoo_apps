@@ -1,0 +1,242 @@
+/* =========================================================================
+   Advanced DMS - Drag & Drop Upload styles
+   Scoped under .edm-uploader.
+   ========================================================================= */
+
+.edm-uploader {
+    padding: 18px 22px 40px;
+    background: #f5f6f8;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    font-size: 14px;
+}
+
+/* ---------------- Header ---------------- */
+.edm-uploader .edm-up-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+.edm-uploader .edm-up-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #2c2c34;
+    display: flex;
+    align-items: center;
+}
+
+/* ---------------- Options ---------------- */
+.edm-uploader .edm-up-options {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 20px;
+    margin-bottom: 16px;
+}
+.edm-uploader .edm-up-field { display: flex; flex-direction: column; gap: 5px; }
+.edm-uploader .edm-up-field label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    margin: 0;
+}
+.edm-uploader .edm-up-select {
+    min-width: 220px;
+    padding: 8px 12px;
+    border: 1px solid #dfe2e8;
+    border-radius: 8px;
+    background: #fff;
+    outline: none;
+}
+.edm-uploader .edm-up-select:focus {
+    border-color: #714B67;
+    box-shadow: 0 0 0 3px rgba(113,75,103,.12);
+}
+.edm-uploader .edm-up-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #41454d;
+    padding-bottom: 8px;
+}
+
+/* ---------------- Dropzone ---------------- */
+.edm-uploader .edm-dropzone {
+    border: 2px dashed #c8ccd4;
+    border-radius: 16px;
+    background: #fff;
+    padding: 46px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .15s ease, background .15s ease, transform .15s ease;
+    position: relative;
+}
+.edm-uploader .edm-dropzone:hover {
+    border-color: #714B67;
+    background: #fbf8fa;
+}
+.edm-uploader .edm-dropzone.dragging {
+    border-color: #714B67;
+    background: #f3e9f0;
+    transform: scale(1.005);
+    box-shadow: 0 8px 30px rgba(113,75,103,.18);
+}
+.edm-uploader .edm-hidden-input { display: none; }
+
+.edm-uploader .edm-dropzone-icon {
+    width: 76px;
+    height: 76px;
+    margin: 0 auto 14px;
+    border-radius: 50%;
+    background: linear-gradient(135deg,#714B67,#9c6a8e);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+    box-shadow: 0 8px 20px rgba(113,75,103,.25);
+}
+.edm-uploader .edm-dropzone.dragging .edm-dropzone-icon {
+    animation: edm-bounce .6s ease infinite alternate;
+}
+@keyframes edm-bounce { to { transform: translateY(-6px); } }
+
+.edm-uploader .edm-dropzone-text strong {
+    display: block;
+    font-size: 17px;
+    color: #1f2329;
+}
+.edm-uploader .edm-dropzone-text span {
+    color: #8a909a;
+    font-size: 14px;
+}
+.edm-uploader .edm-dropzone-hint {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #a3a8b2;
+}
+
+/* ---------------- Summary bar ---------------- */
+.edm-uploader .edm-up-summary {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 18px 0 12px;
+    padding: 10px 14px;
+    background: #fff;
+    border: 1px solid #eceef2;
+    border-radius: 10px;
+    font-weight: 500;
+    color: #41454d;
+}
+.edm-uploader .edm-up-summary-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+}
+
+/* ---------------- File cards ---------------- */
+.edm-uploader .edm-file-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.edm-uploader .edm-file-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #fff;
+    border: 1px solid #eceef2;
+    border-radius: 12px;
+    padding: 12px 14px;
+    transition: box-shadow .12s ease, border-color .12s ease;
+}
+.edm-uploader .edm-file-card:hover { box-shadow: 0 4px 14px rgba(16,24,40,.06); }
+.edm-uploader .edm-file-card.is-done { border-color: #bfe6cd; }
+.edm-uploader .edm-file-card.is-error { border-color: #f1c2c7; background: #fffafa; }
+.edm-uploader .edm-file-card.is-uploading { border-color: #d8c7d3; }
+
+.edm-uploader .edm-file-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: #f1f2f5;
+    color: #714B67;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+.edm-uploader .edm-file-info { flex: 1; min-width: 0; }
+.edm-uploader .edm-file-name {
+    font-weight: 500;
+    color: #1f2329;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.edm-uploader .edm-file-sub { font-size: 12px; color: #8a909a; margin-top: 2px; }
+.edm-uploader .edm-file-warn { color: #d98e00; }
+.edm-uploader .edm-file-err { color: #d23b48; }
+
+.edm-uploader .edm-progress {
+    height: 6px;
+    background: #eef0f3;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+.edm-uploader .edm-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg,#714B67,#9c6a8e);
+    border-radius: 6px;
+    transition: width .2s ease;
+}
+
+.edm-uploader .edm-file-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    font-size: 18px;
+}
+.edm-uploader .edm-pct { font-size: 13px; font-weight: 600; color: #714B67; }
+.edm-uploader .edm-file-remove {
+    border: none;
+    background: transparent;
+    color: #b0b5bf;
+    cursor: pointer;
+    font-size: 15px;
+    padding: 4px;
+    border-radius: 6px;
+    transition: color .12s ease, background .12s ease;
+}
+.edm-uploader .edm-file-remove:hover { color: #d23b48; background: #fbeaec; }
+
+/* ---------------- Mini spinner ---------------- */
+.edm-uploader .edm-mini-spinner {
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    border: 2px solid rgba(255,255,255,.5);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: edm-spin .7s linear infinite;
+    vertical-align: -1px;
+    margin-right: 4px;
+}
+@keyframes edm-spin { to { transform: rotate(360deg); } }
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 600px) {
+    .edm-uploader .edm-up-select { min-width: 100%; }
+    .edm-uploader .edm-up-summary { flex-wrap: wrap; }
+    .edm-uploader .edm-up-summary-actions { margin-left: 0; width: 100%; }
+}

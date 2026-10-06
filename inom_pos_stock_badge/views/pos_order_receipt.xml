@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Show "Total Number Of Items" right under the receipt total (used by the POS and the backend). -->
+    <template id="pos_order_receipt_total_items" inherit_id="point_of_sale.pos_order_receipt">
+        <xpath expr="//td[@name='total']/.." position="after">
+            <tr class="inom-total-items" t-if="extra_data.get('total_item_count')">
+                <td class="text-start w-70">Total Number Of Items</td>
+                <td class="text-end w-30 font-monospace" t-out="extra_data['total_item_count']"/>
+            </tr>
+        </xpath>
+        <xpath expr="//table[@name='total_item_count']" position="replace"/>
+    </template>
+</odoo>
