@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_inom_asset_meter_form" model="ir.ui.view">
+        <field name="name">inom.asset.meter.form</field>
+        <field name="model">inom.asset.meter</field>
+        <field name="arch" type="xml">
+            <form string="Asset Meter">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. Running Hours"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="asset_id"/>
+                            <field name="meter_type"/>
+                            <field name="unit_label"/>
+                        </group>
+                        <group>
+                            <field name="last_reading_value"/>
+                            <field name="last_reading_date"/>
+                            <field name="warning_threshold" invisible="meter_type != 'gauge'"/>
+                        </group>
+                    </group>
+                    <field name="reading_ids">
+                        <list editable="top" default_order="reading_datetime desc">
+                            <field name="reading_datetime"/>
+                            <field name="value"/>
+                            <field name="source"/>
+                            <field name="recorded_by_id"/>
+                            <field name="remarks"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_inom_asset_meter_list" model="ir.ui.view">
+        <field name="name">inom.asset.meter.list</field>
+        <field name="model">inom.asset.meter</field>
+        <field name="arch" type="xml">
+            <list string="Asset Meters">
+                <field name="name"/>
+                <field name="asset_id"/>
+                <field name="meter_type"/>
+                <field name="last_reading_value"/>
+                <field name="unit_label"/>
+                <field name="last_reading_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_inom_meter_reading_graph" model="ir.ui.view">
+        <field name="name">inom.asset.meter.reading.graph</field>
+        <field name="model">inom.asset.meter.reading</field>
+        <field name="arch" type="xml">
+            <graph string="Meter Trend" type="line">
+                <field name="reading_datetime" interval="day"/>
+                <field name="value" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_inom_meter_reading_list" model="ir.ui.view">
+        <field name="name">inom.asset.meter.reading.list</field>
+        <field name="model">inom.asset.meter.reading</field>
+        <field name="arch" type="xml">
+            <list string="Meter Readings">
+                <field name="reading_datetime"/>
+                <field name="asset_id"/>
+                <field name="meter_id"/>
+                <field name="value"/>
+                <field name="source"/>
+                <field name="recorded_by_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_inom_asset_meter" model="ir.actions.act_window">
+        <field name="name">Asset Meters</field>
+        <field name="res_model">inom.asset.meter</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_inom_meter_reading" model="ir.actions.act_window">
+        <field name="name">Meter Readings</field>
+        <field name="res_model">inom.asset.meter.reading</field>
+        <field name="view_mode">list,graph</field>
+    </record>
+</odoo>

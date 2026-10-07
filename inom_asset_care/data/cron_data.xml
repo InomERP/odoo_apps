@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="cron_generate_preventive_requests" model="ir.cron">
+            <field name="name">AssetCare: Generate Preventive Requests</field>
+            <field name="model_id" ref="model_inom_maintenance_plan"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_generate_time_based()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active" eval="True"/>
+        </record>
+        <record id="cron_post_depreciation" model="ir.cron">
+            <field name="name">AssetCare: Post Due Depreciation Lines</field>
+            <field name="model_id" ref="model_inom_asset_depreciation_line"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_post_due_lines()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active" eval="True"/>
+        </record>
+        <record id="cron_warranty_alert" model="ir.cron">
+            <field name="name">AssetCare: Warranty Expiry Alerts</field>
+            <field name="model_id" ref="model_inom_asset"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_warranty_expiry_alert()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active" eval="True"/>
+        </record>
+        <record id="cron_expire_permits" model="ir.cron">
+            <field name="name">AssetCare: Auto Close Expired Permits</field>
+            <field name="model_id" ref="model_inom_work_permit"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_expire_permits()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+            <field name="active" eval="True"/>
+        </record>
+    </data>
+</odoo>

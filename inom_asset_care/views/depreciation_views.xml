@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_inom_depreciation_line_list" model="ir.ui.view">
+        <field name="name">inom.asset.depreciation.line.list</field>
+        <field name="model">inom.asset.depreciation.line</field>
+        <field name="arch" type="xml">
+            <list string="Depreciation Lines" create="false">
+                <field name="asset_id"/>
+                <field name="depreciation_date"/>
+                <field name="amount" sum="Total"/>
+                <field name="accumulated_amount"/>
+                <field name="remaining_value"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'posted'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_inom_depreciation_line_pivot" model="ir.ui.view">
+        <field name="name">inom.asset.depreciation.line.pivot</field>
+        <field name="model">inom.asset.depreciation.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Depreciation Analysis">
+                <field name="depreciation_date" interval="year" type="col"/>
+                <field name="asset_id" type="row"/>
+                <field name="amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_inom_depreciation_line_search" model="ir.ui.view">
+        <field name="name">inom.asset.depreciation.line.search</field>
+        <field name="model">inom.asset.depreciation.line</field>
+        <field name="arch" type="xml">
+            <search string="Depreciation">
+                <field name="asset_id"/>
+                <filter string="Scheduled" name="filter_draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Posted" name="filter_posted" domain="[('state', '=', 'posted')]"/>
+                <group>
+                    <filter string="Asset" name="group_asset" context="{'group_by': 'asset_id'}"/>
+                    <filter string="Month" name="group_month" context="{'group_by': 'depreciation_date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_inom_depreciation_line" model="ir.actions.act_window">
+        <field name="name">Depreciation Board</field>
+        <field name="res_model">inom.asset.depreciation.line</field>
+        <field name="view_mode">list,pivot</field>
+    </record>
+</odoo>

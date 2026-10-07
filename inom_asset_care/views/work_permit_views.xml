@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_inom_work_permit_form" model="ir.ui.view">
+        <field name="name">inom.work.permit.form</field>
+        <field name="model">inom.work.permit</field>
+        <field name="arch" type="xml">
+            <form string="Safety Permit">
+                <header>
+                    <button name="action_request" string="Request Approval" type="object"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_approve" string="Approve" type="object"
+                            class="btn-primary" invisible="state != 'requested'"
+                            groups="inom_asset_care.group_asset_manager"/>
+                    <button name="action_activate" string="Activate" type="object"
+                            class="btn-primary" invisible="state != 'approved'"/>
+                    <button name="action_close" string="Close Permit" type="object"
+                            invisible="state != 'active'"/>
+                    <button name="action_reject" string="Reject" type="object"
+                            invisible="state != 'requested'"
+                            groups="inom_asset_care.group_asset_manager"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,requested,approved,active,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="work_order_id"/>
+                            <field name="asset_id"/>
+                            <field name="permit_type"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="valid_from"/>
+                            <field name="valid_until"/>
+                            <field name="issued_by_id"/>
+                            <field name="authorized_by_id"/>
+                        </group>
+                    </group>
+                    <group string="Hazards &amp; Precautions">
+                        <field name="hazard_description" placeholder="List identified hazards..."/>
+                        <field name="safety_measures" placeholder="PPE, barricading, gas testing, fire watch..."/>
+                        <field name="isolation_points" invisible="permit_type != 'loto'"
+                               placeholder="Breaker 3B locked, valve V-102 tagged..."/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_inom_work_permit_list" model="ir.ui.view">
+        <field name="name">inom.work.permit.list</field>
+        <field name="model">inom.work.permit</field>
+        <field name="arch" type="xml">
+            <list string="Safety Permits">
+                <field name="name"/>
+                <field name="work_order_id"/>
+                <field name="asset_id"/>
+                <field name="permit_type"/>
+                <field name="valid_from"/>
+                <field name="valid_until"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'requested'"
+                       decoration-warning="state == 'active'"
+                       decoration-success="state == 'approved'"
+                       decoration-danger="state == 'rejected'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_inom_work_permit_search" model="ir.ui.view">
+        <field name="name">inom.work.permit.search</field>
+        <field name="model">inom.work.permit</field>
+        <field name="arch" type="xml">
+            <search string="Permits">
+                <field name="name"/>
+                <field name="work_order_id"/>
+                <filter string="Active" name="filter_active" domain="[('state', '=', 'active')]"/>
+                <filter string="Waiting Approval" name="filter_requested" domain="[('state', '=', 'requested')]"/>
+                <group>
+                    <filter string="Permit Type" name="group_type" context="{'group_by': 'permit_type'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_inom_work_permit" model="ir.actions.act_window">
+        <field name="name">Safety Permits</field>
+        <field name="res_model">inom.work.permit</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
