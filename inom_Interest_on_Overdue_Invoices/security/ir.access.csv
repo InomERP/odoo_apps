@@ -1,0 +1,6 @@
+id,name,model_id,group_id/id,operation,domain
+access_overdue_interest_rule,access.overdue.interest.rule,overdue.interest.rule,account.group_account_manager,crud,
+access_inom_interest_history,access.inom.interest.history,inom.interest.history,account.group_account_manager,crud,
+access_inom_interest_history_user,access.inom.interest.history.user,inom.interest.history,account.group_account_user,r,
+access_inom_apply_interest_wizard,access.inom.apply.interest.wizard,inom.apply.interest.wizard,account.group_account_manager,crud,
+access_inom_apply_interest_wizard_user,access.inom.apply.interest.wizard.user,inom.apply.interest.wizard,account.group_account_user,cru,
