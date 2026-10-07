@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="mail_template_session_assigned" model="mail.template">
+            <field name="name">Inventory Count Session: Assigned to User</field>
+            <field name="model_id" ref="model_stock_inventory_count_session"/>
+            <field name="subject">Inventory Counting Session Assigned — {{ object.name }}</field>
+            <field name="partner_to">{{ object.user_id.partner_id.id }}</field>
+            <field name="body_html"><![CDATA[
+<div style="font-family: Arial, sans-serif; font-size: 14px; color: #333;">
+
+    <p>Dear {{ object.user_id.name }},</p>
+
+    <p>You have been assigned an inventory counting session. Please find the details below:</p>
+
+    <table style="border-collapse: collapse; margin: 10px 0;">
+        <tr>
+            <td style="padding: 4px 16px 4px 0;"><strong>Session Reference</strong></td>
+            <td style="padding: 4px 0;">: {{ object.name }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 4px 16px 4px 0;"><strong>Inventory Count</strong></td>
+            <td style="padding: 4px 0;">: {{ object.inventory_count_id.name }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 4px 16px 4px 0;"><strong>Warehouse</strong></td>
+            <td style="padding: 4px 0;">: {{ object.warehouse_id.name }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 4px 16px 4px 0;"><strong>Location</strong></td>
+            <td style="padding: 4px 0;">: {{ object.location_id.complete_name or 'All Locations' }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 4px 16px 4px 0;"><strong>Approver</strong></td>
+            <td style="padding: 4px 0;">: {{ object.approver_id.name }}</td>
+        </tr>
+    </table>
+
+    <p>Please click the button below to login and start counting:</p>
+
+    <!-- Start Counting Button -->
+    <div style="margin: 20px 0;">
+        <a href="{{ ctx.get('base_url', '') }}/web#action=stock_inventory_count_session_action&amp;id={{ object.id }}&amp;model=stock.inventory.count.session"
+           style="background-color: #6c2fa0;
+                  color: white;
+                  padding: 12px 28px;
+                  text-decoration: none;
+                  border-radius: 5px;
+                  font-size: 15px;
+                  font-weight: bold;
+                  display: inline-block;">
+            ▶ Start Counting Now
+        </a>
+    </div>
+
+    <p style="font-size: 12px; color: #888;">
+        If the button does not work, please copy and paste this link in your browser:<br/>
+        <a href="{{ ctx.get('base_url', '') }}/web#action=stock_inventory_count_session_action&amp;id={{ object.id }}&amp;model=stock.inventory.count.session">
+            {{ ctx.get('base_url', '') }}/web#action=stock_inventory_count_session_action&amp;id={{ object.id }}
+        </a>
+    </p>
+
+    <p>Regards,<br/><strong>{{ object.company_id.name }}</strong></p>
+
+</div>
+            ]]></field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

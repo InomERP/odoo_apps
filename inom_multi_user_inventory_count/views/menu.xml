@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Root application menu -->
+    <menuitem id="menu_inventory_count_root"
+              name="Inventory Count"
+              web_icon="inom_multi_user_inventory_count,static/description/icon.png"
+              sequence="55"/>
+
+    <!-- Documents group -->
+    <menuitem id="menu_inventory_count_documents"
+              name="Documents"
+              parent="menu_inventory_count_root"
+              sequence="10"/>
+
+    <!-- Dashboard -->
+    <menuitem id="menu_inventory_count_dashboard"
+              name="Dashboard"
+              parent="menu_inventory_count_root"
+              action="action_inventory_dashboard"
+              groups="stock.group_stock_manager"
+              sequence="5"/>
+
+    <!-- Pending Progress -->
+    <menuitem id="menu_inventory_count_pending_progress"
+              name="Pending Progress"
+              parent="menu_inventory_count_root"
+              action="action_pending_progress"
+              groups="stock.group_stock_manager"
+              sequence="30"/>
+
+    <!-- Inventory Count list -->
+    <menuitem id="menu_inventory_count_main"
+              name="Inventory Count"
+              parent="menu_inventory_count_documents"
+              action="action_stock_inventory_count"
+              groups="stock.group_stock_manager"
+              sequence="10"/>
+
+    <!-- Sessions list -->
+    <menuitem id="menu_inventory_count_sessions"
+              name="Sessions"
+              parent="menu_inventory_count_documents"
+              action="action_stock_inventory_count_session"
+              sequence="20"/>
+
+    <!-- Reporting -->
+    <menuitem id="menu_inventory_count_reporting"
+              name="Reporting"
+              parent="menu_inventory_count_root"
+              groups="stock.group_stock_manager"
+              sequence="80"/>
+
+    <menuitem id="menu_inventory_count_report"
+              name="Inventory Count Report"
+              parent="menu_inventory_count_reporting"
+              action="action_inventory_count_report"
+              sequence="10"/>
+
+    <menuitem id="menu_adjustment_report"
+              name="Adjustment Report"
+              parent="menu_inventory_count_reporting"
+              action="action_adjustment_report"
+              sequence="20"/>
+
+    <menuitem id="menu_user_statistic_report"
+              name="User Statistic Report"
+              parent="menu_inventory_count_reporting"
+              action="action_user_statistic_report"
+              sequence="30"/>
+
+    <!-- Configuration -->
+    <menuitem id="menu_inventory_count_configuration"
+              name="Configuration"
+              parent="menu_inventory_count_root"
+              groups="stock.group_stock_manager"
+              sequence="90"/>
+
+    <menuitem id="menu_inventory_count_planner"
+              name="Planner"
+              parent="menu_inventory_count_configuration"
+              action="action_inventory_planner"
+              sequence="10"/>
+
+    <!--
+        NOTE (Phase boundary):
+        The only deferred item is the native "Inventory Adjustments" submenu
+        under Documents (F-29), which links to Odoo's standard inventory
+        adjustment action. It is intentionally not hard-referenced here to
+        avoid binding to an action xmlid that may differ between instances.
+    -->
+
+</odoo>

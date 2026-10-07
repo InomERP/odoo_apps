@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Pivot View -->
+    <record id="view_adjustment_report_pivot" model="ir.ui.view">
+        <field name="name">stock.inventory.adjustment.report.pivot</field>
+        <field name="model">stock.inventory.count.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Adjustment Report">
+                <field name="adjustment_type" type="row"/>
+                <field name="product_id" type="row"/>
+                <field name="theoretical_qty" type="measure"/>
+                <field name="counted_qty" type="measure"/>
+                <field name="discrepancy" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Graph View -->
+    <record id="view_adjustment_report_graph" model="ir.ui.view">
+        <field name="name">stock.inventory.adjustment.report.graph</field>
+        <field name="model">stock.inventory.count.line</field>
+        <field name="arch" type="xml">
+            <graph string="Adjustment Report" type="bar">
+                <field name="adjustment_type"/>
+                <field name="discrepancy" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="view_adjustment_report_list" model="ir.ui.view">
+        <field name="name">stock.inventory.adjustment.report.list</field>
+        <field name="model">stock.inventory.count.line</field>
+        <field name="arch" type="xml">
+            <list string="Adjustment Report" create="0" edit="0">
+                <field name="count_id"/>
+                <field name="product_id"/>
+                <field name="location_id"/>
+                <field name="theoretical_qty" sum="Theoretical"/>
+                <field name="counted_qty" sum="Counted"/>
+                <field name="discrepancy" string="Adjustment Qty"
+                       sum="Adjustment"
+                       decoration-danger="discrepancy &lt; 0"
+                       decoration-success="discrepancy &gt; 0"/>
+                <field name="adjustment_type" widget="badge"
+                       decoration-success="adjustment_type == 'overstock'"
+                       decoration-danger="adjustment_type == 'out_of_stock'"/>
+                <field name="company_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_adjustment_report_search" model="ir.ui.view">
+        <field name="name">stock.inventory.adjustment.report.search</field>
+        <field name="model">stock.inventory.count.line</field>
+        <field name="arch" type="xml">
+            <search string="Adjustment Report">
+                <field name="count_id"/>
+                <field name="product_id"/>
+                <field name="location_id"/>
+                <field name="warehouse_id"/>
+                <filter name="filter_overstock" string="Overstock"
+                        domain="[('adjustment_type', '=', 'overstock')]"/>
+                <filter name="filter_out_of_stock" string="Out of Stock"
+                        domain="[('adjustment_type', '=', 'out_of_stock')]"/>
+                <separator/>
+                <filter name="filter_validated" string="Validated Counts"
+                        domain="[('count_state', '=', 'validated')]"/>
+                <group>
+                    <filter name="group_adjustment_type"
+                            string="Adjustment Type"
+                            context="{'group_by': 'adjustment_type'}"/>
+                    <filter name="group_product" string="Product"
+                            context="{'group_by': 'product_id'}"/>
+                    <filter name="group_location" string="Location"
+                            context="{'group_by': 'location_id'}"/>
+                    <filter name="group_warehouse" string="Warehouse"
+                            context="{'group_by': 'warehouse_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_adjustment_report" model="ir.actions.act_window">
+        <field name="name">Adjustment Report</field>
+        <field name="res_model">stock.inventory.count.line</field>
+        <field name="view_mode">list,pivot,graph</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('view_adjustment_report_list')}),
+            (0, 0, {'view_mode': 'pivot', 'view_id': ref('view_adjustment_report_pivot')}),
+            (0, 0, {'view_mode': 'graph', 'view_id': ref('view_adjustment_report_graph')})]"/>
+        <field name="search_view_id" ref="view_adjustment_report_search"/>
+        <field name="domain">[('adjustment_type', '!=', 'balanced')]</field>
+        <field name="context">{'search_default_filter_validated': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No adjustments to display
+            </p>
+            <p>
+                Overstock and out-of-stock adjustments appear here after
+                inventory counts are completed and validated.
+            </p>
+        </field>
+    </record>
+
+</odoo>

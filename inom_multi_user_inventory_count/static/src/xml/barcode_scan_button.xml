@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="inom_multi_user_inventory_count.BarcodeScanButton">
+        <button t-if="isSupported" type="button"
+                class="btn btn-primary o_inom_scan_btn"
+                t-on-click="onClickScan">
+            <i class="fa fa-camera me-1"/>Open Scanner
+        </button>
+        <span t-else="" class="text-muted small">
+            Camera scanning not available on this device.
+        </span>
+    </t>
+
+</templates>

@@ -1,0 +1,20 @@
+id,name,model_id,group_id/id,operation,domain
+access_stock_inventory_count_user,stock.inventory.count.user,stock.inventory.count,stock.group_stock_user,cru,
+access_stock_inventory_count_manager,stock.inventory.count.manager,stock.inventory.count,stock.group_stock_manager,crud,
+access_stock_inventory_count_product_line_user,stock.inventory.count.product.line.user,stock.inventory.count.product.line,stock.group_stock_user,crud,
+access_stock_inventory_count_product_line_manager,stock.inventory.count.product.line.manager,stock.inventory.count.product.line,stock.group_stock_manager,crud,
+access_stock_inventory_count_session_user,stock.inventory.count.session.user,stock.inventory.count.session,stock.group_stock_user,cru,
+access_stock_inventory_count_session_manager,stock.inventory.count.session.manager,stock.inventory.count.session,stock.group_stock_manager,crud,
+access_stock_inventory_session_line_user,stock.inventory.session.line.user,stock.inventory.session.line,stock.group_stock_user,crud,
+access_stock_inventory_session_line_manager,stock.inventory.session.line.manager,stock.inventory.session.line,stock.group_stock_manager,crud,
+access_stock_inventory_count_session_wizard_user,stock.inventory.count.session.wizard.user,stock.inventory.count.session.wizard,stock.group_stock_user,crud,
+access_stock_inventory_count_session_wizard_manager,stock.inventory.count.session.wizard.manager,stock.inventory.count.session.wizard,stock.group_stock_manager,crud,
+access_stock_inventory_count_line_user,stock.inventory.count.line.user,stock.inventory.count.line,stock.group_stock_user,crud,
+access_stock_inventory_count_line_manager,stock.inventory.count.line.manager,stock.inventory.count.line,stock.group_stock_manager,crud,
+access_stock_inventory_count_planner_manager,stock.inventory.count.planner.manager,stock.inventory.count.planner,stock.group_stock_manager,crud,
+access_stock_inventory_scan_wizard_user,stock.inventory.scan.wizard.user,stock.inventory.scan.wizard,stock.group_stock_user,crud,
+access_stock_inventory_scan_wizard_manager,stock.inventory.scan.wizard.manager,stock.inventory.scan.wizard,stock.group_stock_manager,crud,
+stock_inventory_count_company_rule,Inventory Count: multi-company,stock.inventory.count,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+rule_session_own_user,Session: User sees own sessions only,stock.inventory.count.session,stock.group_stock_user,crud,"['|', ('user_id', '=', user.id), ('approver_id', '=', user.id)]"
+rule_session_manager_all,Session: Manager sees all sessions,stock.inventory.count.session,stock.group_stock_manager,crud,"[(1, '=', 1)]"
+stock_inventory_count_session_company_rule,Inventory Session: multi-company,stock.inventory.count.session,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
