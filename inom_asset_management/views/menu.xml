@@ -1,0 +1,24 @@
+<odoo>
+    <!-- Dedicated menu file: loaded after all window actions so every child menu resolves cleanly. -->
+    <menuitem id="menu_asset_root"
+              name="Asset Management"
+              sequence="10"/>
+
+    <menuitem id="menu_asset_category"
+              name="Asset Categories"
+              parent="menu_asset_root"
+              action="action_asset_category"
+              sequence="1"/>
+
+    <menuitem id="menu_asset"
+              name="Assets"
+              parent="menu_asset_root"
+              action="action_asset"
+              sequence="2"/>
+
+    <menuitem id="menu_asset_depreciation"
+              name="Depreciation Lines"
+              parent="menu_asset_root"
+              action="action_asset_depreciation"
+              sequence="3"/>
+</odoo>

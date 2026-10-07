@@ -1,0 +1,13 @@
+// Core's highlight_color stripe relies on `.o_kanban_record
+// .o_kanban_record_colored::after`, a descendant selector that never matches
+// since both classes are set on the same card: draw the stage color here.
+.o_inom_crm_stage_color .o_kanban_record {
+    @for $-index from 2 through length($o-colors) {
+        &.o_kanban_color_#{$-index - 1} {
+            $-color: nth($o-colors, $-index);
+
+            border-left: 4px solid $-color;
+            background-color: mix($-color, $o-view-background-color, 18%);
+        }
+    }
+}

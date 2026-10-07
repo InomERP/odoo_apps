@@ -1,0 +1,4 @@
+id,name,model_id,group_id/id,operation,domain
+access_asset,Asset access,asset.asset.custom,base.group_user,crud,
+access_asset_category,Asset Category access,asset.category.custom,base.group_user,crud,
+access_depreciation_line,Depreciation Line access,asset.depreciation.line,base.group_user,crud,
