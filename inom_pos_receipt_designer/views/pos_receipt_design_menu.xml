@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Custom list view: shows just the POS name and its receipt design,
+        inline-editable so the user can change designs across multiple
+        shops without opening each POS Configuration form.
+    -->
+    <record id="view_pos_config_receipt_design_list" model="ir.ui.view">
+        <field name="name">pos.config.receipt.design.list</field>
+        <field name="model">pos.config</field>
+        <field name="arch" type="xml">
+            <list string="Receipt Designs" editable="bottom">
+                <field name="name"/>
+                <field name="receipt_design"/>
+            </list>
+        </field>
+    </record>
+
+    <!--
+        Action: opens the list of POS configurations using the dedicated
+        list view above. Restricting `view_mode` to `list` keeps the
+        screen focused on the design choice and avoids opening the full
+        POS Configuration form by accident.
+    -->
+    <record id="action_pos_config_receipt_design" model="ir.actions.act_window">
+        <field name="name">Receipt Design</field>
+        <field name="res_model">pos.config</field>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="view_pos_config_receipt_design_list"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Point of Sale configurations yet.
+            </p>
+            <p>
+                Choose the receipt design for each Point of Sale here.
+                The selected layout is applied to the on-screen receipt
+                shown after payment validation and to printed receipts.
+            </p>
+        </field>
+    </record>
+
+    <!--
+        Menu: sits under Point of Sale → Configuration, alongside the
+        existing "Point of Sales", "Payment Methods", etc. entries.
+        Sequence 25 places it just after the standard "Point of Sales"
+        menu (sequence 20) and before "Note Models".
+    -->
+    <menuitem id="menu_pos_config_receipt_design"
+              name="Receipt Design"
+              parent="point_of_sale.menu_point_config_product"
+              action="action_pos_config_receipt_design"
+              sequence="25"/>
+
+</odoo>

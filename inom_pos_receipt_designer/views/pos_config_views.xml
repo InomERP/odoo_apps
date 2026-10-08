@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_pos_config_form_receipt_design" model="ir.ui.view">
+        <field name="name">pos.config.form.receipt.design</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+        <field name="arch" type="xml">
+            <!--
+                Append a dedicated "Receipt Design" group inside the form's
+                <sheet>. We anchor on `//sheet` (a fundamental form-view
+                element) rather than any specific field name, because
+                receipt-related fields like `receipt_header` have moved or
+                been renamed across Odoo versions. This anchor is stable
+                across 17/18/19 and any future restructures of the inner
+                groups/notebook.
+            -->
+            <xpath expr="//sheet" position="inside">
+                <group name="receipt_design_group" string="Receipt Design">
+                    <field name="receipt_design"
+                           widget="radio"
+                           options="{'horizontal': true}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

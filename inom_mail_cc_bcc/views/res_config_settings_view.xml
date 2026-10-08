@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_email_defaults_settings" model="ir.ui.view">
+        <field name="name">res.config.settings.email.defaults</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app string="Email Defaults" name="inom_mail_cc_bcc">
+                    <block title="Email Defaults">
+                        <setting string="Default CC"
+                                 help="Automatically add these addresses to the CC field when composing an email.">
+                            <field name="email_cc_enable"/>
+                            <field name="email_cc_text"
+                                   invisible="not email_cc_enable"
+                                   placeholder="name@example.com, another@example.com"/>
+                        </setting>
+                        <setting string="Default BCC"
+                                 help="Automatically add these addresses to the BCC field when composing an email.">
+                            <field name="email_bcc_enable"/>
+                            <field name="email_bcc_text"
+                                   invisible="not email_bcc_enable"
+                                   placeholder="name@example.com, another@example.com"/>
+                        </setting>
+                        <setting string="Default Reply-To"
+                                 help="Use this address as Reply-To for outgoing emails.">
+                            <field name="reply_to_enable"/>
+                            <field name="reply_to_text"
+                                   invisible="not reply_to_enable"
+                                   placeholder="name@example.com"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

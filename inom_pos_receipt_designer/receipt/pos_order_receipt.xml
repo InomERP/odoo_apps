@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Odoo 20 renders the POS receipt in the browser (QWeb -> iframe srcdoc)
+        and on the server (wkhtmltoimage). Printing / image generation may only
+        keep the <body> subtree, so the chosen design is exposed BOTH as a
+        data-design attribute on <html id="pos-receipt"> AND as an rd-<design>
+        class + data-design attribute on the inner wrapper <div>. Every CSS rule
+        below targets both, so the design is applied whichever path is used.
+    -->
+    <template id="pos_order_receipt_design" inherit_id="point_of_sale.pos_order_receipt">
+        <xpath expr="//html[@id='pos-receipt']" position="attributes">
+            <attribute name="t-att-data-design">config.get('receipt_design') or 'classic'</attribute>
+        </xpath>
+        <xpath expr="//html[@id='pos-receipt']/div" position="attributes">
+            <attribute name="t-att-class">'rd-' + (config.get('receipt_design') or 'classic')</attribute>
+            <attribute name="t-att-data-design">config.get('receipt_design') or 'classic'</attribute>
+        </xpath>
+    </template>
+
+    <template id="pos_order_receipt_style_design" inherit_id="point_of_sale.pos_order_receipt_style">
+        <xpath expr="//style" position="after">
+            <style>
+                @page { margin: 0; }
+                /* Browser print (A4/Letter): receipt centered on the page at a medium width, fits one page.
+                   Thermal-printer / image paths are not print media, so they keep their own width. */
+                @media print {
+                    #pos-receipt[data-design] { width: 100% !important; max-width: none !important; margin: 0 !important; }
+                    #pos-receipt body { margin: 0 !important; }
+                    #pos-receipt [class^="rd-"] { zoom: 0.85; width: 600px !important; max-width: 100% !important; margin: 0 auto !important; box-sizing: border-box; }
+                    #pos-receipt .rd-compact { zoom: 0.9; }
+                    #pos-receipt table { page-break-inside: avoid; break-inside: avoid; }
+                }
+                #pos-receipt, #pos-receipt * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+                /** CLASSIC **/
+                #pos-receipt .rd-classic { font-family: "Courier New", Courier, monospace !important; }
+                #pos-receipt[data-design="classic"] [name="ticket_reference"],
+                #pos-receipt .rd-classic [name="ticket_reference"] { font-weight: bold; border-bottom: 2px dashed #000; padding-bottom: 4px; margin-bottom: 4px; }
+                #pos-receipt[data-design="classic"] tr.lines td,
+                #pos-receipt .rd-classic tr.lines td { border-bottom: 1px dashed #999999; }
+                #pos-receipt[data-design="classic"] [name="prices"],
+                #pos-receipt .rd-classic [name="prices"] { border-top: 2px dashed #000; padding-top: 8px; }
+                #pos-receipt[data-design="classic"] td[name="total"],
+                #pos-receipt .rd-classic td[name="total"],
+                #pos-receipt[data-design="classic"] td:has(> .total-amount),
+                #pos-receipt .rd-classic td:has(> .total-amount) { border-top: 2px dashed #000; border-bottom: 2px dashed #000; font-weight: bold; }
+
+                /** MODERN **/
+                #pos-receipt .rd-modern { font-family: "Poppins", "Helvetica Neue", Arial, sans-serif !important; color: #222222 !important; }
+                #pos-receipt[data-design="modern"] [name="ticket_reference"],
+                #pos-receipt .rd-modern [name="ticket_reference"] { font-size: 28px; font-weight: 600; }
+                #pos-receipt[data-design="modern"] tr.lines td,
+                #pos-receipt .rd-modern tr.lines td { padding: 6px 0; border-bottom: 1px solid #eeeeee; }
+                #pos-receipt[data-design="modern"] [name="prices"],
+                #pos-receipt .rd-modern [name="prices"] { background: #f4f6f8 !important; border-radius: 10px; padding: 10px; }
+                #pos-receipt[data-design="modern"] [name="prices"] *,
+                #pos-receipt .rd-modern [name="prices"] * { background: #f4f6f8 !important; }
+                #pos-receipt[data-design="modern"] td[name="total"],
+                #pos-receipt .rd-modern td[name="total"],
+                #pos-receipt[data-design="modern"] td:has(> .total-amount),
+                #pos-receipt .rd-modern td:has(> .total-amount) { border-top: 3px solid #000; font-size: 32px !important; font-weight: 700; }
+                #pos-receipt[data-design="modern"] .total-amount,
+                #pos-receipt .rd-modern .total-amount { font-size: 32px !important; }
+
+                /** COMPACT **/
+                #pos-receipt .rd-compact { font-size: 17px !important; line-height: 1.25 !important; }
+                #pos-receipt[data-design="compact"] .text-large,
+                #pos-receipt .rd-compact .text-large { font-size: 19px !important; line-height: 24px !important; }
+                #pos-receipt[data-design="compact"] .text-normal,
+                #pos-receipt .rd-compact .text-normal { font-size: 17px !important; line-height: 22px !important; }
+                #pos-receipt[data-design="compact"] .text-small,
+                #pos-receipt .rd-compact .text-small { font-size: 14px !important; line-height: 18px !important; }
+                #pos-receipt[data-design="compact"] .mt-2,
+                #pos-receipt .rd-compact .mt-2,
+                #pos-receipt[data-design="compact"] .mt-3,
+                #pos-receipt .rd-compact .mt-3 { margin-top: 2px !important; }
+                #pos-receipt[data-design="compact"] .mb-2,
+                #pos-receipt .rd-compact .mb-2,
+                #pos-receipt[data-design="compact"] .mb-3,
+                #pos-receipt .rd-compact .mb-3 { margin-bottom: 4px !important; }
+                #pos-receipt[data-design="compact"] [name="logo"] img,
+                #pos-receipt .rd-compact [name="logo"] img { width: 30% !important; }
+
+                /** DETAILED **/
+                #pos-receipt .rd-detailed { font-family: Georgia, "Times New Roman", serif !important; border: 3px solid #000000; padding: 12px !important; }
+                #pos-receipt[data-design="detailed"] [name="ticket_reference"],
+                #pos-receipt .rd-detailed [name="ticket_reference"] { font-weight: bold; border-bottom: 2px solid #000; padding-bottom: 4px; }
+                #pos-receipt[data-design="detailed"] tr.lines td,
+                #pos-receipt .rd-detailed tr.lines td { border-bottom: 1px dotted #888888; padding: 5px 0; }
+                #pos-receipt[data-design="detailed"] td[name="total"],
+                #pos-receipt .rd-detailed td[name="total"],
+                #pos-receipt[data-design="detailed"] td:has(> .total-amount),
+                #pos-receipt .rd-detailed td:has(> .total-amount) { background: #eeeeee !important; border-top: 2px solid #000; border-bottom: 2px solid #000; padding: 6px; font-weight: bold; }
+                #pos-receipt[data-design="detailed"] .total-amount,
+                #pos-receipt .rd-detailed .total-amount { background: #eeeeee !important; }
+
+                /** MINIMAL **/
+                #pos-receipt .rd-minimal { font-family: Arial, Helvetica, sans-serif !important; color: #333333 !important; font-weight: 300; }
+                #pos-receipt[data-design="minimal"] .text-large,
+                #pos-receipt .rd-minimal .text-large { font-size: 20px !important; }
+                #pos-receipt[data-design="minimal"] [name="ticket_reference"],
+                #pos-receipt .rd-minimal [name="ticket_reference"] { letter-spacing: 2px; text-transform: uppercase; font-size: 18px; }
+                #pos-receipt[data-design="minimal"] tr.lines td,
+                #pos-receipt .rd-minimal tr.lines td { padding: 3px 0; }
+                #pos-receipt[data-design="minimal"] td[name="total"],
+                #pos-receipt .rd-minimal td[name="total"],
+                #pos-receipt[data-design="minimal"] td:has(> .total-amount),
+                #pos-receipt .rd-minimal td:has(> .total-amount) { border-top: 1px solid #999999; padding-top: 6px; }
+
+                /** DARK **/
+                #pos-receipt .rd-dark { background: #111111 !important; color: #ffffff !important; padding: 14px !important; }
+                #pos-receipt[data-design="dark"] *,
+                #pos-receipt .rd-dark * { background: #111111 !important; color: #ffffff !important; }
+                #pos-receipt[data-design="dark"] hr,
+                #pos-receipt .rd-dark hr { border-top-color: #ffffff !important; }
+                #pos-receipt[data-design="dark"] tr.lines td,
+                #pos-receipt .rd-dark tr.lines td { border-bottom: 1px solid #555555; }
+                #pos-receipt[data-design="dark"] td[name="total"],
+                #pos-receipt .rd-dark td[name="total"],
+                #pos-receipt[data-design="dark"] td:has(> .total-amount),
+                #pos-receipt .rd-dark td:has(> .total-amount) { border-top: 3px solid #ffffff; font-weight: bold; }
+                #pos-receipt[data-design="dark"] img.invoice-qr-code,
+                #pos-receipt .rd-dark img.invoice-qr-code { background: #ffffff !important; padding: 4px; }
+
+                /** CARD **/
+                #pos-receipt .rd-card { background: #f3f3f3 !important; padding: 14px !important; }
+                #pos-receipt[data-design="card"] *,
+                #pos-receipt .rd-card * { background: #f9f9f9 !important; }
+                #pos-receipt[data-design="card"] [name="prices"],
+                #pos-receipt .rd-card [name="prices"] { background: #ffffff !important; border-radius: 10px; padding: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
+                #pos-receipt[data-design="card"] [name="prices"] *,
+                #pos-receipt .rd-card [name="prices"] * { background: #ffffff !important; }
+                #pos-receipt[data-design="card"] tr.lines td,
+                #pos-receipt .rd-card tr.lines td { border-bottom: 1px solid #e2e2e2; }
+                #pos-receipt[data-design="card"] td[name="total"],
+                #pos-receipt .rd-card td[name="total"],
+                #pos-receipt[data-design="card"] td:has(> .total-amount),
+                #pos-receipt .rd-card td:has(> .total-amount) { font-weight: bold; }
+
+                /** BOLD **/
+                #pos-receipt .rd-bold { font-weight: 700 !important; }
+                #pos-receipt[data-design="bold"] [name="ticket_reference"],
+                #pos-receipt .rd-bold [name="ticket_reference"] { font-weight: 800; font-size: 30px; }
+                #pos-receipt[data-design="bold"] tr.lines td,
+                #pos-receipt .rd-bold tr.lines td { border-bottom: 2px solid #000; }
+                #pos-receipt[data-design="bold"] td[name="total"],
+                #pos-receipt .rd-bold td[name="total"],
+                #pos-receipt[data-design="bold"] td:has(> .total-amount),
+                #pos-receipt .rd-bold td:has(> .total-amount) { font-size: 36px !important; font-weight: 900; border-top: 4px solid #000; border-bottom: 4px solid #000; }
+                #pos-receipt[data-design="bold"] .total-amount,
+                #pos-receipt .rd-bold .total-amount { font-size: 36px !important; font-weight: 900; }
+
+                /** ELEGANT **/
+                #pos-receipt .rd-elegant { font-family: "Times New Roman", Times, serif !important; border: 6px double #000000; padding: 12px !important; }
+                #pos-receipt[data-design="elegant"] [name="ticket_reference"],
+                #pos-receipt .rd-elegant [name="ticket_reference"] { font-style: italic; letter-spacing: 1px; font-size: 26px; }
+                #pos-receipt[data-design="elegant"] tr.lines td,
+                #pos-receipt .rd-elegant tr.lines td { border-bottom: 1px solid #bbbbbb; }
+                #pos-receipt[data-design="elegant"] td[name="total"],
+                #pos-receipt .rd-elegant td[name="total"],
+                #pos-receipt[data-design="elegant"] td:has(> .total-amount),
+                #pos-receipt .rd-elegant td:has(> .total-amount) { border-top: 3px double #000; border-bottom: 3px double #000; font-weight: bold; }
+
+                /** GRADIENT **/
+                #pos-receipt .rd-gradient { background: linear-gradient(160deg, #ffffff 0%, #eef1f5 55%, #dde3ea 100%) !important; padding: 16px !important; border: 1px solid #cdd4dc; border-radius: 14px; }
+                #pos-receipt[data-design="gradient"] *,
+                #pos-receipt .rd-gradient * { background: transparent !important; }
+                #pos-receipt[data-design="gradient"] [name="logo"],
+                #pos-receipt .rd-gradient [name="logo"] { padding-bottom: 8px; border-bottom: 2px solid #222222; margin-bottom: 10px !important; }
+                #pos-receipt[data-design="gradient"] [name="ticket_reference"],
+                #pos-receipt .rd-gradient [name="ticket_reference"] { font-size: 26px; font-weight: 700; letter-spacing: 0.5px; }
+                #pos-receipt[data-design="gradient"] tr.lines td,
+                #pos-receipt .rd-gradient tr.lines td { border-bottom: 1px solid rgba(0, 0, 0, 0.15); padding: 6px 0; }
+                #pos-receipt[data-design="gradient"] [name="prices"],
+                #pos-receipt .rd-gradient [name="prices"] { background: rgba(255, 255, 255, 0.65) !important; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 10px; padding: 8px 12px; }
+                #pos-receipt[data-design="gradient"] td[name="total"],
+                #pos-receipt .rd-gradient td[name="total"],
+                #pos-receipt[data-design="gradient"] td:has(> .total-amount),
+                #pos-receipt .rd-gradient td:has(> .total-amount) { background: linear-gradient(90deg, #111111, #4a4a4a) !important; color: #ffffff !important; padding: 8px 10px; font-weight: bold; font-size: 26px !important; }
+                #pos-receipt[data-design="gradient"] td[name="total"],
+                #pos-receipt .rd-gradient td[name="total"] { border-radius: 8px 0 0 8px; }
+                #pos-receipt[data-design="gradient"] td:has(> .total-amount),
+                #pos-receipt .rd-gradient td:has(> .total-amount) { border-radius: 0 8px 8px 0; }
+                #pos-receipt[data-design="gradient"] .total-amount,
+                #pos-receipt .rd-gradient .total-amount { color: #ffffff !important; font-size: 26px !important; background: transparent !important; }
+                #pos-receipt[data-design="gradient"] [name="total_item_count"],
+                #pos-receipt .rd-gradient [name="total_item_count"] { font-weight: 600; margin-top: 8px; }
+            </style>
+        </xpath>
+    </template>
+</odoo>
