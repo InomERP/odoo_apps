@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-inherit="web.ControlPanel"
+       t-inherit-mode="extension">
+        <xpath expr="//div[contains(@class,'o_control_panel_main_buttons')]"
+               position="inside">
+            <button
+                type="button"
+                class="btn btn-sm btn-secondary ms-1 o_duplicate_records_btn"
+                title="Duplicate Selected Records"
+                style="display:none">
+                <i class="fa fa-copy"/>
+            </button>
+        </xpath>
+    </t>
+</templates>

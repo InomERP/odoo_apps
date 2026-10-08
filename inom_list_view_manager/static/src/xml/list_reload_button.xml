@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates xml:space="preserve">
+
+    <t t-inherit="web.ListView.Buttons"
+       t-inherit-mode="extension">
+
+        <xpath expr="//button[contains(@class, 'o_list_button_add')]"
+               position="after">
+
+            <button type="button"
+                    class="btn btn-secondary o_reload_list_btn"
+                    t-on-click="reloadListData">
+
+                <i class="fa fa-refresh"/>
+
+            </button>
+
+        </xpath>
+
+    </t>
+
+</templates>

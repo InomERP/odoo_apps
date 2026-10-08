@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_inom_lvm" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inom.lvm</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="40"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="List View Manager" string="List View Manager" name="inom_list_view_manager" groups="base.group_system">
+                    <block title="List View Manager" name="inom_lvm_setting_container">
+                        <setting id="inom_lvm_toggle_color" string="Toggle Color" help="Color of the column checkboxes in the Columns panel">
+                            <field name="toggle_color" widget="color"/>
+                        </setting>
+                        <setting id="inom_lvm_header_color" string="LVM Header Color" help="Header color of the Columns panel">
+                            <field name="header_color" widget="color"/>
+                        </setting>
+                        <setting id="inom_lvm_header_text_color" string="Header Text Color" help="Text color of the Columns panel header">
+                            <field name="header_text_color" widget="color"/>
+                        </setting>
+                        <setting id="inom_lvm_serial_number" string="Enable Serial Number" help="Show serial number column in all list views">
+                            <field name="enable_serial_number"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,2 @@
+id,name,model_id,group_id/id,operation,domain
+access_inom_list_view_manager,access_inom_list_view_manager,inom.list.view.manager,base.group_user,crud,
