@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_company_form_intercompany_transfer" model="ir.ui.view">
+        <field name="name">res.company.form.intercompany.transfer</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Inter Company Transfer"
+                      name="intercompany_transfer">
+                    <group>
+                        <group>
+                            <field name="intercompany_transfer_enabled"/>
+                            <field name="intercompany_transfer_apply_on"
+                                   widget="radio"
+                                   invisible="not intercompany_transfer_enabled"
+                                   required="intercompany_transfer_enabled"/>
+                            <field name="intercompany_warehouse_id"
+                                   invisible="not intercompany_transfer_enabled"
+                                   required="intercompany_transfer_enabled"
+                                   domain="[('company_id', '=', id)]"
+                                   options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <div class="alert alert-info" role="alert"
+                                 invisible="not intercompany_transfer_enabled">
+                                <field name="intercompany_transfer_note"
+                                       nolabel="1" readonly="1"/>
+                            </div>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
