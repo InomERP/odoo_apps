@@ -1,0 +1,7 @@
+id,name,model_id,group_id/id,operation,domain
+access_sale_order_merge_wizard_salesman,access.sale.order.merge.wizard.salesman,sale.order.merge.wizard,sales_team.group_sale_salesman,crud,
+access_sale_order_merge_wizard_manager,access.sale.order.merge.wizard.manager,sale.order.merge.wizard,sales_team.group_sale_manager,crud,
+access_sale_order_merge_same_customer_wizard_salesman,access.sale.order.merge.same.customer.wizard.salesman,sale.order.merge.same.customer.wizard,sales_team.group_sale_salesman,crud,
+access_sale_order_merge_same_customer_wizard_manager,access.sale.order.merge.same.customer.wizard.manager,sale.order.merge.same.customer.wizard,sales_team.group_sale_manager,crud,
+access_sale_order_merge_lines_wizard_salesman,access.sale.order.merge.lines.wizard.salesman,sale.order.merge.lines.wizard,sales_team.group_sale_salesman,crud,
+access_sale_order_merge_lines_wizard_manager,access.sale.order.merge.lines.wizard.manager,sale.order.merge.lines.wizard,sales_team.group_sale_manager,crud,

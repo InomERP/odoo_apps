@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Phase 6: 'Auto Merge Sale Order lines' toggle on Sales > Configuration > Settings.
+         We anchor on the 'Quotations & Orders' block (name="quotation_order_setting_container"),
+         which is the same stable block id Odoo itself uses inside the Sales app settings, and
+         append our own <setting> entry using the same widget syntax as the rest of that block. -->
+    <record id="res_config_settings_view_form_inherit_sale_order_merge" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.sale.order.merge</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@name='quotation_order_setting_container']" position="inside">
+                <setting id="auto_merge_sale_order_lines_setting"
+                         string="Auto Merge Sale Orderlines"
+                         help="Will automatically merge sale order lines while creating or editing an order.">
+                    <field name="auto_merge_sale_order_lines"/>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

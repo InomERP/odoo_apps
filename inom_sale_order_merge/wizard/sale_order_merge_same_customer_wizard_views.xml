@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Merge Sale for Same Customer wizard form -->
+    <record id="view_sale_order_merge_same_customer_wizard_form" model="ir.ui.view">
+        <field name="name">sale.order.merge.same.customer.wizard.form</field>
+        <field name="model">sale.order.merge.same.customer.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Merge Sale for Same Customer">
+                <group>
+                    <field name="customer_id"/>
+                    <field name="merge_type"/>
+                    <field name="merge_with_order_id"
+                           invisible="merge_type not in ('existing_cancel', 'existing_delete')"
+                           required="merge_type in ('existing_cancel', 'existing_delete')"/>
+                </group>
+                <field name="order_ids">
+                    <list editable="bottom" create="0">
+                        <field name="name" string="Number"/>
+                        <field name="create_date" string="Creation Date"/>
+                        <field name="partner_id" string="Customer"/>
+                        <field name="amount_total" string="Total"/>
+                        <field name="state" string="Status"/>
+                    </list>
+                </field>
+                <footer>
+                    <button name="action_merge"
+                            type="object"
+                            string="Merge"
+                            class="btn-primary"
+                            data-hotkey="q"/>
+                    <span class="mx-2 o_form_label">or</span>
+                    <button string="Cancel"
+                            class="btn-link"
+                            special="cancel"
+                            data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Standalone action: opened from the Orders menu, not from a list-view selection -->
+    <record id="action_sale_order_merge_same_customer_wizard" model="ir.actions.act_window">
+        <field name="name">Merge Sale for Same Customer</field>
+        <field name="res_model">sale.order.merge.same.customer.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Sales > Orders > Merge Sale for Same Customer -->
+    <menuitem id="menu_sale_order_merge_same_customer"
+              name="Merge Sale for Same Customer"
+              parent="sale.sale_order_menu"
+              action="action_sale_order_merge_same_customer_wizard"
+              sequence="15"/>
+
+</odoo>

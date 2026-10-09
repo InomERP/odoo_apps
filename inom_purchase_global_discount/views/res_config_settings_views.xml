@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="res_config_settings_discount_purchase" model="ir.ui.view">
+        <field name="name">res.config.settings.discount.purchase</field>
+        <field name="model">res.config.settings</field>
+
+        <field name="inherit_id" ref="purchase.res_config_settings_view_form_purchase"/>
+
+        <field name="arch" type="xml">
+
+            <xpath expr="//setting[field[@name='group_send_reminder']]" position="after">
+
+                <!-- Section Title -->
+                <div class="col-12 mt16 mb8">
+
+                    <h2 style="color:#714B67; font-weight:600;">
+                        Purchase Discount Control
+                    </h2>
+
+                    <hr style="border-color:#714B67;"/>
+
+                </div>
+
+                <!-- Setting Box -->
+                <div class="o_setting_box col-12 col-lg-6"
+                     style="border-left:5px solid #714B67;
+                            padding-left:15px;
+                            background-color:#faf9fb;
+                            border-radius:6px;">
+
+                    <div class="o_setting_left_pane"/>
+
+                    <div class="o_setting_right_pane">
+
+                        <span class="o_form_label">
+                            Maximum Allowed Discount (%)
+                        </span>
+
+                        <div class="mt8">
+                            <field name="max_discount_limit"/>
+                        </div>
+
+                        <div class="text-muted">
+                            Set maximum percentage discount allowed on purchase orders
+                        </div>
+
+                        <div class="mt16">
+
+                            <span class="o_form_label">
+                                Maximum Discount Amount
+                            </span>
+
+                            <div class="mt8">
+                                <field name="max_discount_amount"/>
+                            </div>
+
+                            <div class="text-muted">
+                                Set maximum fixed discount allowed on purchase orders
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </xpath>
+
+        </field>
+
+    </record>
+
+</odoo>
+

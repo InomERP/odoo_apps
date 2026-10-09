@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Merge Order Lines confirmation wizard form -->
+    <record id="view_sale_order_merge_lines_wizard_form" model="ir.ui.view">
+        <field name="name">sale.order.merge.lines.wizard.form</field>
+        <field name="model">sale.order.merge.lines.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Merge Order Lines">
+                <field name="sale_order_id" invisible="1"/>
+                <p>Are you sure to merge Sale order lines?</p>
+                <footer>
+                    <button name="action_merge"
+                            type="object"
+                            string="Merge"
+                            class="btn-primary"
+                            data-hotkey="q"/>
+                    <span class="mx-2 o_form_label">or</span>
+                    <button string="Cancel"
+                            class="btn-link"
+                            special="cancel"
+                            data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action bound to the sale order form view (appears in the cog/Action menu) -->
+    <record id="action_sale_order_merge_lines_wizard" model="ir.actions.act_window">
+        <field name="name">Merge Order Lines</field>
+        <field name="res_model">sale.order.merge.lines.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_view_types">form</field>
+    </record>
+
+</odoo>

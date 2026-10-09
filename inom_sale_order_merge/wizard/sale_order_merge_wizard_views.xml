@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Merge Sale Orders wizard form -->
+    <record id="view_sale_order_merge_wizard_form" model="ir.ui.view">
+        <field name="name">sale.order.merge.wizard.form</field>
+        <field name="model">sale.order.merge.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Merge Sale Orders">
+                <group>
+                    <field name="selected_order_ids" invisible="1"/>
+                    <field name="merge_type"/>
+                    <field name="merge_with_order_id"
+                           invisible="merge_type not in ('existing_cancel', 'existing_delete')"
+                           required="merge_type in ('existing_cancel', 'existing_delete')"/>
+                    <field name="merge_with_different_customer"
+                           invisible="merge_type not in ('new_cancel', 'new_delete')"/>
+                    <div class="alert alert-info"
+                        colspan="2"
+                        role="alert"
+                        invisible="not merge_with_different_customer or merge_type not in ('new_cancel', 'new_delete')">
+                        A new order will be created for the customer chosen below. All the
+                        other selected orders will still be cancelled or deleted according
+                        to the merge type above.
+                    </div>
+                    <field name="customer_id"
+                           invisible="not merge_with_different_customer or merge_type not in ('new_cancel', 'new_delete')"
+                           required="merge_with_different_customer and merge_type in ('new_cancel', 'new_delete')"/>
+                </group>
+                <footer>
+                    <button name="action_merge"
+                            type="object"
+                            string="Merge"
+                            class="btn-primary"
+                            data-hotkey="q"/>
+                    <span class="mx-2 o_form_label">or</span>
+                    <button string="Cancel"
+                            class="btn-link"
+                            special="cancel"
+                            data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action bound to the sale order list view (appears in the cog/Action menu) -->
+    <record id="action_sale_order_merge_wizard" model="ir.actions.act_window">
+        <field name="name">Merge Sale Orders</field>
+        <field name="res_model">sale.order.merge.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_view_types">list</field>
+    </record>
+
+</odoo>
