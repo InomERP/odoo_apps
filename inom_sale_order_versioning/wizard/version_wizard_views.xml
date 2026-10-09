@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_inom_version_create_wizard_form" model="ir.ui.view">
+        <field name="name">inom.version.create.wizard.form</field>
+        <field name="model">inom.version.create.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Create Version">
+                <field name="order_id" invisible="1"/>
+                <group>
+                    <field name="reason_type"/>
+                    <field name="reason" placeholder="Optional note about this revision..."/>
+                </group>
+                <footer>
+                    <button name="action_inom_confirm_create" type="object"
+                            string="Create Version" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_inom_version_compare_wizard_form" model="ir.ui.view">
+        <field name="name">inom.version.compare.wizard.form</field>
+        <field name="model">inom.version.compare.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Compare Versions">
+                <field name="available_order_ids" invisible="1"/>
+                <group>
+                    <field name="order_id" string="Base Version" readonly="1"
+                           force_save="1" options="{'no_open': True}"/>
+                    <field name="compare_order_id" options="{'no_create': True}"/>
+                </group>
+                <field name="comparison_html" readonly="1"/>
+                <footer>
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>
