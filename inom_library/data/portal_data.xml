@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="1">
+
+    <record id="pmodel_book" model="inom.portal.model">
+      <field name="model_name">inom.book</field>
+      <field name="label">Library title</field>
+      <field name="allow_create" eval="True"/>
+      <field name="allow_write" eval="True"/>
+      <field name="allow_unlink" eval="True"/>
+      <field name="module">inom_library</field>
+    </record>
+
+    <record id="pmodel_book_copy" model="inom.portal.model">
+      <field name="model_name">inom.book.copy</field>
+      <field name="label">Book copy</field>
+      <field name="allow_create" eval="True"/>
+      <field name="allow_write" eval="True"/>
+      <field name="allow_unlink" eval="True"/>
+      <field name="module">inom_library</field>
+    </record>
+
+    <record id="pmodel_loan" model="inom.portal.model">
+      <field name="model_name">inom.loan</field>
+      <field name="label">Loan</field>
+      <field name="allow_create" eval="True"/>
+      <field name="allow_write" eval="True"/>
+      <field name="module">inom_library</field>
+    </record>
+
+    <record id="view_book_list" model="inom.portal.view">
+      <field name="key">book.list</field>
+      <field name="name">Title</field>
+      <field name="model_name">inom.book</field>
+      <field name="order">title</field>
+      <field name="chip_field">category</field>
+      <field name="search_field_ids">title,author,isbn</field>
+      <field name="can_create" eval="True"/>
+      <field name="can_write" eval="True"/>
+      <field name="can_unlink" eval="True"/>
+    </record>
+    <record id="vf_title_book_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_book_list"/>
+      <field name="sequence">10</field>
+      <field name="name">title</field>
+      <field name="label">Title</field>
+      <field name="required" eval="True"/>
+      <field name="span">2</field>
+    </record>
+    <record id="vf_author_book_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_book_list"/>
+      <field name="sequence">20</field>
+      <field name="name">author</field>
+      <field name="label">Author</field>
+      <field name="required" eval="True"/>
+    </record>
+    <record id="vf_isbn_book_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_book_list"/>
+      <field name="sequence">30</field>
+      <field name="name">isbn</field>
+      <field name="label">ISBN</field>
+      <field name="widget">mono</field>
+    </record>
+    <record id="vf_category_book_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_book_list"/>
+      <field name="sequence">40</field>
+      <field name="name">category</field>
+      <field name="label">Category</field>
+      <field name="widget">tag</field>
+    </record>
+    <record id="vf_shelf_book_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_book_list"/>
+      <field name="sequence">50</field>
+      <field name="name">shelf</field>
+      <field name="label">Shelf</field>
+      <field name="widget">mono</field>
+    </record>
+    <record id="vf_copies_total_book_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_book_list"/>
+      <field name="sequence">60</field>
+      <field name="name">copies_total</field>
+      <field name="label">Copies</field>
+      <field name="widget">mono</field>
+      <field name="readonly" eval="True"/>
+      <field name="in_form" eval="False"/>
+    </record>
+    <record id="vf_copies_available_book_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_book_list"/>
+      <field name="sequence">70</field>
+      <field name="name">copies_available</field>
+      <field name="label">Available</field>
+      <field name="widget">mono</field>
+      <field name="readonly" eval="True"/>
+      <field name="in_form" eval="False"/>
+    </record>
+    <record id="vf_publisher_book_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_book_list"/>
+      <field name="sequence">80</field>
+      <field name="name">publisher</field>
+      <field name="label">Publisher</field>
+      <field name="in_list" eval="False"/>
+    </record>
+    <record id="vf_department_id_book_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_book_list"/>
+      <field name="sequence">90</field>
+      <field name="name">department_id</field>
+      <field name="label">Department</field>
+      <field name="widget">many2one</field>
+      <field name="in_list" eval="False"/>
+    </record>
+
+    <record id="view_book_copy_list" model="inom.portal.view">
+      <field name="key">book.copy.list</field>
+      <field name="name">Book copy</field>
+      <field name="model_name">inom.book.copy</field>
+      <field name="order">book_id, barcode</field>
+      <field name="chip_field">state</field>
+      <field name="search_field_ids">barcode</field>
+      <field name="can_create" eval="True"/>
+      <field name="can_write" eval="True"/>
+      <field name="can_unlink" eval="True"/>
+    </record>
+    <record id="vf_barcode_book_copy_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_book_copy_list"/>
+      <field name="sequence">10</field>
+      <field name="name">barcode</field>
+      <field name="label">Barcode</field>
+      <field name="widget">mono</field>
+      <field name="required" eval="True"/>
+    </record>
+    <record id="vf_book_id_book_copy_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_book_copy_list"/>
+      <field name="sequence">20</field>
+      <field name="name">book_id</field>
+      <field name="label">Title</field>
+      <field name="widget">many2one</field>
+      <field name="required" eval="True"/>
+      <field name="span">2</field>
+    </record>
+    <record id="vf_condition_book_copy_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_book_copy_list"/>
+      <field name="sequence">30</field>
+      <field name="name">condition</field>
+      <field name="label">Condition</field>
+      <field name="widget">selection</field>
+    </record>
+    <record id="vf_state_book_copy_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_book_copy_list"/>
+      <field name="sequence">40</field>
+      <field name="name">state</field>
+      <field name="label">State</field>
+      <field name="widget">tag</field>
+    </record>
+    <record id="vf_acquired_on_book_copy_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_book_copy_list"/>
+      <field name="sequence">50</field>
+      <field name="name">acquired_on</field>
+      <field name="label">Acquired</field>
+      <field name="widget">date</field>
+      <field name="in_list" eval="False"/>
+    </record>
+
+    <record id="view_loan_list" model="inom.portal.view">
+      <field name="key">loan.list</field>
+      <field name="name">Loan</field>
+      <field name="model_name">inom.loan</field>
+      <field name="order">issued_on desc</field>
+      <field name="chip_field">state</field>
+      <field name="search_field_ids">student_id</field>
+      <field name="can_create" eval="True"/>
+      <field name="can_write" eval="True"/>
+    </record>
+    <record id="vf_student_id_loan_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_loan_list"/>
+      <field name="sequence">10</field>
+      <field name="name">student_id</field>
+      <field name="label">Borrower</field>
+      <field name="widget">person</field>
+      <field name="required" eval="True"/>
+      <field name="span">2</field>
+    </record>
+    <record id="vf_copy_id_loan_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_loan_list"/>
+      <field name="sequence">20</field>
+      <field name="name">copy_id</field>
+      <field name="label">Copy</field>
+      <field name="widget">many2one</field>
+      <field name="required" eval="True"/>
+    </record>
+    <record id="vf_issued_on_loan_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_loan_list"/>
+      <field name="sequence">30</field>
+      <field name="name">issued_on</field>
+      <field name="label">Issued</field>
+      <field name="widget">date</field>
+      <field name="required" eval="True"/>
+    </record>
+    <record id="vf_due_on_loan_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_loan_list"/>
+      <field name="sequence">40</field>
+      <field name="name">due_on</field>
+      <field name="label">Due</field>
+      <field name="widget">date</field>
+      <field name="required" eval="True"/>
+    </record>
+    <record id="vf_days_overdue_loan_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_loan_list"/>
+      <field name="sequence">50</field>
+      <field name="name">days_overdue</field>
+      <field name="label">Days over</field>
+      <field name="widget">mono</field>
+      <field name="readonly" eval="True"/>
+      <field name="in_form" eval="False"/>
+    </record>
+    <record id="vf_fine_amount_loan_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_loan_list"/>
+      <field name="sequence">60</field>
+      <field name="name">fine_amount</field>
+      <field name="label">Fine</field>
+      <field name="widget">money</field>
+      <field name="readonly" eval="True"/>
+      <field name="in_form" eval="False"/>
+    </record>
+    <record id="vf_state_loan_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_loan_list"/>
+      <field name="sequence">70</field>
+      <field name="name">state</field>
+      <field name="label">Status</field>
+      <field name="widget">tag</field>
+      <field name="readonly" eval="True"/>
+    </record>
+
+    <record id="module_library" model="inom.portal.module">
+      <field name="code">library</field>
+      <field name="name">Library</field>
+      <field name="icon">book</field>
+      <field name="color">#8A6208</field>
+      <field name="section">deliver</field>
+      <field name="sequence">20</field>
+      <field name="badge_model">inom.loan</field>
+      <field name="badge_domain">[('state','=','issued')]</field>
+    </record>
+
+    <record id="page_library_dash" model="inom.portal.page">
+      <field name="code">dash</field>
+      <field name="name">Dashboard</field>
+      <field name="module_id" ref="module_library"/>
+      <field name="sequence">10</field>
+      <field name="page_type">dashboard</field>
+      <field name="dashboard_key">library</field>
+      <field name="group_ids" eval="[(6, 0, [ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_librarian'), ref('inom_base.group_inom_dean')])]"/>
+    </record>
+
+    <record id="page_library_catalogue" model="inom.portal.page">
+      <field name="code">catalogue</field>
+      <field name="name">Catalogue</field>
+      <field name="module_id" ref="module_library"/>
+      <field name="sequence">20</field>
+      <field name="page_type">list</field>
+      <field name="view_id" ref="view_book_list"/>
+    </record>
+
+    <record id="page_library_copies" model="inom.portal.page">
+      <field name="code">copies</field>
+      <field name="name">Copies</field>
+      <field name="module_id" ref="module_library"/>
+      <field name="sequence">30</field>
+      <field name="page_type">list</field>
+      <field name="view_id" ref="view_book_copy_list"/>
+      <field name="group_ids" eval="[(6, 0, [ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_librarian')])]"/>
+    </record>
+
+    <record id="page_library_circulation" model="inom.portal.page">
+      <field name="code">circulation</field>
+      <field name="name">Issue and return</field>
+      <field name="module_id" ref="module_library"/>
+      <field name="sequence">40</field>
+      <field name="page_type">list</field>
+      <field name="view_id" ref="view_loan_list"/>
+      <field name="group_ids" eval="[(6, 0, [ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_librarian'), ref('inom_base.group_inom_dean'), ref('inom_base.group_inom_accounts'), ref('inom_base.group_inom_student'), ref('inom_base.group_inom_guardian')])]"/>
+    </record>
+
+    <record id="action_loan_return" model="inom.portal.action">
+      <field name="key">loan.return</field>
+      <field name="name">Return this copy</field>
+      <field name="model_name">inom.loan</field>
+      <field name="method">_inom_action_return</field>
+      <field name="done_message">Returned. Any fine is shown on the loan.</field>
+      <field name="icon">check</field>
+      <field name="group_ids" eval="[(6, 0, [ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_librarian')])]"/>
+      <field name="condition">record.state == 'issued'</field>
+      <field name="primary" eval="True"/>
+    </record>
+
+    <record id="action_loan_lost" model="inom.portal.action">
+      <field name="key">loan.lost</field>
+      <field name="name">Report lost</field>
+      <field name="model_name">inom.loan</field>
+      <field name="method">_inom_action_mark_lost</field>
+      <field name="done_message">Marked lost and taken off the shelf.</field>
+      <field name="icon">alert</field>
+      <field name="confirm" eval="True"/>
+      <field name="group_ids" eval="[(6, 0, [ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_librarian')])]"/>
+      <field name="condition">record.state == 'issued'</field>
+    </record>
+
+    <record id="action_loan_fine" model="inom.portal.action">
+      <field name="key">loan.fine</field>
+      <field name="name">Settle the fine</field>
+      <field name="model_name">inom.loan</field>
+      <field name="method">_inom_action_settle_fine</field>
+      <field name="done_message">Fine settled.</field>
+      <field name="icon">rupee</field>
+      <field name="group_ids" eval="[(6, 0, [ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_librarian'), ref('inom_base.group_inom_accounts')])]"/>
+      <field name="condition">record.fine_amount > 0 and not record.fine_paid</field>
+    </record>
+
+
+    <record id="rel_student_loans" model="inom.portal.related">
+      <field name="view_id" ref="inom_student.view_student_list"/>
+      <field name="sequence">50</field>
+      <field name="name">Library loans</field>
+      <field name="icon">book</field>
+      <field name="related_view_id" ref="view_loan_list"/>
+      <field name="inverse_field">student_id</field>
+      <field name="limit">10</field>
+    </record>
+
+    <record id="rel_book_copies" model="inom.portal.related">
+      <field name="view_id" ref="view_book_list"/>
+      <field name="sequence">10</field>
+      <field name="name">Copies</field>
+      <field name="icon">book</field>
+      <field name="related_view_id" ref="view_book_copy_list"/>
+      <field name="inverse_field">book_id</field>
+      <field name="limit">15</field>
+    </record>
+  </data>
+</odoo>

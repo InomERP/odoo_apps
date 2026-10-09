@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!-- Notification templates live in the module that owns the model they
+       render against. inom_portal defines inom.notification but must not
+       reference inom_fee, inom_exam or the rest — it does not depend on
+       them, and a university may not have installed them. -->
+  <data noupdate="1">
+
+    <record id="mail_template_certificate_issued" model="mail.template">
+      <field name="name">UMS: certificate issued</field>
+      <field name="model_id" ref="model_inom_certificate_request"/>
+      <field name="subject">Your {{ object.type_id.name }} is ready</field>
+      <field name="email_from">{{ object.company_id.email or user.email_formatted }}</field>
+      <field name="email_to">{{ object.student_id.email }}</field>
+      <field name="body_html" type="html">
+        <div style="font-family:Helvetica,Arial,sans-serif;font-size:14px;color:#1c1c26">
+          <p>Dear <t t-out="object.student_id.name"/>,</p>
+          <p>
+            Your <t t-out="object.type_id.name"/>
+            (<t t-out="object.reference"/>) has been issued.
+          </p>
+          <p>Download it from the portal. Verification code:
+            <b t-out="object.verification_code"/></p>
+        </div>
+      </field>
+      <field name="auto_delete" eval="False"/>
+    </record>
+    <record id="notify_certificate_issued" model="inom.notification">
+      <field name="name">Certificate issued</field>
+      <field name="event">certificate.issued</field>
+      <field name="category">certificate</field>
+      <field name="description">Sent to the student when a certificate is issued.</field>
+      <field name="template_id" ref="mail_template_certificate_issued"/>
+      <field name="placeholders">object.type_id.name, object.reference, object.verification_code</field>
+    </record>
+
+  </data>
+</odoo>

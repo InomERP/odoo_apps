@@ -1,0 +1,972 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* inom_fee
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-21 05:08+0000\n"
+"PO-Revision-Date: 2026-09-21 05:08+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: inom_fee
+#: model:ir.actions.report,print_report_name:inom_fee.action_report_fee_account
+msgid "'Fee statement - %s' % (object.student_id.enrolment_no)"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.actions.report,print_report_name:inom_fee.action_report_fee_structure
+msgid "'Fee structure - %s' % (object.code)"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.actions.report,print_report_name:inom_fee.action_report_fee_receipt
+msgid "'Receipt - %s' % (object.name)"
+msgstr ""
+
+#. module: inom_fee
+#: model:mail.template,body_html:inom_fee.mail_template_fee_due
+msgid ""
+"<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:14px;color:#1c1c26\">\n"
+"          <p>Dear <t t-out=\"object.move_id.partner_id.name or object.student_id.name\"/>,</p>\n"
+"          <p>\n"
+"            The <t t-out=\"object.name\"/> for\n"
+"            <t t-out=\"object.student_id.name\"/>\n"
+"            (<t t-out=\"object.student_id.enrolment_no\"/>)\n"
+"            is due on <t t-out=\"object.due_date\"/>.\n"
+"          </p>\n"
+"          <p>Amount outstanding: <b t-out=\"object.amount_due\"/></p>\n"
+"          <p>You can pay through the university portal, or at the accounts office.</p>\n"
+"          <p style=\"color:#5c6480;font-size:12px\">\n"
+"            If you have already paid, please ignore this message.\n"
+"          </p>\n"
+"        </div>\n"
+"      "
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_account_document
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_receipt_document
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_structure_document
+msgid "<span>Academic year</span>"
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_receipt_document
+msgid "<span>Billed to</span>"
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_structure_document
+msgid "<span>Code</span>"
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_account_document
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_structure_document
+msgid "<span>Department</span>"
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_receipt_document
+msgid "<span>Due</span>"
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_account_document
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_receipt_document
+msgid "<span>Enrolment number</span>"
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_account_document
+msgid "<span>Fee structure</span>"
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_receipt_document
+msgid "<span>Instalment</span>"
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_account_document
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_receipt_document
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_structure_document
+msgid "<span>Programme</span>"
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_structure_document
+msgid "<span>Quota</span>"
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_account_document
+msgid "<span>Scholarship</span>"
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_structure_document
+msgid "<span>Semester</span>"
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_account_document
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_structure_document
+msgid "<span>Status</span>"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account_line__account_id
+msgid "Account"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__message_needaction
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__message_needaction
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__active
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__active
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__active
+msgid "Active"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__activity_ids
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__activity_ids
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__activity_exception_decoration
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__activity_exception_decoration
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__activity_state
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__activity_state
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__activity_type_icon
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__activity_type_icon
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account_line__amount
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_component__amount
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_account_document
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_receipt_document
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_structure_document
+msgid "Amount"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__amount_discount
+msgid "Amount Discount"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__amount_due
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account_line__amount_due
+msgid "Amount Due"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__amount_gross
+msgid "Amount Gross"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__amount_paid
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account_line__amount_paid
+msgid "Amount Paid"
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_structure_document
+msgid "Amounts are per"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__message_attachment_count
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__message_attachment_count
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_account_document
+msgid "Balance"
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_account_document
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_receipt_document
+msgid "Balance outstanding"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account_line__partner_id
+msgid "Billed to"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__company_id
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__company_id
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__company_id
+msgid "Campus"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,help:inom_fee.field_inom_fee_component__optional
+msgid "Charged only when the student opts in, e.g. transport."
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields.selection,name:inom_fee.selection__inom_fee_structure__state__closed
+msgid "Closed"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_component__code
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__code
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__code
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_structure_document
+msgid "Code"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__component_ids
+msgid "Components"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__create_uid
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account_line__create_uid
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_component__create_uid
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_instalment__create_uid
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__create_uid
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__create_date
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account_line__create_date
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_component__create_date
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_instalment__create_date
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__create_date
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__currency_id
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account_line__currency_id
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_component__currency_id
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__currency_id
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,help:inom_fee.field_inom_fee_instalment__due_offset_days
+msgid ""
+"Days after the academic year starts. Turned into a real date when the "
+"structure is applied to a student."
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__department_id
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__department_id
+msgid "Department"
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_receipt_document
+msgid "Description"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__display_name
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account_line__display_name
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_component__display_name
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_instalment__display_name
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__display_name
+#: model:ir.model.fields,field_description:inom_fee.field_inom_guardian__display_name
+#: model:ir.model.fields,field_description:inom_fee.field_inom_portal_bulk__display_name
+#: model:ir.model.fields,field_description:inom_fee.field_inom_portal_dashboard__display_name
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__display_name
+#: model:ir.model.fields,field_description:inom_fee.field_inom_student__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields.selection,name:inom_fee.selection__inom_fee_account__state__draft
+#: model:ir.model.fields.selection,name:inom_fee.selection__inom_fee_structure__state__draft
+msgid "Draft"
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_account_document
+msgid "Due"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account_line__due_date
+msgid "Due Date"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_instalment__due_offset_days
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_structure_document
+msgid "Due after (days)"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model,name:inom_fee.model_inom_fee_component
+msgid "Fee Component"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model,name:inom_fee.model_inom_fee_instalment
+msgid "Fee Instalment"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model,name:inom_fee.model_inom_fee_account_line
+msgid "Fee Instalment Due"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model,name:inom_fee.model_inom_fee_structure
+msgid "Fee Structure"
+msgstr ""
+
+#. module: inom_fee
+#: model:mail.template,subject:inom_fee.mail_template_fee_due
+msgid "Fee instalment due — {{ object.name }}"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.actions.report,name:inom_fee.action_report_fee_receipt
+msgid "Fee receipt"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.actions.report,name:inom_fee.action_report_fee_account
+msgid "Fee statement"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.actions.report,name:inom_fee.action_report_fee_structure
+msgid "Fee structure"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields.selection,name:inom_fee.selection__inom_scholarship__kind__amount
+msgid "Fixed amount"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__message_follower_ids
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__message_follower_ids
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__message_partner_ids
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__message_partner_ids
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,help:inom_fee.field_inom_fee_account__activity_type_icon
+#: model:ir.model.fields,help:inom_fee.field_inom_fee_structure__activity_type_icon
+#: model:ir.model.fields,help:inom_fee.field_inom_scholarship__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,help:inom_fee.field_inom_fee_instalment__name
+msgid "For example: First instalment."
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__funded_by
+msgid "Funded By"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields.selection,name:inom_fee.selection__inom_fee_structure__quota__general
+msgid "General"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,help:inom_fee.field_inom_scholarship__funded_by
+msgid "Government scheme, trust, or the university itself."
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_account_document
+msgid "Gross fee"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model,name:inom_fee.model_inom_guardian
+msgid "Guardian"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__has_message
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__has_message
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_structure_document
+msgid "Head of fee"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__id
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account_line__id
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_component__id
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_instalment__id
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__id
+#: model:ir.model.fields,field_description:inom_fee.field_inom_guardian__id
+#: model:ir.model.fields,field_description:inom_fee.field_inom_portal_bulk__id
+#: model:ir.model.fields,field_description:inom_fee.field_inom_portal_dashboard__id
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__id
+#: model:ir.model.fields,field_description:inom_fee.field_inom_student__id
+msgid "ID"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__activity_exception_icon
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__activity_exception_icon
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,help:inom_fee.field_inom_fee_account__activity_exception_icon
+#: model:ir.model.fields,help:inom_fee.field_inom_fee_structure__activity_exception_icon
+#: model:ir.model.fields,help:inom_fee.field_inom_scholarship__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,help:inom_fee.field_inom_fee_account__message_needaction
+#: model:ir.model.fields,help:inom_fee.field_inom_fee_structure__message_needaction
+#: model:ir.model.fields,help:inom_fee.field_inom_scholarship__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,help:inom_fee.field_inom_fee_account__message_has_error
+#: model:ir.model.fields,help:inom_fee.field_inom_fee_account__message_has_sms_error
+#: model:ir.model.fields,help:inom_fee.field_inom_fee_structure__message_has_error
+#: model:ir.model.fields,help:inom_fee.field_inom_fee_structure__message_has_sms_error
+#: model:ir.model.fields,help:inom_fee.field_inom_scholarship__message_has_error
+#: model:ir.model.fields,help:inom_fee.field_inom_scholarship__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_component__account_id
+msgid "Income account"
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_account_document
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_structure_document
+msgid "Instalment"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__line_ids
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__instalment_ids
+msgid "Instalments"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account_line__move_id
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_account_document
+msgid "Invoice"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account_line__invoice_state
+msgid "Invoice status"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__invoiced_count
+msgid "Invoiced Count"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__message_is_follower
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__message_is_follower
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields.selection,name:inom_fee.selection__inom_fee_account_line__state__issued
+msgid "Issued"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__kind
+msgid "Kind"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__write_uid
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account_line__write_uid
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_component__write_uid
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_instalment__write_uid
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__write_uid
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__write_date
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account_line__write_date
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_component__write_date
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_instalment__write_date
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__write_date
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,help:inom_fee.field_inom_fee_component__account_id
+msgid "Left empty, the programme default is used when invoices are raised."
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields.selection,name:inom_fee.selection__inom_fee_structure__quota__management
+msgid "Management"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__message_has_error
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__message_has_error
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__message_ids
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__message_ids
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__my_activity_date_deadline
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__my_activity_date_deadline
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields.selection,name:inom_fee.selection__inom_fee_structure__quota__nri
+msgid "NRI"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account_line__name
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_component__name
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_instalment__name
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__name
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__name
+msgid "Name"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__activity_date_deadline
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__activity_date_deadline
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__activity_summary
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__activity_summary
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__activity_type_id
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__activity_type_id
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_structure_document
+msgid "No heads of fee have been added to this structure."
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_account_document
+msgid "No instalment schedule has been generated yet."
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_account_document
+msgid ""
+"Nothing is outstanding on this account. This is a statement of position,\n"
+"        not a receipt — receipts are issued per instalment."
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__message_needaction_counter
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__message_needaction_counter
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__message_has_error_counter
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__message_has_error_counter
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,help:inom_fee.field_inom_fee_account__message_needaction_counter
+#: model:ir.model.fields,help:inom_fee.field_inom_fee_structure__message_needaction_counter
+#: model:ir.model.fields,help:inom_fee.field_inom_scholarship__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,help:inom_fee.field_inom_fee_account__message_has_error_counter
+#: model:ir.model.fields,help:inom_fee.field_inom_fee_structure__message_has_error_counter
+#: model:ir.model.fields,help:inom_fee.field_inom_scholarship__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields.selection,name:inom_fee.selection__inom_fee_account__state__open
+msgid "Open"
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_structure_document
+msgid "Opt-in only"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_component__optional
+msgid "Optional"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields.selection,name:inom_fee.selection__inom_fee_account__state__overdue
+#: model:ir.model.fields.selection,name:inom_fee.selection__inom_fee_account_line__state__overdue
+msgid "Overdue"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields.selection,name:inom_fee.selection__inom_fee_account__state__paid
+#: model:ir.model.fields.selection,name:inom_fee.selection__inom_fee_account_line__state__paid
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_account_document
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_receipt_document
+msgid "Paid"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields.selection,name:inom_fee.selection__inom_fee_account__state__partial
+msgid "Partly paid"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields.selection,name:inom_fee.selection__inom_fee_account_line__state__pending
+msgid "Pending"
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_structure_document
+msgid "Per cent"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_instalment__percentage
+msgid "Percentage"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields.selection,name:inom_fee.selection__inom_scholarship__kind__percent
+msgid "Percentage of total"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model,name:inom_fee.model_inom_portal_bulk
+msgid "Portal Bulk Operation"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model,name:inom_fee.model_inom_portal_dashboard
+msgid "Portal Dashboard"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__programme_id
+msgid "Programme"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields.selection,name:inom_fee.selection__inom_fee_structure__state__published
+msgid "Published"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__quota
+msgid "Quota"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,help:inom_fee.field_inom_fee_account_line__move_id
+msgid ""
+"Raised in accounting when the instalment is issued. The invoice, not this "
+"line, is what the student actually owes."
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_receipt_document
+msgid ""
+"Received with thanks. This receipt is computer generated and needs no "
+"signature."
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_component__refundable
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_structure_document
+msgid "Refundable"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__activity_user_id
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__activity_user_id
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__message_has_sms_error
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__message_has_sms_error
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__scholarship_id
+#: model:ir.model.fields.selection,name:inom_fee.selection__inom_fee_structure__quota__scholarship
+msgid "Scholarship"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model,name:inom_fee.model_inom_scholarship
+msgid "Scholarship / Waiver"
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_account_document
+msgid "Scholarship applied"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__semester
+msgid "Semester"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_component__sequence
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_instalment__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__state
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account_line__state
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__state
+msgid "State"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,help:inom_fee.field_inom_fee_account__activity_state
+#: model:ir.model.fields,help:inom_fee.field_inom_fee_structure__activity_state
+#: model:ir.model.fields,help:inom_fee.field_inom_scholarship__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__structure_id
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_component__structure_id
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_instalment__structure_id
+msgid "Structure"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model,name:inom_fee.model_inom_student
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__student_id
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account_line__student_id
+msgid "Student"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model,name:inom_fee.model_inom_fee_account
+msgid "Student Fee Account"
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_structure_document
+msgid "Terms"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.constraint,message:inom_fee.constraint_inom_fee_structure_code_uniq
+msgid "That fee structure code is already used for this academic year."
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,help:inom_fee.field_inom_fee_account_line__partner_id
+msgid "The guardian who pays, or the student where there is no guardian."
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_receipt_document
+msgid "This instalment has not been invoiced yet."
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_receipt_document
+msgid ""
+"This is a statement of an amount due, not a receipt. It does not confirm "
+"payment."
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_account_document
+msgid ""
+"This is a statement of the position on the date shown. Amounts already\n"
+"        invoiced are payable against the invoice numbers listed above."
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_structure_document
+msgid "This structure is"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.constraint,message:inom_fee.constraint_inom_fee_account_student_year_uniq
+msgid "This student already has a fee account for that academic year."
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_receipt_document
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_structure_document
+msgid "Total"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__total_amount
+msgid "Total Amount"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__amount_billed
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_account_document
+msgid "Total payable"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,help:inom_fee.field_inom_fee_account__activity_exception_decoration
+#: model:ir.model.fields,help:inom_fee.field_inom_fee_structure__activity_exception_decoration
+#: model:ir.model.fields,help:inom_fee.field_inom_scholarship__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: inom_fee
+#: model:mail.template,name:inom_fee.mail_template_fee_due
+msgid "UMS: fee instalment due"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__uninvoiced_amount
+msgid "Uninvoiced Amount"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__value
+msgid "Value"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__website_message_ids
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__website_message_ids
+#: model:ir.model.fields,field_description:inom_fee.field_inom_scholarship__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,help:inom_fee.field_inom_fee_account__website_message_ids
+#: model:ir.model.fields,help:inom_fee.field_inom_fee_structure__website_message_ids
+#: model:ir.model.fields,help:inom_fee.field_inom_scholarship__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_account__year_id
+#: model:ir.model.fields,field_description:inom_fee.field_inom_fee_structure__year_id
+msgid "Year"
+msgstr ""
+
+#. module: inom_fee
+#: model:ir.model.fields,help:inom_fee.field_inom_fee_structure__semester
+msgid "Zero applies the structure to the whole year."
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_structure_document
+msgid ""
+"and exclude any scholarship or waiver applied to an individual student."
+msgstr ""
+
+#. module: inom_fee
+#: model_terms:ir.ui.view,arch_db:inom_fee.report_fee_structure_document
+msgid "and is not in force. Amounts may still change."
+msgstr ""

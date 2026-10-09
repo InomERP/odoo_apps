@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!-- Notification templates live in the module that owns the model they
+       render against. inom_portal defines inom.notification but must not
+       reference inom_fee, inom_exam or the rest — it does not depend on
+       them, and a university may not have installed them. -->
+  <data noupdate="1">
+
+    <record id="mail_template_fee_due" model="mail.template">
+      <field name="name">UMS: fee instalment due</field>
+      <field name="model_id" ref="model_inom_fee_account_line"/>
+      <field name="subject">Fee instalment due — {{ object.name }}</field>
+      <field name="email_from">{{ object.account_id.company_id.email or user.email_formatted }}</field>
+      <field name="email_to">{{ object.move_id.partner_id.email or object.student_id.email }}</field>
+      <field name="body_html" type="html">
+        <div style="font-family:Helvetica,Arial,sans-serif;font-size:14px;color:#1c1c26">
+          <p>Dear <t t-out="object.move_id.partner_id.name or object.student_id.name"/>,</p>
+          <p>
+            The <t t-out="object.name"/> for
+            <t t-out="object.student_id.name"/>
+            (<t t-out="object.student_id.enrolment_no"/>)
+            is due on <t t-out="object.due_date"/>.
+          </p>
+          <p>Amount outstanding: <b t-out="object.amount_due"/></p>
+          <p>You can pay through the university portal, or at the accounts office.</p>
+          <p style="color:#5c6480;font-size:12px">
+            If you have already paid, please ignore this message.
+          </p>
+        </div>
+      </field>
+      <field name="auto_delete" eval="False"/>
+    </record>
+    <record id="notify_fee_due" model="inom.notification">
+      <field name="name">Fee instalment due</field>
+      <field name="event">fee.due</field>
+      <field name="category">fee</field>
+      <field name="description">Sent to the guardian when an instalment is invoiced.</field>
+      <field name="template_id" ref="mail_template_fee_due"/>
+      <field name="placeholders">object.name, object.due_date, object.amount_due, object.student_id.name</field>
+    </record>
+
+  </data>
+</odoo>

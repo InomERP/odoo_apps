@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="0">
+    <!-- Rebuild the backend menu now that this module's screens are
+         registered. Runs on install and on upgrade; idempotent, since every
+         generated record is keyed by xmlid.
+
+         One call per module looks wasteful and is: the last module to load
+         does the only rebuild that matters. It is also the only arrangement
+         that is correct regardless of which modules an institution installs,
+         and correctness is worth a few hundred milliseconds at install time. -->
+    <function model="inom.backend.menu" name="_inom_rebuild"/>
+  </data>
+</odoo>

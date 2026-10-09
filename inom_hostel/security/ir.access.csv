@@ -1,0 +1,25 @@
+id,name,model_id,group_id/id,operation,domain
+access_inom_hostel_block_registrar,inom.hostel.block.registrar,inom.hostel.block,inom_base.group_inom_registrar,crud,
+access_inom_hostel_block_warden,inom.hostel.block.warden,inom.hostel.block,inom_base.group_inom_warden,cru,
+access_inom_hostel_block_dean,inom.hostel.block.dean,inom.hostel.block,inom_base.group_inom_dean,r,
+access_inom_hostel_block_student,inom.hostel.block.student,inom.hostel.block,inom_base.group_inom_student,r,
+access_inom_hostel_block_guardian,inom.hostel.block.guardian,inom.hostel.block,inom_base.group_inom_guardian,r,
+access_inom_hostel_block_technical,inom.hostel.block.technical,inom.hostel.block,inom_base.group_inom_technical,crud,
+access_inom_hostel_room_registrar,inom.hostel.room.registrar,inom.hostel.room,inom_base.group_inom_registrar,crud,
+access_inom_hostel_room_warden,inom.hostel.room.warden,inom.hostel.room,inom_base.group_inom_warden,cru,
+access_inom_hostel_room_dean,inom.hostel.room.dean,inom.hostel.room,inom_base.group_inom_dean,r,
+access_inom_hostel_room_student,inom.hostel.room.student,inom.hostel.room,inom_base.group_inom_student,r,
+access_inom_hostel_room_guardian,inom.hostel.room.guardian,inom.hostel.room,inom_base.group_inom_guardian,r,
+access_inom_hostel_room_technical,inom.hostel.room.technical,inom.hostel.room,inom_base.group_inom_technical,crud,
+rule_hostel_room_company,Room: campus scope,inom.hostel.room,,crud,"[('company_id', 'in', company_ids)]"
+rule_hostel_alloc_wide,Allocation: warden and oversight,inom.hostel.allocation,inom_base.group_inom_registrar,crud,
+rule_hostel_alloc_wide_1,Allocation: warden and oversight,inom.hostel.allocation,inom_base.group_inom_warden,cru,
+rule_hostel_alloc_wide_2,Allocation: warden and oversight,inom.hostel.allocation,inom_base.group_inom_dean,r,
+rule_hostel_alloc_wide_3,Allocation: warden and oversight,inom.hostel.allocation,inom_base.group_inom_accounts,r,
+rule_hostel_alloc_student,Allocation: own room only,inom.hostel.allocation,inom_base.group_inom_student,r,"[('student_id.user_id', '=', user.id)]"
+rule_hostel_alloc_guardian,Allocation: guardian sees every ward,inom.hostel.allocation,inom_base.group_inom_guardian,r,"[('student_id.guardian_ids.user_id', '=', user.id)]"
+access_inom_hostel_allocation_technical,inom.hostel.allocation.technical,inom.hostel.allocation,inom_base.group_inom_technical,crud,
+rule_allocation_company,Allocation: campus scope,inom.hostel.allocation,,crud,"[('company_id', 'in', company_ids)]"
+access_inom_hostel_visitor_registrar,inom.hostel.visitor.registrar,inom.hostel.visitor,inom_base.group_inom_registrar,crud,
+access_inom_hostel_visitor_warden,inom.hostel.visitor.warden,inom.hostel.visitor,inom_base.group_inom_warden,cru,
+access_inom_hostel_visitor_technical,inom.hostel.visitor.technical,inom.hostel.visitor,inom_base.group_inom_technical,crud,

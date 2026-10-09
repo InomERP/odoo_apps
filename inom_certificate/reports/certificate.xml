@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="report_certificate_document">
+    <t t-call="inom_portal.report_frame"
+       institution="doc._inom_institution()"
+       kind="doc.type_id.name"
+       reference="doc.reference"
+       issued_on="doc.issued_on or ''"
+       verify_url="doc._inom_verify_url()">
+
+      <h2 style="text-align:center;margin:26px 0 30px;font-size:17px;
+                 letter-spacing:.04em;text-transform:uppercase">
+        <t t-out="doc.type_id.name"/>
+      </h2>
+
+      <p style="margin-bottom:18px">This is to certify that:</p>
+
+      <div class="kv">
+        <div><span>Name</span><span t-out="doc.student_id.name"/></div>
+        <div><span>Enrolment number</span><span t-out="doc.student_id.enrolment_no"/></div>
+        <div><span>Programme</span><span t-out="doc.student_id.programme_id.name"/></div>
+        <div><span>Department</span><span t-out="doc.student_id.department_id.name"/></div>
+        <div><span>Status</span><span t-out="dict(doc.student_id._fields['state'].selection).get(doc.student_id.state)"/></div>
+      </div>
+
+      <p style="margin:20px 0">
+        is a bona fide student of this institution. This certificate has been
+        issued at the student's request for the purpose of
+        <b t-out="doc.purpose"/>.
+      </p>
+
+      <div style="margin-top:26px;padding:12px 14px;border:1px solid #d8dae6;
+                  border-radius:6px;background:#f8f8fc">
+        <div style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+                    color:#5c6480;margin-bottom:4px">Verification code</div>
+        <div style="font-family:'Courier New',monospace;font-size:15px;
+                    letter-spacing:.14em"><t t-out="doc.verification_code"/></div>
+        <div style="font-size:10px;color:#5c6480;margin-top:6px">
+          An employer can confirm this certificate at
+          <t t-out="doc._inom_verify_url()"/> without an account.
+        </div>
+      </div>
+
+      <div class="sign">
+        <div class="line">Registrar</div>
+      </div>
+    </t>
+  </template>
+
+  <template id="report_certificate">
+    <t t-call="web.html_container">
+      <t t-foreach="docs" t-as="doc">
+        <t t-call="web.basic_layout">
+          <t t-call="inom_certificate.report_certificate_document"/>
+        </t>
+      </t>
+    </t>
+  </template>
+
+  <record id="action_report_certificate" model="ir.actions.report">
+    <field name="name">Certificate</field>
+    <field name="model">inom.certificate.request</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">inom_certificate.report_certificate</field>
+    <field name="print_report_name">'Certificate - %s' % (object.reference)</field>
+    <field name="binding_model_id" eval="False"/>
+  </record>
+
+  <!-- The public verification page. Unauthenticated by design: an employer
+       checking a certificate has no account and never will. -->
+  <template id="verify_page" name="Certificate verification">
+    &lt;!DOCTYPE html&gt;
+    <html>
+      <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="robots" content="noindex, nofollow"/>
+        <title>Certificate verification</title>
+        <t t-call-assets="inom_portal.assets_shell" t-js="false"/>
+      </head>
+      <body>
+        <div class="page">
+          <div class="card" style="max-width:560px;margin:64px auto">
+            <div class="card-b" style="padding:28px">
+              <div t-if="found">
+                <div class="tag ok" style="margin-bottom:14px">Valid certificate</div>
+                <h3 style="margin:0 0 16px;font-size:17px">
+                  <t t-out="certificate_type"/>
+                </h3>
+                <!-- Name, type and date only. This page is public, so it shows
+                     the minimum that lets an employer confirm the document in
+                     their hand and nothing that would make it worth scraping. -->
+                <div class="dl">
+                  <div class="dl-i"><div class="dl-k">Issued to</div>
+                    <div class="dl-v"><t t-out="student_name"/></div></div>
+                  <div class="dl-i"><div class="dl-k">Issued on</div>
+                    <div class="dl-v"><t t-out="issued_on"/></div></div>
+                  <div class="dl-i"><div class="dl-k">Issued by</div>
+                    <div class="dl-v"><t t-out="institution"/></div></div>
+                </div>
+              </div>
+              <div t-else="">
+                <div class="tag bad" style="margin-bottom:14px">Not found</div>
+                <h3 style="margin:0 0 10px;font-size:17px">No certificate matches that code</h3>
+                <p style="margin:0;color:var(--muted);font-size:13px">
+                  Check the code against the printed document. If it still does not
+                  match, the certificate was not issued by this institution.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </body>
+    </html>
+  </template>
+</odoo>

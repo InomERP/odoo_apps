@@ -1,0 +1,705 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="1">
+
+    <record id="pmodel_fee_structure" model="inom.portal.model">
+      <field name="model_name">inom.fee.structure</field>
+      <field name="label">Fee structure</field>
+      <field name="allow_create" eval="True"/>
+      <field name="allow_write" eval="True"/>
+      <field name="allow_unlink" eval="True"/>
+      <field name="module">inom_fee</field>
+    </record>
+
+    <record id="pmodel_fee_component" model="inom.portal.model">
+      <field name="model_name">inom.fee.component</field>
+      <field name="label">Fee component</field>
+      <field name="allow_create" eval="True"/>
+      <field name="allow_write" eval="True"/>
+      <field name="allow_unlink" eval="True"/>
+      <field name="module">inom_fee</field>
+    </record>
+
+    <record id="pmodel_scholarship" model="inom.portal.model">
+      <field name="model_name">inom.scholarship</field>
+      <field name="label">Scholarship</field>
+      <field name="allow_create" eval="True"/>
+      <field name="allow_write" eval="True"/>
+      <field name="module">inom_fee</field>
+    </record>
+
+    <record id="pmodel_fee_account" model="inom.portal.model">
+      <field name="model_name">inom.fee.account</field>
+      <field name="label">Fee account</field>
+      <field name="allow_create" eval="True"/>
+      <field name="allow_write" eval="True"/>
+      <field name="module">inom_fee</field>
+    </record>
+
+    <record id="pmodel_fee_line" model="inom.portal.model">
+      <field name="model_name">inom.fee.account.line</field>
+      <field name="label">Instalment</field>
+      <field name="module">inom_fee</field>
+    </record>
+
+    <!-- ============================================================
+         Views
+         ============================================================ -->
+    <record id="view_fee_structure_list" model="inom.portal.view">
+      <field name="key">fee.structure.list</field>
+      <field name="name">Fee structure</field>
+      <field name="model_name">inom.fee.structure</field>
+      <field name="order">year_id desc, programme_id</field>
+      <field name="chip_field">state</field>
+      <field name="search_field_ids">name,code</field>
+      <field name="can_create" eval="True"/>
+      <field name="can_write" eval="True"/>
+      <field name="can_unlink" eval="True"/>
+    </record>
+    <record id="vf_fs_code" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_structure_list"/>
+      <field name="sequence">10</field>
+      <field name="name">code</field><field name="label">Code</field>
+      <field name="widget">mono</field><field name="required" eval="True"/>
+    </record>
+    <record id="vf_fs_name" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_structure_list"/>
+      <field name="sequence">20</field>
+      <field name="name">name</field><field name="label">Structure</field>
+      <field name="required" eval="True"/><field name="span">2</field>
+    </record>
+    <record id="vf_fs_programme" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_structure_list"/>
+      <field name="sequence">30</field>
+      <field name="name">programme_id</field><field name="label">Programme</field>
+      <field name="widget">many2one</field><field name="required" eval="True"/>
+    </record>
+    <record id="vf_fs_year" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_structure_list"/>
+      <field name="sequence">40</field>
+      <field name="name">year_id</field><field name="label">Academic year</field>
+      <field name="widget">many2one</field><field name="required" eval="True"/>
+    </record>
+    <record id="vf_fs_quota" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_structure_list"/>
+      <field name="sequence">50</field>
+      <field name="name">quota</field><field name="label">Quota</field>
+      <field name="widget">selection</field>
+    </record>
+    <record id="vf_fs_total" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_structure_list"/>
+      <field name="sequence">60</field>
+      <field name="name">total_amount</field><field name="label">Total</field>
+      <field name="widget">money</field><field name="readonly" eval="True"/>
+      <field name="help_text">Sum of the components. Add components to change it.</field>
+    </record>
+    <record id="vf_fs_state" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_structure_list"/>
+      <field name="sequence">70</field>
+      <field name="name">state</field><field name="label">Status</field>
+      <field name="widget">tag</field><field name="readonly" eval="True"/>
+    </record>
+
+    <record id="view_fee_component_list" model="inom.portal.view">
+      <field name="key">fee.component.list</field>
+      <field name="name">Fee component</field>
+      <field name="model_name">inom.fee.component</field>
+      <field name="order">structure_id, sequence</field>
+      <field name="search_field_ids">name,code</field>
+      <field name="can_create" eval="True"/>
+      <field name="can_write" eval="True"/>
+      <field name="can_unlink" eval="True"/>
+    </record>
+    <record id="vf_fc_structure" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_component_list"/>
+      <field name="sequence">10</field>
+      <field name="name">structure_id</field><field name="label">Structure</field>
+      <field name="widget">many2one</field><field name="required" eval="True"/>
+    </record>
+    <record id="vf_fc_name" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_component_list"/>
+      <field name="sequence">20</field>
+      <field name="name">name</field><field name="label">Head of fee</field>
+      <field name="required" eval="True"/><field name="span">2</field>
+      <field name="help_text">Tuition, examination, library, laboratory, and so on.</field>
+    </record>
+    <record id="vf_fc_amount" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_component_list"/>
+      <field name="sequence">30</field>
+      <field name="name">amount</field><field name="label">Amount</field>
+      <field name="widget">money</field><field name="required" eval="True"/>
+    </record>
+    <record id="vf_fc_refundable" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_component_list"/>
+      <field name="sequence">40</field>
+      <field name="name">refundable</field><field name="label">Refundable</field>
+      <field name="widget">boolean</field>
+    </record>
+    <record id="vf_fc_optional" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_component_list"/>
+      <field name="sequence">50</field>
+      <field name="name">optional</field><field name="label">Opt-in only</field>
+      <field name="widget">boolean</field>
+      <field name="help_text">Charged only when the student takes it, e.g. transport.</field>
+    </record>
+
+    <record id="view_fee_account_list" model="inom.portal.view">
+      <field name="key">fee.account.list</field>
+      <field name="name">Fee account</field>
+      <field name="model_name">inom.fee.account</field>
+      <field name="order">state, year_id desc</field>
+      <field name="chip_field">state</field>
+      <field name="search_field_ids">student_id</field>
+      <field name="can_create" eval="True"/>
+      <field name="can_write" eval="True"/>
+    </record>
+    <record id="vf_fa_student" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_account_list"/>
+      <field name="sequence">10</field>
+      <field name="name">student_id</field><field name="label">Student</field>
+      <field name="widget">person</field><field name="required" eval="True"/>
+      <field name="span">2</field>
+  <field name="group_label">Account</field>
+    </record>
+    <record id="vf_fa_year" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_account_list"/>
+      <field name="sequence">20</field>
+      <field name="name">year_id</field><field name="label">Academic year</field>
+      <field name="widget">many2one</field><field name="required" eval="True"/>
+  <field name="group_label">Account</field>
+    </record>
+    <record id="vf_fa_structure" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_account_list"/>
+      <field name="sequence">30</field>
+      <field name="name">structure_id</field><field name="label">Fee structure</field>
+      <field name="widget">many2one</field><field name="required" eval="True"/>
+  <field name="group_label">Account</field>
+    </record>
+    <record id="vf_fa_scholarship" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_account_list"/>
+      <field name="sequence">40</field>
+      <field name="name">scholarship_id</field><field name="label">Scholarship</field>
+      <field name="widget">many2one</field>
+  <field name="group_label">Account</field>
+    </record>
+    <record id="vf_fa_billed" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_account_list"/>
+      <field name="sequence">50</field>
+      <field name="name">amount_billed</field><field name="label">Payable</field>
+      <field name="widget">money</field><field name="readonly" eval="True"/>
+  <field name="group_label">Money</field>
+    </record>
+    <record id="vf_fa_paid" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_account_list"/>
+      <field name="sequence">60</field>
+      <field name="name">amount_paid</field><field name="label">Paid</field>
+      <field name="widget">money</field><field name="readonly" eval="True"/>
+  <field name="group_label">Money</field>
+    </record>
+    <record id="vf_fa_due" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_account_list"/>
+      <field name="sequence">70</field>
+      <field name="name">amount_due</field><field name="label">Balance</field>
+      <field name="widget">money</field><field name="readonly" eval="True"/>
+  <field name="group_label">Money</field>
+    </record>
+    <record id="vf_fa_uninvoiced" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_account_list"/>
+      <field name="sequence">75</field>
+      <field name="name">uninvoiced_amount</field><field name="label">Not yet invoiced</field>
+      <field name="widget">money</field><field name="readonly" eval="True"/>
+      <field name="in_form" eval="False"/>
+  <field name="group_label">Money</field>
+    </record>
+
+    <record id="vf_fa_state" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_account_list"/>
+      <field name="sequence">80</field>
+      <field name="name">state</field><field name="label">Status</field>
+      <field name="widget">tag</field><field name="readonly" eval="True"/>
+  <field name="group_label">Money</field>
+    </record>
+
+    <record id="view_fee_line_list" model="inom.portal.view">
+      <field name="key">fee.instalment.list</field>
+      <field name="name">Instalment</field>
+      <field name="model_name">inom.fee.account.line</field>
+      <field name="order">due_date</field>
+      <field name="chip_field">state</field>
+      <field name="search_field_ids">name</field>
+    </record>
+    <record id="vf_fl_student" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_line_list"/>
+      <field name="sequence">10</field>
+      <field name="name">student_id</field><field name="label">Student</field>
+      <field name="widget">person</field>
+    </record>
+    <record id="vf_fl_name" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_line_list"/>
+      <field name="sequence">20</field>
+      <field name="name">name</field><field name="label">Instalment</field>
+    </record>
+    <record id="vf_fl_due_date" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_line_list"/>
+      <field name="sequence">30</field>
+      <field name="name">due_date</field><field name="label">Due</field>
+      <field name="widget">date</field>
+    </record>
+    <record id="vf_fl_amount" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_line_list"/>
+      <field name="sequence">40</field>
+      <field name="name">amount</field><field name="label">Amount</field>
+      <field name="widget">money</field>
+    </record>
+    <record id="vf_fl_due" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_line_list"/>
+      <field name="sequence">50</field>
+      <field name="name">amount_due</field><field name="label">Balance</field>
+      <field name="widget">money</field>
+    </record>
+    <record id="vf_fl_partner" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_line_list"/>
+      <field name="sequence">55</field>
+      <field name="name">partner_id</field><field name="label">Billed to</field>
+      <field name="widget">many2one</field><field name="readonly" eval="True"/>
+      <field name="in_list" eval="False"/>
+      <field name="help_text">The guardian who pays, or the student where there is no guardian.</field>
+    </record>
+    <record id="vf_fl_invstate" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_line_list"/>
+      <field name="sequence">56</field>
+      <field name="name">invoice_state</field><field name="label">Invoice</field>
+      <field name="widget">tag</field><field name="readonly" eval="True"/>
+    </record>
+
+    <record id="vf_fl_state" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_line_list"/>
+      <field name="sequence">60</field>
+      <field name="name">state</field><field name="label">Status</field>
+      <field name="widget">tag</field>
+    </record>
+
+    <record id="view_scholarship_list" model="inom.portal.view">
+      <field name="key">scholarship.list</field>
+      <field name="name">Scholarship</field>
+      <field name="model_name">inom.scholarship</field>
+      <field name="order">name</field>
+      <field name="search_field_ids">name,code,funded_by</field>
+      <field name="can_create" eval="True"/>
+      <field name="can_write" eval="True"/>
+    </record>
+    <record id="vf_sch_name" model="inom.portal.view.field">
+      <field name="view_id" ref="view_scholarship_list"/>
+      <field name="sequence">10</field>
+      <field name="name">name</field><field name="label">Scholarship</field>
+      <field name="required" eval="True"/><field name="span">2</field>
+    </record>
+    <record id="vf_sch_kind" model="inom.portal.view.field">
+      <field name="view_id" ref="view_scholarship_list"/>
+      <field name="sequence">20</field>
+      <field name="name">kind</field><field name="label">Type</field>
+      <field name="widget">selection</field><field name="required" eval="True"/>
+    </record>
+    <record id="vf_sch_value" model="inom.portal.view.field">
+      <field name="view_id" ref="view_scholarship_list"/>
+      <field name="sequence">30</field>
+      <field name="name">value</field><field name="label">Value</field>
+      <field name="widget">mono</field><field name="required" eval="True"/>
+      <field name="help_text">A percentage, or an amount, depending on the type above.</field>
+    </record>
+    <record id="vf_sch_funder" model="inom.portal.view.field">
+      <field name="view_id" ref="view_scholarship_list"/>
+      <field name="sequence">40</field>
+      <field name="name">funded_by</field><field name="label">Funded by</field>
+    </record>
+
+    <!-- ============================================================
+         Navigation
+         ============================================================ -->
+    <record id="module_finance" model="inom.portal.module">
+      <field name="code">finance</field>
+      <field name="name">Finance</field>
+      <field name="icon">rupee</field>
+      <field name="color">#137F52</field>
+      <field name="section">campus</field>
+      <field name="sequence">30</field>
+      <field name="badge_model">inom.fee.account</field>
+      <field name="badge_domain">[('state', '=', 'overdue')]</field>
+    </record>
+
+    <record id="page_finance_dash" model="inom.portal.page">
+      <field name="code">dash</field>
+      <field name="name">Dashboard</field>
+      <field name="module_id" ref="module_finance"/>
+      <field name="sequence">10</field>
+      <field name="page_type">dashboard</field>
+      <field name="dashboard_key">finance</field>
+      <field name="group_ids" eval="[(6, 0, [
+        ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_accounts')])]"/>
+    </record>
+
+    <record id="page_finance_structures" model="inom.portal.page">
+      <field name="code">structures</field>
+      <field name="name">Fee structures</field>
+      <field name="module_id" ref="module_finance"/>
+      <field name="sequence">20</field>
+      <field name="page_type">list</field>
+      <field name="view_id" ref="view_fee_structure_list"/>
+      <field name="group_ids" eval="[(6, 0, [
+        ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_accounts')])]"/>
+    </record>
+
+    <record id="page_finance_components" model="inom.portal.page">
+      <field name="code">components</field>
+      <field name="name">Heads of fee</field>
+      <field name="module_id" ref="module_finance"/>
+      <field name="sequence">30</field>
+      <field name="page_type">list</field>
+      <field name="view_id" ref="view_fee_component_list"/>
+      <field name="group_ids" eval="[(6, 0, [
+        ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_accounts')])]"/>
+    </record>
+
+    <record id="page_finance_accounts" model="inom.portal.page">
+      <field name="code">accounts</field>
+      <field name="name">Student fee accounts</field>
+      <field name="module_id" ref="module_finance"/>
+      <field name="sequence">40</field>
+      <field name="page_type">list</field>
+      <field name="view_id" ref="view_fee_account_list"/>
+      <field name="group_ids" eval="[(6, 0, [
+        ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_accounts'),
+        ref('inom_base.group_inom_dean')])]"/>
+    </record>
+
+    <!-- Students and guardians reach the same data through this page. The
+         wording changes because "Outstanding instalments" is a finance term
+         and "My fee account" is what a student is looking for; the record
+         rules, not the page, are what keep them to their own. -->
+    <record id="page_finance_instalments" model="inom.portal.page">
+      <field name="code">instalments</field>
+      <field name="name">Instalments due</field>
+      <field name="module_id" ref="module_finance"/>
+      <field name="sequence">50</field>
+      <field name="page_type">list</field>
+      <field name="view_id" ref="view_fee_line_list"/>
+    </record>
+
+    <record id="page_finance_scholarships" model="inom.portal.page">
+      <field name="code">scholarships</field>
+      <field name="name">Scholarships</field>
+      <field name="module_id" ref="module_finance"/>
+      <field name="sequence">60</field>
+      <field name="page_type">list</field>
+      <field name="view_id" ref="view_scholarship_list"/>
+      <field name="group_ids" eval="[(6, 0, [
+        ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_accounts')])]"/>
+    </record>
+
+    <!-- ============================================================
+         Workflow actions
+         ============================================================ -->
+    <record id="action_fee_publish" model="inom.portal.action">
+      <field name="key">fee.structure.publish</field>
+      <field name="name">Publish fee structure</field>
+      <field name="model_name">inom.fee.structure</field>
+      <field name="method">_inom_action_publish</field>
+      <field name="confirm" eval="True"/>
+      <field name="done_message">Published. It can now be applied to students.</field>
+      <field name="icon">check</field>
+      <field name="group_ids" eval="[(6, 0, [
+        ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_accounts')])]"/>
+      <field name="primary" eval="True"/>
+    </record>
+
+    <!-- Key, not sequence: inom.portal.action is ordered by key, so the key is
+         also what decides the order the footer buttons come out in. 'sheet'
+         sorts after 'publish', which is where this button belongs — you
+         publish a structure, then you print it. -->
+    <record id="action_fee_structure_sheet" model="inom.portal.action">
+      <field name="key">fee.structure.sheet</field>
+      <field name="name">Print</field>
+      <field name="model_name">inom.fee.structure</field>
+      <field name="method">_inom_action_print</field>
+      <field name="done_message">Opening the document…</field>
+      <field name="icon">print</field>
+      <field name="group_ids" eval="[(6, 0, [
+        ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_accounts'),
+        ref('inom_base.group_inom_dean')])]"/>
+      <field name="primary" eval="True"/>
+    </record>
+
+    <record id="action_fee_schedule" model="inom.portal.action">
+      <field name="key">fee.account.schedule</field>
+      <field name="name">Generate schedule</field>
+      <field name="model_name">inom.fee.account</field>
+      <field name="method">_inom_action_generate_schedule</field>
+      <field name="done_message">Instalment schedule created.</field>
+      <field name="icon">cal</field>
+      <field name="group_ids" eval="[(6, 0, [
+        ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_accounts')])]"/>
+    </record>
+
+
+    <record id="rel_student_fees" model="inom.portal.related">
+      <field name="view_id" ref="inom_student.view_student_list"/>
+      <field name="sequence">10</field>
+      <field name="name">Fee accounts</field>
+      <field name="icon">rupee</field>
+      <field name="related_view_id" ref="view_fee_account_list"/>
+      <field name="inverse_field">student_id</field>
+      <field name="limit">6</field>
+      <field name="group_ids" eval="[(4, ref('inom_base.group_inom_registrar')), (4, ref('inom_base.group_inom_accounts')), (4, ref('inom_base.group_inom_dean')), (4, ref('inom_base.group_inom_student')), (4, ref('inom_base.group_inom_guardian'))]"/>
+    </record>
+
+    <record id="rel_student_instalments" model="inom.portal.related">
+      <field name="view_id" ref="inom_student.view_student_list"/>
+      <field name="sequence">15</field>
+      <field name="name">Instalments due</field>
+      <field name="icon">rupee</field>
+      <field name="related_view_id" ref="view_fee_line_list"/>
+      <field name="inverse_field">student_id</field>
+      <field name="limit">12</field>
+      <field name="group_ids" eval="[(4, ref('inom_base.group_inom_registrar')), (4, ref('inom_base.group_inom_accounts')), (4, ref('inom_base.group_inom_student')), (4, ref('inom_base.group_inom_guardian'))]"/>
+    </record>
+
+    <record id="rel_account_instalments" model="inom.portal.related">
+      <field name="view_id" ref="view_fee_account_list"/>
+      <field name="sequence">10</field>
+      <field name="name">Instalment schedule</field>
+      <field name="icon">cal</field>
+      <field name="related_view_id" ref="view_fee_line_list"/>
+      <field name="inverse_field">account_id</field>
+      <field name="limit">12</field>
+    </record>
+
+    <record id="rel_structure_components" model="inom.portal.related">
+      <field name="view_id" ref="view_fee_structure_list"/>
+      <field name="sequence">10</field>
+      <field name="name">Heads of fee</field>
+      <field name="icon">rupee</field>
+      <field name="related_view_id" ref="view_fee_component_list"/>
+      <field name="inverse_field">structure_id</field>
+      <field name="limit">15</field>
+    </record>
+
+    <record id="action_fee_line_invoice" model="inom.portal.action">
+      <field name="key">fee.line.invoice</field>
+      <field name="name">Issue the invoice</field>
+      <field name="model_name">inom.fee.account.line</field>
+      <field name="method">_inom_action_issue_invoice</field>
+      <field name="done_message">Invoice posted to accounting.</field>
+      <field name="icon">rupee</field>
+      <field name="confirm" eval="True"/>
+      <field name="group_ids" eval="[(6, 0, [ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_accounts')])]"/>
+      <field name="condition">not record.move_id</field>
+      <field name="primary" eval="True"/>
+    </record>
+
+    <record id="action_fee_line_send" model="inom.portal.action">
+      <field name="key">fee.line.send</field>
+      <field name="name">Email the invoice</field>
+      <field name="model_name">inom.fee.account.line</field>
+      <field name="method">_inom_action_send_invoice</field>
+      <field name="done_message">Invoice sent.</field>
+      <field name="icon">bell</field>
+      <field name="group_ids" eval="[(6, 0, [ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_accounts')])]"/>
+      <field name="condition">record.move_id</field>
+    </record>
+
+    <record id="action_fee_account_issue_due" model="inom.portal.action">
+      <field name="key">fee.account.issue_due</field>
+      <field name="name">Invoice everything due</field>
+      <field name="model_name">inom.fee.account</field>
+      <field name="method">_inom_action_issue_due</field>
+      <field name="done_message">Due instalments invoiced.</field>
+      <field name="icon">rupee</field>
+      <field name="confirm" eval="True"/>
+      <field name="group_ids" eval="[(6, 0, [ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_accounts')])]"/>
+      <field name="condition">record.uninvoiced_amount > 0</field>
+      <field name="primary" eval="True"/>
+    </record>
+
+    <!-- Key decides footer order (inom.portal.action is ordered by key), and
+         'print' sorts between 'issue_due' and 'schedule'. On a settled account
+         — where "Invoice everything due" is hidden by its own condition —
+         that puts Print first, immediately after Edit. -->
+    <record id="action_fee_account_print" model="inom.portal.action">
+      <field name="key">fee.account.print</field>
+      <field name="name">Print</field>
+      <field name="model_name">inom.fee.account</field>
+      <field name="method">_inom_action_print</field>
+      <field name="done_message">Opening the document…</field>
+      <field name="icon">print</field>
+      <field name="group_ids" eval="[(6, 0, [
+        ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_accounts'),
+        ref('inom_base.group_inom_dean'), ref('inom_base.group_inom_student'),
+        ref('inom_base.group_inom_guardian')])]"/>
+      <field name="primary" eval="True"/>
+    </record>
+
+    <record id="action_fee_line_receipt" model="inom.portal.action">
+      <field name="key">fee.line.receipt</field>
+      <field name="name">Print receipt</field>
+      <field name="model_name">inom.fee.account.line</field>
+      <field name="method">_inom_action_receipt</field>
+      <field name="done_message">Opening the document…</field>
+      <field name="icon">clip</field>
+      <field name="group_ids" eval="[(6, 0, [ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_accounts'), ref('inom_base.group_inom_dean'), ref('inom_base.group_inom_student'), ref('inom_base.group_inom_guardian')])]"/>
+      <field name="condition">record.move_id</field>
+    </record>
+
+    <record id="page_finance_bulk_invoice" model="inom.portal.page">
+      <field name="code">bulk_invoice</field>
+      <field name="name">Issue invoices in bulk</field>
+      <field name="module_id" ref="module_finance"/>
+      <field name="sequence">45</field>
+      <field name="page_type">bulk</field>
+      <field name="bulk_key">fee_invoice</field>
+      <field name="group_ids" eval="[(6, 0, [ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_accounts')])]"/>
+    </record>
+
+    <record id="pmodel_fee_instalment_def" model="inom.portal.model">
+      <field name="model_name">inom.fee.instalment</field>
+      <field name="label">Instalment</field>
+      <field name="allow_create" eval="True"/>
+      <field name="allow_write" eval="True"/>
+      <field name="allow_unlink" eval="True"/>
+      <field name="module">inom_fee</field>
+    </record>
+
+    <record id="view_fee_instalment_def_list" model="inom.portal.view">
+      <field name="key">fee.instalment.def.list</field>
+      <field name="name">Instalment pattern</field>
+      <field name="model_name">inom.fee.instalment</field>
+      <field name="order">structure_id, sequence, id</field>
+      <field name="search_field_ids">name</field>
+      <field name="can_create" eval="True"/>
+      <field name="can_write" eval="True"/>
+      <field name="can_unlink" eval="True"/>
+    </record>
+    <record id="vf_structure_id_fee_instalment_def_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_instalment_def_list"/>
+      <field name="sequence">10</field>
+      <field name="name">structure_id</field>
+      <field name="label">Structure</field>
+      <field name="widget">many2one</field>
+      <field name="required" eval="True"/>
+      <field name="span">2</field>
+    </record>
+    <record id="vf_sequence_fee_instalment_def_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_instalment_def_list"/>
+      <field name="sequence">20</field>
+      <field name="name">sequence</field>
+      <field name="label">Order</field>
+      <field name="widget">mono</field>
+    </record>
+    <record id="vf_name_fee_instalment_def_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_instalment_def_list"/>
+      <field name="sequence">30</field>
+      <field name="name">name</field>
+      <field name="label">Instalment</field>
+      <field name="required" eval="True"/>
+      <field name="help_text">For example: First instalment.</field>
+    </record>
+    <record id="vf_percentage_fee_instalment_def_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_instalment_def_list"/>
+      <field name="sequence">40</field>
+      <field name="name">percentage</field>
+      <field name="label">Percent of the total</field>
+      <field name="widget">mono</field>
+      <field name="required" eval="True"/>
+      <field name="help_text">All instalments on a structure must add up to 100.</field>
+    </record>
+    <record id="vf_due_offset_days_fee_instalment_def_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_instalment_def_list"/>
+      <field name="sequence">50</field>
+      <field name="name">due_offset_days</field>
+      <field name="label">Due after (days)</field>
+      <field name="widget">mono</field>
+      <field name="help_text">Days from the start of the academic year. Turned into a real date when the structure is applied to a student.</field>
+    </record>
+
+    <record id="page_finance_instalment_pattern" model="inom.portal.page">
+      <field name="code">instalment_pattern</field>
+      <field name="name">Instalment pattern</field>
+      <field name="module_id" ref="module_finance"/>
+      <field name="sequence">22</field>
+      <field name="page_type">list</field>
+      <field name="view_id" ref="view_fee_instalment_def_list"/>
+      <field name="group_ids" eval="[(6, 0, [ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_accounts'), ref('inom_base.group_inom_dean')])]"/>
+    </record>
+
+    <record id="rel_structure_instalments" model="inom.portal.related">
+      <field name="view_id" ref="view_fee_structure_list"/>
+      <field name="sequence">15</field>
+      <field name="name">Instalment pattern</field>
+      <field name="icon">rupee</field>
+      <field name="related_view_id" ref="view_fee_instalment_def_list"/>
+      <field name="inverse_field">structure_id</field>
+      <field name="limit">12</field>
+    </record>
+
+    <record id="vf_x_fee_component_list_code" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_component_list"/>
+      <field name="sequence">15</field>
+      <field name="name">code</field><field name="label">Code</field>
+      <field name="widget">mono</field>
+      <field name="help_text">Used when importing a fee structure.</field>
+    </record>
+
+    <record id="vf_x_fee_component_list_account_id" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_component_list"/>
+      <field name="sequence">45</field>
+      <field name="name">account_id</field><field name="label">Income account</field>
+      <field name="widget">many2one</field>
+      <field name="in_list" eval="False"/>
+      <field name="help_text">Where this head of fee is posted. Leave empty to use the company default.</field>
+    </record>
+
+    <record id="vf_x_scholarship_list_code" model="inom.portal.view.field">
+      <field name="view_id" ref="view_scholarship_list"/>
+      <field name="sequence">15</field>
+      <field name="name">code</field><field name="label">Code</field>
+      <field name="widget">mono</field>
+    </record>
+
+    <record id="vf_x_fee_structure_semester" model="inom.portal.view.field">
+      <field name="view_id" ref="view_fee_structure_list"/>
+      <field name="sequence">35</field>
+      <field name="name">semester</field><field name="label">Semester</field><field name="widget">semester</field>
+      <field name="widget">mono</field>
+      <field name="in_list" eval="False"/>
+      <field name="help_text">Leave empty for a structure covering the whole year. Set it for a per-semester fee.</field>
+    </record>
+
+    <!-- The Pay button used to live in inom_fee_online, and the record below
+         would collide with the copy an existing database still holds.
+
+         The real fix is migrations/20.0.1.0.90/pre-migrate.py, which runs
+         before any data is loaded — this call runs during the load, which on
+         some paths is already too late. Kept as a second line of defence for
+         databases that skip the migration, not as the mechanism. -->
+    <function model="inom.portal.action" name="_inom_release_key">
+      <value>fee.line.pay</value>
+      <value>inom_fee.action_fee_line_pay</value>
+    </function>
+
+    <record id="action_fee_line_pay" model="inom.portal.action">
+      <field name="key">fee.line.pay</field>
+      <field name="name">Pay this instalment</field>
+      <field name="model_name">inom.fee.account.line</field>
+      <field name="method">_inom_action_pay_link</field>
+      <field name="done_message">Opening the payment page\u2026</field>
+      <field name="icon">rupee</field>
+      <field name="group_ids" eval="[(6, 0, [ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_accounts'), ref('inom_base.group_inom_student'), ref('inom_base.group_inom_guardian')])]"/>
+      <!-- Offered whenever there is something to pay against. The method
+           explains what is missing — no invoice yet, still a draft, online
+           payment not installed — rather than the button quietly not being
+           there, which reads as the system having no way to pay at all. -->
+      <field name="condition">record.amount_due &gt; 0</field>
+      <field name="primary" eval="True"/>
+    </record>
+
+  </data>
+</odoo>

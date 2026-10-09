@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!-- The five certificates almost every Indian university issues. noupdate so
+       a university that edits the fees or approvers keeps its changes. -->
+  <data noupdate="1">
+    <record id="type_bonafide" model="inom.certificate.type">
+      <field name="name">Bonafide certificate</field>
+      <field name="code">BONAFIDE</field>
+      <field name="description">Confirms the student is currently enrolled.</field>
+      <field name="turnaround_days">2</field>
+      <field name="approver_group_id" ref="inom_base.group_inom_registrar"/>
+    </record>
+    <record id="type_transfer" model="inom.certificate.type">
+      <field name="name">Transfer certificate</field>
+      <field name="code">TC</field>
+      <field name="description">Issued on leaving. Needed to join another institution.</field>
+      <field name="requires_no_dues" eval="True"/>
+      <field name="turnaround_days">7</field>
+      <field name="approver_group_id" ref="inom_base.group_inom_registrar"/>
+    </record>
+    <record id="type_migration" model="inom.certificate.type">
+      <field name="name">Migration certificate</field>
+      <field name="code">MIGRATION</field>
+      <field name="description">Required to move to a university under another board.</field>
+      <field name="requires_no_dues" eval="True"/>
+      <field name="turnaround_days">10</field>
+      <field name="approver_group_id" ref="inom_base.group_inom_registrar"/>
+    </record>
+    <record id="type_conduct" model="inom.certificate.type">
+      <field name="name">Conduct certificate</field>
+      <field name="code">CONDUCT</field>
+      <field name="turnaround_days">5</field>
+      <field name="approver_group_id" ref="inom_base.group_inom_dean"/>
+    </record>
+    <record id="type_course_completion" model="inom.certificate.type">
+      <field name="name">Course completion certificate</field>
+      <field name="code">COMPLETION</field>
+      <field name="requires_no_dues" eval="True"/>
+      <field name="turnaround_days">7</field>
+      <field name="approver_group_id" ref="inom_base.group_inom_registrar"/>
+    </record>
+  </data>
+</odoo>

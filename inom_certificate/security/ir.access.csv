@@ -1,0 +1,15 @@
+id,name,model_id,group_id/id,operation,domain
+access_inom_certificate_type_registrar,inom.certificate.type.registrar,inom.certificate.type,inom_base.group_inom_registrar,crud,
+access_inom_certificate_type_dean,inom.certificate.type.dean,inom.certificate.type,inom_base.group_inom_dean,r,
+access_inom_certificate_type_student,inom.certificate.type.student,inom.certificate.type,inom_base.group_inom_student,r,
+access_inom_certificate_type_guardian,inom.certificate.type.guardian,inom.certificate.type,inom_base.group_inom_guardian,r,
+access_inom_certificate_request_registrar,inom.certificate.request.registrar,inom.certificate.request,inom_base.group_inom_registrar,crud,
+access_inom_certificate_request_dean,inom.certificate.request.dean,inom.certificate.request,inom_base.group_inom_dean,cru,
+access_inom_certificate_request_hod,inom.certificate.request.hod,inom.certificate.request,inom_base.group_inom_hod,r,
+access_inom_certificate_request_accounts,inom.certificate.request.accounts,inom.certificate.request,inom_base.group_inom_accounts,r,
+access_inom_certificate_request_student,inom.certificate.request.student,inom.certificate.request,inom_base.group_inom_student,cru,
+access_inom_certificate_request_guardian,inom.certificate.request.guardian,inom.certificate.request,inom_base.group_inom_guardian,r,
+access_inom_certificate_type_technical,inom.certificate.type.technical,inom.certificate.type,inom_base.group_inom_technical,crud,
+access_inom_certificate_request_technical,inom.certificate.request.technical,inom.certificate.request,inom_base.group_inom_technical,crud,
+access_inom_certificate_request_company,Certificate request: campus scope,inom.certificate.request,,crud,"[('company_id', 'in', company_ids)]"
+access_inom_certificate_request_scope,Certificate request: role scope,inom.certificate.request,,crud,"[(1, '=', 1)] if not (user.has_group('inom_base.group_inom_student') or user.has_group('inom_base.group_inom_guardian') or user.has_group('inom_base.group_inom_hod') or user.has_group('inom_base.group_inom_registrar') or user.has_group('inom_base.group_inom_dean') or user.has_group('inom_base.group_inom_accounts')) else ['|', '|', '|', (('student_id.user_id', '=', user.id) if user.has_group('inom_base.group_inom_student') else (0, '=', 1)), (('student_id.guardian_ids.user_id', '=', user.id) if user.has_group('inom_base.group_inom_guardian') else (0, '=', 1)), (('department_id', 'in', user.inom_department_ids.ids) if user.has_group('inom_base.group_inom_hod') else (0, '=', 1)), ((1, '=', 1) if (user.has_group('inom_base.group_inom_registrar') or user.has_group('inom_base.group_inom_dean') or user.has_group('inom_base.group_inom_accounts')) else (0, '=', 1))]"

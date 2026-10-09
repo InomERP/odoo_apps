@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="1">
+
+    <record id="pmodel_hostel_block" model="inom.portal.model">
+      <field name="model_name">inom.hostel.block</field>
+      <field name="label">Hostel block</field>
+      <field name="allow_create" eval="True"/>
+      <field name="allow_write" eval="True"/>
+      <field name="allow_unlink" eval="True"/>
+      <field name="module">inom_hostel</field>
+    </record>
+
+    <record id="pmodel_hostel_room" model="inom.portal.model">
+      <field name="model_name">inom.hostel.room</field>
+      <field name="label">Hostel room</field>
+      <field name="allow_create" eval="True"/>
+      <field name="allow_write" eval="True"/>
+      <field name="allow_unlink" eval="True"/>
+      <field name="module">inom_hostel</field>
+    </record>
+
+    <record id="pmodel_hostel_allocation" model="inom.portal.model">
+      <field name="model_name">inom.hostel.allocation</field>
+      <field name="label">Allocation</field>
+      <field name="allow_create" eval="True"/>
+      <field name="allow_write" eval="True"/>
+      <field name="module">inom_hostel</field>
+    </record>
+
+    <record id="pmodel_hostel_visitor" model="inom.portal.model">
+      <field name="model_name">inom.hostel.visitor</field>
+      <field name="label">Visitor</field>
+      <field name="allow_create" eval="True"/>
+      <field name="allow_write" eval="True"/>
+      <field name="module">inom_hostel</field>
+    </record>
+
+    <record id="view_hostel_block_list" model="inom.portal.view">
+      <field name="key">hostel.block.list</field>
+      <field name="name">Block</field>
+      <field name="model_name">inom.hostel.block</field>
+      <field name="order">name</field>
+      <field name="search_field_ids">name,code</field>
+      <field name="can_create" eval="True"/>
+      <field name="can_write" eval="True"/>
+      <field name="can_unlink" eval="True"/>
+    </record>
+    <record id="vf_code_hostel_block_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_block_list"/>
+      <field name="sequence">10</field>
+      <field name="name">code</field>
+      <field name="label">Code</field>
+      <field name="widget">mono</field>
+      <field name="required" eval="True"/>
+    </record>
+    <record id="vf_name_hostel_block_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_block_list"/>
+      <field name="sequence">20</field>
+      <field name="name">name</field>
+      <field name="label">Block</field>
+      <field name="required" eval="True"/>
+      <field name="span">2</field>
+    </record>
+    <record id="vf_block_for_hostel_block_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_block_list"/>
+      <field name="sequence">30</field>
+      <field name="name">block_for</field>
+      <field name="label">For</field>
+      <field name="widget">selection</field>
+      <field name="required" eval="True"/>
+    </record>
+    <record id="vf_floors_hostel_block_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_block_list"/>
+      <field name="sequence">40</field>
+      <field name="name">floors</field>
+      <field name="label">Floors</field>
+      <field name="widget">mono</field>
+    </record>
+    <record id="vf_beds_total_hostel_block_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_block_list"/>
+      <field name="sequence">50</field>
+      <field name="name">beds_total</field>
+      <field name="label">Beds</field>
+      <field name="widget">mono</field>
+      <field name="readonly" eval="True"/>
+      <field name="in_form" eval="False"/>
+    </record>
+    <record id="vf_beds_taken_hostel_block_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_block_list"/>
+      <field name="sequence">60</field>
+      <field name="name">beds_taken</field>
+      <field name="label">Occupied</field>
+      <field name="widget">mono</field>
+      <field name="readonly" eval="True"/>
+      <field name="in_form" eval="False"/>
+    </record>
+    <record id="vf_occupancy_hostel_block_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_block_list"/>
+      <field name="sequence">70</field>
+      <field name="name">occupancy</field>
+      <field name="label">Occupancy</field>
+      <field name="widget">progress</field>
+      <field name="readonly" eval="True"/>
+      <field name="in_form" eval="False"/>
+    </record>
+
+    <record id="view_hostel_room_list" model="inom.portal.view">
+      <field name="key">hostel.room.list</field>
+      <field name="name">Room</field>
+      <field name="model_name">inom.hostel.room</field>
+      <field name="order">block_id, number</field>
+      <field name="chip_field">state</field>
+      <field name="search_field_ids">number</field>
+      <field name="can_create" eval="True"/>
+      <field name="can_write" eval="True"/>
+      <field name="can_unlink" eval="True"/>
+    </record>
+    <record id="vf_number_hostel_room_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_room_list"/>
+      <field name="sequence">10</field>
+      <field name="name">number</field>
+      <field name="label">Room</field>
+      <field name="required" eval="True"/>
+    </record>
+    <record id="vf_block_id_hostel_room_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_room_list"/>
+      <field name="sequence">20</field>
+      <field name="name">block_id</field>
+      <field name="label">Block</field>
+      <field name="widget">many2one</field>
+      <field name="required" eval="True"/>
+    </record>
+    <record id="vf_room_type_hostel_room_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_room_list"/>
+      <field name="sequence">30</field>
+      <field name="name">room_type</field>
+      <field name="label">Type</field>
+      <field name="widget">selection</field>
+      <field name="required" eval="True"/>
+    </record>
+    <record id="vf_capacity_hostel_room_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_room_list"/>
+      <field name="sequence">40</field>
+      <field name="name">capacity</field>
+      <field name="label">Capacity</field>
+      <field name="widget">mono</field>
+      <field name="required" eval="True"/>
+    </record>
+    <record id="vf_occupied_hostel_room_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_room_list"/>
+      <field name="sequence">50</field>
+      <field name="name">occupied</field>
+      <field name="label">Occupied</field>
+      <field name="widget">mono</field>
+      <field name="readonly" eval="True"/>
+      <field name="in_form" eval="False"/>
+    </record>
+    <record id="vf_beds_free_hostel_room_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_room_list"/>
+      <field name="sequence">60</field>
+      <field name="name">beds_free</field>
+      <field name="label">Free</field>
+      <field name="widget">mono</field>
+      <field name="readonly" eval="True"/>
+      <field name="in_form" eval="False"/>
+    </record>
+    <record id="vf_state_hostel_room_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_room_list"/>
+      <field name="sequence">70</field>
+      <field name="name">state</field>
+      <field name="label">State</field>
+      <field name="widget">tag</field>
+      <field name="readonly" eval="True"/>
+    </record>
+    <record id="vf_has_ac_hostel_room_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_room_list"/>
+      <field name="sequence">80</field>
+      <field name="name">has_ac</field>
+      <field name="label">Air conditioned</field>
+      <field name="widget">boolean</field>
+      <field name="in_list" eval="False"/>
+    </record>
+    <record id="vf_monthly_rent_hostel_room_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_room_list"/>
+      <field name="sequence">90</field>
+      <field name="name">monthly_rent</field>
+      <field name="label">Monthly rent</field>
+      <field name="widget">money</field>
+      <field name="in_list" eval="False"/>
+    </record>
+    <record id="vf_maintenance_hostel_room_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_room_list"/>
+      <field name="sequence">100</field>
+      <field name="name">maintenance</field>
+      <field name="label">Under maintenance</field>
+      <field name="widget">boolean</field>
+      <field name="in_list" eval="False"/>
+      <field name="help_text">Takes the room out of allocation without deleting it.</field>
+    </record>
+
+    <record id="view_hostel_allocation_list" model="inom.portal.view">
+      <field name="key">hostel.allocation.list</field>
+      <field name="name">Allocation</field>
+      <field name="model_name">inom.hostel.allocation</field>
+      <field name="order">date_from desc</field>
+      <field name="chip_field">state</field>
+      <field name="search_field_ids">student_id</field>
+      <field name="can_create" eval="True"/>
+      <field name="can_write" eval="True"/>
+    </record>
+    <record id="vf_student_id_hostel_allocation_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_allocation_list"/>
+      <field name="sequence">10</field>
+      <field name="name">student_id</field>
+      <field name="label">Resident</field>
+      <field name="widget">person</field>
+      <field name="required" eval="True"/>
+      <field name="span">2</field>
+    </record>
+    <record id="vf_room_id_hostel_allocation_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_allocation_list"/>
+      <field name="sequence">20</field>
+      <field name="name">room_id</field>
+      <field name="label">Room</field>
+      <field name="widget">many2one</field>
+      <field name="required" eval="True"/>
+    </record>
+    <record id="vf_year_id_hostel_allocation_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_allocation_list"/>
+      <field name="sequence">30</field>
+      <field name="name">year_id</field>
+      <field name="label">Academic year</field>
+      <field name="widget">many2one</field>
+      <field name="required" eval="True"/>
+    </record>
+    <record id="vf_date_from_hostel_allocation_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_allocation_list"/>
+      <field name="sequence">40</field>
+      <field name="name">date_from</field>
+      <field name="label">From</field>
+      <field name="widget">date</field>
+      <field name="required" eval="True"/>
+    </record>
+    <record id="vf_date_to_hostel_allocation_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_allocation_list"/>
+      <field name="sequence">50</field>
+      <field name="name">date_to</field>
+      <field name="label">To</field>
+      <field name="widget">date</field>
+      <field name="readonly" eval="True"/>
+      <field name="in_form" eval="False"/>
+    </record>
+    <record id="vf_state_hostel_allocation_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_allocation_list"/>
+      <field name="sequence">60</field>
+      <field name="name">state</field>
+      <field name="label">Status</field>
+      <field name="widget">tag</field>
+      <field name="readonly" eval="True"/>
+    </record>
+
+    <record id="view_hostel_visitor_list" model="inom.portal.view">
+      <field name="key">hostel.visitor.list</field>
+      <field name="name">Visitor</field>
+      <field name="model_name">inom.hostel.visitor</field>
+      <field name="order">checked_in desc</field>
+      <field name="search_field_ids">name,phone</field>
+      <field name="can_create" eval="True"/>
+      <field name="can_write" eval="True"/>
+    </record>
+    <record id="vf_name_hostel_visitor_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_visitor_list"/>
+      <field name="sequence">10</field>
+      <field name="name">name</field>
+      <field name="label">Visitor</field>
+      <field name="required" eval="True"/>
+      <field name="span">2</field>
+    </record>
+    <record id="vf_student_id_hostel_visitor_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_visitor_list"/>
+      <field name="sequence">20</field>
+      <field name="name">student_id</field>
+      <field name="label">Visiting</field>
+      <field name="widget">person</field>
+      <field name="required" eval="True"/>
+    </record>
+    <record id="vf_block_id_hostel_visitor_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_visitor_list"/>
+      <field name="sequence">30</field>
+      <field name="name">block_id</field>
+      <field name="label">Block</field>
+      <field name="widget">many2one</field>
+      <field name="required" eval="True"/>
+    </record>
+    <record id="vf_phone_hostel_visitor_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_visitor_list"/>
+      <field name="sequence">40</field>
+      <field name="name">phone</field>
+      <field name="label">Phone</field>
+      <field name="required" eval="True"/>
+    </record>
+    <record id="vf_relation_hostel_visitor_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_visitor_list"/>
+      <field name="sequence">50</field>
+      <field name="name">relation</field>
+      <field name="label">Relation</field>
+    </record>
+    <record id="vf_checked_in_hostel_visitor_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_visitor_list"/>
+      <field name="sequence">60</field>
+      <field name="name">checked_in</field>
+      <field name="label">In</field>
+      <field name="readonly" eval="True"/>
+      <field name="in_form" eval="False"/>
+    </record>
+    <record id="vf_checked_out_hostel_visitor_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_visitor_list"/>
+      <field name="sequence">70</field>
+      <field name="name">checked_out</field>
+      <field name="label">Out</field>
+      <field name="readonly" eval="True"/>
+      <field name="in_form" eval="False"/>
+    </record>
+    <record id="vf_purpose_hostel_visitor_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_hostel_visitor_list"/>
+      <field name="sequence">80</field>
+      <field name="name">purpose</field>
+      <field name="label">Purpose</field>
+      <field name="span">2</field>
+      <field name="in_list" eval="False"/>
+    </record>
+
+    <record id="module_hostel" model="inom.portal.module">
+      <field name="code">hostel</field>
+      <field name="name">Hostel</field>
+      <field name="icon">home</field>
+      <field name="color">#9A2B5F</field>
+      <field name="section">campus</field>
+      <field name="sequence">10</field>
+    </record>
+
+    <record id="page_hostel_dash" model="inom.portal.page">
+      <field name="code">dash</field>
+      <field name="name">Dashboard</field>
+      <field name="module_id" ref="module_hostel"/>
+      <field name="sequence">10</field>
+      <field name="page_type">dashboard</field>
+      <field name="dashboard_key">hostel</field>
+      <field name="group_ids" eval="[(6, 0, [ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_warden'), ref('inom_base.group_inom_dean')])]"/>
+    </record>
+
+    <record id="page_hostel_blocks" model="inom.portal.page">
+      <field name="code">blocks</field>
+      <field name="name">Blocks</field>
+      <field name="module_id" ref="module_hostel"/>
+      <field name="sequence">20</field>
+      <field name="page_type">list</field>
+      <field name="view_id" ref="view_hostel_block_list"/>
+      <field name="group_ids" eval="[(6, 0, [ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_warden'), ref('inom_base.group_inom_dean')])]"/>
+    </record>
+
+    <record id="page_hostel_rooms" model="inom.portal.page">
+      <field name="code">rooms</field>
+      <field name="name">Room inventory</field>
+      <field name="module_id" ref="module_hostel"/>
+      <field name="sequence">30</field>
+      <field name="page_type">list</field>
+      <field name="view_id" ref="view_hostel_room_list"/>
+      <field name="group_ids" eval="[(6, 0, [ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_warden'), ref('inom_base.group_inom_dean'), ref('inom_base.group_inom_student'), ref('inom_base.group_inom_guardian')])]"/>
+    </record>
+
+    <record id="page_hostel_allocations" model="inom.portal.page">
+      <field name="code">allocations</field>
+      <field name="name">Allocations</field>
+      <field name="module_id" ref="module_hostel"/>
+      <field name="sequence">40</field>
+      <field name="page_type">list</field>
+      <field name="view_id" ref="view_hostel_allocation_list"/>
+    </record>
+
+    <record id="page_hostel_visitors" model="inom.portal.page">
+      <field name="code">visitors</field>
+      <field name="name">Visitor register</field>
+      <field name="module_id" ref="module_hostel"/>
+      <field name="sequence">50</field>
+      <field name="page_type">list</field>
+      <field name="view_id" ref="view_hostel_visitor_list"/>
+      <field name="group_ids" eval="[(6, 0, [ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_warden')])]"/>
+    </record>
+
+    <record id="action_hostel_vacate" model="inom.portal.action">
+      <field name="key">hostel.vacate</field>
+      <field name="name">Vacate the room</field>
+      <field name="model_name">inom.hostel.allocation</field>
+      <field name="method">_inom_action_vacate</field>
+      <field name="done_message">Room vacated and back in the pool.</field>
+      <field name="icon">home</field>
+      <field name="confirm" eval="True"/>
+      <field name="group_ids" eval="[(6, 0, [ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_warden')])]"/>
+      <field name="condition">record.state == 'active'</field>
+      <field name="primary" eval="True"/>
+    </record>
+
+    <record id="action_hostel_checkout" model="inom.portal.action">
+      <field name="key">hostel.checkout</field>
+      <field name="name">Sign the visitor out</field>
+      <field name="model_name">inom.hostel.visitor</field>
+      <field name="method">_inom_action_check_out</field>
+      <field name="done_message">Signed out.</field>
+      <field name="icon">check</field>
+      <field name="group_ids" eval="[(6, 0, [ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_warden')])]"/>
+      <field name="condition">not record.checked_out</field>
+      <field name="primary" eval="True"/>
+    </record>
+
+
+    <record id="rel_student_hostel" model="inom.portal.related">
+      <field name="view_id" ref="inom_student.view_student_list"/>
+      <field name="sequence">60</field>
+      <field name="name">Hostel</field>
+      <field name="icon">home</field>
+      <field name="related_view_id" ref="view_hostel_allocation_list"/>
+      <field name="inverse_field">student_id</field>
+      <field name="limit">5</field>
+    </record>
+
+    <record id="rel_block_rooms" model="inom.portal.related">
+      <field name="view_id" ref="view_hostel_block_list"/>
+      <field name="sequence">10</field>
+      <field name="name">Rooms</field>
+      <field name="icon">home</field>
+      <field name="related_view_id" ref="view_hostel_room_list"/>
+      <field name="inverse_field">block_id</field>
+      <field name="limit">20</field>
+    </record>
+
+    <record id="rel_room_residents" model="inom.portal.related">
+      <field name="view_id" ref="view_hostel_room_list"/>
+      <field name="sequence">10</field>
+      <field name="name">Residents</field>
+      <field name="icon">users</field>
+      <field name="related_view_id" ref="view_hostel_allocation_list"/>
+      <field name="inverse_field">room_id</field>
+      <field name="limit">8</field>
+    </record>
+  </data>
+</odoo>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="report_fee_receipt_document">
+    <t t-call="inom_portal.report_frame">
+      <t t-set="institution" t-value="doc._inom_institution()"/>
+      <t t-set="kind" t-value="'Fee receipt' if doc.amount_due &lt;= 0 else 'Fee statement'"/>
+      <t t-set="reference" t-value="doc.move_id.name or doc.name"/>
+      <t t-set="issued_on" t-value="context_timestamp(datetime.datetime.now()).strftime('%d %b %Y')"/>
+
+      <h2><t t-out="doc.account_id.student_id.name"/></h2>
+      <div class="kv">
+        <div><span>Enrolment number</span><span t-out="doc.account_id.student_id.enrolment_no"/></div>
+        <div><span>Programme</span><span t-out="doc.account_id.student_id.programme_id.name"/></div>
+        <div><span>Academic year</span><span t-out="doc.account_id.year_id.name"/></div>
+        <div><span>Instalment</span><span t-out="doc.name"/></div>
+        <div><span>Due</span><span t-out="doc.due_date"/></div>
+        <div t-if="doc.move_id"><span>Billed to</span><span t-out="doc.move_id.partner_id.display_name"/></div>
+      </div>
+
+      <table>
+        <thead><tr><th>Description</th><th style="text-align:right">Amount</th></tr></thead>
+        <tbody>
+          <tr t-if="not doc.move_id">
+            <td>This instalment has not been invoiced yet.</td>
+            <td class="num"><t t-out="doc.amount"/></td>
+          </tr>
+          <tr t-foreach="doc.move_id.invoice_line_ids" t-as="line">
+            <td><t t-out="line.name"/></td>
+            <td class="num"><t t-out="'%.2f' % line.price_subtotal"/></td>
+          </tr>
+          <tr class="tot">
+            <td>Total</td>
+            <td class="num"><t t-out="'%.2f' % doc.amount"/></td>
+          </tr>
+          <tr t-if="doc.amount_paid">
+            <td>Paid</td>
+            <td class="num">-<t t-out="'%.2f' % doc.amount_paid"/></td>
+          </tr>
+          <tr class="tot" t-if="doc.amount_due &gt; 0">
+            <td>Balance outstanding</td>
+            <td class="num"><t t-out="'%.2f' % doc.amount_due"/></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- A receipt says money was received; a statement says money is owed.
+           Printing the word "receipt" on an unpaid instalment is how a parent
+           arrives at the office believing they have already paid. -->
+      <p t-if="doc.amount_due &lt;= 0" style="margin-top:18px">
+        Received with thanks. This receipt is computer generated and needs no signature.
+      </p>
+      <p t-else="" style="margin-top:18px;color:#5c6480">
+        This is a statement of an amount due, not a receipt. It does not confirm payment.
+      </p>
+    </t>
+  </template>
+
+  <template id="report_fee_receipt">
+    <t t-call="web.html_container">
+      <t t-foreach="docs" t-as="doc">
+        <t t-call="web.basic_layout">
+          <t t-call="inom_fee.report_fee_receipt_document"/>
+        </t>
+      </t>
+    </t>
+  </template>
+
+  <record id="action_report_fee_receipt" model="ir.actions.report">
+    <field name="name">Fee receipt</field>
+    <field name="model">inom.fee.account.line</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">inom_fee.report_fee_receipt</field>
+    <field name="print_report_name">'Receipt - %s' % (object.name)</field>
+    <field name="binding_model_id" eval="False"/>
+  </record>
+</odoo>

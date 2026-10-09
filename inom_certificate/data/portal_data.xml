@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="1">
+
+    <record id="pmodel_certificate_type" model="inom.portal.model">
+      <field name="model_name">inom.certificate.type</field>
+      <field name="label">Certificate type</field>
+      <field name="allow_create" eval="True"/>
+      <field name="allow_write" eval="True"/>
+      <field name="module">inom_certificate</field>
+    </record>
+
+    <record id="pmodel_certificate_request" model="inom.portal.model">
+      <field name="model_name">inom.certificate.request</field>
+      <field name="label">Certificate request</field>
+      <field name="allow_create" eval="True"/>
+      <field name="allow_write" eval="True"/>
+      <field name="module">inom_certificate</field>
+    </record>
+
+    <record id="view_certificate_type_list" model="inom.portal.view">
+      <field name="key">certificate.type.list</field>
+      <field name="name">Certificate type</field>
+      <field name="model_name">inom.certificate.type</field>
+      <field name="order">name</field>
+      <field name="search_field_ids">name,code</field>
+      <field name="can_create" eval="True"/>
+      <field name="can_write" eval="True"/>
+    </record>
+    <record id="vf_code_certificate_type_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_certificate_type_list"/>
+      <field name="sequence">10</field>
+      <field name="name">code</field>
+      <field name="label">Code</field>
+      <field name="widget">mono</field>
+      <field name="required" eval="True"/>
+    </record>
+    <record id="vf_name_certificate_type_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_certificate_type_list"/>
+      <field name="sequence">20</field>
+      <field name="name">name</field>
+      <field name="label">Certificate</field>
+      <field name="required" eval="True"/>
+      <field name="span">2</field>
+    </record>
+    <record id="vf_turnaround_days_certificate_type_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_certificate_type_list"/>
+      <field name="sequence">30</field>
+      <field name="name">turnaround_days</field>
+      <field name="label">Turnaround (days)</field>
+      <field name="widget">mono</field>
+    </record>
+    <record id="vf_fee_certificate_type_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_certificate_type_list"/>
+      <field name="sequence">40</field>
+      <field name="name">fee</field>
+      <field name="label">Fee</field>
+      <field name="widget">money</field>
+    </record>
+    <record id="vf_requires_no_dues_certificate_type_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_certificate_type_list"/>
+      <field name="sequence">50</field>
+      <field name="name">requires_no_dues</field>
+      <field name="label">Needs no-dues</field>
+      <field name="widget">boolean</field>
+      <field name="help_text">Blocks approval while the student owes fees.</field>
+    </record>
+    <record id="vf_description_certificate_type_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_certificate_type_list"/>
+      <field name="sequence">60</field>
+      <field name="name">description</field>
+      <field name="label">What it certifies</field>
+      <field name="span">2</field>
+      <field name="in_list" eval="False"/>
+    </record>
+
+    <record id="view_certificate_request_list" model="inom.portal.view">
+      <field name="key">certificate.request.list</field>
+      <field name="name">Certificate request</field>
+      <field name="model_name">inom.certificate.request</field>
+      <field name="order">requested_on desc</field>
+      <field name="chip_field">state</field>
+      <field name="search_field_ids">reference,student_id</field>
+      <field name="can_create" eval="True"/>
+      <field name="can_write" eval="True"/>
+    </record>
+    <record id="vf_reference_certificate_request_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_certificate_request_list"/>
+      <field name="sequence">10</field>
+      <field name="name">reference</field>
+      <field name="label">Reference</field>
+      <field name="widget">mono</field>
+      <field name="readonly" eval="True"/>
+      <field name="help_text">Allocated automatically when the request is created.</field>
+    </record>
+    <record id="vf_student_id_certificate_request_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_certificate_request_list"/>
+      <field name="sequence">20</field>
+      <field name="name">student_id</field>
+      <field name="label">Student</field>
+      <field name="widget">person</field>
+      <field name="required" eval="True"/>
+      <field name="span">2</field>
+    </record>
+    <record id="vf_type_id_certificate_request_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_certificate_request_list"/>
+      <field name="sequence">30</field>
+      <field name="name">type_id</field>
+      <field name="label">Certificate</field>
+      <field name="widget">many2one</field>
+      <field name="required" eval="True"/>
+    </record>
+    <record id="vf_requested_on_certificate_request_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_certificate_request_list"/>
+      <field name="sequence">40</field>
+      <field name="name">requested_on</field>
+      <field name="label">Requested</field>
+      <field name="widget">date</field>
+      <field name="required" eval="True"/>
+    </record>
+    <record id="vf_state_certificate_request_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_certificate_request_list"/>
+      <field name="sequence">50</field>
+      <field name="name">state</field>
+      <field name="label">Status</field>
+      <field name="widget">tag</field>
+      <field name="readonly" eval="True"/>
+    </record>
+    <record id="vf_issued_on_certificate_request_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_certificate_request_list"/>
+      <field name="sequence">60</field>
+      <field name="name">issued_on</field>
+      <field name="label">Issued</field>
+      <field name="widget">date</field>
+      <field name="readonly" eval="True"/>
+      <field name="in_form" eval="False"/>
+    </record>
+    <record id="vf_verification_code_certificate_request_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_certificate_request_list"/>
+      <field name="sequence">70</field>
+      <field name="name">verification_code</field>
+      <field name="label">Verification code</field>
+      <field name="widget">mono</field>
+      <field name="readonly" eval="True"/>
+      <field name="in_form" eval="False"/>
+    </record>
+    <record id="vf_purpose_certificate_request_list" model="inom.portal.view.field">
+      <field name="view_id" ref="view_certificate_request_list"/>
+      <field name="sequence">80</field>
+      <field name="name">purpose</field>
+      <field name="label">What it is for</field>
+      <field name="required" eval="True"/>
+      <field name="span">2</field>
+      <field name="in_list" eval="False"/>
+      <field name="help_text">The approver reads this, so say enough to decide on.</field>
+    </record>
+
+    <record id="module_certs" model="inom.portal.module">
+      <field name="code">certs</field>
+      <field name="name">Certificates</field>
+      <field name="icon">award</field>
+      <field name="color">#A96407</field>
+      <field name="section">deliver</field>
+      <field name="sequence">40</field>
+      <field name="badge_model">inom.certificate.request</field>
+      <field name="badge_domain">[('state','=','pending')]</field>
+    </record>
+
+    <record id="page_certs_dash" model="inom.portal.page">
+      <field name="code">dash</field>
+      <field name="name">Dashboard</field>
+      <field name="module_id" ref="module_certs"/>
+      <field name="sequence">10</field>
+      <field name="page_type">dashboard</field>
+      <field name="dashboard_key">certs</field>
+      <field name="group_ids" eval="[(6, 0, [ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_dean'), ref('inom_base.group_inom_accounts')])]"/>
+    </record>
+
+    <record id="page_certs_requests" model="inom.portal.page">
+      <field name="code">requests</field>
+      <field name="name">Requests</field>
+      <field name="module_id" ref="module_certs"/>
+      <field name="sequence">20</field>
+      <field name="page_type">list</field>
+      <field name="view_id" ref="view_certificate_request_list"/>
+    </record>
+
+    <record id="page_certs_types" model="inom.portal.page">
+      <field name="code">types</field>
+      <field name="name">Certificate types</field>
+      <field name="module_id" ref="module_certs"/>
+      <field name="sequence">30</field>
+      <field name="page_type">list</field>
+      <field name="view_id" ref="view_certificate_type_list"/>
+      <field name="group_ids" eval="[(6, 0, [ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_dean')])]"/>
+    </record>
+
+    <record id="action_cert_submit" model="inom.portal.action">
+      <field name="key">cert.submit</field>
+      <field name="name">Send for approval</field>
+      <field name="model_name">inom.certificate.request</field>
+      <field name="method">_inom_action_submit</field>
+      <field name="done_message">Sent for approval.</field>
+      <field name="icon">check</field>
+      <field name="group_ids" eval="[(6, 0, [ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_dean'), ref('inom_base.group_inom_student')])]"/>
+      <field name="condition">record.state == 'draft'</field>
+      <field name="primary" eval="True"/>
+    </record>
+
+    <record id="action_cert_approve" model="inom.portal.action">
+      <field name="key">cert.approve</field>
+      <field name="name">Approve</field>
+      <field name="model_name">inom.certificate.request</field>
+      <field name="method">_inom_action_approve</field>
+      <field name="done_message">Approved. It can be issued now.</field>
+      <field name="icon">check</field>
+      <field name="confirm" eval="True"/>
+      <field name="group_ids" eval="[(6, 0, [ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_dean')])]"/>
+      <field name="condition">record.state == 'pending'</field>
+      <field name="primary" eval="True"/>
+    </record>
+
+    <record id="action_cert_issue" model="inom.portal.action">
+      <field name="key">cert.issue</field>
+      <field name="name">Issue the certificate</field>
+      <field name="model_name">inom.certificate.request</field>
+      <field name="method">_inom_action_issue</field>
+      <field name="done_message">Issued. The verification code is on the record.</field>
+      <field name="icon">award</field>
+      <field name="group_ids" eval="[(6, 0, [ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_dean')])]"/>
+      <field name="condition">record.state == 'approved'</field>
+      <field name="primary" eval="True"/>
+    </record>
+
+    <record id="action_cert_reject" model="inom.portal.action">
+      <field name="key">cert.reject</field>
+      <field name="name">Reject</field>
+      <field name="model_name">inom.certificate.request</field>
+      <field name="method">_inom_action_reject</field>
+      <field name="done_message">Rejected. The student can see why.</field>
+      <field name="icon">alert</field>
+      <field name="confirm" eval="True"/>
+      <field name="group_ids" eval="[(6, 0, [ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_dean')])]"/>
+      <field name="condition">record.state == 'pending'</field>
+    </record>
+
+
+    <record id="rel_student_certificates" model="inom.portal.related">
+      <field name="view_id" ref="inom_student.view_student_list"/>
+      <field name="sequence">90</field>
+      <field name="name">Certificates</field>
+      <field name="icon">award</field>
+      <field name="related_view_id" ref="view_certificate_request_list"/>
+      <field name="inverse_field">student_id</field>
+      <field name="limit">8</field>
+    </record>
+
+    <record id="action_certificate_download" model="inom.portal.action">
+      <field name="key">certificate.download</field>
+      <field name="name">Print the certificate</field>
+      <field name="model_name">inom.certificate.request</field>
+      <field name="method">_inom_action_download</field>
+      <field name="done_message">Opening the document…</field>
+      <field name="icon">award</field>
+      <field name="group_ids" eval="[(6, 0, [ref('inom_base.group_inom_registrar'), ref('inom_base.group_inom_dean'), ref('inom_base.group_inom_student'), ref('inom_base.group_inom_guardian')])]"/>
+      <field name="condition">record.state == 'issued'</field>
+      <field name="primary" eval="True"/>
+    </record>
+
+    <record id="vf_x_certificate_type_list_approver_group_id" model="inom.portal.view.field">
+      <field name="view_id" ref="view_certificate_type_list"/>
+      <field name="sequence">45</field>
+      <field name="name">approver_group_id</field><field name="label">Approved by</field>
+      <field name="widget">many2one</field>
+      <field name="in_list" eval="False"/>
+      <field name="help_text">Which role may approve this certificate. Leave empty for the registrar.</field>
+    </record>
+
+    <record id="action_cert_reject_in_reason" model="inom.portal.action.input">
+      <field name="action_id" ref="action_cert_reject"/>
+      <field name="sequence">10</field>
+      <field name="name">reason</field>
+      <field name="label">Why it is being refused</field>
+      <field name="input_type">textarea</field>
+      <field name="help_text">The student reads this. Say what to fix, not just that it was refused.</field>
+      <field name="placeholder">e.g. The purpose given does not match what this certificate is for.</field>
+    </record>
+  </data>
+</odoo>

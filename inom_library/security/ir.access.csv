@@ -1,0 +1,24 @@
+id,name,model_id,group_id/id,operation,domain
+access_inom_book_registrar,inom.book.registrar,inom.book,inom_base.group_inom_registrar,crud,
+access_inom_book_librarian,inom.book.librarian,inom.book,inom_base.group_inom_librarian,crud,
+access_inom_book_dean,inom.book.dean,inom.book,inom_base.group_inom_dean,r,
+access_inom_book_faculty,inom.book.faculty,inom.book,inom_base.group_inom_faculty,r,
+access_inom_book_student,inom.book.student,inom.book,inom_base.group_inom_student,r,
+access_inom_book_guardian,inom.book.guardian,inom.book,inom_base.group_inom_guardian,r,
+access_inom_book_technical,inom.book.technical,inom.book,inom_base.group_inom_technical,crud,
+rule_book_company,Title: campus scope,inom.book,,crud,"[('company_id', 'in', company_ids)]"
+access_inom_book_copy_registrar,inom.book.copy.registrar,inom.book.copy,inom_base.group_inom_registrar,crud,
+access_inom_book_copy_librarian,inom.book.copy.librarian,inom.book.copy,inom_base.group_inom_librarian,crud,
+access_inom_book_copy_dean,inom.book.copy.dean,inom.book.copy,inom_base.group_inom_dean,r,
+access_inom_book_copy_faculty,inom.book.copy.faculty,inom.book.copy,inom_base.group_inom_faculty,r,
+access_inom_book_copy_student,inom.book.copy.student,inom.book.copy,inom_base.group_inom_student,r,
+access_inom_book_copy_guardian,inom.book.copy.guardian,inom.book.copy,inom_base.group_inom_guardian,r,
+access_inom_book_copy_technical,inom.book.copy.technical,inom.book.copy,inom_base.group_inom_technical,crud,
+rule_loan_wide,Loan: circulation desk and oversight,inom.loan,inom_base.group_inom_registrar,crud,
+rule_loan_wide_1,Loan: circulation desk and oversight,inom.loan,inom_base.group_inom_librarian,crud,
+rule_loan_wide_2,Loan: circulation desk and oversight,inom.loan,inom_base.group_inom_dean,r,
+rule_loan_student,Loan: own loans only,inom.loan,inom_base.group_inom_student,r,"[('student_id.user_id', '=', user.id)]"
+rule_loan_guardian,Loan: guardian sees every ward,inom.loan,inom_base.group_inom_guardian,r,"[('student_id.guardian_ids.user_id', '=', user.id)]"
+rule_loan_wide_3,Loan: circulation desk and oversight,inom.loan,inom_base.group_inom_accounts,r,
+access_inom_loan_technical,inom.loan.technical,inom.loan,inom_base.group_inom_technical,crud,
+rule_loan_company,Loan: campus scope,inom.loan,,crud,"[('company_id', 'in', company_ids)]"

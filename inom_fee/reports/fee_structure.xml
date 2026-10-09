@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="report_fee_structure_document">
+    <t t-call="inom_portal.report_frame">
+      <t t-set="institution" t-value="doc._inom_institution()"/>
+      <t t-set="kind" t-value="'Fee structure'"/>
+      <t t-set="reference" t-value="doc.code"/>
+      <t t-set="issued_on" t-value="context_timestamp(datetime.datetime.now()).strftime('%d %b %Y')"/>
+
+      <h2><t t-out="doc.name"/></h2>
+      <div class="kv">
+        <div><span>Code</span><span t-out="doc.code"/></div>
+        <div><span>Programme</span><span t-out="doc.programme_id.name"/></div>
+        <div><span>Department</span><span t-out="doc.department_id.name"/></div>
+        <div><span>Academic year</span><span t-out="doc.year_id.name"/></div>
+        <!-- Zero means the whole year, and printing "Semester 0" reads as a
+             mistake rather than as the thing it means. -->
+        <div><span>Semester</span>
+          <span t-out="doc.semester or 'Whole year'"/></div>
+        <div><span>Quota</span>
+          <span t-out="dict(doc._fields['quota'].selection).get(doc.quota, doc.quota)"/></div>
+        <div><span>Status</span>
+          <span t-out="dict(doc._fields['state'].selection).get(doc.state, doc.state)"/></div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Head of fee</th>
+            <th>Code</th>
+            <th>Terms</th>
+            <th style="text-align:right">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr t-if="not doc.component_ids">
+            <td colspan="4">No heads of fee have been added to this structure.</td>
+          </tr>
+          <tr t-foreach="doc.component_ids" t-as="line">
+            <td><t t-out="line.name"/></td>
+            <td><t t-out="line.code or ''"/></td>
+            <td>
+              <t t-if="line.refundable">Refundable</t>
+              <t t-if="line.refundable and line.optional">, </t>
+              <t t-if="line.optional">Opt-in only</t>
+            </td>
+            <td class="num"><t t-out="'%.2f' % line.amount"/></td>
+          </tr>
+          <tr class="tot">
+            <td colspan="3">Total</td>
+            <td class="num"><t t-out="'%.2f' % doc.total_amount"/></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table t-if="doc.instalment_ids">
+        <thead>
+          <tr>
+            <th>Instalment</th>
+            <th>Due after (days)</th>
+            <th style="text-align:right">Per cent</th>
+            <th style="text-align:right">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr t-foreach="doc.instalment_ids" t-as="due">
+            <td><t t-out="due.name"/></td>
+            <td><t t-out="due.due_offset_days"/></td>
+            <td class="num"><t t-out="'%.2f' % due.percentage"/></td>
+            <td class="num">
+              <t t-out="'%.2f' % (doc.total_amount * due.percentage / 100.0)"/>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- A draft structure is not what anybody will be billed. Saying so on
+           the page itself is the difference between a working document and a
+           notice a parent keeps. -->
+      <p t-if="doc.state != 'published'" style="margin-top:18px;color:#5c6480">
+        This structure is
+        <t t-out="dict(doc._fields['state'].selection).get(doc.state, doc.state).lower()"/>
+        and is not in force. Amounts may still change.
+      </p>
+      <p t-else="" style="margin-top:18px">
+        Amounts are per
+        <t t-out="'semester' if doc.semester else 'academic year'"/>
+        and exclude any scholarship or waiver applied to an individual student.
+      </p>
+    </t>
+  </template>
+
+  <template id="report_fee_structure">
+    <t t-call="web.html_container">
+      <t t-foreach="docs" t-as="doc">
+        <t t-call="web.basic_layout">
+          <t t-call="inom_fee.report_fee_structure_document"/>
+        </t>
+      </t>
+    </t>
+  </template>
+
+  <record id="action_report_fee_structure" model="ir.actions.report">
+    <field name="name">Fee structure</field>
+    <field name="model">inom.fee.structure</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">inom_fee.report_fee_structure</field>
+    <field name="print_report_name">'Fee structure - %s' % (object.code)</field>
+    <field name="binding_model_id" eval="False"/>
+  </record>
+</odoo>
