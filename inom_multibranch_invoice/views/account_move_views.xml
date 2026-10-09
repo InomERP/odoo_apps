@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Invoice / Bill / Journal Entry form -->
+    <record id="inom_view_move_form_branch" model="ir.ui.view">
+        <field name="name">account.move.form.inom.branch</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <field name="invoice_user_id" position="after">
+                <field name="inom_branch_id"
+                       options="{'no_create_edit': True}"/>
+                <field name="inom_branch_doc_no" readonly="1"
+                       invisible="not inom_branch_doc_no"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Invoice / Bill list -->
+    <record id="inom_view_invoice_tree_branch" model="ir.ui.view">
+        <field name="name">account.move.invoice.list.inom.branch</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <field name="ref" position="after">
+                <field name="inom_branch_id" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Generic journal entry list -->
+    <record id="inom_view_move_tree_branch" model="ir.ui.view">
+        <field name="name">account.move.list.inom.branch</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_tree"/>
+        <field name="arch" type="xml">
+            <field name="journal_id" position="after">
+                <field name="inom_branch_id" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Invoice search : filter + group by branch -->
+    <record id="inom_view_account_invoice_filter_branch" model="ir.ui.view">
+        <field name="name">account.invoice.filter.inom.branch</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <field name="journal_id" position="after">
+                <field name="inom_branch_id"/>
+            </field>
+            <filter name="status" position="after">
+                <filter string="Branch" name="group_branch"
+                        context="{'group_by': 'inom_branch_id'}"/>
+            </filter>
+        </field>
+    </record>
+
+    <!-- Journal entry search : filter + group by branch -->
+    <record id="inom_view_account_move_filter_branch" model="ir.ui.view">
+        <field name="name">account.move.filter.inom.branch</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_move_filter"/>
+        <field name="arch" type="xml">
+            <field name="journal_id" position="after">
+                <field name="inom_branch_id"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

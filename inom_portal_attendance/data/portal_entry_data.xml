@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="portal_attendance_entry" model="portal.entry">
+        <field name="name">Attendance</field>
+        <field name="url">/my/attendance</field>
+        <field name="description">Check in, check out and review your attendance</field>
+        <field name="sequence">35</field>
+        <field name="category">common_category</field>
+        <field name="show_in_portal" eval="True"/>
+        <field name="is_config_card" eval="True"/>
+    </record>
+</odoo>

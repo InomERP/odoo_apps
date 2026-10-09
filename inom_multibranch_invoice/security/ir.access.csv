@@ -1,0 +1,9 @@
+id,name,model_id,group_id/id,operation,domain
+access_inom_branch_user,inom.branch user,inom.branch,inom_multibranch_invoice.group_inom_branch_user,r,"[('id', 'in', user.inom_allowed_branch_ids.ids)]"
+access_inom_branch_multi,inom.branch multi,inom.branch,inom_multibranch_invoice.group_inom_branch_multi,r,"[('id', 'in', user.inom_allowed_branch_ids.ids)]"
+access_inom_branch_manager,inom.branch manager,inom.branch,inom_multibranch_invoice.group_inom_branch_manager,crud,
+access_inom_branch_account_user,inom.branch account user,inom.branch,account.group_account_user,r,
+access_inom_branch_account_manager,inom.branch account manager,inom.branch,account.group_account_manager,crud,
+access_inom_branch_company_restriction,Branch: multi-company restriction,inom.branch,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_inom_move_branch_restriction,Journal Entry: branch access restriction,account.move,,crud,"['|', ('inom_branch_id', '=', False), ('inom_branch_id', 'in', user.inom_branch_filter_ids.ids)]"
+access_inom_payment_branch_restriction,Payment: branch access restriction,account.payment,,crud,"['|', ('inom_branch_id', '=', False), ('inom_branch_id', 'in', user.inom_branch_filter_ids.ids)]"

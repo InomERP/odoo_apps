@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="inom_branch_view_list" model="ir.ui.view">
+        <field name="name">inom.branch.list</field>
+        <field name="model">inom.branch</field>
+        <field name="arch" type="xml">
+            <list string="Branches">
+                <field name="sequence" widget="handle"/>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="city"/>
+                <field name="phone" optional="show"/>
+                <field name="email" optional="show"/>
+                <field name="use_own_sequence" optional="hide"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="inom_branch_view_form" model="ir.ui.view">
+        <field name="name">inom.branch.form</field>
+        <field name="model">inom.branch</field>
+        <field name="arch" type="xml">
+            <form string="Branch">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger"
+                            invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Main Branch"/>
+                        </h1>
+                        <label for="code" class="oe_inline"/>
+                        <h3>
+                            <field name="code" class="oe_inline" placeholder="e.g. MB"/>
+                        </h3>
+                    </div>
+                    <group>
+                        <group string="Contact">
+                            <field name="email" widget="email"/>
+                            <field name="phone" widget="phone"/>
+                            <field name="mobile" widget="phone"/>
+                        </group>
+                        <group string="Configuration">
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="color" widget="color_picker"/>
+                            <field name="active" invisible="1"/>
+                            <field name="use_own_sequence"/>
+                            <field name="sequence_id" readonly="1"
+                                   invisible="not use_own_sequence"/>
+                        </group>
+                    </group>
+                    <group string="Address">
+                        <group>
+                            <field name="street" placeholder="Street..."/>
+                            <field name="street2"/>
+                            <field name="city"/>
+                        </group>
+                        <group>
+                            <field name="state_id" options="{'no_open': True, 'no_create': True}"/>
+                            <field name="zip"/>
+                            <field name="country_id" options="{'no_open': True}"/>
+                        </group>
+                    </group>
+                    <group string="Allowed Users">
+                        <field name="user_ids" widget="many2many_tags" nolabel="1"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="inom_branch_view_search" model="ir.ui.view">
+        <field name="name">inom.branch.search</field>
+        <field name="model">inom.branch</field>
+        <field name="arch" type="xml">
+            <search string="Branches">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="city"/>
+                <filter name="filter_active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="filter_inactive" string="Archived" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_company" string="Company"
+                            context="{'group_by': 'company_id'}"
+                            groups="base.group_multi_company"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="inom_branch_action" model="ir.actions.act_window">
+        <field name="name">Branches</field>
+        <field name="res_model">inom.branch</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="inom_branch_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first branch</p>
+            <p>Branches let you run several operating units inside one company
+               and keep their invoicing and accounting separated.</p>
+        </field>
+    </record>
+
+</odoo>

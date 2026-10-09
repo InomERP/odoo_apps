@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="inom_report_invoice_document_branch"
+              inherit_id="account.report_invoice_document">
+        <xpath expr="//div[@id='informations']" position="inside">
+            <div class="col" t-if="o.inom_branch_id" name="inom_branch">
+                <strong>Branch</strong>
+                <div t-field="o.inom_branch_id.display_name">Main Branch</div>
+                <div t-if="o.inom_branch_doc_no" class="text-muted">
+                    <span t-field="o.inom_branch_doc_no"/>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>

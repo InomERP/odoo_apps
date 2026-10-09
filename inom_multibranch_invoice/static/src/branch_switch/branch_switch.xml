@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="inom_multibranch_invoice.BranchSwitcher">
+        <div t-if="this.hasMultiple" class="o_inom_branch_switcher position-relative">
+            <button type="button"
+                    class="btn btn-link text-reset d-flex align-items-center"
+                    t-on-click="this.toggle">
+                <i class="oi me-1" data-icon="fork_right"/>
+                <span class="d-none d-md-inline" t-out="this.currentLabel"/>
+                <i class="oi ms-1" data-icon="arrow_drop_down"/>
+            </button>
+            <div t-if="this.state.open"
+                 class="o_inom_branch_menu dropdown-menu show shadow"
+                 style="right: 0; left: auto; min-width: 180px;">
+                <span class="dropdown-header">Switch Branch</span>
+                <button type="button" class="dropdown-item"
+                        t-foreach="this.state.branches" t-as="branch" t-key="branch.id"
+                        t-on-click="() => this.selectBranch(branch.id)">
+                    <t t-if="branch.code">[<t t-out="branch.code"/>] </t>
+                    <t t-out="branch.name"/>
+                </button>
+            </div>
+        </div>
+    </t>
+
+</templates>

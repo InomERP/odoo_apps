@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="inom_branch_root_menu"
+              name="Branches"
+              web_icon="inom_multibranch_invoice,static/description/icon.png"
+              sequence="55"
+              groups="group_inom_branch_user"/>
+
+    <menuitem id="inom_branch_dashboard_menu"
+              name="Dashboard"
+              parent="inom_branch_root_menu"
+              action="inom_branch_dashboard_action"
+              sequence="10"/>
+
+    <menuitem id="inom_branch_config_menu"
+              name="Configuration"
+              parent="inom_branch_root_menu"
+              sequence="90"
+              groups="group_inom_branch_manager"/>
+
+    <menuitem id="inom_branch_menu"
+              name="Branches"
+              parent="inom_branch_config_menu"
+              action="inom_branch_action"
+              sequence="10"/>
+
+    <!-- Quick access to branch master under Accounting configuration too. -->
+    <menuitem id="inom_branch_menu_accounting"
+              name="Branches"
+              parent="account.menu_finance_configuration"
+              action="inom_branch_action"
+              sequence="100"
+              groups="group_inom_branch_manager"/>
+
+</odoo>
