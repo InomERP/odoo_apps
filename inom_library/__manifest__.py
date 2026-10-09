@@ -13,7 +13,7 @@ you which four or where they are.
     "version": "20.0.1.0.0",
     'category': 'Education',
     'license': 'LGPL-3',
-    'depends': ['inom_portal', 'inom_student'],
+    'depends': [],
     'data': [
         'data/portal_data.xml',
         'data/backend_menu_build.xml',
