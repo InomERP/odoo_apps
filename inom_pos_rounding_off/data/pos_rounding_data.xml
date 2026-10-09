@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="pos_payment_method_rounding" model="pos.payment.method">
+            <field name="name">Rounding</field>
+            <field name="is_rounding_method">True</field>
+            <field name="is_auto_rounding">False</field>
+            <field name="type">bank</field>
+        </record>
+
+    </data>
+
+    <function model="pos.config" name="_link_rounding_payment_methods"/>
+</odoo>

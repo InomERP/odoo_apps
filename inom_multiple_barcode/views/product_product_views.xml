@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="product_normal_form_view_barcode" model="ir.ui.view">
+        <field name="name">product.product.form.barcode</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+
+        <field name="arch" type="xml">
+            
+           
+            <xpath expr="//notebook" position="inside">
+                
+                <page string="Barcodes">
+                    
+                    <field name="multi_barcode_ids">
+    <list>
+        <field name="product_multi_barcode"/>
+    </list>
+</field>
+                    
+
+                </page>
+
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

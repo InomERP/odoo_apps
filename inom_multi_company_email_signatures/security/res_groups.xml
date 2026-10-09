@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_groups_privilege_email_signature" model="res.groups.privilege">
+        <field name="name">Email Signatures</field>
+        <field name="category_id" ref="base.module_category_productivity"/>
+    </record>
+
+    <!-- Every internal user manages their own per-company signatures -->
+    <record id="group_signature_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="comment">Can manage their own per-company email signatures.</field>
+        <field name="sequence">10</field>
+        <field name="privilege_id" ref="res_groups_privilege_email_signature"/>
+        <field name="implied_by_ids" eval="[Command.link(ref('base.group_user'))]"/>
+    </record>
+
+    <!-- Settings administrators manage the signatures of all users -->
+    <record id="group_signature_manager" model="res.groups">
+        <field name="name">Administrator</field>
+        <field name="comment">Can manage the per-company email signatures of all users.</field>
+        <field name="sequence">20</field>
+        <field name="privilege_id" ref="res_groups_privilege_email_signature"/>
+        <field name="implied_ids" eval="[Command.link(ref('group_signature_user'))]"/>
+        <field name="implied_by_ids" eval="[Command.link(ref('base.group_system'))]"/>
+    </record>
+
+</odoo>

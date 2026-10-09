@@ -1,0 +1,4 @@
+id,name,model_id,group_id/id,operation,domain
+access_product_multi_barcodes_user,access.product.multi.barcodes.user,product.multiple.barcodes,base.group_user,r,
+access_product_multi_barcodes_manager,access.product.multi.barcodes.manager,product.multiple.barcodes,product.group_product_manager,crud,
+product_multi_barcodes_comp_rule,Product multiple barcodes multi-company,product.multiple.barcodes,,crud,"['|', ('product_template_id.company_id', 'parent_of', company_ids), ('product_template_id.company_id', '=', False)]"

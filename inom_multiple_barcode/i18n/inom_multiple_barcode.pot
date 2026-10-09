@@ -1,0 +1,129 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* inom_multiple_barcode
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-09 08:35+0000\n"
+"PO-Revision-Date: 2026-10-09 08:35+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: inom_multiple_barcode
+#: model:ir.module.module,summary:base.module_inom_multiple_barcode
+msgid "Allows to create multiple barcode for a single product."
+msgstr ""
+
+#. module: inom_multiple_barcode
+#: model:ir.model.fields,field_description:inom_multiple_barcode.field_product_multiple_barcodes__product_multi_barcode
+msgid "Barcode"
+msgstr ""
+
+#. module: inom_multiple_barcode
+#: model:ir.model.fields,field_description:inom_multiple_barcode.field_product_product__multi_barcode_ids
+#: model_terms:ir.ui.view,arch_db:inom_multiple_barcode.product_normal_form_view_barcode
+#: model_terms:ir.ui.view,arch_db:inom_multiple_barcode.product_template_only_form_view
+msgid "Barcodes"
+msgstr ""
+
+#. module: inom_multiple_barcode
+#: model:ir.model.fields,field_description:inom_multiple_barcode.field_product_multiple_barcodes__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: inom_multiple_barcode
+#: model:ir.model.fields,field_description:inom_multiple_barcode.field_product_multiple_barcodes__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: inom_multiple_barcode
+#: model:ir.model.fields,field_description:inom_multiple_barcode.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:inom_multiple_barcode.field_product_multiple_barcodes__display_name
+#: model:ir.model.fields,field_description:inom_multiple_barcode.field_product_product__display_name
+#: model:ir.model.fields,field_description:inom_multiple_barcode.field_product_template__display_name
+#: model:ir.model.fields,field_description:inom_multiple_barcode.field_purchase_order_line__display_name
+#: model:ir.model.fields,field_description:inom_multiple_barcode.field_sale_order_line__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: inom_multiple_barcode
+#: model:ir.model.constraint,message:inom_multiple_barcode.constraint_product_multiple_barcodes_field_unique
+msgid "Existing barcode is not allowed !"
+msgstr ""
+
+#. module: inom_multiple_barcode
+#: model:ir.model.fields,field_description:inom_multiple_barcode.field_account_move_line__id
+#: model:ir.model.fields,field_description:inom_multiple_barcode.field_product_multiple_barcodes__id
+#: model:ir.model.fields,field_description:inom_multiple_barcode.field_product_product__id
+#: model:ir.model.fields,field_description:inom_multiple_barcode.field_product_template__id
+#: model:ir.model.fields,field_description:inom_multiple_barcode.field_purchase_order_line__id
+#: model:ir.model.fields,field_description:inom_multiple_barcode.field_sale_order_line__id
+msgid "ID"
+msgstr ""
+
+#. module: inom_multiple_barcode
+#: model:ir.module.module,shortdesc:base.module_inom_multiple_barcode
+msgid "INOM Multi Barcode for Products"
+msgstr ""
+
+#. module: inom_multiple_barcode
+#: model:ir.model,name:inom_multiple_barcode.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: inom_multiple_barcode
+#: model:ir.model.fields,field_description:inom_multiple_barcode.field_product_multiple_barcodes__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: inom_multiple_barcode
+#: model:ir.model.fields,field_description:inom_multiple_barcode.field_product_multiple_barcodes__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: inom_multiple_barcode
+#: model:ir.model.fields,field_description:inom_multiple_barcode.field_product_product__template_multi_barcode_ids
+#: model:ir.model.fields,field_description:inom_multiple_barcode.field_product_template__template_multi_barcode_ids
+msgid "Multi Barcodes"
+msgstr ""
+
+#. module: inom_multiple_barcode
+#: model:ir.model,name:inom_multiple_barcode.model_product_template
+#: model:ir.model.fields,field_description:inom_multiple_barcode.field_product_multiple_barcodes__product_template_id
+#: model_terms:ir.ui.view,arch_db:inom_multiple_barcode.product_template_search_view
+msgid "Product"
+msgstr ""
+
+#. module: inom_multiple_barcode
+#: model:ir.model.fields,field_description:inom_multiple_barcode.field_account_move_line__scan_barcode
+#: model:ir.model.fields,field_description:inom_multiple_barcode.field_purchase_order_line__scan_barcode
+#: model:ir.model.fields,field_description:inom_multiple_barcode.field_sale_order_line__scan_barcode
+msgid "Product Barcode"
+msgstr ""
+
+#. module: inom_multiple_barcode
+#: model:ir.model,name:inom_multiple_barcode.model_product_multiple_barcodes
+msgid "Product Multiple Barcodes"
+msgstr ""
+
+#. module: inom_multiple_barcode
+#: model:ir.model,name:inom_multiple_barcode.model_product_product
+#: model:ir.model.fields,field_description:inom_multiple_barcode.field_product_multiple_barcodes__product_id
+msgid "Product Variant"
+msgstr ""
+
+#. module: inom_multiple_barcode
+#: model:ir.model,name:inom_multiple_barcode.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr ""
+
+#. module: inom_multiple_barcode
+#: model:ir.model,name:inom_multiple_barcode.model_sale_order_line
+msgid "Sales Order Line"
+msgstr ""
