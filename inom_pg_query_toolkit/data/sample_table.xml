@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Runs on install and upgrade: ensures the table used by the example queries exists -->
+    <function model="query.tool" name="_create_sample_employee_table"/>
+</odoo>

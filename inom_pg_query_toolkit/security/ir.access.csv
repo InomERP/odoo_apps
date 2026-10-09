@@ -1,0 +1,3 @@
+id,name,model_id,group_id/id,operation,domain
+access_query_tool_user,query.tool.user,query.tool,inom_pg_query_toolkit.group_querytool,crud,
+access_orientationpdf,orientationpdf access,orientationpdf,inom_pg_query_toolkit.group_querytool,crud,
