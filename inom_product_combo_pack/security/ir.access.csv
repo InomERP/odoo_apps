@@ -1,0 +1,4 @@
+id,name,model_id,group_id/id,operation,domain
+access_combo_pack_line_user,combo.pack.line.user,combo.pack.line,base.group_user,crud,
+access_combo_pack_wizard_user,combo.pack.wizard.user,combo.pack.wizard,base.group_user,crud,
+access_combo_pack_wizard_line_user,combo.pack.wizard.line.user,combo.pack.wizard.line,base.group_user,crud,

@@ -1,0 +1,9 @@
+id,name,model_id,group_id/id,operation,domain
+access_inom_credit_extension_user,inom.credit.extension.user,inom.credit.extension,inom_smart_credit_limit.group_smart_credit_user,r,
+access_inom_credit_extension_manager,inom.credit.extension.manager,inom.credit.extension,inom_smart_credit_limit.group_smart_credit_manager,crud,
+rule_inom_credit_extension_company,Credit Extension: multi-company,inom.credit.extension,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_inom_credit_audit_user,inom.credit.audit.user,inom.credit.audit,inom_smart_credit_limit.group_smart_credit_user,r,
+access_inom_credit_audit_manager,inom.credit.audit.manager,inom.credit.audit,inom_smart_credit_limit.group_smart_credit_manager,r,
+rule_inom_credit_audit_company,Credit Audit Log: multi-company,inom.credit.audit,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_inom_credit_check_wizard_user,inom.credit.check.wizard.user,inom.credit.check.wizard,inom_smart_credit_limit.group_smart_credit_user,crud,
+rule_inom_credit_check_wizard_own,Smart Credit Check: access only your own wizard,inom.credit.check.wizard,,crud,"[('create_uid', '=', user.id)]"

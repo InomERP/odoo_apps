@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_partner_form_inherit_smart_credit" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.smart.credit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <widget name="web_ribbon" title="Credit Hold"
+                        bg_color="text-bg-danger"
+                        invisible="not is_credit_hold"/>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_credit_audit" type="object"
+                        class="oe_stat_button" icon="fa-shield"
+                        invisible="not use_smart_credit"
+                        groups="inom_smart_credit_limit.group_smart_credit_user">
+                    <div class="o_stat_info">
+                        <field name="credit_audit_count" class="o_stat_value"/>
+                        <span class="o_stat_text">Credit Log</span>
+                    </div>
+                </button>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Smart Credit" name="inom_smart_credit"
+                      groups="inom_smart_credit_limit.group_smart_credit_user">
+                    <field name="currency_id" invisible="1"/>
+                    <group>
+                        <group string="Credit Policy" name="inom_credit_policy">
+                            <field name="use_smart_credit"/>
+                            <field name="smart_credit_limit"
+                                   invisible="not use_smart_credit"
+                                   groups="inom_smart_credit_limit.group_smart_credit_manager"/>
+                            <field name="smart_credit_limit" readonly="1"
+                                   invisible="not use_smart_credit"
+                                   groups="!inom_smart_credit_limit.group_smart_credit_manager"/>
+                            <field name="credit_enforcement"
+                                   invisible="not use_smart_credit"/>
+                        </group>
+                        <group string="Live Position" name="inom_credit_position"
+                               invisible="not use_smart_credit">
+                            <field name="smart_credit_exposure"/>
+                            <field name="smart_extra_credit"/>
+                            <field name="smart_available_credit"
+                                   class="fw-bold"/>
+                            <field name="smart_credit_utilization"
+                                   widget="progressbar"/>
+                        </group>
+                    </group>
+                    <group invisible="not use_smart_credit">
+                        <group string="Smart Scoring" name="inom_credit_scoring">
+                            <field name="smart_credit_score"
+                                   widget="percentpie"/>
+                            <label for="smart_suggested_limit"/>
+                            <div class="o_row">
+                                <field name="smart_suggested_limit"/>
+                                <button name="action_apply_suggested_limit"
+                                        type="object" string="Apply"
+                                        class="btn btn-link"
+                                        icon="fa-magic"
+                                        invisible="smart_suggested_limit &lt;= 0 or smart_suggested_limit == smart_credit_limit"
+                                        groups="inom_smart_credit_limit.group_smart_credit_manager"/>
+                            </div>
+                        </group>
+                        <group string="Credit Hold" name="inom_credit_hold">
+                            <field name="is_credit_hold" readonly="1"/>
+                            <field name="credit_hold_source" readonly="1"
+                                   invisible="not is_credit_hold"/>
+                            <field name="credit_hold_date" readonly="1"
+                                   invisible="not is_credit_hold"/>
+                            <field name="credit_hold_reason"/>
+                            <div colspan="2" class="mt-2">
+                                <button name="action_credit_hold" type="object"
+                                        string="Place On Hold"
+                                        class="btn btn-danger me-2"
+                                        invisible="is_credit_hold"
+                                        confirm="Place this customer on credit hold? Sale confirmations and outgoing deliveries will be blocked."
+                                        groups="inom_smart_credit_limit.group_smart_credit_manager"/>
+                                <button name="action_credit_release" type="object"
+                                        string="Release Hold"
+                                        class="btn btn-success"
+                                        invisible="not is_credit_hold"
+                                        groups="inom_smart_credit_limit.group_smart_credit_manager"/>
+                            </div>
+                        </group>
+                    </group>
+                    <group string="Temporary Credit Extensions"
+                           invisible="not use_smart_credit">
+                        <field name="credit_extension_ids" nolabel="1" colspan="2">
+                            <list editable="bottom"
+                                  decoration-success="state == 'active'"
+                                  decoration-muted="state in ('expired', 'cancelled')">
+                                <field name="name"/>
+                                <field name="amount"/>
+                                <field name="date_start"/>
+                                <field name="date_end"/>
+                                <field name="state" widget="badge"
+                                       decoration-success="state == 'active'"
+                                       decoration-danger="state == 'cancelled'"/>
+                                <field name="user_id" widget="many2one_avatar_user"/>
+                                <field name="currency_id" column_invisible="1"/>
+                                <button name="action_cancel" type="object"
+                                        icon="fa-times" title="Cancel"
+                                        invisible="state != 'active'"
+                                        groups="inom_smart_credit_limit.group_smart_credit_manager"/>
+                            </list>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_partner_smart_credit_list" model="ir.ui.view">
+        <field name="name">res.partner.smart.credit.list</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <list string="Credit Customers"
+                  decoration-danger="is_credit_hold"
+                  decoration-warning="smart_credit_utilization &gt;= 90 and not is_credit_hold">
+                <field name="display_name" string="Customer"/>
+                <field name="smart_credit_limit"/>
+                <field name="smart_extra_credit" optional="hide"/>
+                <field name="smart_credit_exposure"/>
+                <field name="smart_available_credit"/>
+                <field name="smart_credit_utilization" widget="progressbar"/>
+                <field name="smart_credit_score" optional="show"/>
+                <field name="is_credit_hold" widget="boolean_toggle" readonly="1"/>
+                <field name="credit_enforcement" optional="hide"/>
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_partner_smart_credit_search" model="ir.ui.view">
+        <field name="name">res.partner.smart.credit.search</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <search string="Credit Customers">
+                <field name="name"/>
+                <filter name="filter_credit_hold" string="On Credit Hold"
+                        domain="[('is_credit_hold', '=', True)]"/>
+                <filter name="filter_credit_enabled" string="Credit Controlled"
+                        domain="[('use_smart_credit', '=', True)]"/>
+                <group name="group_by">
+                    <filter name="group_enforcement" string="Enforcement Mode"
+                            context="{'group_by': 'credit_enforcement'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_partner_smart_credit" model="ir.actions.act_window">
+        <field name="name">Credit Customers</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_partner_smart_credit_list"/>
+        <field name="search_view_id" ref="view_partner_smart_credit_search"/>
+        <field name="domain">[('use_smart_credit', '=', True)]</field>
+        <field name="context">{'default_use_smart_credit': True, 'default_is_company': True, 'search_default_filter_credit_enabled': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No credit controlled customers yet
+            </p>
+            <p>
+                Enable Smart Credit Control on a customer's Smart Credit tab
+                to start tracking their exposure, score and available credit.
+            </p>
+        </field>
+    </record>
+
+</odoo>

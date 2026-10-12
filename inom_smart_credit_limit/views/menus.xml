@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_inom_smart_credit_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="context">{'module': 'inom_smart_credit_limit'}</field>
+    </record>
+
+    <menuitem id="menu_inom_smart_credit_root"
+              name="Smart Credit"
+              web_icon="inom_smart_credit_limit,static/description/icon.png"
+              sequence="46"
+              groups="inom_smart_credit_limit.group_smart_credit_user"/>
+
+    <menuitem id="menu_inom_smart_credit_customers"
+              name="Credit Customers"
+              parent="menu_inom_smart_credit_root"
+              action="action_partner_smart_credit"
+              sequence="10"/>
+
+    <menuitem id="menu_inom_smart_credit_extensions"
+              name="Credit Extensions"
+              parent="menu_inom_smart_credit_root"
+              action="action_inom_credit_extension"
+              sequence="20"/>
+
+    <menuitem id="menu_inom_smart_credit_audit"
+              name="Audit Log"
+              parent="menu_inom_smart_credit_root"
+              action="action_inom_credit_audit"
+              sequence="30"/>
+
+    <menuitem id="menu_inom_smart_credit_config"
+              name="Configuration"
+              parent="menu_inom_smart_credit_root"
+              sequence="90"
+              groups="inom_smart_credit_limit.group_smart_credit_manager"/>
+
+    <menuitem id="menu_inom_smart_credit_settings"
+              name="Settings"
+              parent="menu_inom_smart_credit_config"
+              action="action_inom_smart_credit_settings"
+              sequence="10"/>
+
+</odoo>

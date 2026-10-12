@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_inom_credit_check_wizard_form" model="ir.ui.view">
+        <field name="name">inom.credit.check.wizard.form</field>
+        <field name="model">inom.credit.check.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Smart Credit Check">
+                <div class="alert alert-danger" role="alert"
+                     invisible="not is_hold">
+                    <strong>Customer on credit hold.</strong>
+                    <field name="hold_reason" class="oe_inline" readonly="1"/>
+                </div>
+                <div class="alert alert-danger" role="alert"
+                     invisible="is_hold">
+                    <strong>Smart credit limit exceeded.</strong>
+                    Confirming this order would exceed the customer's
+                    available credit.
+                </div>
+                <group>
+                    <group string="Order">
+                        <field name="order_id" readonly="1"/>
+                        <field name="partner_id" readonly="1"/>
+                        <field name="order_amount"/>
+                        <field name="over_amount" class="text-danger fw-bold"/>
+                        <field name="currency_id" invisible="1"/>
+                        <field name="company_id" invisible="1"/>
+                        <field name="is_hold" invisible="1"/>
+                    </group>
+                    <group string="Credit Position">
+                        <field name="credit_limit"/>
+                        <field name="extra_credit"/>
+                        <field name="credit_exposure"/>
+                        <field name="available_credit"/>
+                        <field name="credit_score"/>
+                    </group>
+                </group>
+                <group string="Manager Override"
+                       groups="inom_smart_credit_limit.group_smart_credit_manager">
+                    <field name="override_reason"
+                           placeholder="e.g. Payment cheque received, clearing in 2 days"/>
+                </group>
+                <footer>
+                    <button name="action_override_confirm" type="object"
+                            string="Override &amp; Confirm" class="btn-danger"
+                            groups="inom_smart_credit_limit.group_smart_credit_manager"/>
+                    <button name="action_request_approval" type="object"
+                            string="Request Manager Approval"
+                            class="btn-primary"/>
+                    <button string="Close" class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

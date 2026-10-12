@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_order_form_inherit_smart_credit" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.smart.credit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_open_credit_wizard" type="object"
+                        string="Credit Review"
+                        class="btn-warning"
+                        invisible="credit_state not in ('blocked', 'hold') or state not in ('draft', 'sent')"
+                        groups="inom_smart_credit_limit.group_smart_credit_user"/>
+            </xpath>
+            <xpath expr="//sheet" position="before">
+                <field name="credit_state" invisible="1"/>
+                <field name="company_currency_id" invisible="1"/>
+                <div class="alert alert-danger mb-0" role="alert"
+                     invisible="credit_state != 'hold'">
+                    <strong>Customer on credit hold.</strong>
+                    Confirmation is blocked until a Smart Credit Manager
+                    releases the hold or overrides this order.
+                </div>
+                <div class="alert alert-danger mb-0" role="alert"
+                     invisible="credit_state != 'blocked'">
+                    <strong>Smart credit limit exceeded.</strong>
+                    Available credit:
+                    <field name="credit_available_display" class="oe_inline"/>.
+                    Request approval or ask a Smart Credit Manager to
+                    override.
+                </div>
+                <div class="alert alert-warning mb-0" role="alert"
+                     invisible="credit_state != 'warn'">
+                    <strong>Credit warning.</strong>
+                    This order exceeds the customer's smart credit limit
+                    (policy: warn only). Available credit:
+                    <field name="credit_available_display" class="oe_inline"/>.
+                </div>
+                <div class="alert alert-info mb-0" role="alert"
+                     invisible="not credit_approval_requested or credit_state == 'approved'">
+                    Credit approval has been requested from the Smart
+                    Credit Managers for this order.
+                </div>
+                <div class="alert alert-success mb-0" role="alert"
+                     invisible="credit_state != 'approved'">
+                    <strong>Credit override approved.</strong>&#160;Reason:&#160;<field name="credit_override_reason" class="oe_inline"
+                           readonly="1"/>
+                </div>
+            </xpath>
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="credit_available_display"
+                       string="Available Credit"
+                       invisible="credit_state == 'none'"
+                       groups="inom_smart_credit_limit.group_smart_credit_user"/>
+                <field name="credit_approval_requested" invisible="1"/>
+                <field name="credit_override" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
