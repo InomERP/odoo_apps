@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Req 1: notice shown on the login/register page when a visitor was
+         redirected there from the online application. -->
+    <template id="univ_login_admission_notice" inherit_id="web.login"
+              name="Admission Login Notice">
+        <xpath expr="//form" position="before">
+            <t t-if="request.params.get('redirect') and '/admission' in request.params.get('redirect')">
+                <div class="alert alert-info text-center" role="alert">
+                    Please login or register before submitting an application.
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- Req 2: mandatory Parent / Student choice on the registration form.
+         Inherits the signup PAGE (not the shared 'fields' template) so the
+         reset-password flow is never affected. -->
+    <template id="univ_signup_account_type" inherit_id="auth_signup.signup"
+              name="Signup Account Type">
+        <xpath expr="//div[hasclass('field-login')]" position="after">
+            <div class="mb-3 field-account_type">
+                <label for="account_type" class="form-label">Account Type</label>
+                <select name="account_type" id="account_type"
+                        class="form-select" required="required">
+                    <option value="">Select account type...</option>
+                    <option value="student">Student (Child)</option>
+                    <option value="parent">Parent</option>
+                </select>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- Req 2: surface the captured account type in the backend contact form.
+         Anchored on <sheet> (always present) for maximum view stability. -->
+    <record id="view_partner_form_univ_account_type" model="ir.ui.view">
+        <field name="name">res.partner.form.univ.account.type</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group name="univ_portal" string="University Portal"
+                       invisible="not univ_account_type">
+                    <field name="univ_account_type" readonly="1"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

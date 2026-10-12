@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_univ_merit_import_wizard_form" model="ir.ui.view">
+        <field name="name">univ.merit.import.wizard.form</field>
+        <field name="model">univ.merit.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import Merit Scores">
+                <sheet>
+                    <div class="alert alert-info" role="alert">
+                        Upload a CSV with columns
+                        <strong>application_no</strong> and <strong>score</strong>
+                        (an optional <strong>reference</strong> column is supported).
+                    </div>
+                    <group>
+                        <group>
+                            <field name="round_id"/>
+                            <field name="source"/>
+                        </group>
+                        <group>
+                            <field name="max_score"/>
+                            <field name="weight"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="data_file" filename="file_name" widget="binary"/>
+                        <field name="file_name" invisible="1"/>
+                    </group>
+                    <field name="result_summary" readonly="1"
+                           invisible="not result_summary"/>
+                </sheet>
+                <footer>
+                    <button name="action_import" type="object" string="Import"
+                            class="oe_highlight"/>
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_univ_merit_import_wizard" model="ir.actions.act_window">
+        <field name="name">Import Merit Scores</field>
+        <field name="res_model">univ.merit.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

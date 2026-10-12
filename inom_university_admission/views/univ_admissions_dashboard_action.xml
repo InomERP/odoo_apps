@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- OWL client-action dashboard (KPI cards + charts + recent) -->
+    <record id="action_univ_admissions_dashboard" model="ir.actions.client">
+        <field name="name">Admissions Dashboard</field>
+        <field name="tag">inom_admissions_dashboard</field>
+    </record>
+
+    <!-- Analysis & Reports: graph + pivot + list with Excel/CSV export.
+         Reuses the existing, proven applicant search view (filters + group by)
+         and the existing graph/pivot views for the model. -->
+    <record id="action_univ_admission_analysis" model="ir.actions.act_window">
+        <field name="name">Analysis &amp; Reports</field>
+        <field name="res_model">univ.applicant</field>
+        <field name="view_mode">graph,pivot,list,form</field>
+        <field name="search_view_id" ref="view_univ_applicant_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No applications to analyse yet</p>
+            <p>Analyse admissions with the graph and pivot. Export to Excel or
+               CSV from the list or pivot view.</p>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="cron_auto_reject_documents" model="ir.cron">
+            <field name="name">Admission: Flag stale document checklists</field>
+            <field name="model_id" ref="model_univ_applicant"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_auto_reject_stale_documents(days=15)</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active" eval="True"/>
+        </record>
+
+        <record id="cron_lapse_unpaid_offers" model="ir.cron">
+            <field name="name">Admission: Lapse unpaid offers and promote waitlist</field>
+            <field name="model_id" ref="model_univ_applicant"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_lapse_unpaid_offers(days=7)</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active" eval="True"/>
+        </record>
+
+        <record id="cron_expire_offers" model="ir.cron">
+            <field name="name">Admission: Expire overdue offers</field>
+            <field name="model_id" ref="model_univ_applicant_offer"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_expire_offers()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

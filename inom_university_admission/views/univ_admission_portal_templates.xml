@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Add an Admissions entry to the portal home breadcrumb cards -->
+    <template id="portal_my_home_admission" name="Portal My Home: Admissions"
+              inherit_id="portal.portal_my_home" priority="40">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Admissions</t>
+                <t t-set="url" t-value="'/my/admission'"/>
+                <t t-set="placeholder_count" t-value="'admission_count'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_admission_home" name="Applicant Portal">
+        <t t-call="portal.portal_layout">
+            <div class="container">
+                <h2 class="mb-3">My Admission</h2>
+
+                <t t-if="not applicants">
+                    <div class="alert alert-info" role="alert">
+                        No application is linked to your account yet.
+                        <a href="/admission/apply">Apply now</a>.
+                    </div>
+                </t>
+
+                <t t-if="applicants">
+                    <!-- Application selector when more than one -->
+                    <div class="mb-3" t-if="len(applicants) &gt; 1">
+                        <form method="get" action="/my/admission">
+                            <label class="form-label">Application</label>
+                            <select name="applicant_id" class="form-select"
+                                    onchange="this.form.submit()">
+                                <option t-foreach="applicants" t-as="a"
+                                        t-att-value="a.id"
+                                        t-att-selected="applicant and a.id == applicant.id">
+                                    <t t-esc="a.application_no"/> - <t t-esc="a.program_id.name"/>
+                                </option>
+                            </select>
+                        </form>
+                    </div>
+
+                    <t t-if="applicant">
+                        <!-- Status tracker -->
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <t t-esc="applicant.application_no"/> -
+                                    <t t-esc="applicant.program_id.name"/>
+                                </h5>
+                                <p>
+                                    <span class="badge text-bg-primary">
+                                        <t t-esc="applicant.stage_id.name"/>
+                                    </span>
+                                    <span class="badge text-bg-secondary ms-1">
+                                        Docs <t t-esc="int(applicant.document_progress)"/>%
+                                    </span>
+                                    <span class="badge text-bg-info ms-1">
+                                        Fee: <t t-esc="dict(applicant._fields['fee_state'].selection).get(applicant.fee_state)"/>
+                                    </span>
+                                </p>
+                                <div class="alert alert-light border" role="alert">
+                                    <strong>Next step: </strong>
+                                    <t t-esc="next_action"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Required documents assigned by the admission team -->
+                        <div class="card mb-4">
+                            <div class="card-header">Required Documents</div>
+                            <div class="card-body">
+                                <div class="alert alert-danger" role="alert"
+                                     t-if="upload_error">
+                                    <t t-if="upload_error == 'size'">The file exceeds the 10 MB limit.</t>
+                                    <t t-elif="upload_error == 'type'">Unsupported file type. Upload a PDF, JPG or PNG.</t>
+                                    <t t-elif="upload_error == 'locked'">This document is under review or verified and cannot be replaced.</t>
+                                    <t t-elif="upload_error == 'not_assigned'">This document is not part of your required list.</t>
+                                    <t t-else="">Please choose a file to upload.</t>
+                                </div>
+
+                                <t t-if="not doc_checklist">
+                                    <div class="alert alert-light border" role="alert">
+                                        <i class="fa fa-info-circle"/>
+                                        Your application is under review. The admission team
+                                        will assign the documents you need to upload. Please
+                                        check back shortly.
+                                    </div>
+                                </t>
+
+                                <div class="list-group" t-if="doc_checklist">
+                                    <div class="list-group-item" t-foreach="doc_checklist" t-as="doc">
+                                        <div class="d-flex justify-content-between align-items-start flex-wrap">
+                                            <div class="me-3">
+                                                <h6 class="mb-1">
+                                                    <t t-esc="dict(doc._fields['doc_type'].selection).get(doc.doc_type)"/>
+                                                    <span class="text-danger" t-if="doc.mandatory">*</span>
+                                                </h6>
+                                                <t t-if="doc.file">
+                                                    <div class="small text-muted">
+                                                        <i class="fa fa-paperclip"/>
+                                                        <t t-esc="doc.file_name or 'document'"/>
+                                                    </div>
+                                                </t>
+                                                <t t-else="">
+                                                    <div class="small text-muted">Not uploaded yet</div>
+                                                </t>
+                                            </div>
+                                            <div class="text-end">
+                                                <span t-attf-class="badge #{'text-bg-success' if doc.state == 'verified' else ('text-bg-danger' if doc.state == 'rejected' else ('text-bg-info' if doc.state == 'under_review' else ('text-bg-warning' if doc.state == 'submitted' else 'text-bg-secondary')))}">
+                                                    <t t-esc="dict(doc._fields['state'].selection).get(doc.state)"/>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Rejection reason -->
+                                        <div class="alert alert-warning mt-2 mb-2 py-2"
+                                             t-if="doc.state == 'rejected'">
+                                            <strong>Reason: </strong>
+                                            <t t-esc="doc.reject_reason or 'Not specified'"/>
+                                        </div>
+
+                                        <!-- Actions -->
+                                        <div class="mt-2 d-flex gap-2 align-items-center flex-wrap">
+                                            <a t-if="doc.file"
+                                               t-attf-href="/my/admission/document/#{doc.id}"
+                                               target="_blank"
+                                               class="btn btn-sm btn-outline-secondary">
+                                                <i class="fa fa-eye"/> View
+                                            </a>
+
+                                            <span t-if="doc.state == 'verified'"
+                                                  class="text-success small">
+                                                <i class="fa fa-lock"/> Verified and locked
+                                            </span>
+
+                                            <span t-if="doc.state in ('submitted', 'under_review')"
+                                                  class="text-muted small">
+                                                <i class="fa fa-clock-o"/> Awaiting review - cannot be changed
+                                            </span>
+
+                                            <!-- Upload (draft) or Replace (rejected) -->
+                                            <t t-if="doc.state in ('draft', 'rejected')">
+                                                <form action="/my/admission/documents" method="post"
+                                                      enctype="multipart/form-data"
+                                                      class="d-flex gap-2 align-items-center flex-wrap mb-0">
+                                                    <input type="hidden" name="csrf_token"
+                                                           t-att-value="request.csrf_token()"/>
+                                                    <input type="hidden" name="applicant_id"
+                                                           t-att-value="applicant.id"/>
+                                                    <input type="hidden" name="doc_type"
+                                                           t-att-value="doc.doc_type"/>
+                                                    <input type="file" name="document"
+                                                           class="form-control form-control-sm"
+                                                           style="max-width: 260px;" required="required"/>
+                                                    <button type="submit"
+                                                            t-attf-class="btn btn-sm #{'btn-warning' if doc.state == 'rejected' else 'btn-primary'}">
+                                                        <t t-if="doc.state == 'rejected'">Replace Document</t>
+                                                        <t t-else="">Upload</t>
+                                                    </button>
+                                                </form>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-text mt-2" t-if="doc_checklist">
+                                    Accepted: PDF, JPG, PNG (max 10 MB). A document can be
+                                    re-uploaded only if it was rejected.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Offer acceptance -->
+                        <div class="card mb-4" t-if="applicant.offer_state == 'sent'">
+                            <div class="card-header">Your Offer</div>
+                            <div class="card-body">
+                                <p>You have received a provisional admission offer.</p>
+                                <form action="/my/admission/offer/accept" method="post">
+                                    <input type="hidden" name="csrf_token"
+                                           t-att-value="request.csrf_token()"/>
+                                    <input type="hidden" name="applicant_id"
+                                           t-att-value="applicant.id"/>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox"
+                                               name="terms" value="1" id="terms"/>
+                                        <label class="form-check-label" for="terms">
+                                            I accept the terms and conditions of admission.
+                                        </label>
+                                    </div>
+                                    <button type="submit" class="btn btn-success">
+                                        Accept Offer
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-success" role="alert"
+                             t-if="applicant.is_enrolled">
+                            You are enrolled. Welcome aboard!
+                        </div>
+                    </t>
+                </t>
+            </div>
+        </t>
+    </template>
+
+</odoo>

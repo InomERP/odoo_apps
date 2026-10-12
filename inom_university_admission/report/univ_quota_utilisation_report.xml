@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_quota_utilisation">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2>Quota Seat Utilisation</h2>
+                    <table class="table table-sm o_main_table mt-3">
+                        <thead>
+                            <tr>
+                                <th>Program</th>
+                                <th>Quota</th>
+                                <th>Round</th>
+                                <th class="text-end">Capacity</th>
+                                <th class="text-end">Reserved</th>
+                                <th class="text-end">Used</th>
+                                <th class="text-end">Available</th>
+                                <th class="text-end">Occupancy %</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="docs" t-as="seat">
+                                <td><span t-field="seat.program_id.name"/></td>
+                                <td><span t-field="seat.quota_id.name"/></td>
+                                <td><span t-field="seat.round_id.name"/></td>
+                                <td class="text-end"><span t-field="seat.capacity"/></td>
+                                <td class="text-end"><span t-field="seat.reserved_seats"/></td>
+                                <td class="text-end"><span t-field="seat.used_seats"/></td>
+                                <td class="text-end"><span t-field="seat.available_seats"/></td>
+                                <td class="text-end"><span t-field="seat.occupancy_rate"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

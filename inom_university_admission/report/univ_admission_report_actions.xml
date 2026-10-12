@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_offer_letter" model="ir.actions.report">
+        <field name="name">Admission Offer Letter</field>
+        <field name="model">univ.applicant.offer</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inom_university_admission.report_offer_letter</field>
+        <field name="report_file">inom_university_admission.report_offer_letter</field>
+        <field name="binding_model_id" ref="model_univ_applicant_offer"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Offer - %s' % (object.name)</field>
+    </record>
+
+    <record id="action_report_application_receipt" model="ir.actions.report">
+        <field name="name">Application Acknowledgement</field>
+        <field name="model">univ.applicant</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inom_university_admission.report_application_receipt</field>
+        <field name="report_file">inom_university_admission.report_application_receipt</field>
+        <field name="binding_model_id" ref="model_univ_applicant"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Acknowledgement - %s' % (object.application_no)</field>
+    </record>
+
+    <record id="action_report_quota_utilisation" model="ir.actions.report">
+        <field name="name">Quota Seat Utilisation</field>
+        <field name="model">univ.quota.seat</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inom_university_admission.report_quota_utilisation</field>
+        <field name="report_file">inom_university_admission.report_quota_utilisation</field>
+        <field name="binding_model_id" ref="model_univ_quota_seat"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="action_report_doc_pending" model="ir.actions.report">
+        <field name="name">Document Verification Pending</field>
+        <field name="model">univ.applicant</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inom_university_admission.report_doc_pending</field>
+        <field name="report_file">inom_university_admission.report_doc_pending</field>
+        <field name="binding_model_id" ref="model_univ_applicant"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

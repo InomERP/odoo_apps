@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_univ_admission_root" name="Admissions"
+              parent="inom_university_core.menu_univ_root" sequence="15"
+              groups="group_univ_admission_officer,group_univ_admission_reviewer"/>
+
+    <menuitem id="menu_univ_admission_dashboard" name="Dashboard"
+              parent="menu_univ_admission_root"
+              action="action_univ_admissions_dashboard" sequence="1"/>
+
+    <menuitem id="menu_univ_admission_analysis" name="Analysis &amp; Reports"
+              parent="menu_univ_admission_root"
+              action="action_univ_admission_analysis" sequence="2"/>
+
+    <menuitem id="menu_univ_admission_pipeline" name="Pipeline"
+              parent="menu_univ_admission_root"
+              action="action_univ_applicant_pipeline" sequence="10"/>
+
+    <menuitem id="menu_univ_admission_applicants" name="Applicants"
+              parent="menu_univ_admission_root"
+              action="action_univ_applicant" sequence="20"/>
+
+    <menuitem id="menu_univ_admission_offers" name="Offers"
+              parent="menu_univ_admission_root"
+              action="action_univ_applicant_offer" sequence="30"/>
+
+    <menuitem id="menu_univ_admission_conditions" name="Conditions"
+              parent="menu_univ_admission_root"
+              action="action_univ_applicant_condition" sequence="35"/>
+
+    <menuitem id="menu_univ_admission_rounds" name="Rounds"
+              parent="menu_univ_admission_root"
+              action="action_univ_admission_round" sequence="40"/>
+
+    <menuitem id="menu_univ_admission_quotas" name="Quotas"
+              parent="menu_univ_admission_root"
+              action="action_univ_quota" sequence="50"/>
+
+    <menuitem id="menu_univ_admission_seats" name="Seat Allocation"
+              parent="menu_univ_admission_root"
+              action="action_univ_quota_seat" sequence="60"/>
+
+    <!-- Tools -->
+    <menuitem id="menu_univ_admission_tools" name="Tools"
+              parent="menu_univ_admission_root" sequence="80"/>
+
+    <menuitem id="menu_univ_admission_merit_import" name="Import Merit Scores"
+              parent="menu_univ_admission_tools"
+              action="action_univ_merit_import_wizard" sequence="10"/>
+
+    <menuitem id="menu_univ_admission_funnel" name="Admission Funnel"
+              parent="menu_univ_admission_tools"
+              action="action_univ_admission_dashboard" sequence="20"/>
+
+    <!-- Configuration -->
+    <menuitem id="menu_univ_admission_config" name="Configuration"
+              parent="menu_univ_admission_root" sequence="90"
+              groups="group_univ_admission_officer"/>
+
+    <menuitem id="menu_univ_admission_stages" name="Pipeline Stages"
+              parent="menu_univ_admission_config"
+              action="action_univ_applicant_stage" sequence="10"/>
+
+    <menuitem id="menu_univ_admission_doc_templates" name="Document Requirement Templates"
+              parent="menu_univ_admission_config"
+              action="action_univ_doc_requirement_template" sequence="20"/>
+
+</odoo>

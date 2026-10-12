@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Conditional offer e-mail (lists the outstanding conditions) -->
+        <record id="email_template_offer_conditional" model="mail.template">
+            <field name="name">Admission: Conditional Offer</field>
+            <field name="model_id" ref="model_univ_applicant_offer"/>
+            <field name="subject">Conditional admission offer - {{ object.name }}</field>
+            <field name="email_from">{{ (object.company_id.email or user.email_formatted) }}</field>
+            <field name="email_to">{{ object.applicant_id.email }}</field>
+            <field name="body_html" type="html">
+                <div style="margin:0px;padding:0px;font-size:14px;">
+                    <p>Dear <t t-out="object.applicant_id.name or 'Applicant'"/>,</p>
+                    <p>We are pleased to offer you <strong>conditional</strong>
+                        admission to
+                        <t t-out="object.program_id.name or ''"/>
+                        (offer reference <strong t-out="object.name or ''"/>).</p>
+                    <p>This offer is subject to the following condition(s):</p>
+                    <ul>
+                        <li t-foreach="object.condition_ids" t-as="cond">
+                            <strong t-out="cond.name or ''"/>
+                            <t t-if="cond.instructions"> &#8212;
+                                <t t-out="cond.instructions"/></t>
+                        </li>
+                    </ul>
+                    <p>Please accept the offer and clear the pending conditions
+                        from your portal before
+                        <t t-out="object.expiry_date or ''"/>. Your enrolment
+                        will be confirmed once all conditions are satisfied.</p>
+                    <p>Regards,<br/>Admissions Office</p>
+                </div>
+            </field>
+            <field name="lang">{{ object.applicant_id.partner_id.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <!-- Documents-required e-mail (lists documents not yet verified) -->
+        <record id="email_template_documents_required" model="mail.template">
+            <field name="name">Admission: Documents Required</field>
+            <field name="model_id" ref="model_univ_applicant"/>
+            <field name="subject">Documents required - {{ object.application_no }}</field>
+            <field name="email_from">{{ (object.company_id.email or user.email_formatted) }}</field>
+            <field name="email_to">{{ object.email }}</field>
+            <field name="body_html" type="html">
+                <div style="margin:0px;padding:0px;font-size:14px;">
+                    <p>Dear <t t-out="object.name or 'Applicant'"/>,</p>
+                    <p>To proceed with your application
+                        (<t t-out="object.application_no or ''"/>), please
+                        upload the following document(s) from your portal:</p>
+                    <ul>
+                        <li t-foreach="object.document_ids.filtered(lambda d: d.state != 'verified')" t-as="doc">
+                            <strong t-out="doc.name or ''"/>
+                            <t t-if="doc.state == 'rejected' and doc.reject_reason">
+                                &#8212; previously returned: <t t-out="doc.reject_reason"/>
+                            </t>
+                        </li>
+                    </ul>
+                    <p>Log in to your applicant portal, open
+                        <em>My Admission</em>, and upload each document against
+                        its entry in your checklist. Accepted formats: PDF, JPG,
+                        PNG (max 10&#160;MB).</p>
+                    <p>Regards,<br/>Admissions Office</p>
+                </div>
+            </field>
+            <field name="lang">{{ object.partner_id.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

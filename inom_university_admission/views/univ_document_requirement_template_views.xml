@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_univ_doc_requirement_template_list" model="ir.ui.view">
+        <field name="name">univ.document.requirement.template.list</field>
+        <field name="model">univ.document.requirement.template</field>
+        <field name="arch" type="xml">
+            <list string="Document Requirement Templates">
+                <field name="name"/>
+                <field name="description" optional="show"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_univ_doc_requirement_template_form" model="ir.ui.view">
+        <field name="name">univ.document.requirement.template.form</field>
+        <field name="model">univ.document.requirement.template</field>
+        <field name="arch" type="xml">
+            <form string="Document Requirement Template">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. Indian Applicant"/></h1>
+                    </div>
+                    <group>
+                        <field name="description"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                    <field name="line_ids">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="doc_type"/>
+                            <field name="mandatory"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_univ_doc_requirement_template" model="ir.actions.act_window">
+        <field name="name">Document Requirement Templates</field>
+        <field name="res_model">univ.document.requirement.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create a requirement template</p>
+            <p>Templates let the admission team apply a standard required-document
+               set (Indian, Transfer, International, ...) to an applicant in one click.</p>
+        </field>
+    </record>
+
+</odoo>

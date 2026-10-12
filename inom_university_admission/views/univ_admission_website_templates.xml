@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============ LANDING ============ -->
+    <template id="website_admission_landing" name="Admissions">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <section class="s_text_block pt32 pb32">
+                    <div class="container">
+                        <h1 class="text-center">Admissions</h1>
+                        <p class="text-center lead">
+                            Apply online and track your application end to end.
+                        </p>
+                        <div class="text-center mt-3">
+                            <a href="/admission/apply" class="btn btn-primary btn-lg">
+                                Start your Application
+                            </a>
+                        </div>
+                        <div class="row mt-5" t-if="rounds">
+                            <div class="col-12">
+                                <h3>Open Admission Rounds</h3>
+                                <ul>
+                                    <li t-foreach="rounds" t-as="r">
+                                        <strong t-esc="r.name"/>
+                                        <span t-if="r.program_id"> -
+                                            <t t-esc="r.program_id.name"/></span>
+                                        <span class="text-muted">
+                                            (<t t-esc="r.start_date"/> to
+                                            <t t-esc="r.end_date"/>)
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ APPLICATION FORM ============ -->
+    <template id="website_admission_form" name="Apply">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="container py-4">
+                    <h1>Online Application</h1>
+                    <p class="text-muted">Fields marked * are required.</p>
+                    <form action="/admission/submit" method="post"
+                          class="o_admission_form">
+                        <input type="hidden" name="csrf_token"
+                               t-att-value="request.csrf_token()"/>
+                        <!-- Honeypot: real users never see/fill this -->
+                        <div style="display:none;">
+                            <label>Leave this empty</label>
+                            <input type="text" name="website_url" value=""/>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Full Name *</label>
+                                <input type="text" name="name" class="form-control"
+                                       t-att-value="form.get('name', '')"/>
+                                <small class="text-danger" t-if="error.get('name')">
+                                    This field is required.
+                                </small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Email *</label>
+                                <input type="email" name="email" class="form-control"
+                                       t-att-value="form.get('email', '')"/>
+                                <small class="text-danger" t-if="error.get('email')">
+                                    This field is required.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Phone</label>
+                                <input type="text" name="phone" class="form-control"
+                                       t-att-value="form.get('phone', '')"/>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Mobile</label>
+                                <input type="text" name="mobile" class="form-control"
+                                       t-att-value="form.get('mobile', '')"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Program *</label>
+                                <select name="program_id" class="form-select">
+                                    <option value="">-- Select Program --</option>
+                                    <option t-foreach="programs" t-as="p"
+                                            t-att-value="p.id"
+                                            t-att-selected="form.get('program_id') == str(p.id)">
+                                        <t t-esc="p.name"/>
+                                    </option>
+                                </select>
+                                <small class="text-danger" t-if="error.get('program_id')">
+                                    Please select a program.
+                                </small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Admission Round *</label>
+                                <select name="round_id" class="form-select">
+                                    <option value="">-- Select Round --</option>
+                                    <option t-foreach="rounds" t-as="r"
+                                            t-att-value="r.id"
+                                            t-att-selected="form.get('round_id') == str(r.id)">
+                                        <t t-esc="r.name"/>
+                                    </option>
+                                </select>
+                                <small class="text-danger" t-if="error.get('round_id')">
+                                    Please select a round.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Gender</label>
+                                <select name="gender" class="form-select">
+                                    <option value="">--</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Category</label>
+                                <select name="category" class="form-select">
+                                    <option value="general">General</option>
+                                    <option value="obc">OBC</option>
+                                    <option value="sc">SC</option>
+                                    <option value="st">ST</option>
+                                    <option value="ews">EWS</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">City</label>
+                                <input type="text" name="city" class="form-control"
+                                       t-att-value="form.get('city', '')"/>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Country</label>
+                            <select name="country_id" class="form-select">
+                                <option value="">--</option>
+                                <option t-foreach="countries" t-as="c"
+                                        t-att-value="c.id">
+                                    <t t-esc="c.name"/>
+                                </option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            Submit Application
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ THANK YOU ============ -->
+    <template id="website_admission_thanks" name="Application Submitted">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="container py-5 text-center">
+                    <h1 class="text-success">Thank you!</h1>
+                    <p class="lead">Your application has been received.</p>
+                    <p>Your application number is
+                        <strong t-esc="applicant.application_no"/>.
+                    </p>
+                    <p class="text-muted">
+                        A confirmation has been sent to
+                        <t t-esc="applicant.email"/>. Please log in to the portal to
+                        upload your documents and track your status.
+                    </p>
+                    <a href="/my/admission" class="btn btn-primary mt-3">
+                        Go to Applicant Portal
+                    </a>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ============ OFFER VERIFY ============ -->
+    <template id="website_offer_verify" name="Offer Verification">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="container py-5">
+                    <h1>Offer Verification</h1>
+                    <t t-if="offer">
+                        <div class="alert alert-success" role="alert">
+                            This is a valid offer letter.
+                        </div>
+                        <table class="table table-sm">
+                            <tr>
+                                <td><strong>Offer No</strong></td>
+                                <td><t t-esc="offer.name"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Applicant</strong></td>
+                                <td><t t-esc="offer.applicant_id.name"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Program</strong></td>
+                                <td><t t-esc="offer.program_id.name"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Status</strong></td>
+                                <td><t t-esc="dict(offer._fields['state'].selection).get(offer.state)"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Valid Until</strong></td>
+                                <td><t t-esc="offer.expiry_date"/></td>
+                            </tr>
+                        </table>
+                    </t>
+                    <t t-else="">
+                        <div class="alert alert-danger" role="alert">
+                            No offer found for this verification code.
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

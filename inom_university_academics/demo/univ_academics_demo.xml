@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Rooms -->
+        <record id="demo_room_101" model="univ.room">
+            <field name="name">Room 101</field>
+            <field name="code">R101</field>
+            <field name="room_type">classroom</field>
+            <field name="capacity">60</field>
+        </record>
+        <record id="demo_hall_a" model="univ.room">
+            <field name="name">Exam Hall A</field>
+            <field name="code">HALLA</field>
+            <field name="room_type">hall</field>
+            <field name="capacity">120</field>
+        </record>
+
+        <!-- Syllabus -->
+        <record id="demo_syllabus_prog" model="univ.syllabus">
+            <field name="subject_id" ref="inom_university_core.demo_subject_prog"/>
+            <field name="academic_year_id"
+                   ref="inom_university_fee.academic_session_2024_25"/>
+            <field name="version">1</field>
+            <field name="state">approved</field>
+        </record>
+        <record id="demo_syllabus_unit_1" model="univ.syllabus.unit">
+            <field name="syllabus_id" ref="demo_syllabus_prog"/>
+            <field name="sequence">10</field>
+            <field name="name">Introduction to Programming</field>
+            <field name="hours">12</field>
+        </record>
+        <record id="demo_syllabus_unit_2" model="univ.syllabus.unit">
+            <field name="syllabus_id" ref="demo_syllabus_prog"/>
+            <field name="sequence">20</field>
+            <field name="name">Control Structures</field>
+            <field name="hours">10</field>
+        </record>
+
+        <!-- Timetable sessions -->
+        <record id="demo_session_1" model="univ.timetable.session">
+            <field name="section_id" ref="inom_university_core.demo_section_a"/>
+            <field name="subject_id" ref="inom_university_core.demo_subject_prog"/>
+            <field name="faculty_id" ref="inom_university_core.demo_faculty_sharma"/>
+            <field name="room_id" ref="demo_room_101"/>
+            <field name="slot_id" ref="slot_1"/>
+            <field name="date" eval="(DateTime.now()).strftime('%Y-%m-%d')"/>
+            <field name="state">confirmed</field>
+        </record>
+        <record id="demo_session_2" model="univ.timetable.session">
+            <field name="section_id" ref="inom_university_core.demo_section_a"/>
+            <field name="subject_id" ref="inom_university_core.demo_subject_maths"/>
+            <field name="faculty_id" ref="inom_university_core.demo_faculty_verma"/>
+            <field name="room_id" ref="demo_room_101"/>
+            <field name="slot_id" ref="slot_2"/>
+            <field name="date" eval="(DateTime.now()).strftime('%Y-%m-%d')"/>
+            <field name="state">confirmed</field>
+        </record>
+
+        <!-- Exam -->
+        <record id="demo_exam_mid" model="univ.exam">
+            <field name="name">Mid Term - Semester 1</field>
+            <field name="exam_type_id" ref="exam_type_mid"/>
+            <field name="program_id" ref="inom_university_core.demo_program_btech_cse"/>
+            <field name="semester_id" ref="inom_university_core.demo_semester_1"/>
+            <field name="grade_scale_id" ref="grade_scale_default"/>
+        </record>
+        <record id="demo_exam_schedule_prog" model="univ.exam.schedule">
+            <field name="exam_id" ref="demo_exam_mid"/>
+            <field name="subject_id" ref="inom_university_core.demo_subject_prog"/>
+            <field name="date" eval="(DateTime.now()).strftime('%Y-%m-%d')"/>
+            <field name="room_id" ref="demo_hall_a"/>
+            <field name="max_marks">100</field>
+            <field name="pass_marks">40</field>
+        </record>
+
+    </data>
+</odoo>

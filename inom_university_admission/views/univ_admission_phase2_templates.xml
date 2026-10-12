@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Phase 2 - Surface admission conditions to the applicant and let a
+         conditional offer be accepted from the portal. Additive inheritance;
+         the base portal_admission_home template is unchanged. -->
+    <template id="portal_admission_home_phase2"
+              inherit_id="inom_university_admission.portal_admission_home">
+
+        <!-- Conditions card, shown above the offer card whenever the applicant
+             has any admission conditions. -->
+        <xpath expr="//div[@t-if=&quot;applicant.offer_state == 'sent'&quot;]" position="before">
+            <div class="card mb-4" t-if="applicant.has_conditions">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>Admission Conditions</span>
+                    <span t-if="applicant.has_pending_conditions"
+                          class="badge text-bg-warning">
+                        <t t-esc="applicant.pending_condition_count"/> pending
+                    </span>
+                    <span t-else="" class="badge text-bg-success">All cleared</span>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted" t-if="applicant.has_pending_conditions">
+                        Your offer is conditional. Please address the pending
+                        conditions below; your enrolment is confirmed once all
+                        of them are cleared by the admissions team.
+                    </p>
+                    <div class="list-group">
+                        <div class="list-group-item" t-foreach="applicant.condition_ids" t-as="cond">
+                            <div class="d-flex justify-content-between align-items-start flex-wrap">
+                                <div class="me-3">
+                                    <h6 class="mb-1"><t t-esc="cond.name"/></h6>
+                                    <div class="small text-muted" t-if="cond.instructions">
+                                        <t t-esc="cond.instructions"/>
+                                    </div>
+                                </div>
+                                <span t-attf-class="badge #{'text-bg-success' if cond.state == 'satisfied' else ('text-bg-secondary' if cond.state == 'waived' else 'text-bg-warning')}">
+                                    <t t-esc="dict(cond._fields['state'].selection).get(cond.state)"/>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+
+        <!-- Let the offer-acceptance card also appear for a conditional offer. -->
+        <xpath expr="//div[@t-if=&quot;applicant.offer_state == 'sent'&quot;]" position="attributes">
+            <attribute name="t-if">applicant.offer_state in ('sent', 'conditional')</attribute>
+        </xpath>
+    </template>
+
+</odoo>

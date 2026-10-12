@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- 1) Incomplete application (draft) reminder -->
+        <record id="email_template_draft_reminder" model="mail.template">
+            <field name="name">Admission: Incomplete Application Reminder</field>
+            <field name="model_id" ref="model_univ_applicant"/>
+            <field name="subject">Complete your application - {{ object.application_no or 'Draft' }}</field>
+            <field name="email_from">{{ (object.company_id.email or user.email_formatted) }}</field>
+            <field name="email_to">{{ object.email }}</field>
+            <field name="body_html" type="html">
+                <div style="margin:0px;padding:0px;font-size:14px;">
+                    <p>Dear <t t-out="object.name or 'Applicant'"/>,</p>
+                    <p>We noticed your application to
+                        <t t-out="object.program_id.name or 'our university'"/>
+                        is still incomplete. You can pick up right where you left
+                        off and submit it from your portal.</p>
+                    <p>
+                        <a t-att-href="'/my/admission'"
+                           style="background:#14306b;color:#fff;padding:8px 16px;text-decoration:none;border-radius:4px;">
+                            Resume my application
+                        </a>
+                    </p>
+                    <p>If you have already submitted, please ignore this message.</p>
+                    <p>Regards,<br/>Admissions Office</p>
+                </div>
+            </field>
+            <field name="lang">{{ object.partner_id.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <!-- 2) Application deadline alert -->
+        <record id="email_template_deadline_alert" model="mail.template">
+            <field name="name">Admission: Application Deadline Alert</field>
+            <field name="model_id" ref="model_univ_applicant"/>
+            <field name="subject">Admission deadline approaching - {{ object.application_no or '' }}</field>
+            <field name="email_from">{{ (object.company_id.email or user.email_formatted) }}</field>
+            <field name="email_to">{{ object.email }}</field>
+            <field name="body_html" type="html">
+                <div style="margin:0px;padding:0px;font-size:14px;">
+                    <p>Dear <t t-out="object.name or 'Applicant'"/>,</p>
+                    <p>This is a reminder that the admission round
+                        <strong t-out="object.round_id.name or ''"/> closes on
+                        <strong t-out="object.round_id.end_date or ''"/>.</p>
+                    <p>Please make sure your application and required documents
+                        are complete before the closing date from your
+                        <a t-att-href="'/my/admission'">applicant portal</a>.</p>
+                    <p>Regards,<br/>Admissions Office</p>
+                </div>
+            </field>
+            <field name="lang">{{ object.partner_id.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <!-- 3) Registration opening (recipient: student) -->
+        <record id="email_template_registration_open" model="mail.template">
+            <field name="name">Admission: Course Registration Open</field>
+            <field name="model_id" ref="inom_university_core.model_univ_student"/>
+            <field name="subject">Course registration is now open</field>
+            <field name="email_from">{{ (object.company_id.email or user.email_formatted) }}</field>
+            <field name="email_to">{{ object.email }}</field>
+            <field name="body_html" type="html">
+                <div style="margin:0px;padding:0px;font-size:14px;">
+                    <p>Dear <t t-out="object.name or 'Student'"/>,</p>
+                    <p>Course registration for
+                        <t t-out="object.program_id.name or 'your program'"/>
+                        is now open. Please log in to your portal to proceed.</p>
+                    <p>
+                        <a t-att-href="'/my/home'"
+                           style="background:#14306b;color:#fff;padding:8px 16px;text-decoration:none;border-radius:4px;">
+                            Go to my portal
+                        </a>
+                    </p>
+                    <p>Regards,<br/>Registrar Office</p>
+                </div>
+            </field>
+            <field name="lang">{{ object.partner_id.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

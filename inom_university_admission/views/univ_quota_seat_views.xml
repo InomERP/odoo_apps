@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_univ_quota_seat_list" model="ir.ui.view">
+        <field name="name">univ.quota.seat.list</field>
+        <field name="model">univ.quota.seat</field>
+        <field name="arch" type="xml">
+            <list string="Seat Allocation" editable="bottom"
+                  decoration-danger="available_seats &lt;= 0 and capacity &gt; 0"
+                  decoration-warning="available_seats &gt; 0 and available_seats &lt;= 5">
+                <field name="program_id"/>
+                <field name="quota_id"/>
+                <field name="round_id"/>
+                <field name="capacity"/>
+                <field name="reserved_seats"/>
+                <field name="used_seats"/>
+                <field name="available_seats"/>
+                <field name="occupancy_rate" widget="percentage" string="Occupancy"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_univ_quota_seat_form" model="ir.ui.view">
+        <field name="name">univ.quota.seat.form</field>
+        <field name="model">univ.quota.seat</field>
+        <field name="arch" type="xml">
+            <form string="Seat Allocation">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="program_id"/>
+                            <field name="quota_id"/>
+                            <field name="round_id"/>
+                            <field name="capacity"/>
+                        </group>
+                        <group>
+                            <field name="reserved_seats"/>
+                            <field name="used_seats"/>
+                            <field name="available_seats"/>
+                            <field name="occupancy_rate" widget="percentage"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_univ_quota_seat_search" model="ir.ui.view">
+        <field name="name">univ.quota.seat.search</field>
+        <field name="model">univ.quota.seat</field>
+        <field name="arch" type="xml">
+            <search string="Seat Allocation">
+                <field name="program_id"/>
+                <field name="quota_id"/>
+                <field name="round_id"/>
+                <group>
+                    <filter name="group_program" string="Program"
+                            context="{'group_by': 'program_id'}"/>
+                    <filter name="group_quota" string="Quota"
+                            context="{'group_by': 'quota_id'}"/>
+                    <filter name="group_round" string="Round"
+                            context="{'group_by': 'round_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_univ_quota_seat" model="ir.actions.act_window">
+        <field name="name">Seat Allocation</field>
+        <field name="res_model">univ.quota.seat</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Set seat caps per quota, program and round</p>
+            <p>Availability is computed live from offered and enrolled applicants.</p>
+        </field>
+    </record>
+
+</odoo>
