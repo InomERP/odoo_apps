@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Home card -->
+    <template id="portal_my_home_registration"
+              name="Portal My Home : Registration"
+              inherit_id="portal.portal_my_home" priority="45">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <div class="o_portal_category row g-2 mt-3">
+                <t t-call="portal.portal_docs_entry">
+                    <t t-set="title">Course Registration</t>
+                    <t t-set="url" t-value="'/my/registration'"/>
+                    <t t-set="config_card" t-value="True"/>
+                    <t t-set="text">Register, add/drop courses and download confirmation</t>
+                    <t t-set="placeholder_count" t-value="'registration_count'"/>
+                </t>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- Registration page -->
+    <template id="portal_my_registration" name="My Course Registration">
+        <t t-call="portal.portal_layout">
+            <div class="container">
+                <h2 class="mb-3">Course Registration</h2>
+
+                <div t-if="flash" t-attf-class="alert alert-#{flash_type}" role="alert">
+                    <t t-esc="flash"/>
+                </div>
+
+                <div t-if="not student" class="alert alert-info" role="alert">
+                    <i class="fa fa-info-circle me-1"/>This portal account is not
+                    linked to an enrolled student record, so course registration
+                    is not available here.
+                </div>
+
+                <!-- Deposit / enrolment gate -->
+                <div t-if="blocked_reason" class="alert alert-warning" role="alert">
+                    <i class="fa fa-lock me-1"/><t t-esc="blocked_reason"/>
+                </div>
+
+                <t t-if="student and not period">
+                    <div class="alert alert-info" role="alert">
+                        No registration period has been configured for your
+                        program and semester yet. Please check back later.
+                    </div>
+                </t>
+
+                <t t-if="period">
+                    <!-- Window status -->
+                    <div class="card mb-4">
+                        <div class="card-body d-flex justify-content-between flex-wrap align-items-center">
+                            <div>
+                                <h5 class="mb-1"><t t-esc="period.name"/></h5>
+                                <div class="small text-muted">
+                                    Window: <t t-esc="period.open_datetime"/> &#8594;
+                                    <t t-esc="period.close_datetime"/>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <span t-attf-class="badge #{'text-bg-success' if period.is_open else 'text-bg-secondary'}">
+                                    <t t-esc="'Open' if period.is_open else ('Closed' if period.status == 'closed' else 'Upcoming')"/>
+                                </span>
+                                <div class="small mt-1" t-if="registration">
+                                    Credits: <strong t-esc="registration.total_credits"/> /
+                                    <t t-esc="period.credit_limit"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- My courses -->
+                    <div class="card mb-4">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <span>My Courses</span>
+                            <a t-if="registration and registration.registered_course_count"
+                               href="/my/registration/confirmation"
+                               class="btn btn-sm btn-outline-secondary">
+                                <i class="fa fa-download me-1"/>Confirmation PDF
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <t t-set="my_lines" t-value="registration.line_ids.filtered(lambda l: l.state in ('registered', 'waitlisted')) if registration else []"/>
+                            <t t-if="not my_lines">
+                                <div class="text-muted">You have not registered any courses yet.</div>
+                            </t>
+                            <table t-if="my_lines" class="table table-sm align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Course</th><th>Type</th><th>Credits</th>
+                                        <th>Status</th><th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="my_lines" t-as="line">
+                                        <td><t t-esc="line.subject_id.name"/></td>
+                                        <td><t t-esc="line.subject_type"/></td>
+                                        <td><t t-esc="line.credit_hours"/></td>
+                                        <td>
+                                            <span t-attf-class="badge #{'text-bg-success' if line.state == 'registered' else 'text-bg-warning'}">
+                                                <t t-esc="line.state"/>
+                                                <t t-if="line.state == 'waitlisted'"> #<t t-esc="line.waitlist_position"/></t>
+                                            </span>
+                                        </td>
+                                        <td class="text-end">
+                                            <form t-if="period.is_open" action="/my/registration/drop" method="post" class="mb-0">
+                                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                <input type="hidden" name="line_id" t-att-value="line.id"/>
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">Drop</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Available courses -->
+                    <div class="card mb-4" t-if="not blocked_reason and period.is_open">
+                        <div class="card-header">Available Courses</div>
+                        <div class="card-body">
+                            <t t-if="not available_offerings">
+                                <div class="text-muted">No further courses available to register.</div>
+                            </t>
+                            <table t-if="available_offerings" class="table table-sm align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Course</th><th>Type</th><th>Credits</th>
+                                        <th>Seats</th><th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="available_offerings" t-as="off">
+                                        <td><t t-esc="off.subject_id.name"/></td>
+                                        <td><t t-esc="off.subject_type"/></td>
+                                        <td><t t-esc="off.credit_hours"/></td>
+                                        <td>
+                                            <t t-if="off.is_full"><span class="badge text-bg-danger">Full</span></t>
+                                            <t t-else=""><t t-esc="off.available_seats"/> / <t t-esc="off.capacity"/></t>
+                                        </td>
+                                        <td class="text-end">
+                                            <form action="/my/registration/add" method="post" class="mb-0">
+                                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                <input type="hidden" name="offering_id" t-att-value="off.id"/>
+                                                <button type="submit" t-attf-class="btn btn-sm #{'btn-outline-warning' if off.is_full else 'btn-primary'}">
+                                                    <t t-if="off.is_full">Join Waitlist</t>
+                                                    <t t-else="">Add</t>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div t-if="not period.is_open and not blocked_reason" class="alert alert-secondary" role="alert">
+                        The registration window is currently closed. Add/drop is
+                        only available between the open and close dates.
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+</odoo>

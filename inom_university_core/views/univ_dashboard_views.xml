@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_univ_student_graph" model="ir.ui.view">
+        <field name="name">univ.student.graph</field>
+        <field name="model">univ.student</field>
+        <field name="arch" type="xml">
+            <graph string="Students" type="bar" sample="1">
+                <field name="program_id"/>
+                <field name="state"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_univ_student_pivot" model="ir.ui.view">
+        <field name="name">univ.student.pivot</field>
+        <field name="model">univ.student</field>
+        <field name="arch" type="xml">
+            <pivot string="Students" sample="1">
+                <field name="program_id" type="row"/>
+                <field name="batch_id" type="row"/>
+                <field name="state" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_univ_dashboard_students" model="ir.actions.act_window">
+        <field name="name">Student Analytics</field>
+        <field name="res_model">univ.student</field>
+        <field name="view_mode">graph,pivot,list,kanban</field>
+        <field name="context">{'search_default_active_students': 1, 'search_default_group_program': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No student data yet</p>
+            <p>This dashboard summarises active students by program and batch.</p>
+        </field>
+    </record>
+
+    <record id="view_univ_faculty_graph" model="ir.ui.view">
+        <field name="name">univ.faculty.graph</field>
+        <field name="model">univ.faculty</field>
+        <field name="arch" type="xml">
+            <graph string="Faculty" type="bar" sample="1">
+                <field name="department_id"/>
+                <field name="designation"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_univ_dashboard_faculty" model="ir.actions.act_window">
+        <field name="name">Faculty Analytics</field>
+        <field name="res_model">univ.faculty</field>
+        <field name="view_mode">graph,pivot,list</field>
+        <field name="context">{'search_default_group_department': 1}</field>
+    </record>
+
+</odoo>

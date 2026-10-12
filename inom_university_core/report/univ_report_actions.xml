@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_univ_student_master" model="ir.actions.report">
+        <field name="name">Student Master List</field>
+        <field name="model">univ.student</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inom_university_core.report_univ_student_master</field>
+        <field name="report_file">inom_university_core.report_univ_student_master</field>
+        <field name="binding_model_id" ref="model_univ_student"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="action_report_univ_faculty_master" model="ir.actions.report">
+        <field name="name">Faculty Master List</field>
+        <field name="model">univ.faculty</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inom_university_core.report_univ_faculty_master</field>
+        <field name="report_file">inom_university_core.report_univ_faculty_master</field>
+        <field name="binding_model_id" ref="model_univ_faculty"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="action_report_univ_academic_structure" model="ir.actions.report">
+        <field name="name">Academic Structure Tree</field>
+        <field name="model">univ.program</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inom_university_core.report_univ_academic_structure</field>
+        <field name="report_file">inom_university_core.report_univ_academic_structure</field>
+        <field name="binding_model_id" ref="model_univ_program"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_univ_exam_reevaluation" model="ir.sequence">
+            <field name="name">University Re-evaluation</field>
+            <field name="code">univ.exam.reevaluation</field>
+            <field name="prefix">REEVAL/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="implementation">standard</field>
+        </record>
+    </data>
+</odoo>

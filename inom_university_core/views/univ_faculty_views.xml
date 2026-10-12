@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_univ_faculty_list" model="ir.ui.view">
+        <field name="name">univ.faculty.list</field>
+        <field name="model">univ.faculty</field>
+        <field name="arch" type="xml">
+            <list string="Faculty &amp; Staff">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="designation"/>
+                <field name="department_id"/>
+                <field name="faculty_type"/>
+                <field name="subject_count" string="Subjects"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_univ_faculty_form" model="ir.ui.view">
+        <field name="name">univ.faculty.form</field>
+        <field name="model">univ.faculty</field>
+        <field name="arch" type="xml">
+            <form string="Faculty">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_subjects" type="object"
+                                class="oe_stat_button" icon="fa-book">
+                            <field name="subject_count" widget="statinfo" string="Subjects"/>
+                        </button>
+                    </div>
+                    <field name="image_1920" widget="image" class="oe_avatar"/>
+                    <widget name="web_ribbon" title="Archived"
+                            bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="Faculty name"/></h1>
+                        <h3><field name="code" readonly="1" placeholder="Code (auto)"/></h3>
+                    </div>
+                    <group>
+                        <group string="Academic">
+                            <field name="department_id"/>
+                            <field name="faculty_school_id" readonly="1"/>
+                            <field name="designation"/>
+                            <field name="faculty_type"/>
+                        </group>
+                        <group string="Profile">
+                            <field name="partner_id" readonly="1"/>
+                            <field name="qualification"/>
+                            <field name="experience_years"/>
+                            <field name="joining_date"/>
+                            <field name="gender"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Contact" name="contact">
+                            <group>
+                                <field name="email" widget="email"/>
+                                <field name="phone" widget="phone"/>
+                                <field name="mobile" widget="phone"/>
+                            </group>
+                        </page>
+                        <page string="Subjects" name="subjects">
+                            <field name="subject_ids" widget="many2many_tags"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_univ_faculty_kanban" model="ir.ui.view">
+        <field name="name">univ.faculty.kanban</field>
+        <field name="model">univ.faculty</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="department_id">
+                <field name="department_id"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="o_kanban_record_top mb8">
+                            <div class="o_kanban_image me-2">
+                                <img t-att-src="kanban_image('univ.faculty', 'image_1920', record.id.raw_value)"
+                                     alt="Photo" class="o_image_64_cover"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title">
+                                    <field name="name"/>
+                                </strong>
+                                <div class="text-muted">
+                                    <field name="code"/>
+                                </div>
+                                <div>
+                                    <field name="designation"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_univ_faculty_search" model="ir.ui.view">
+        <field name="name">univ.faculty.search</field>
+        <field name="model">univ.faculty</field>
+        <field name="arch" type="xml">
+            <search string="Faculty">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="department_id"/>
+                <filter name="teaching" string="Teaching" domain="[('faculty_type', '=', 'teaching')]"/>
+                <filter name="non_teaching" string="Non-Teaching" domain="[('faculty_type', '=', 'non_teaching')]"/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_department" string="Department"
+                            context="{'group_by': 'department_id'}"/>
+                    <filter name="group_designation" string="Designation"
+                            context="{'group_by': 'designation'}"/>
+                    <filter name="group_type" string="Staff Type"
+                            context="{'group_by': 'faculty_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_univ_faculty" model="ir.actions.act_window">
+        <field name="name">Faculty &amp; Staff</field>
+        <field name="res_model">univ.faculty</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create the first faculty member</p>
+            <p>Faculty records hold designation, qualifications and subject allocation.</p>
+        </field>
+    </record>
+
+</odoo>

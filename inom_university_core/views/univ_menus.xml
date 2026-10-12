@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Root -->
+    <menuitem id="menu_univ_root" name="University"
+              web_icon="inom_university_core,static/description/icon.png"
+              sequence="50"
+              groups="inom_university_core.group_univ_faculty"/>
+
+    <!-- ============ STUDENTS ============ -->
+    <menuitem id="menu_univ_students" name="Students"
+              parent="menu_univ_root" sequence="10"
+              groups="inom_university_core.group_univ_faculty"/>
+    <menuitem id="menu_univ_student_records" name="Students"
+              parent="menu_univ_students" action="action_univ_student" sequence="10"/>
+
+    <!-- ============ FACULTY ============ -->
+    <menuitem id="menu_univ_faculty_top" name="Faculty"
+              parent="menu_univ_root" sequence="20"
+              groups="inom_university_core.group_univ_faculty"/>
+    <menuitem id="menu_univ_faculty_records" name="Faculty &amp; Staff"
+              parent="menu_univ_faculty_top" action="action_univ_faculty" sequence="10"/>
+
+    <!-- ============ MASTERS (registrar) ============ -->
+    <menuitem id="menu_univ_masters" name="Masters"
+              parent="menu_univ_root" sequence="30"
+              groups="inom_university_core.group_univ_registrar"/>
+    <menuitem id="menu_univ_master_program" name="Programs"
+              parent="menu_univ_masters" action="action_univ_program" sequence="10"/>
+    <menuitem id="menu_univ_master_batch" name="Batches"
+              parent="menu_univ_masters" action="action_univ_batch" sequence="20"/>
+    <menuitem id="menu_univ_master_semester" name="Semesters"
+              parent="menu_univ_masters" action="action_univ_semester" sequence="30"/>
+    <menuitem id="menu_univ_master_section" name="Sections"
+              parent="menu_univ_masters" action="action_univ_section" sequence="40"/>
+    <menuitem id="menu_univ_master_subject" name="Subjects"
+              parent="menu_univ_masters" action="action_univ_subject" sequence="50"/>
+    <menuitem id="menu_univ_master_elective" name="Elective Groups"
+              parent="menu_univ_masters" action="action_univ_subject_elective_group" sequence="60"/>
+
+    <!-- ============ REPORTING / DASHBOARD ============ -->
+    <menuitem id="menu_univ_reporting" name="Reporting"
+              parent="menu_univ_root" sequence="40"
+              groups="inom_university_core.group_univ_registrar"/>
+    <menuitem id="menu_univ_dashboard_students" name="Student Analytics"
+              parent="menu_univ_reporting" action="action_univ_dashboard_students" sequence="10"/>
+    <menuitem id="menu_univ_dashboard_faculty" name="Faculty Analytics"
+              parent="menu_univ_reporting" action="action_univ_dashboard_faculty" sequence="20"/>
+    <menuitem id="menu_univ_reporting_audit" name="Audit Log"
+              parent="menu_univ_reporting" action="action_univ_audit_log" sequence="30"
+              groups="inom_university_core.group_univ_admin"/>
+
+    <!-- ============ CONFIGURATION (admin) ============ -->
+    <menuitem id="menu_univ_config" name="Configuration"
+              parent="menu_univ_root" sequence="90"
+              groups="inom_university_core.group_univ_admin"/>
+    <menuitem id="menu_univ_config_faculty_school" name="Faculties / Schools"
+              parent="menu_univ_config" action="action_univ_faculty_school" sequence="10"/>
+    <menuitem id="menu_univ_config_department" name="Departments"
+              parent="menu_univ_config" action="action_univ_department" sequence="20"/>
+
+</odoo>
