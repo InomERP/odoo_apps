@@ -25,5 +25,9 @@ edited afterwards is exactly the failure this register exists to prevent.
         'data/notification_data.xml',
         'data/backend_menu_build.xml',
     ],
+
+    'images': [
+        'static/description/banner.png',
+    ],
     'installable': True,
 }

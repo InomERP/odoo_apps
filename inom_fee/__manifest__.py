@@ -34,5 +34,9 @@ depends on it.
         'data/backend_menu_build.xml',
         'security/ir.access.csv',
     ],
+
+    'images': [
+        'static/description/banner.png',
+    ],
     'installable': True,
 }
