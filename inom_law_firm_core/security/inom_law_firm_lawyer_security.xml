@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Let Law Firm administrators manage lawyer HR records -->
+    <record id="inom_law_firm_core.group_law_firm_admin" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('hr.group_hr_user'))]"/>
+    </record>
+</odoo>

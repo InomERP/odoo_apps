@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_law_lawyer"
+              name="Lawyers"
+              parent="inom_law_firm_core.menu_law_sec_team"
+              action="action_law_lawyer"
+              sequence="10"
+              groups="inom_law_firm_core.group_law_firm_user"/>
+
+    <menuitem id="menu_law_specialization"
+              name="Specializations"
+              parent="inom_law_firm_core.menu_law_firm_configuration"
+              action="action_law_specialization"
+              sequence="80"
+              groups="inom_law_firm_core.group_law_firm_admin"/>
+</odoo>

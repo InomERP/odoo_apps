@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_saleorder_document_inherit_image"
+              inherit_id="sale.report_saleorder_document">
+
+        <xpath expr="//th[@name='th_description']" position="before">
+            <th name="th_product_image">
+                <t t-set="colspan_count" t-value="colspan_count + 1"/>
+                Image
+            </th>
+        </xpath>
+
+        <xpath expr="//td[@name='td_product_name']" position="before">
+            <td name="td_product_image" class="text-center">
+                <t t-if="line.product_image">
+                    <img t-att-src="image_data_uri(line.product_image)"
+                         style="max-height:50px; max-width:50px;"/>
+                </t>
+            </td>
+        </xpath>
+
+        <!-- Keep combo and section summary rows aligned with the extra column -->
+        <xpath expr="//td[@name='td_combo_name']" position="before">
+            <td name="td_combo_image"/>
+        </xpath>
+        <xpath expr="//td[@name='td_combo_price']" position="attributes">
+            <attribute name="t-att-colspan">colspan_count - 2</attribute>
+        </xpath>
+        <xpath expr="//td[@name='td_section_group_name']" position="before">
+            <td name="td_section_group_image"/>
+        </xpath>
+
+    </template>
+
+</odoo>
