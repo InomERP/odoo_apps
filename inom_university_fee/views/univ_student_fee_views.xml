@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_univ_student_form_fee" model="ir.ui.view">
+        <field name="name">univ.student.form.fee</field>
+        <field name="model">univ.student</field>
+        <field name="inherit_id" ref="inom_university_core.view_univ_student_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('oe_title')]" position="before">
+                <div class="oe_button_box" name="fee_button_box">
+                    <button name="action_view_fee_invoices" type="object"
+                            class="oe_stat_button" icon="fa-file-text-o">
+                        <field name="fee_invoice_count" widget="statinfo"
+                               string="Fee Invoices"/>
+                    </button>
+                    <button name="action_view_ledger" type="object"
+                            class="oe_stat_button" icon="fa-book">
+                        <div class="o_stat_info">
+                            <field name="outstanding_amount" widget="monetary"/>
+                            <span class="o_stat_text">Outstanding</span>
+                        </div>
+                    </button>
+                </div>
+                <field name="company_currency_id" invisible="1"/>
+                <field name="is_fee_defaulter" invisible="1"/>
+                <widget name="web_ribbon" title="Fee Defaulter"
+                        bg_color="text-bg-danger" invisible="not is_fee_defaulter"/>
+            </xpath>
+            <xpath expr="//field[@name='category']" position="after">
+                <field name="fee_quota_id"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

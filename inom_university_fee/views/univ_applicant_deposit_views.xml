@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Phase 4 - Deposit info + actions on the applicant form. Inherited from
+         the fee module so the admission module stays untouched. -->
+    <record id="view_univ_applicant_form_deposit" model="ir.ui.view">
+        <field name="name">univ.applicant.form.deposit</field>
+        <field name="model">univ.applicant</field>
+        <field name="inherit_id" ref="inom_university_admission.view_univ_applicant_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Header: generate / view deposit invoice -->
+            <xpath expr="//button[@name='action_accept_offer']" position="after">
+                <button name="action_generate_deposit_invoice" type="object"
+                        string="Generate Deposit Invoice"
+                        invisible="offer_state != 'accepted' or deposit_move_id or is_enrolled"/>
+            </xpath>
+
+            <!-- Stat button: open the deposit invoice -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_deposit_invoice" type="object"
+                        class="oe_stat_button" icon="fa-money"
+                        invisible="not deposit_move_id">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Deposit</span>
+                    </div>
+                </button>
+            </xpath>
+
+            <!-- Deposit KPIs next to the existing fee fields -->
+            <xpath expr="//field[@name='fee_state']" position="after">
+                <field name="deposit_required" invisible="1"/>
+                <field name="deposit_state"
+                       invisible="not deposit_required and deposit_state == 'not_generated'"/>
+                <field name="deposit_amount"
+                       invisible="not deposit_required"/>
+                <field name="deposit_move_id" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

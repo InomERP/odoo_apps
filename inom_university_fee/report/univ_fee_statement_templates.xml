@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_fee_statement_document">
+        <t t-call="web.external_layout">
+            <div class="page">
+                <h3 class="mt-0">Fee Statement</h3>
+                <div class="row mt-2">
+                    <div class="col-6">
+                        <strong>Student: </strong><span t-field="doc.name"/><br/>
+                        <strong>Enrolment: </strong><span t-field="doc.enrolment_no"/>
+                    </div>
+                    <div class="col-6 text-end">
+                        <strong>Program: </strong><span t-field="doc.program_id"/><br/>
+                        <strong>Semester: </strong><span t-field="doc.semester_id"/>
+                    </div>
+                </div>
+
+                <table class="table table-sm mt-4">
+                    <thead>
+                        <tr>
+                            <th>Reference</th>
+                            <th>Invoice Date</th>
+                            <th>Due Date</th>
+                            <th class="text-end">Total</th>
+                            <th class="text-end">Paid</th>
+                            <th class="text-end">Residual</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="doc.fee_invoice_ids.filtered(lambda i: i.move_state == 'posted')"
+                            t-as="inv">
+                            <td><span t-field="inv.name"/></td>
+                            <td><span t-field="inv.invoice_date"/></td>
+                            <td><span t-field="inv.due_date"/></td>
+                            <td class="text-end"><span t-field="inv.amount_total"/></td>
+                            <td class="text-end"><span t-field="inv.amount_paid"/></td>
+                            <td class="text-end"><span t-field="inv.amount_residual"/></td>
+                            <td><span t-field="inv.state"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="row">
+                    <div class="col-6"/>
+                    <div class="col-6">
+                        <table class="table table-sm">
+                            <tr>
+                                <td><strong>Total Invoiced</strong></td>
+                                <td class="text-end"><span t-field="doc.total_invoiced"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Total Paid</strong></td>
+                                <td class="text-end"><span t-field="doc.total_paid"/></td>
+                            </tr>
+                            <tr class="border-black">
+                                <td><strong>Outstanding</strong></td>
+                                <td class="text-end">
+                                    <strong><span t-field="doc.outstanding_amount"/></strong>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_fee_statement">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="inom_university_fee.report_fee_statement_document"/>
+            </t>
+        </t>
+    </template>
+
+</odoo>

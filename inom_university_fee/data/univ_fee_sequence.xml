@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="seq_univ_fee_invoice" model="ir.sequence">
+            <field name="name">University Fee Invoice</field>
+            <field name="code">univ.fee.invoice</field>
+            <field name="prefix">FEE/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="implementation">standard</field>
+        </record>
+
+        <record id="seq_univ_fee_installment_plan" model="ir.sequence">
+            <field name="name">University Installment Plan</field>
+            <field name="code">univ.fee.installment.plan</field>
+            <field name="prefix">EMI/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="implementation">standard</field>
+        </record>
+
+        <record id="seq_univ_fee_refund_request" model="ir.sequence">
+            <field name="name">University Fee Refund</field>
+            <field name="code">univ.fee.refund.request</field>
+            <field name="prefix">REF/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="implementation">standard</field>
+        </record>
+
+        <record id="seq_univ_scholarship_award" model="ir.sequence">
+            <field name="name">University Scholarship Award</field>
+            <field name="code">univ.scholarship.award</field>
+            <field name="prefix">SCH/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="implementation">standard</field>
+        </record>
+
+        <record id="seq_univ_fee_waiver" model="ir.sequence">
+            <field name="name">University Fee Waiver</field>
+            <field name="code">univ.fee.waiver</field>
+            <field name="prefix">WVR/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="implementation">standard</field>
+        </record>
+
+    </data>
+</odoo>

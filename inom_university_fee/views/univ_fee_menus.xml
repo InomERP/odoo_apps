@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_univ_fees_root"
+              name="Fees"
+              parent="inom_university_core.menu_univ_root"
+              sequence="40"
+              groups="group_univ_accounts_officer,group_univ_counter_staff"/>
+
+    <!-- Operations -->
+    <menuitem id="menu_univ_fee_structure"
+              name="Fee Structures"
+              parent="menu_univ_fees_root"
+              action="action_univ_fee_structure"
+              sequence="10"/>
+
+    <menuitem id="menu_univ_fee_invoice"
+              name="Invoices"
+              parent="menu_univ_fees_root"
+              action="action_univ_fee_invoice"
+              sequence="20"/>
+
+    <menuitem id="menu_univ_fee_bulk_invoice"
+              name="Generate Invoices"
+              parent="menu_univ_fees_root"
+              action="action_univ_fee_bulk_invoice_wizard"
+              sequence="30"
+              groups="group_univ_accounts_officer"/>
+
+    <menuitem id="menu_univ_fee_installment"
+              name="Installment Plans"
+              parent="menu_univ_fees_root"
+              action="action_univ_fee_installment_plan"
+              sequence="40"/>
+
+    <menuitem id="menu_univ_fee_refund"
+              name="Refund Requests"
+              parent="menu_univ_fees_root"
+              action="action_univ_fee_refund"
+              sequence="50"/>
+
+    <menuitem id="menu_univ_fee_waiver"
+              name="Fee Waivers"
+              parent="menu_univ_fees_root"
+              action="action_univ_fee_waiver"
+              sequence="55"/>
+
+    <!-- Scholarships -->
+    <menuitem id="menu_univ_scholarship_root"
+              name="Scholarships"
+              parent="menu_univ_fees_root"
+              sequence="60"/>
+    <menuitem id="menu_univ_scholarship_scheme"
+              name="Schemes"
+              parent="menu_univ_scholarship_root"
+              action="action_univ_scholarship_scheme"
+              sequence="10"/>
+    <menuitem id="menu_univ_scholarship_award"
+              name="Awards"
+              parent="menu_univ_scholarship_root"
+              action="action_univ_scholarship_award"
+              sequence="20"/>
+    <menuitem id="menu_univ_scholarship_assign"
+              name="Assign Scholarship"
+              parent="menu_univ_scholarship_root"
+              action="action_univ_scholarship_assign_wizard"
+              sequence="30"
+              groups="group_univ_accounts_officer"/>
+
+    <!-- Reports / Dashboard -->
+    <menuitem id="menu_univ_fee_reporting"
+              name="Reporting"
+              parent="menu_univ_fees_root"
+              sequence="70"/>
+    <menuitem id="menu_univ_fee_dashboard"
+              name="Dashboard"
+              parent="menu_univ_fee_reporting"
+              action="action_univ_fee_dashboard"
+              sequence="10"/>
+    <menuitem id="menu_univ_fee_collection_report"
+              name="Fee Collection"
+              parent="menu_univ_fee_reporting"
+              action="action_univ_fee_collection_report"
+              sequence="20"/>
+    <menuitem id="menu_univ_fee_outstanding_report"
+              name="Outstanding Dues"
+              parent="menu_univ_fee_reporting"
+              action="action_univ_fee_outstanding_report"
+              sequence="30"/>
+    <menuitem id="menu_univ_fee_collection_program"
+              name="Program-wise"
+              parent="menu_univ_fee_reporting"
+              action="action_univ_fee_collection_program"
+              sequence="40"/>
+    <menuitem id="menu_univ_fee_collection_semester"
+              name="Semester-wise"
+              parent="menu_univ_fee_reporting"
+              action="action_univ_fee_collection_semester"
+              sequence="50"/>
+    <menuitem id="menu_univ_fee_collection_batch"
+              name="Batch-wise"
+              parent="menu_univ_fee_reporting"
+              action="action_univ_fee_collection_batch"
+              sequence="60"/>
+    <menuitem id="menu_univ_fee_waiver_report"
+              name="Waiver Report"
+              parent="menu_univ_fee_reporting"
+              action="action_univ_fee_waiver_report"
+              sequence="70"/>
+    <menuitem id="menu_univ_scholarship_disbursement_report"
+              name="Scholarship Disbursement"
+              parent="menu_univ_fee_reporting"
+              action="action_univ_scholarship_disbursement_report"
+              sequence="80"/>
+
+    <!-- Configuration -->
+    <menuitem id="menu_univ_fee_config"
+              name="Configuration"
+              parent="menu_univ_fees_root"
+              sequence="90"
+              groups="group_univ_accounts_officer"/>
+    <menuitem id="menu_univ_fee_head"
+              name="Fee Heads"
+              parent="menu_univ_fee_config"
+              action="action_univ_fee_head"
+              sequence="10"/>
+    <menuitem id="menu_univ_fee_category"
+              name="Fee Categories"
+              parent="menu_univ_fee_config"
+              action="action_univ_fee_category"
+              sequence="20"/>
+    <menuitem id="menu_univ_fee_group"
+              name="Fee Groups"
+              parent="menu_univ_fee_config"
+              action="action_univ_fee_group"
+              sequence="30"/>
+    <menuitem id="menu_univ_academic_session"
+              name="Academic Sessions"
+              parent="menu_univ_fee_config"
+              action="action_univ_academic_session"
+              sequence="40"/>
+    <menuitem id="menu_univ_fee_quota"
+              name="Quotas"
+              parent="menu_univ_fee_config"
+              action="action_univ_fee_quota"
+              sequence="50"/>
+
+</odoo>

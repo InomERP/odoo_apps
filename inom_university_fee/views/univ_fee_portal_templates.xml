@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_my_home_fees" name="Portal My Home: Fees"
+              inherit_id="portal.portal_my_home" priority="50">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Fees</t>
+                <t t-set="url" t-value="'/my/fees'"/>
+                <t t-set="placeholder_count" t-value="'fee_invoice_count'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_fees" name="My Fees">
+        <t t-call="portal.portal_layout">
+            <div class="container">
+                <h2 class="mb-3">My Fees</h2>
+
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <div class="text-muted">Invoiced</div>
+                                <h4>
+                                    <span t-out="totals['invoiced']"
+                                          t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <div class="text-muted">Paid</div>
+                                <h4 class="text-success">
+                                    <span t-out="totals['paid']"
+                                          t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <div class="text-muted">Outstanding</div>
+                                <h4 class="text-danger">
+                                    <span t-out="totals['outstanding']"
+                                          t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <t t-if="not fee_invoices">
+                    <div class="alert alert-info" role="alert">
+                        You have no fee invoices yet.
+                    </div>
+                </t>
+
+                <div t-if="totals['outstanding'] &gt; 0" class="alert alert-warning" role="alert">
+                    You have an outstanding balance of
+                    <strong><span t-out="totals['outstanding']"
+                                  t-options="{'widget': 'monetary', 'display_currency': currency}"/></strong>.
+                </div>
+
+                <table class="table table-hover align-middle" t-if="fee_invoices">
+                    <thead>
+                        <tr>
+                            <th>Reference</th>
+                            <th>Due Date</th>
+                            <th class="text-end">Total</th>
+                            <th class="text-end">Residual</th>
+                            <th>Status</th>
+                            <th class="text-end">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="fee_invoices" t-as="inv">
+                            <td><span t-out="inv.name"/></td>
+                            <td><span t-out="inv.due_date"/></td>
+                            <td class="text-end">
+                                <span t-out="inv.amount_total"
+                                      t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                            </td>
+                            <td class="text-end">
+                                <span t-out="inv.amount_residual"
+                                      t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                            </td>
+                            <td>
+                                <span t-attf-class="badge #{'text-bg-success' if inv.state == 'paid' else ('text-bg-warning' if inv.state == 'partial' else 'text-bg-info')}">
+                                    <t t-out="state_labels.get(inv.state, inv.state)"/>
+                                </span>
+                            </td>
+                            <td class="text-end">
+                                <t t-set="url" t-value="invoice_urls.get(inv.id)"/>
+                                <a t-if="url and inv.state in ('open', 'partial')"
+                                   t-att-href="url" class="btn btn-sm btn-primary">
+                                    Pay Now
+                                </a>
+                                <a t-if="url and inv.state not in ('open', 'partial')"
+                                   t-att-href="url" class="btn btn-sm btn-outline-secondary">
+                                    View
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="text-muted small">
+                    Click <strong>Pay Now</strong> to pay securely online. Receipts and
+                    invoice PDFs are available on the invoice page.
+                </p>
+            </div>
+        </t>
+    </template>
+
+</odoo>

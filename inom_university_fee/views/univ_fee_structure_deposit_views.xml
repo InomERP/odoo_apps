@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Phase 4 - Deposit percentage on the fee structure form. -->
+    <record id="view_univ_fee_structure_form_deposit" model="ir.ui.view">
+        <field name="name">univ.fee.structure.form.deposit</field>
+        <field name="model">univ.fee.structure</field>
+        <field name="inherit_id" ref="inom_university_fee.view_univ_fee_structure_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='quota_id']" position="after">
+                <field name="deposit_percentage"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
