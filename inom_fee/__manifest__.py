@@ -23,7 +23,7 @@ depends on it.
     # account and account_payment are declared directly rather than relied on
     # transitively: a dependency that resolves by accident today breaks on the
     # first install where the other module is absent.
-    'depends': ['inom_portal', 'inom_student', 'account', 'account_payment'],
+    'depends': ['account', 'account_payment'],
     'data': [
         'security/inom_fee_rules.xml',
         'reports/fee_receipt.xml',
