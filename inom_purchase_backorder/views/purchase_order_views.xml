@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Part of Inomerp. See LICENSE file for full copyright and licensing details. -->
+<odoo>
+
+    <!--
+        Add the backorder status indicator to the Purchase Orders list view.
+        The "Purchase Orders" action uses purchase.purchase_order_view_tree,
+        which lists confirmed orders where backorders are relevant.
+    -->
+    <record id="purchase_order_view_tree_inom_backorder" model="ir.ui.view">
+        <field name="name">purchase.order.list.inom.backorder</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_status']" position="after">
+                <field name="has_backorder"
+                       string="Backorder"
+                       optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!--
+        Show the backorder status inside the Purchase Order information group,
+        directly below "Expected Arrival". It is rendered as a native
+        label + value row (matching the surrounding date fields) and is only
+        visible when the order has an associated incoming backorder receipt.
+    -->
+    <record id="purchase_order_form_inom_backorder" model="ir.ui.view">
+        <field name="name">purchase.order.form.inom.backorder</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='date_planned_div']" position="after">
+                <field name="has_backorder" invisible="1"/>
+                <label for="has_backorder" string="Backorder Status"
+                       invisible="not has_backorder"/>
+                <div name="inom_backorder_status" class="o_row"
+                     invisible="not has_backorder">
+                    <span class="badge text-bg-warning"
+                          title="This purchase order has an associated backorder receipt.">
+                        <i class="fa fa-cubes me-1" role="img" aria-label="Backorder"/>Backorder
+                    </span>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!--
+        Add a "Has Backorder" filter to the Purchase Orders search view so that
+        users can quickly list only the orders that currently have a backorder.
+    -->
+    <record id="purchase_order_view_search_inom_backorder" model="ir.ui.view">
+        <field name="name">purchase.order.search.inom.backorder</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_view_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='invoiced']" position="after">
+                <separator/>
+                <filter name="has_backorder"
+                        string="Has Backorder"
+                        domain="[('has_backorder', '=', True)]"
+                        help="Purchase orders that currently have an associated backorder receipt."/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
