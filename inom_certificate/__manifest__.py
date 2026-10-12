@@ -15,7 +15,7 @@ edited afterwards is exactly the failure this register exists to prevent.
     "version": "20.0.1.0.0",
     'category': 'Education',
     'license': 'LGPL-3',
-    'depends': ['inom_portal', 'inom_student'],
+    'depends': [''],
     'data': [
         'security/ir.access.csv',
         'data/ir_sequence.xml',
