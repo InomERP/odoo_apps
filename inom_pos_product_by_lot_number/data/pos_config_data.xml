@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!--
+            Reserved for seed data.
+
+            All default values are already declared at the Python field level
+            (default=True/False/N), so no records need to be created here.
+            The file exists so the manifest data list is stable across phases.
+        -->
+    </data>
+</odoo>

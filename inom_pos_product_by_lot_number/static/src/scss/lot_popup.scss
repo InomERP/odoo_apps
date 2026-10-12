@@ -1,0 +1,410 @@
+// ─────────────────────────────────────────────────────────────────────
+// LotSelectionPopup — final styles (Phases 2-6)
+// Premium feel, POS-friendly large touch targets, mobile-safe.
+// ─────────────────────────────────────────────────────────────────────
+
+.iml-lot-popup-dialog {
+    max-width: 640px;
+    width: 100%;
+}
+
+.iml-lot-popup {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 14px;
+    color: #2a2e36;
+    max-height: 75vh;
+
+    // ── Header ─────────────────────────────────────────────────────
+    .iml-lot-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+        padding: 4px 2px 2px;
+
+        .iml-tracking-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+
+            &.iml-badge-serial {
+                background: #fff3e0;
+                color: #b35a00;
+                border: 1px solid #ffd699;
+            }
+            &.iml-badge-lot {
+                background: #e9f3ff;
+                color: #1a4a8a;
+                border: 1px solid #bfdcff;
+            }
+        }
+        .iml-selected-summary {
+            font-size: 13px;
+            color: #4a5060;
+
+            .iml-selected-count { font-weight: 700; color: #0061fb; }
+            .iml-selected-qty   { margin-left: 4px; color: #6b7280; }
+        }
+    }
+
+    // ── Search bar ─────────────────────────────────────────────────
+    .iml-lot-search {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .iml-search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9aa0ab;
+            pointer-events: none;
+            font-size: 13px;
+        }
+        .iml-search-input {
+            flex: 1;
+            padding: 11px 14px 11px 34px;
+            border: 1.5px solid #e1e5ec;
+            border-radius: 10px;
+            font-size: 15px;
+            background: #fafbfd;
+            transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+
+            &::placeholder { color: #a8aebb; }
+            &:focus {
+                outline: none;
+                border-color: #0061fb;
+                background: #ffffff;
+                box-shadow: 0 0 0 3px rgba(0, 97, 251, 0.12);
+            }
+        }
+        .iml-manual-add,
+        .iml-create-toggle {
+            white-space: nowrap;
+            padding: 8px 14px;
+            font-weight: 600;
+            border-radius: 8px;
+        }
+    }
+
+    // ── Phase 4: Create form ───────────────────────────────────────
+    .iml-create-form {
+        background: #f7faff;
+        border: 1.5px solid #bfdcff;
+        border-radius: 10px;
+        padding: 12px 14px;
+        animation: imlSlideDown 0.18s ease-out;
+
+        .iml-create-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: #1a4a8a;
+            margin-bottom: 10px;
+
+            i:first-child { color: #0061fb; }
+            span { flex: 1; }
+
+            .iml-create-close {
+                background: transparent;
+                border: none;
+                color: #6b7280;
+                padding: 4px 8px;
+                cursor: pointer;
+                border-radius: 6px;
+                &:hover { background: #e1e5ec; color: #2a2e36; }
+            }
+        }
+        .iml-create-body { display: flex; flex-direction: column; gap: 6px; }
+        .iml-create-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #6b7280;
+            margin: 4px 0 0;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .iml-create-input {
+            padding: 9px 12px;
+            border: 1.5px solid #e1e5ec;
+            border-radius: 8px;
+            font-size: 14px;
+            background: #fff;
+            &:focus {
+                outline: none;
+                border-color: #0061fb;
+                box-shadow: 0 0 0 3px rgba(0, 97, 251, 0.10);
+            }
+        }
+        .iml-create-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 12px;
+            .btn {
+                padding: 7px 14px;
+                font-weight: 600;
+                border-radius: 7px;
+                font-size: 13px;
+                i { margin-right: 5px; }
+            }
+        }
+    }
+    @keyframes imlSlideDown {
+        from { opacity: 0; transform: translateY(-6px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    // ── Lot list ───────────────────────────────────────────────────
+    .iml-lot-list-wrapper {
+        flex: 1;
+        min-height: 200px;
+        max-height: 50vh;
+        overflow-y: auto;
+        border: 1px solid #eef0f4;
+        border-radius: 10px;
+        background: #ffffff;
+
+        &::-webkit-scrollbar { width: 8px; }
+        &::-webkit-scrollbar-thumb {
+            background: #d4d8e0;
+            border-radius: 4px;
+        }
+    }
+
+    .iml-state-msg {
+        padding: 28px 16px;
+        text-align: center;
+        color: #6b7280;
+        font-size: 14px;
+        i { margin-right: 6px; }
+        .iml-empty-hint {
+            display: block;
+            margin-top: 8px;
+            font-size: 12px;
+            color: #9aa0ab;
+            kbd {
+                background: #f1f3f6;
+                border: 1px solid #d4d8e0;
+                border-radius: 4px;
+                padding: 1px 6px;
+                font-family: ui-monospace, monospace;
+                font-size: 11px;
+            }
+        }
+    }
+
+    .iml-lot-list {
+        list-style: none;
+        margin: 0;
+        padding: 4px 0;
+    }
+
+    .iml-lot-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 14px;
+        border-bottom: 1px solid #f3f4f7;
+        cursor: pointer;
+        transition: background-color 0.12s, border-color 0.12s;
+
+        &:last-child { border-bottom: none; }
+        &:hover { background: #f8faff; }
+
+        &.iml-highlight {
+            background: #eef5ff;
+            box-shadow: inset 3px 0 0 #0061fb;
+        }
+        &.iml-selected {
+            background: #e3f0ff;
+            &:hover { background: #d6e8ff; }
+        }
+        &.iml-zero-stock { opacity: 0.55; }
+        &.iml-manual-entry .iml-lot-name { font-style: italic; }
+
+        // Phase 3/4 — error highlight (duplicate serial, qty overflow)
+        &.iml-has-error {
+            background: #fdf1f1 !important;
+            box-shadow: inset 3px 0 0 #d9534f;
+            .iml-lot-name { color: #b54848; }
+            .iml-check-on { color: #d9534f; }
+        }
+
+        .iml-lot-check {
+            font-size: 22px;
+            line-height: 1;
+            color: #c7ccd6;
+            .iml-check-on  { color: #0061fb; }
+            .iml-check-off { color: #c7ccd6; }
+        }
+
+        .iml-lot-main { flex: 1; min-width: 0; }
+
+        .iml-lot-name {
+            font-weight: 600;
+            font-size: 15px;
+            color: #1f242c;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            .iml-manual-tag {
+                font-size: 10px;
+                font-weight: 700;
+                text-transform: uppercase;
+                color: #8b6700;
+                background: #fff6dc;
+                padding: 1px 6px;
+                border-radius: 4px;
+                font-style: normal;
+                letter-spacing: 0.04em;
+            }
+        }
+
+        .iml-lot-meta {
+            margin-top: 3px;
+            font-size: 12px;
+            color: #6b7280;
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            i { margin-right: 3px; opacity: 0.7; }
+            .iml-low-stock { color: #b54848; }
+            .iml-qty-decremented {
+                color: #b35a00;
+                font-style: italic;
+                margin-left: 4px;
+            }
+        }
+
+        // Phase 3/4 inline error message
+        .iml-lot-error {
+            margin-top: 6px;
+            font-size: 12px;
+            color: #b54848;
+            background: #fff0f0;
+            border-radius: 5px;
+            padding: 4px 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            i { color: #d9534f; }
+        }
+
+        .iml-lot-qty-cell {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #ffffff;
+            border: 1px solid #e1e5ec;
+            border-radius: 8px;
+            padding: 4px 8px;
+
+            .iml-qty-label {
+                font-size: 11px;
+                color: #9aa0ab;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                margin: 0;
+            }
+            .iml-qty-input {
+                width: 56px;
+                border: none;
+                background: transparent;
+                font-size: 15px;
+                font-weight: 600;
+                text-align: right;
+                padding: 4px 2px;
+                color: #1f242c;
+                -moz-appearance: textfield;
+                &:focus { outline: none; }
+                &::-webkit-outer-spin-button,
+                &::-webkit-inner-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
+                }
+                &.iml-qty-input-error { color: #d9534f; }
+            }
+        }
+    }
+}
+
+// ── Footer ──────────────────────────────────────────────────────────
+.iml-lot-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    width: 100%;
+
+    .btn {
+        font-weight: 600;
+        padding: 9px 20px;
+        border-radius: 8px;
+        font-size: 14px;
+        i { margin-right: 6px; }
+    }
+
+    .iml-btn-confirm {
+        background: #0061fb;
+        border-color: #0061fb;
+        &:hover:not(:disabled) {
+            background: #0052d4;
+            border-color: #0052d4;
+        }
+        &:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+        .iml-confirm-count { font-weight: 700; margin-left: 2px; }
+    }
+}
+
+// ── Phase 6: Receipt lot section ────────────────────────────────────
+.iml-receipt-lots {
+    margin: 2px 0 2px 12px;
+    padding: 0;
+    list-style: none;
+    font-size: 11px;
+    color: #444;
+
+    li {
+        line-height: 1.3;
+        margin: 0;
+
+        .iml-receipt-lot-label {
+            font-weight: 600;
+            opacity: 0.7;
+        }
+    }
+}
+
+// ── Mobile rules ────────────────────────────────────────────────────
+@media (max-width: 576px) {
+    .iml-lot-popup {
+        font-size: 15px;
+
+        .iml-lot-row {
+            padding: 14px 12px;
+            .iml-lot-check { font-size: 24px; }
+            .iml-lot-name  { font-size: 16px; }
+            .iml-lot-qty-cell .iml-qty-input { width: 60px; font-size: 16px; }
+        }
+        .iml-lot-search .iml-search-input { font-size: 16px; }
+    }
+    .iml-lot-footer .btn {
+        flex: 1;
+        font-size: 15px;
+        padding: 12px 16px;
+    }
+}

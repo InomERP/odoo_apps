@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form: per-document purchase attachment control -->
+    <record id="product_document_form_inherit_purchase_mail" model="ir.ui.view">
+        <field name="name">product.document.form.inherit.purchase.mail</field>
+        <field name="model">product.document</field>
+        <field name="inherit_id" ref="product.product_document_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='url']" position="after">
+                <field name="attach_on_purchase"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- List: set Always / Never inline (editable list) -->
+    <record id="product_document_list_inherit_purchase_mail" model="ir.ui.view">
+        <field name="name">product.document.list.inherit.purchase.mail</field>
+        <field name="model">product.document</field>
+        <field name="inherit_id" ref="product.product_document_list"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="attach_on_purchase" optional="show"/>
+            </field>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Phase 6 — Receipt extension (Odoo 20)
+
+        Adds a "Lot / Serial #" block under each product line on the
+        printable receipt, gated by pos.config.iml_print_lot_on_receipt.
+
+        In Odoo 20 the receipt is no longer the OWL `point_of_sale.OrderReceipt`
+        component: it is a server-side QWeb template that the POS frontend also
+        renders (point_of_sale/models/ir_ui_view.py ships every receipt template
+        to the POS with its inheritances applied). So this block is a regular
+        QWeb inheritance, and its expressions only use the data both renderers
+        provide:
+          * `config` - the pos.config values (all fields are loaded),
+          * `line`   - the receipt line data, extended with `iml_lot_names` and
+                       `iml_is_serial` (Python: models/pos_order_receipt.py,
+                       POS frontend: static/src/js/overrides/generate_printer_data.js).
+
+        The block is placed after the core line information (and after the core
+        lot list added by pos_stock), i.e. under the product line, as in v19.
+    -->
+    <template id="pos_orderline_receipt_information_iml_lot"
+              inherit_id="point_of_sale.pos_orderline_receipt_information">
+        <div name="extra-info" position="after">
+            <t t-if="config['iml_print_lot_on_receipt'] and line['iml_lot_names']">
+                <ul class="iml-receipt-lots">
+                    <li t-foreach="line['iml_lot_names']" t-as="lot_name">
+                        <!-- label and name on one line: the POS (Owl) drops
+                             whitespace-only text containing a line break -->
+                        <span class="iml-receipt-lot-label"><t t-if="line['iml_is_serial']">SN</t><t t-else="">Lot</t>:</span> <t t-out="lot_name"/>
+                    </li>
+                </ul>
+            </t>
+        </div>
+    </template>
+
+    <!--
+        The receipt is printed inside an iframe, so the POS SCSS bundle does not
+        reach it. The receipt styles are therefore added to the receipt's own
+        <style> template, like core does. Same rules as the v19 .iml-receipt-lots
+        styles, with sizes scaled to the Odoo 20 receipt canvas (base font 22px
+        instead of 14px in v19).
+    -->
+    <template id="pos_order_receipt_style_iml_lot"
+              inherit_id="point_of_sale.pos_order_receipt_style">
+        <xpath expr="//style" position="after">
+            <style>
+                #pos-receipt .iml-receipt-lots { margin: 3px 0 3px 19px; padding: 0; list-style: none; font-size: 17px; color: #444; }
+                #pos-receipt .iml-receipt-lots li { line-height: 1.3; margin: 0; }
+                #pos-receipt .iml-receipt-lots .iml-receipt-lot-label { font-weight: 600; opacity: 0.7; }
+            </style>
+        </xpath>
+    </template>
+</odoo>
