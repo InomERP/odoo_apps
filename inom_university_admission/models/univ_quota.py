@@ -18,10 +18,9 @@ class UnivQuota(models.Model):
         string="Seat Caps",
     )
 
-    _sql_constraints = [
-        (
-            "code_uniq",
-            "unique(code)",
-            "The quota code must be unique.",
-        ),
-    ]
+    
+
+    _code_uniq = models.Constraint(
+        'unique(code)',
+        'The quota code must be unique.',
+    )

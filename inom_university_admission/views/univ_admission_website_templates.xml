@@ -21,12 +21,12 @@
                                 <h3>Open Admission Rounds</h3>
                                 <ul>
                                     <li t-foreach="rounds" t-as="r">
-                                        <strong t-esc="r.name"/>
+                                        <strong t-out="r.name"/>
                                         <span t-if="r.program_id"> -
-                                            <t t-esc="r.program_id.name"/></span>
+                                            <t t-out="r.program_id.name"/></span>
                                         <span class="text-muted">
-                                            (<t t-esc="r.start_date"/> to
-                                            <t t-esc="r.end_date"/>)
+                                            (<t t-out="r.start_date"/> to
+                                            <t t-out="r.end_date"/>)
                                         </span>
                                     </li>
                                 </ul>
@@ -92,7 +92,7 @@
                                     <option t-foreach="programs" t-as="p"
                                             t-att-value="p.id"
                                             t-att-selected="form.get('program_id') == str(p.id)">
-                                        <t t-esc="p.name"/>
+                                        <t t-out="p.name"/>
                                     </option>
                                 </select>
                                 <small class="text-danger" t-if="error.get('program_id')">
@@ -106,7 +106,7 @@
                                     <option t-foreach="rounds" t-as="r"
                                             t-att-value="r.id"
                                             t-att-selected="form.get('round_id') == str(r.id)">
-                                        <t t-esc="r.name"/>
+                                        <t t-out="r.name"/>
                                     </option>
                                 </select>
                                 <small class="text-danger" t-if="error.get('round_id')">
@@ -147,7 +147,7 @@
                                 <option value="">--</option>
                                 <option t-foreach="countries" t-as="c"
                                         t-att-value="c.id">
-                                    <t t-esc="c.name"/>
+                                    <t t-out="c.name"/>
                                 </option>
                             </select>
                         </div>
@@ -168,11 +168,11 @@
                     <h1 class="text-success">Thank you!</h1>
                     <p class="lead">Your application has been received.</p>
                     <p>Your application number is
-                        <strong t-esc="applicant.application_no"/>.
+                        <strong t-out="applicant.application_no"/>.
                     </p>
                     <p class="text-muted">
                         A confirmation has been sent to
-                        <t t-esc="applicant.email"/>. Please log in to the portal to
+                        <t t-out="applicant.email"/>. Please log in to the portal to
                         upload your documents and track your status.
                     </p>
                     <a href="/my/admission" class="btn btn-primary mt-3">
@@ -196,23 +196,23 @@
                         <table class="table table-sm">
                             <tr>
                                 <td><strong>Offer No</strong></td>
-                                <td><t t-esc="offer.name"/></td>
+                                <td><t t-out="offer.name"/></td>
                             </tr>
                             <tr>
                                 <td><strong>Applicant</strong></td>
-                                <td><t t-esc="offer.applicant_id.name"/></td>
+                                <td><t t-out="offer.applicant_id.name"/></td>
                             </tr>
                             <tr>
                                 <td><strong>Program</strong></td>
-                                <td><t t-esc="offer.program_id.name"/></td>
+                                <td><t t-out="offer.program_id.name"/></td>
                             </tr>
                             <tr>
                                 <td><strong>Status</strong></td>
-                                <td><t t-esc="dict(offer._fields['state'].selection).get(offer.state)"/></td>
+                                <td><t t-out="dict(offer._fields['state'].selection).get(offer.state)"/></td>
                             </tr>
                             <tr>
                                 <td><strong>Valid Until</strong></td>
-                                <td><t t-esc="offer.expiry_date"/></td>
+                                <td><t t-out="offer.expiry_date"/></td>
                             </tr>
                         </table>
                     </t>

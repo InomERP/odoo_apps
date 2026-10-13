@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_lib_root" name="Library"
+              parent="inom_university_core.menu_univ_root" sequence="50"
+              groups="group_univ_librarian,inom_university_core.group_univ_admin"/>
+    <menuitem id="menu_lib_dashboard" name="Dashboard" parent="menu_lib_root"
+              action="action_lib_dashboard" sequence="5"/>
+    <menuitem id="menu_lib_circ" name="Circulation" parent="menu_lib_root" sequence="10"/>
+    <menuitem id="menu_lib_issue" name="Book Issues" parent="menu_lib_circ" action="action_lib_issue" sequence="10"/>
+    <menuitem id="menu_lib_issue_wiz" name="Issue Book" parent="menu_lib_circ" action="action_lib_issue_wizard" sequence="20"/>
+    <menuitem id="menu_lib_return_wiz" name="Return Book" parent="menu_lib_circ" action="action_lib_return_wizard" sequence="30"/>
+    <menuitem id="menu_lib_reservation" name="Reservations" parent="menu_lib_circ" action="action_lib_reservation" sequence="40"/>
+    <menuitem id="menu_lib_fines" name="Fines" parent="menu_lib_circ" action="action_lib_fine" sequence="50"/>
+    <menuitem id="menu_lib_catalogue" name="Catalogue" parent="menu_lib_root" sequence="20"/>
+    <menuitem id="menu_lib_book" name="Books" parent="menu_lib_catalogue" action="action_lib_book" sequence="10"/>
+    <menuitem id="menu_lib_copy" name="Copies" parent="menu_lib_catalogue" action="action_lib_copy" sequence="20"/>
+    <menuitem id="menu_lib_member" name="Members" parent="menu_lib_root" action="action_lib_member" sequence="30"/>
+    <menuitem id="menu_lib_config" name="Configuration" parent="menu_lib_root" sequence="90"
+              groups="group_univ_librarian"/>
+    <menuitem id="menu_lib_category" name="Categories" parent="menu_lib_config" action="action_lib_category" sequence="10"/>
+    <menuitem id="menu_lib_author" name="Authors" parent="menu_lib_config" action="action_lib_author" sequence="20"/>
+    <menuitem id="menu_lib_publisher" name="Publishers" parent="menu_lib_config" action="action_lib_publisher" sequence="30"/>
+    <menuitem id="menu_lib_fine_rule" name="Fine Rules" parent="menu_lib_config" action="action_lib_fine_rule" sequence="40"/>
+</odoo>

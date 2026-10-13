@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Odoo 20: ACLs and record rules are unified in ir.access.
+        The access domains previously defined here are now carried by
+        security/ir.access.csv.
+    -->
+</odoo>

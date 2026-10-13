@@ -68,13 +68,7 @@ class UnivProgram(models.Model):
         string="Students", compute="_compute_student_count"
     )
 
-    _sql_constraints = [
-        (
-            "code_company_uniq",
-            "unique(code, company_id)",
-            "The program code must be unique per campus.",
-        ),
-    ]
+    _code_company_uniq = models.Constraint('unique(code, company_id)', 'The program code must be unique per campus.')
 
     @api.depends("student_ids")
     def _compute_student_count(self):

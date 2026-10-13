@@ -36,13 +36,7 @@ class UnivSubjectElectiveGroup(models.Model):
         string="Subjects",
     )
 
-    _sql_constraints = [
-        (
-            "code_company_uniq",
-            "unique(code, company_id)",
-            "The elective group code must be unique per campus.",
-        ),
-    ]
+    _code_company_uniq = models.Constraint('unique(code, company_id)', 'The elective group code must be unique per campus.')
 
     @api.constrains("min_select", "max_select")
     def _check_selection_bounds(self):

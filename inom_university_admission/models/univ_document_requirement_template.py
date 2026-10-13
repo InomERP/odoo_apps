@@ -45,10 +45,9 @@ class UnivDocumentRequirementTemplateLine(models.Model):
     )
     mandatory = fields.Boolean(string="Mandatory", default=True)
 
-    _sql_constraints = [
-        (
-            "uniq_template_doctype",
-            "unique(template_id, doc_type)",
-            "A document type can only be listed once per template.",
-        ),
-    ]
+    
+
+    _uniq_template_doctype = models.Constraint(
+        'unique(template_id, doc_type)',
+        'A document type can only be listed once per template.',
+    )

@@ -1,0 +1,15 @@
+id,name,model_id,group_id/id,operation,domain
+access_cert_template_officer,template officer,univ.certificate.template,group_univ_certificate_officer,crud,
+access_cert_template_registrar,template registrar,univ.certificate.template,inom_university_core.group_univ_registrar,crud,
+access_cert_template_user,template user,univ.certificate.template,base.group_user,c,
+access_cert_officer,cert officer,univ.certificate,group_univ_certificate_officer,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_cert_registrar,cert registrar,univ.certificate,inom_university_core.group_univ_registrar,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_cert_user,cert user,univ.certificate,base.group_user,c,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_cert_portal_student,cert portal s,univ.certificate,inom_university_core.group_univ_portal_student,cr,"[('student_id.partner_id', '=', user.partner_id.id)]"
+access_cert_portal_parent,cert portal p,univ.certificate,inom_university_core.group_univ_portal_parent,cr,"[('student_id.partner_id', '=', user.partner_id.id)]"
+access_idcard_officer,idcard officer,univ.id.card,group_univ_certificate_officer,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_idcard_registrar,idcard registrar,univ.id.card,inom_university_core.group_univ_registrar,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_idcard_user,idcard user,univ.id.card,base.group_user,c,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_idcard_portal_student,idcard portal s,univ.id.card,inom_university_core.group_univ_portal_student,r,"[('student_id.partner_id', '=', user.partner_id.id)]"
+access_idcard_portal_parent,idcard portal p,univ.id.card,inom_university_core.group_univ_portal_parent,r,"[('student_id.partner_id', '=', user.partner_id.id)]"
+access_cert_batch_wizard,batch wiz,univ.certificate.batch.wizard,group_univ_certificate_officer,crud,

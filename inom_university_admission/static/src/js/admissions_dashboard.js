@@ -1,16 +1,14 @@
 /** @odoo-module **/
 import { registry } from "@web/core/registry";
-import { Component, onWillStart, useState } from "@odoo/owl";
+import { Component, onWillStart, proxy } from "@odoo/owl";
 import { useService } from "@web/core/utils/hooks";
 
 export class AdmissionsDashboard extends Component {
     static template = "inom_university_admission.AdmissionsDashboard";
-    static props = ["*"];
-
     setup() {
         this.orm = useService("orm");
         this.action = useService("action");
-        this.state = useState({
+        this.state = proxy({
             loading: true,
             dateRange: "all",
             programId: false,

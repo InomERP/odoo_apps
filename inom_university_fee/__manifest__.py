@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 {
     "name": "Inom University Fees & Finance",
-    "version": "20.0.1.0.0",
+    "version": "20.0.2.3.0",
     "summary": "Fee structures, invoicing, installments, scholarships and "
                "refunds integrated with Odoo Accounting.",
     "description": """
-University Management System - Phase 3 (Fees & Finance) — Odoo 20
+University Management System - Phase 3 (Fees & Finance)
 =======================================================
 Fee structures, bulk invoicing, online and offline collection, installment
 plans, late-fee accrual, defaulter tracking, scholarships, concessions and a
@@ -17,8 +17,8 @@ posts to native Odoo Accounting (account.move / account.payment).
     "license": "LGPL-3",
     "category": "Education",
     "depends": [
-        "inom_university_core",
-        "inom_university_admission",
+        # "inom_university_core",
+        # "inom_university_admission",
         "account",
         "payment",
         "account_payment",
@@ -26,7 +26,7 @@ posts to native Odoo Accounting (account.move / account.payment).
     "data": [
         # Security
         "security/univ_fee_security.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         # Data
         "data/univ_fee_sequence.xml",
         "data/univ_fee_data.xml",

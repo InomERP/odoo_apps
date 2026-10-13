@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="group_univ_transport_incharge" model="res.groups">
+            <field name="name">Transport Manager</field>
+            <field name="sequence">52</field>
+            <field name="privilege_id" ref="inom_university_core.res_groups_privilege_university"/>
+            <field name="implied_ids" eval="[(6, 0, [ref('base.group_user')])]"/>
+            <field name="comment">Manage routes, stops, vehicles and subscriptions.</field>
+        </record>
+        <record id="inom_university_core.group_univ_admin" model="res.groups">
+            <field name="implied_ids" eval="[(4, ref('group_univ_transport_incharge'))]"/>
+        </record>
+    </data>
+</odoo>

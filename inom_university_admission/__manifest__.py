@@ -27,7 +27,7 @@ academic core:
 * Automated stage-transition, offer and welcome e-mails.
 * Admission funnel dashboard and operational reports.
 
-All code, comments and technical strings are in English. Updated for
+All code, comments and technical strings are in English. Built for
 Odoo 20 conventions (res.groups.privilege, group_ids, list views,
 self-closing chatter, no res.partner.mobile).
 """,
@@ -35,7 +35,7 @@ self-closing chatter, no res.partner.mobile).
     "website": "https://inomerp.in",
     "license": "OPL-1",
     "depends": [
-        "inom_university_core",
+        # "inom_university_core",
         "website",
         # Phase 1: standard Odoo self-service portal account creation
         # (/web/signup). Surfaced on the admission form only; no custom auth.
@@ -45,7 +45,7 @@ self-closing chatter, no res.partner.mobile).
     ],
     "data": [
         "security/univ_admission_security.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "data/univ_admission_sequence.xml",
         "data/univ_applicant_stage_data.xml",
         "data/univ_applicant_stage_phase1.xml",

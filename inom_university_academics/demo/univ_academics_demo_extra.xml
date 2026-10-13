@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="1">
+    <record id="demo_room_lab_201" model="univ.room">
+      <field name="name">Programming Lab 201</field><field name="code">LAB201</field><field name="room_type">lab</field><field name="capacity">40</field>
+      <field name="building">Academic Block</field><field name="floor">2</field>
+    </record>
+    <record id="demo_timeslot_6" model="univ.timeslot">
+      <field name="name">11:15 - 12:15</field><field name="sequence">6</field><field name="start_time">11.25</field><field name="end_time">12.25</field>
+    </record>
+    <record id="demo_academic_calendar_exam" model="univ.academic.calendar">
+      <field name="name">Semester 1 End Examination</field><field name="date" eval="(datetime.datetime.now() + relativedelta(months=2)).strftime('%Y-%m-%d')"/>
+      <field name="event_type">exam</field><field name="academic_year_id" ref="inom_university_fee.academic_session_2024_25"/>
+      <field name="program_id" ref="inom_university_core.demo_program_btech_cse"/><field name="description">End semester examination window.</field>
+    </record>
+    <record id="demo_subject_data_structures" model="univ.subject">
+      <field name="name">Data Structures</field><field name="code">CS201</field><field name="program_id" ref="inom_university_core.demo_program_btech_cse"/>
+      <field name="semester_id" ref="inom_university_core.demo_semester_2"/><field name="subject_type">core</field><field name="credit_hours">4</field>
+      <field name="prerequisite_ids" eval="[(6,0,[ref('inom_university_core.demo_subject_prog')])]"/>
+    </record>
+    <record id="demo_plo_1" model="univ.plo">
+      <field name="name">Apply computing fundamentals</field><field name="code">PLO1</field><field name="program_id" ref="inom_university_core.demo_program_btech_cse"/>
+      <field name="description">Demonstrate core computing and problem-solving skills.</field>
+    </record>
+    <record id="demo_clo_prog_1" model="univ.clo">
+      <field name="name">Explain programming basics</field><field name="code">CLO1</field><field name="subject_id" ref="inom_university_core.demo_subject_prog"/>
+      <field name="plo_ids" eval="[(6,0,[ref('demo_plo_1')])]"/><field name="description">Students explain variables, control flow and functions.</field>
+    </record>
+    <record id="demo_syllabus_unit_3" model="univ.syllabus.unit">
+      <field name="syllabus_id" ref="demo_syllabus_prog"/><field name="sequence">30</field><field name="name">Functions and Modular Programming</field>
+      <field name="hours">10</field><field name="topics">Functions, parameters, return values and modular design.</field>
+    </record>
+    <record id="demo_lesson_plan_functions" model="univ.lesson.plan">
+      <field name="name">Functions and Modular Programming</field><field name="unit_id" ref="demo_syllabus_unit_3"/>
+      <field name="faculty_id" ref="inom_university_core.demo_faculty_sharma"/><field name="planned_date" eval="(datetime.datetime.now() + relativedelta(days=2)).strftime('%Y-%m-%d')"/>
+      <field name="duration_hours">1.0</field><field name="state">planned</field><field name="methodology">Live coding, examples and guided practice.</field>
+    </record>
+    <record id="demo_registration_period_sem1" model="univ.registration.period">
+      <field name="name">B.Tech CSE Semester 1 Registration</field><field name="program_id" ref="inom_university_core.demo_program_btech_cse"/>
+      <field name="semester_id" ref="inom_university_core.demo_semester_1"/><field name="session_id" ref="inom_university_fee.academic_session_2024_25"/>
+      <field name="open_datetime" eval="datetime.datetime.now() - relativedelta(days=10)"/><field name="close_datetime" eval="datetime.datetime.now() + relativedelta(days=20)"/>
+      <field name="credit_limit">24</field>
+    </record>
+    <record id="demo_offering_maths" model="univ.course.offering">
+      <field name="name">Engineering Mathematics I - A</field><field name="period_id" ref="demo_registration_period_sem1"/>
+      <field name="program_id" ref="inom_university_core.demo_program_btech_cse"/><field name="semester_id" ref="inom_university_core.demo_semester_1"/>
+      <field name="session_id" ref="inom_university_fee.academic_session_2024_25"/><field name="subject_id" ref="inom_university_core.demo_subject_maths"/>
+      <field name="section_id" ref="inom_university_core.demo_section_a"/><field name="faculty_id" ref="inom_university_core.demo_faculty_verma"/><field name="capacity">60</field>
+    </record>
+    <record id="demo_offering_prog" model="univ.course.offering">
+      <field name="name">Programming Fundamentals - A</field><field name="period_id" ref="demo_registration_period_sem1"/>
+      <field name="program_id" ref="inom_university_core.demo_program_btech_cse"/><field name="semester_id" ref="inom_university_core.demo_semester_1"/>
+      <field name="session_id" ref="inom_university_fee.academic_session_2024_25"/><field name="subject_id" ref="inom_university_core.demo_subject_prog"/>
+      <field name="section_id" ref="inom_university_core.demo_section_a"/><field name="faculty_id" ref="inom_university_core.demo_faculty_sharma"/><field name="capacity">60</field>
+    </record>
+    <record id="demo_course_registration_rahul" model="univ.course.registration">
+      <field name="student_id" ref="inom_university_core.demo_student_rahul"/><field name="period_id" ref="demo_registration_period_sem1"/>
+    </record>
+    <record id="demo_course_reg_line_rahul_prog" model="univ.course.registration.line">
+      <field name="registration_id" ref="demo_course_registration_rahul"/><field name="offering_id" ref="demo_offering_prog"/><field name="state">registered</field>
+    </record>
+    <record id="demo_course_reg_line_rahul_maths" model="univ.course.registration.line">
+      <field name="registration_id" ref="demo_course_registration_rahul"/><field name="offering_id" ref="demo_offering_maths"/><field name="state">registered</field>
+    </record>
+    <record id="demo_session_lab" model="univ.timetable.session">
+      <field name="section_id" ref="inom_university_core.demo_section_a"/><field name="subject_id" ref="inom_university_core.demo_subject_prog_lab"/>
+      <field name="faculty_id" ref="inom_university_core.demo_faculty_sharma"/><field name="room_id" ref="demo_room_lab_201"/><field name="slot_id" ref="demo_timeslot_6"/>
+      <field name="date" eval="(datetime.datetime.now() + relativedelta(days=1)).strftime('%Y-%m-%d')"/><field name="state">confirmed</field>
+    </record>
+    <record id="demo_substitution_lab" model="univ.timetable.substitution">
+      <field name="session_id" ref="demo_session_lab"/><field name="date" eval="(datetime.datetime.now() + relativedelta(days=1)).strftime('%Y-%m-%d')"/>
+      <field name="original_faculty_id" ref="inom_university_core.demo_faculty_sharma"/><field name="substitute_faculty_id" ref="inom_university_core.demo_faculty_verma"/>
+      <field name="reason">Faculty attending accreditation meeting.</field><field name="state">approved</field>
+    </record>
+    <record id="demo_attendance_sheet_prog" model="univ.attendance.sheet">
+      <field name="session_id" ref="demo_session_1"/><field name="state">submitted</field>
+    </record>
+    <record id="demo_attendance_line_rahul" model="univ.attendance.line">
+      <field name="sheet_id" ref="demo_attendance_sheet_prog"/><field name="student_id" ref="inom_university_core.demo_student_rahul"/><field name="state">present</field>
+    </record>
+    <record id="demo_attendance_line_priya" model="univ.attendance.line">
+      <field name="sheet_id" ref="demo_attendance_sheet_prog"/><field name="student_id" ref="inom_university_core.demo_student_priya"/><field name="state">late</field><field name="remark">Joined after first 10 minutes.</field>
+    </record>
+    <record id="demo_attendance_summary_rahul_prog" model="univ.attendance.summary">
+      <field name="student_id" ref="inom_university_core.demo_student_rahul"/><field name="subject_id" ref="inom_university_core.demo_subject_prog"/>
+      <field name="program_id" ref="inom_university_core.demo_program_btech_cse"/><field name="held">24</field><field name="attended">22</field><field name="percent">91.67</field><field name="shortage_band">ok</field>
+    </record>
+    <record id="demo_exam_final" model="univ.exam">
+      <field name="name">Semester 1 Final Examination</field><field name="code">FEX-S1-2026</field><field name="exam_type_id" ref="exam_type_final"/>
+      <field name="program_id" ref="inom_university_core.demo_program_btech_cse"/><field name="semester_id" ref="inom_university_core.demo_semester_1"/>
+      <field name="academic_year_id" ref="inom_university_fee.academic_session_2024_25"/><field name="date_from" eval="(datetime.datetime.now() + relativedelta(months=1)).strftime('%Y-%m-%d')"/>
+      <field name="date_to" eval="(datetime.datetime.now() + relativedelta(months=1,days=7)).strftime('%Y-%m-%d')"/><field name="state">published</field><field name="grade_scale_id" ref="grade_scale_default"/>
+    </record>
+    <record id="demo_exam_schedule_maths_final" model="univ.exam.schedule">
+      <field name="exam_id" ref="demo_exam_final"/><field name="subject_id" ref="inom_university_core.demo_subject_maths"/>
+      <field name="date" eval="(datetime.datetime.now() + relativedelta(months=1)).strftime('%Y-%m-%d')"/><field name="start_time">10</field><field name="end_time">13</field>
+      <field name="room_id" ref="demo_hall_a"/><field name="max_marks">100</field><field name="pass_marks">40</field>
+    </record>
+    <record id="demo_exam_invigilator_maths" model="univ.exam.invigilator">
+      <field name="schedule_id" ref="demo_exam_schedule_maths_final"/><field name="faculty_id" ref="inom_university_core.demo_faculty_verma"/>
+      <field name="date" eval="(datetime.datetime.now() + relativedelta(months=1)).strftime('%Y-%m-%d')"/><field name="room_id" ref="demo_hall_a"/>
+    </record>
+    <record id="demo_exam_seat_rahul" model="univ.exam.seat">
+      <field name="schedule_id" ref="demo_exam_schedule_maths_final"/><field name="student_id" ref="inom_university_core.demo_student_rahul"/><field name="room_id" ref="demo_hall_a"/><field name="seat_no">A-01</field>
+    </record>
+    <record id="demo_exam_result_rahul_maths" model="univ.exam.result.line">
+      <field name="schedule_id" ref="demo_exam_schedule_maths_final"/><field name="student_id" ref="inom_university_core.demo_student_rahul"/>
+      <field name="max_marks">100</field><field name="obtained">86</field><field name="second_obtained">84</field><field name="state">approved</field>
+    </record>
+    <record id="demo_exam_result_priya_maths" model="univ.exam.result.line">
+      <field name="schedule_id" ref="demo_exam_schedule_maths_final"/><field name="student_id" ref="inom_university_core.demo_student_priya"/>
+      <field name="max_marks">100</field><field name="obtained">72</field><field name="state">entered</field>
+    </record>
+    <record id="demo_reeval_rahul_maths" model="univ.exam.reevaluation">
+      <field name="result_line_id" ref="demo_exam_result_rahul_maths"/><field name="student_id" ref="inom_university_core.demo_student_rahul"/>
+      <field name="subject_id" ref="inom_university_core.demo_subject_maths"/><field name="max_marks">100</field><field name="original_marks">86</field><field name="fee_paid">True</field><field name="state">draft</field>
+    </record>
+    <record id="demo_result_rahul_sem1" model="univ.result.semester">
+      <field name="student_id" ref="inom_university_core.demo_student_rahul"/><field name="semester_id" ref="inom_university_core.demo_semester_1"/>
+      <field name="academic_year_id" ref="inom_university_fee.academic_session_2024_25"/><field name="published">True</field>
+    </record>
+    <record id="demo_result_rahul_math_line" model="univ.result.semester.line">
+      <field name="result_id" ref="demo_result_rahul_sem1"/><field name="subject_id" ref="inom_university_core.demo_subject_maths"/>
+      <field name="credit_hours">4</field><field name="percent">86</field><field name="grade">A</field><field name="grade_point">8</field><field name="is_pass">True</field>
+    </record>
+    <record id="demo_result_rahul_prog_line" model="univ.result.semester.line">
+      <field name="result_id" ref="demo_result_rahul_sem1"/><field name="subject_id" ref="inom_university_core.demo_subject_prog"/>
+      <field name="credit_hours">4</field><field name="percent">91</field><field name="grade">A+</field><field name="grade_point">9</field><field name="is_pass">True</field>
+    </record>
+    <record id="demo_transcript_rahul" model="univ.result.transcript">
+      <field name="student_id" ref="inom_university_core.demo_student_rahul"/><field name="semester_result_ids" eval="[(6,0,[ref('demo_result_rahul_sem1')])]"/>
+      <field name="generated_on" eval="datetime.datetime.now()"/><field name="version">1</field>
+    </record>
+  </data>
+</odoo>

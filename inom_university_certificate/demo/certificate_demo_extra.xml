@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="1">
+    <record id="tmpl_transfer_demo" model="univ.certificate.template">
+      <field name="name">Transfer Certificate</field><field name="cert_type">transfer</field><field name="prefix">TC/</field>
+      <field name="body_html"><![CDATA[<h2>Transfer Certificate</h2><p>This certifies that <strong>{student}</strong> was enrolled in {program}, batch {batch}.</p><p>Certificate No: {number}</p><p>Date: {date}</p>]]></field>
+      <field name="signatory">Dr. Meera Joshi</field><field name="signatory_designation">Registrar</field>
+    </record>
+    <record id="demo_certificate_transfer" model="univ.certificate">
+      <field name="student_id" ref="inom_university_core.demo_student_aman"/><field name="template_id" ref="tmpl_transfer_demo"/>
+      <field name="purpose">Higher studies transfer</field><field name="state">request</field>
+    </record>
+    <record id="demo_certificate_character" model="univ.certificate">
+      <field name="student_id" ref="inom_university_core.demo_student_rahul"/><field name="template_id" ref="tmpl_character"/>
+      <field name="purpose">Internship application</field><field name="state">approved</field>
+    </record>
+    <record id="demo_id_card_aman" model="univ.id.card">
+      <field name="student_id" ref="inom_university_core.demo_student_aman"/><field name="program_id" ref="inom_university_core.demo_program_bba"/>
+      <field name="blood_group">B+</field><field name="emergency_contact">+91 90000 11001</field>
+      <field name="valid_from">2026-07-01</field><field name="valid_to">2030-06-30</field><field name="state">active</field>
+    </record>
+  </data>
+</odoo>

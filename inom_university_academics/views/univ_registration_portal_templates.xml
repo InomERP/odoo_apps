@@ -25,7 +25,7 @@
                 <h2 class="mb-3">Course Registration</h2>
 
                 <div t-if="flash" t-attf-class="alert alert-#{flash_type}" role="alert">
-                    <t t-esc="flash"/>
+                    <t t-out="flash"/>
                 </div>
 
                 <div t-if="not student" class="alert alert-info" role="alert">
@@ -36,7 +36,7 @@
 
                 <!-- Deposit / enrolment gate -->
                 <div t-if="blocked_reason" class="alert alert-warning" role="alert">
-                    <i class="fa fa-lock me-1"/><t t-esc="blocked_reason"/>
+                    <i class="fa fa-lock me-1"/><t t-out="blocked_reason"/>
                 </div>
 
                 <t t-if="student and not period">
@@ -51,19 +51,19 @@
                     <div class="card mb-4">
                         <div class="card-body d-flex justify-content-between flex-wrap align-items-center">
                             <div>
-                                <h5 class="mb-1"><t t-esc="period.name"/></h5>
+                                <h5 class="mb-1"><t t-out="period.name"/></h5>
                                 <div class="small text-muted">
-                                    Window: <t t-esc="period.open_datetime"/> &#8594;
-                                    <t t-esc="period.close_datetime"/>
+                                    Window: <t t-out="period.open_datetime"/> &#8594;
+                                    <t t-out="period.close_datetime"/>
                                 </div>
                             </div>
                             <div class="text-end">
                                 <span t-attf-class="badge #{'text-bg-success' if period.is_open else 'text-bg-secondary'}">
-                                    <t t-esc="'Open' if period.is_open else ('Closed' if period.status == 'closed' else 'Upcoming')"/>
+                                    <t t-out="'Open' if period.is_open else ('Closed' if period.status == 'closed' else 'Upcoming')"/>
                                 </span>
                                 <div class="small mt-1" t-if="registration">
-                                    Credits: <strong t-esc="registration.total_credits"/> /
-                                    <t t-esc="period.credit_limit"/>
+                                    Credits: <strong t-out="registration.total_credits"/> /
+                                    <t t-out="period.credit_limit"/>
                                 </div>
                             </div>
                         </div>
@@ -93,13 +93,13 @@
                                 </thead>
                                 <tbody>
                                     <tr t-foreach="my_lines" t-as="line">
-                                        <td><t t-esc="line.subject_id.name"/></td>
-                                        <td><t t-esc="line.subject_type"/></td>
-                                        <td><t t-esc="line.credit_hours"/></td>
+                                        <td><t t-out="line.subject_id.name"/></td>
+                                        <td><t t-out="line.subject_type"/></td>
+                                        <td><t t-out="line.credit_hours"/></td>
                                         <td>
                                             <span t-attf-class="badge #{'text-bg-success' if line.state == 'registered' else 'text-bg-warning'}">
-                                                <t t-esc="line.state"/>
-                                                <t t-if="line.state == 'waitlisted'"> #<t t-esc="line.waitlist_position"/></t>
+                                                <t t-out="line.state"/>
+                                                <t t-if="line.state == 'waitlisted'"> #<t t-out="line.waitlist_position"/></t>
                                             </span>
                                         </td>
                                         <td class="text-end">
@@ -131,12 +131,12 @@
                                 </thead>
                                 <tbody>
                                     <tr t-foreach="available_offerings" t-as="off">
-                                        <td><t t-esc="off.subject_id.name"/></td>
-                                        <td><t t-esc="off.subject_type"/></td>
-                                        <td><t t-esc="off.credit_hours"/></td>
+                                        <td><t t-out="off.subject_id.name"/></td>
+                                        <td><t t-out="off.subject_type"/></td>
+                                        <td><t t-out="off.credit_hours"/></td>
                                         <td>
                                             <t t-if="off.is_full"><span class="badge text-bg-danger">Full</span></t>
-                                            <t t-else=""><t t-esc="off.available_seats"/> / <t t-esc="off.capacity"/></t>
+                                            <t t-else=""><t t-out="off.available_seats"/> / <t t-out="off.capacity"/></t>
                                         </td>
                                         <td class="text-end">
                                             <form action="/my/registration/add" method="post" class="mb-0">

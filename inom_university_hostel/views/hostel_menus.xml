@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_hostel_root" name="Hostel" parent="inom_university_core.menu_univ_root" sequence="51"
+              groups="group_univ_warden,inom_university_core.group_univ_admin"/>
+    <menuitem id="menu_hostel_dashboard" name="Dashboard" parent="menu_hostel_root" action="action_hostel_dashboard" sequence="5"/>
+    <menuitem id="menu_hostel_alloc" name="Allotment" parent="menu_hostel_root" sequence="10"/>
+    <menuitem id="menu_hostel_allotment" name="Allotments" parent="menu_hostel_alloc" action="action_hostel_allotment" sequence="10"/>
+    <menuitem id="menu_hostel_allot_wiz" name="Allot Bed" parent="menu_hostel_alloc" action="action_hostel_allotment_wizard" sequence="20"/>
+    <menuitem id="menu_hostel_transfer" name="Transfers" parent="menu_hostel_alloc" action="action_hostel_transfer" sequence="30"/>
+    <menuitem id="menu_hostel_infra" name="Infrastructure" parent="menu_hostel_root" sequence="20"/>
+    <menuitem id="menu_hostel_hostels" name="Hostels" parent="menu_hostel_infra" action="action_hostel" sequence="10"/>
+    <menuitem id="menu_hostel_blocks" name="Blocks" parent="menu_hostel_infra" action="action_hostel_block" sequence="20"/>
+    <menuitem id="menu_hostel_floors" name="Floors" parent="menu_hostel_infra" action="action_hostel_floor" sequence="30"/>
+    <menuitem id="menu_hostel_rooms" name="Rooms" parent="menu_hostel_infra" action="action_hostel_room" sequence="40"/>
+    <menuitem id="menu_hostel_beds" name="Beds" parent="menu_hostel_infra" action="action_hostel_bed" sequence="50"/>
+    <menuitem id="menu_hostel_services" name="Services" parent="menu_hostel_root" sequence="30"/>
+    <menuitem id="menu_hostel_complaints" name="Complaints" parent="menu_hostel_services" action="action_hostel_complaint" sequence="10"/>
+    <menuitem id="menu_hostel_visitors" name="Visitors" parent="menu_hostel_services" action="action_hostel_visitor" sequence="20"/>
+    <menuitem id="menu_hostel_attendance" name="Attendance" parent="menu_hostel_services" action="action_hostel_attendance" sequence="30"/>
+</odoo>

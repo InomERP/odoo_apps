@@ -30,7 +30,4 @@ class UnivExamType(models.Model):
         default=lambda self: self.env.company, index=True,
     )
 
-    _sql_constraints = [
-        ("code_uniq", "unique(code, company_id)",
-         "The exam type code must be unique per company."),
-    ]
+    _code_uniq = models.Constraint('unique(code, company_id)', 'The exam type code must be unique per company.')

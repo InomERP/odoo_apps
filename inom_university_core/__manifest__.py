@@ -17,12 +17,13 @@ Delivers the structural foundation of the University Management System:
   active -> graduated/dropped lifecycle.
 * Faculty/staff master with designation, qualifications and subject linkage.
 * Multi-company / multi-campus data isolation via record rules.
-* Full security group hierarchy using the Odoo 20 res.groups.privilege model.
+* Full security group hierarchy using the Odoo 19 res.groups.privilege model.
 * Immutable audit trail mixin for sensitive writes.
 * Chatter, activities, kanban, list, form and search views on every master.
 * QWeb PDF reports and read-only self-service portal placeholders.
 
-All code, comments and technical strings are in English. Views target Odoo 20 using the list-view conventions.
+All code, comments and technical strings are in English. Views target
+Odoo 17 / 18 / 19 through the list/tree compatibility conventions.
 """,
     "author": "InomERP",
     "website": "https://inomerp.in",
@@ -35,7 +36,7 @@ All code, comments and technical strings are in English. Views target Odoo 20 us
     ],
     "data": [
         "security/univ_security.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "data/univ_sequence_data.xml",
         "views/univ_faculty_school_views.xml",
         "views/univ_department_views.xml",
@@ -59,6 +60,7 @@ All code, comments and technical strings are in English. Views target Odoo 20 us
     ],
     "demo": [
         "demo/univ_demo_data.xml",
+        "demo/univ_demo_extra.xml",
     ],
     "assets": {
         "web.assets_frontend": [

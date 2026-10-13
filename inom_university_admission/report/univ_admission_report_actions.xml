@@ -6,7 +6,6 @@
         <field name="model">univ.applicant.offer</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">inom_university_admission.report_offer_letter</field>
-        <field name="report_file">inom_university_admission.report_offer_letter</field>
         <field name="binding_model_id" ref="model_univ_applicant_offer"/>
         <field name="binding_type">report</field>
         <field name="print_report_name">'Offer - %s' % (object.name)</field>
@@ -17,7 +16,6 @@
         <field name="model">univ.applicant</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">inom_university_admission.report_application_receipt</field>
-        <field name="report_file">inom_university_admission.report_application_receipt</field>
         <field name="binding_model_id" ref="model_univ_applicant"/>
         <field name="binding_type">report</field>
         <field name="print_report_name">'Acknowledgement - %s' % (object.application_no)</field>
@@ -28,7 +26,6 @@
         <field name="model">univ.quota.seat</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">inom_university_admission.report_quota_utilisation</field>
-        <field name="report_file">inom_university_admission.report_quota_utilisation</field>
         <field name="binding_model_id" ref="model_univ_quota_seat"/>
         <field name="binding_type">report</field>
     </record>
@@ -38,7 +35,6 @@
         <field name="model">univ.applicant</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">inom_university_admission.report_doc_pending</field>
-        <field name="report_file">inom_university_admission.report_doc_pending</field>
         <field name="binding_model_id" ref="model_univ_applicant"/>
         <field name="binding_type">report</field>
     </record>

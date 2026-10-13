@@ -70,13 +70,7 @@ class UnivCourseOffering(models.Model):
         related="period_id.company_id", store=True, index=True
     )
 
-    _sql_constraints = [
-        (
-            "subject_period_uniq",
-            "unique(subject_id, period_id)",
-            "This subject already has an offering in this registration period.",
-        ),
-    ]
+    _subject_period_uniq = models.Constraint('unique(subject_id, period_id)', 'This subject already has an offering in this registration period.')
 
     @api.depends("subject_id", "period_id")
     def _compute_name(self):

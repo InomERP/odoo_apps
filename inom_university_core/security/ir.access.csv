@@ -1,0 +1,69 @@
+id,name,model_id,group_id/id,operation,domain
+access_faculty_school_admin,univ.faculty_school admin,univ.faculty_school,inom_university_core.group_univ_admin,crud,
+access_faculty_school_registrar,univ.faculty_school registrar,univ.faculty_school,inom_university_core.group_univ_registrar,crud,
+access_faculty_school_faculty,univ.faculty_school faculty,univ.faculty_school,inom_university_core.group_univ_faculty,c,
+access_department_admin,univ.department admin,univ.department,inom_university_core.group_univ_admin,crud,
+access_department_registrar,univ.department registrar,univ.department,inom_university_core.group_univ_registrar,crud,
+access_department_faculty,univ.department faculty,univ.department,inom_university_core.group_univ_faculty,c,
+access_program_admin,univ.program admin,univ.program,inom_university_core.group_univ_admin,crud,
+access_program_registrar,univ.program registrar,univ.program,inom_university_core.group_univ_registrar,crud,
+access_program_faculty,univ.program faculty,univ.program,inom_university_core.group_univ_faculty,c,
+access_batch_admin,univ.batch admin,univ.batch,inom_university_core.group_univ_admin,crud,
+access_batch_registrar,univ.batch registrar,univ.batch,inom_university_core.group_univ_registrar,crud,
+access_batch_faculty,univ.batch faculty,univ.batch,inom_university_core.group_univ_faculty,c,
+access_semester_admin,univ.semester admin,univ.semester,inom_university_core.group_univ_admin,crud,
+access_semester_registrar,univ.semester registrar,univ.semester,inom_university_core.group_univ_registrar,crud,
+access_semester_faculty,univ.semester faculty,univ.semester,inom_university_core.group_univ_faculty,c,
+access_section_admin,univ.section admin,univ.section,inom_university_core.group_univ_admin,crud,
+access_section_registrar,univ.section registrar,univ.section,inom_university_core.group_univ_registrar,crud,
+access_section_faculty,univ.section faculty,univ.section,inom_university_core.group_univ_faculty,c,
+access_elective_group_admin,univ.subject.elective.group admin,univ.subject.elective.group,inom_university_core.group_univ_admin,crud,
+access_elective_group_registrar,univ.subject.elective.group registrar,univ.subject.elective.group,inom_university_core.group_univ_registrar,crud,
+access_elective_group_hod,univ.subject.elective.group hod,univ.subject.elective.group,inom_university_core.group_univ_hod,cru,
+access_elective_group_faculty,univ.subject.elective.group faculty,univ.subject.elective.group,inom_university_core.group_univ_faculty,c,
+access_subject_admin,univ.subject admin,univ.subject,inom_university_core.group_univ_admin,crud,
+access_subject_registrar,univ.subject registrar,univ.subject,inom_university_core.group_univ_registrar,crud,
+access_subject_hod,univ.subject hod,univ.subject,inom_university_core.group_univ_hod,cru,"[('program_id.department_id', 'in', user.univ_department_ids.ids)]"
+access_subject_faculty,univ.subject faculty,univ.subject,inom_university_core.group_univ_faculty,c,
+access_faculty_admin,univ.faculty admin,univ.faculty,inom_university_core.group_univ_admin,crud,
+access_faculty_registrar,univ.faculty registrar,univ.faculty,inom_university_core.group_univ_registrar,crud,
+access_faculty_hod,univ.faculty hod,univ.faculty,inom_university_core.group_univ_hod,cru,"[('department_id', 'in', user.univ_department_ids.ids)]"
+access_faculty_dean,univ.faculty dean,univ.faculty,inom_university_core.group_univ_dean,c,
+access_faculty_faculty,univ.faculty faculty,univ.faculty,inom_university_core.group_univ_faculty,cr,
+access_student_admin,univ.student admin,univ.student,inom_university_core.group_univ_admin,crud,
+access_student_registrar,univ.student registrar,univ.student,inom_university_core.group_univ_registrar,crud,
+access_student_dean,univ.student dean,univ.student,inom_university_core.group_univ_dean,c,
+access_student_hod,univ.student hod,univ.student,inom_university_core.group_univ_hod,c,
+access_student_faculty,univ.student faculty,univ.student,inom_university_core.group_univ_faculty,c,
+access_student_portal_student,univ.student portal student,univ.student,inom_university_core.group_univ_portal_student,c,
+access_student_portal_parent,univ.student portal parent,univ.student,inom_university_core.group_univ_portal_parent,c,
+access_student_document_admin,univ.student.document admin,univ.student.document,inom_university_core.group_univ_admin,crud,
+access_student_document_registrar,univ.student.document registrar,univ.student.document,inom_university_core.group_univ_registrar,crud,
+access_student_document_faculty,univ.student.document faculty,univ.student.document,inom_university_core.group_univ_faculty,c,
+access_student_document_portal,univ.student.document portal,univ.student.document,inom_university_core.group_univ_portal_student,c,
+access_student_guardian_admin,univ.student.guardian admin,univ.student.guardian,inom_university_core.group_univ_admin,crud,
+access_student_guardian_registrar,univ.student.guardian registrar,univ.student.guardian,inom_university_core.group_univ_registrar,crud,
+access_student_guardian_faculty,univ.student.guardian faculty,univ.student.guardian,inom_university_core.group_univ_faculty,c,
+access_student_guardian_portal,univ.student.guardian portal,univ.student.guardian,inom_university_core.group_univ_portal_student,c,
+access_audit_log_admin,univ.audit.log admin,univ.audit.log,inom_university_core.group_univ_admin,cd,
+access_audit_log_registrar,univ.audit.log registrar,univ.audit.log,inom_university_core.group_univ_registrar,c,
+access_faculty_faculty_own_profile_write,univ.faculty faculty own profile write,univ.faculty,inom_university_core.group_univ_faculty,u,"[('partner_id', '=', user.partner_id.id)]"
+restrict_univ_faculty_school_company,univ.faculty_school multi-company restriction,univ.faculty_school,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+restrict_univ_department_company,univ.department multi-company restriction,univ.department,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+restrict_univ_program_company,univ.program multi-company restriction,univ.program,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+restrict_univ_batch_company,univ.batch multi-company restriction,univ.batch,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+restrict_univ_semester_company,univ.semester multi-company restriction,univ.semester,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+restrict_univ_section_company,univ.section multi-company restriction,univ.section,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+restrict_univ_subject_company,univ.subject multi-company restriction,univ.subject,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+restrict_univ_subject_elective_group_company,univ.subject.elective.group multi-company restriction,univ.subject.elective.group,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+restrict_univ_faculty_company,univ.faculty multi-company restriction,univ.faculty,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+restrict_univ_student_company,univ.student multi-company restriction,univ.student,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+restrict_univ_student_document_company,univ.student.document multi-company restriction,univ.student.document,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+restrict_univ_student_guardian_company,univ.student.guardian multi-company restriction,univ.student.guardian,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+restrict_univ_audit_log_company,univ.audit.log multi-company restriction,univ.audit.log,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_student_dean_department_read,univ.student dean department read,univ.student,inom_university_core.group_univ_dean,r,"[('program_id.department_id', 'in', user.univ_department_ids.ids)]"
+access_student_hod_department_read,univ.student hod department read,univ.student,inom_university_core.group_univ_hod,r,"[('program_id.department_id', 'in', user.univ_department_ids.ids)]"
+access_student_portal_student_own_read,univ.student portal student own read,univ.student,inom_university_core.group_univ_portal_student,r,"[('partner_id', '=', user.partner_id.id)]"
+access_student_portal_parent_wards_read,univ.student portal parent wards read,univ.student,inom_university_core.group_univ_portal_parent,r,"[('guardian_ids.partner_id', '=', user.partner_id.id)]"
+access_student_document_portal_own_read,univ.student.document portal own read,univ.student.document,inom_university_core.group_univ_portal_student,r,"[('student_id.partner_id', '=', user.partner_id.id)]"
+access_student_guardian_portal_own_read,univ.student.guardian portal own read,univ.student.guardian,inom_university_core.group_univ_portal_student,r,"[('student_id.partner_id', '=', user.partner_id.id)]"

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Campus 360: student aggregates kanban -->
+    <record id="view_campus_student_kanban" model="ir.ui.view">
+        <field name="name">univ.student.campus.kanban</field>
+        <field name="model">univ.student</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates><t t-name="card">
+                    <div class="oe_kanban_global_click">
+                        <strong><field name="name"/></strong>
+                        <div class="text-muted"><field name="program_id"/></div>
+                        <div>Attendance: <field name="overall_attendance"/>% · CGPA: <field name="current_cgpa"/></div>
+                        <div>Books: <field name="library_open_count"/> · Pending: <field name="pending_assignment_count"/></div>
+                        <div>Outstanding: <field name="outstanding_amount"/></div>
+                    </div>
+                </t></templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="view_campus_student_list" model="ir.ui.view">
+        <field name="name">univ.student.campus.list</field>
+        <field name="model">univ.student</field>
+        <field name="arch" type="xml">
+            <list string="Campus 360">
+                <field name="name"/><field name="program_id"/>
+                <field name="overall_attendance"/><field name="current_cgpa"/>
+                <field name="library_open_count"/><field name="pending_assignment_count"/>
+                <field name="hostel_room_label"/><field name="transport_route_label"/>
+                <field name="outstanding_amount"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_campus_360" model="ir.actions.act_window">
+        <field name="name">Campus 360</field>
+        <field name="res_model">univ.student</field>
+        <field name="view_mode">kanban,list</field>
+        <field name="view_id" ref="view_campus_student_kanban"/>
+    </record>
+
+    <menuitem id="menu_campus_root" name="Campus 360" parent="inom_university_core.menu_univ_root" sequence="60"
+              groups="inom_university_core.group_univ_admin,inom_university_core.group_univ_registrar"/>
+    <menuitem id="menu_campus_360" name="Student 360" parent="menu_campus_root" action="action_campus_360" sequence="10"/>
+</odoo>

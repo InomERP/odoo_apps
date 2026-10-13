@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="1">
+    <record id="demo_faculty_school_management" model="univ.faculty_school">
+      <field name="name">School of Management</field><field name="code">SOM</field><field name="sequence">20</field>
+    </record>
+    <record id="demo_department_bba" model="univ.department">
+      <field name="name">Department of Management</field><field name="code">MGT</field>
+      <field name="faculty_school_id" ref="demo_faculty_school_management"/>
+    </record>
+    <record id="demo_program_bba" model="univ.program">
+      <field name="name">BBA Business Administration</field><field name="code">BBA</field>
+      <field name="department_id" ref="demo_department_bba"/><field name="degree_type">ug</field>
+      <field name="duration_years">3</field><field name="total_semesters">6</field>
+    </record>
+    <record id="demo_batch_bba_2025" model="univ.batch">
+      <field name="name">2025-2028 BBA</field><field name="code">BB2025</field>
+      <field name="program_id" ref="demo_program_bba"/><field name="start_year">2025</field>
+    </record>
+    <record id="demo_semester_bba_1" model="univ.semester">
+      <field name="name">BBA Semester 1</field><field name="code">BBA-S1</field><field name="sequence">1</field>
+      <field name="program_id" ref="demo_program_bba"/>
+    </record>
+    <record id="demo_section_bba_a" model="univ.section">
+      <field name="name">BBA Section A</field><field name="code">BBA-A</field>
+      <field name="batch_id" ref="demo_batch_bba_2025"/><field name="semester_id" ref="demo_semester_bba_1"/><field name="capacity">50</field>
+    </record>
+    <record id="demo_subject_accounts" model="univ.subject">
+      <field name="name">Financial Accounting</field><field name="code">BBA101</field><field name="program_id" ref="demo_program_bba"/>
+      <field name="semester_id" ref="demo_semester_bba_1"/><field name="subject_type">core</field><field name="credit_hours">4</field>
+    </record>
+    <record id="demo_subject_marketing" model="univ.subject">
+      <field name="name">Principles of Marketing</field><field name="code">BBA102</field><field name="program_id" ref="demo_program_bba"/>
+      <field name="semester_id" ref="demo_semester_bba_1"/><field name="subject_type">core</field><field name="credit_hours">3</field>
+    </record>
+    <record id="demo_faculty_gupta" model="univ.faculty">
+      <field name="name">Dr. Kavita Gupta</field><field name="department_id" ref="demo_department_bba"/>
+      <field name="designation">associate_professor</field><field name="faculty_type">teaching</field><field name="qualification">Ph.D. Management</field>
+      <field name="experience_years">9</field><field name="gender">female</field><field name="email">kavita.gupta@example.com</field>
+      <field name="subject_ids" eval="[(6,0,[ref('demo_subject_accounts'),ref('demo_subject_marketing')])]"/>
+    </record>
+    <record id="demo_student_aman" model="univ.student">
+      <field name="name">Aman Kapoor</field><field name="program_id" ref="demo_program_bba"/><field name="batch_id" ref="demo_batch_bba_2025"/>
+      <field name="semester_id" ref="demo_semester_bba_1"/><field name="section_id" ref="demo_section_bba_a"/>
+      <field name="state">active</field><field name="gender">male</field><field name="category">general</field>
+      <field name="email">aman.kapoor@example.com</field><field name="mobile">+91 90000 00011</field><field name="roll_number">BBA-A-001</field>
+    </record>
+    <record id="demo_student_sneha" model="univ.student">
+      <field name="name">Sneha Iyer</field><field name="program_id" ref="demo_program_bba"/><field name="batch_id" ref="demo_batch_bba_2025"/>
+      <field name="semester_id" ref="demo_semester_bba_1"/><field name="section_id" ref="demo_section_bba_a"/>
+      <field name="state">active</field><field name="gender">female</field><field name="category">general</field>
+      <field name="email">sneha.iyer@example.com</field><field name="mobile">+91 90000 00012</field><field name="roll_number">BBA-A-002</field>
+    </record>
+    <record id="demo_guardian_aman_mother" model="univ.student.guardian">
+      <field name="name">Meena Kapoor</field><field name="student_id" ref="demo_student_aman"/><field name="relationship">mother</field>
+      <field name="is_primary">True</field><field name="mobile">+91 90000 10011</field><field name="email">meena.kapoor@example.com</field>
+    </record>
+    <record id="demo_doc_aman_id" model="univ.student.document">
+      <field name="name">Aadhaar / ID Proof</field><field name="student_id" ref="demo_student_aman"/><field name="doc_type">id_proof</field><field name="state">verified</field>
+    </record>
+  </data>
+</odoo>

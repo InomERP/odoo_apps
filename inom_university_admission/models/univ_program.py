@@ -88,10 +88,9 @@ class UnivProgramDocumentRequirement(models.Model):
         index=True,
     )
 
-    _sql_constraints = [
-        (
-            "uniq_program_doctype",
-            "unique(program_id, doc_type)",
-            "A document type can only be listed once per course.",
-        ),
-    ]
+    
+
+    _uniq_program_doctype = models.Constraint(
+        'unique(program_id, doc_type)',
+        'A document type can only be listed once per course.',
+    )

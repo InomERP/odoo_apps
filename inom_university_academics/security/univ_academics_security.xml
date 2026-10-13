@@ -38,72 +38,101 @@
             <field name="implied_ids" eval="[(4, ref('group_univ_academic_admin'))]"/>
         </record>
 
-        <!-- ================= MULTI-COMPANY (global) ================= -->
-        <record id="rule_session_company" model="ir.rule">
+        <!-- ========================================================= -->
+        <!-- ODOO 20 RECORD ACCESS                                     -->
+        <!-- ir.access replaces both ir.model.access and ir.rule.     -->
+        <!-- A record without group_id is a restriction applied       -->
+        <!-- globally; grouped records are permission records.        -->
+        <!-- ========================================================= -->
+
+        <!-- Global multi-company restrictions -->
+        <record id="access_rule_session_company" model="ir.access">
             <field name="name">Timetable session multi-company</field>
             <field name="model_id" ref="model_univ_timetable_session"/>
-            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
-            <field name="global" eval="True"/>
-        </record>
-        <record id="rule_attendance_sheet_company" model="ir.rule">
-            <field name="name">Attendance sheet multi-company</field>
-            <field name="model_id" ref="model_univ_attendance_sheet"/>
-            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
-            <field name="global" eval="True"/>
-        </record>
-        <record id="rule_exam_company" model="ir.rule">
-            <field name="name">Exam multi-company</field>
-            <field name="model_id" ref="model_univ_exam"/>
-            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
-            <field name="global" eval="True"/>
-        </record>
-        <record id="rule_result_semester_company" model="ir.rule">
-            <field name="name">Semester result multi-company</field>
-            <field name="model_id" ref="model_univ_result_semester"/>
-            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
-            <field name="global" eval="True"/>
+            <field name="operation">crud</field>
+            <field name="domain">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
         </record>
 
-        <!-- ================= PORTAL OWN-ONLY (students & parents) ================= -->
-        <record id="rule_attendance_summary_portal" model="ir.rule">
+        <record id="access_rule_attendance_sheet_company" model="ir.access">
+            <field name="name">Attendance sheet multi-company</field>
+            <field name="model_id" ref="model_univ_attendance_sheet"/>
+            <field name="operation">crud</field>
+            <field name="domain">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="access_rule_exam_company" model="ir.access">
+            <field name="name">Exam multi-company</field>
+            <field name="model_id" ref="model_univ_exam"/>
+            <field name="operation">crud</field>
+            <field name="domain">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="access_rule_result_semester_company" model="ir.access">
+            <field name="name">Semester result multi-company</field>
+            <field name="model_id" ref="model_univ_result_semester"/>
+            <field name="operation">crud</field>
+            <field name="domain">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <!-- Portal own-only permissions -->
+        <record id="access_portal_attendance_summary" model="ir.access">
             <field name="name">Attendance summary: portal own</field>
             <field name="model_id" ref="model_univ_attendance_summary"/>
-            <field name="domain_force">[('student_id.partner_id', '=', user.partner_id.id)]</field>
-            <field name="groups" eval="[(4, ref('inom_university_core.group_univ_portal_student')), (4, ref('inom_university_core.group_univ_portal_parent'))]"/>
-            <field name="perm_read" eval="True"/>
-            <field name="perm_write" eval="False"/>
-            <field name="perm_create" eval="False"/>
-            <field name="perm_unlink" eval="False"/>
+            <field name="group_id" ref="inom_university_core.group_univ_portal_student"/>
+            <field name="operation">r</field>
+            <field name="domain">[('student_id.partner_id', '=', user.partner_id.id)]</field>
         </record>
-        <record id="rule_attendance_line_portal" model="ir.rule">
+        <record id="access_parent_attendance_summary" model="ir.access">
+            <field name="name">Attendance summary: parent own</field>
+            <field name="model_id" ref="model_univ_attendance_summary"/>
+            <field name="group_id" ref="inom_university_core.group_univ_portal_parent"/>
+            <field name="operation">r</field>
+            <field name="domain">[('student_id.partner_id', '=', user.partner_id.id)]</field>
+        </record>
+
+        <record id="access_portal_attendance_line" model="ir.access">
             <field name="name">Attendance line: portal own</field>
             <field name="model_id" ref="model_univ_attendance_line"/>
-            <field name="domain_force">[('student_id.partner_id', '=', user.partner_id.id)]</field>
-            <field name="groups" eval="[(4, ref('inom_university_core.group_univ_portal_student')), (4, ref('inom_university_core.group_univ_portal_parent'))]"/>
-            <field name="perm_read" eval="True"/>
-            <field name="perm_write" eval="False"/>
-            <field name="perm_create" eval="False"/>
-            <field name="perm_unlink" eval="False"/>
+            <field name="group_id" ref="inom_university_core.group_univ_portal_student"/>
+            <field name="operation">r</field>
+            <field name="domain">[('student_id.partner_id', '=', user.partner_id.id)]</field>
         </record>
-        <record id="rule_result_semester_portal" model="ir.rule">
+        <record id="access_parent_attendance_line" model="ir.access">
+            <field name="name">Attendance line: parent own</field>
+            <field name="model_id" ref="model_univ_attendance_line"/>
+            <field name="group_id" ref="inom_university_core.group_univ_portal_parent"/>
+            <field name="operation">r</field>
+            <field name="domain">[('student_id.partner_id', '=', user.partner_id.id)]</field>
+        </record>
+
+        <record id="access_portal_result_semester" model="ir.access">
             <field name="name">Semester result: portal own</field>
             <field name="model_id" ref="model_univ_result_semester"/>
-            <field name="domain_force">[('student_id.partner_id', '=', user.partner_id.id)]</field>
-            <field name="groups" eval="[(4, ref('inom_university_core.group_univ_portal_student')), (4, ref('inom_university_core.group_univ_portal_parent'))]"/>
-            <field name="perm_read" eval="True"/>
-            <field name="perm_write" eval="False"/>
-            <field name="perm_create" eval="False"/>
-            <field name="perm_unlink" eval="False"/>
+            <field name="group_id" ref="inom_university_core.group_univ_portal_student"/>
+            <field name="operation">r</field>
+            <field name="domain">[('student_id.partner_id', '=', user.partner_id.id)]</field>
         </record>
-        <record id="rule_result_transcript_portal" model="ir.rule">
+        <record id="access_parent_result_semester" model="ir.access">
+            <field name="name">Semester result: parent own</field>
+            <field name="model_id" ref="model_univ_result_semester"/>
+            <field name="group_id" ref="inom_university_core.group_univ_portal_parent"/>
+            <field name="operation">r</field>
+            <field name="domain">[('student_id.partner_id', '=', user.partner_id.id)]</field>
+        </record>
+
+        <record id="access_portal_result_transcript" model="ir.access">
             <field name="name">Transcript: portal own</field>
             <field name="model_id" ref="model_univ_result_transcript"/>
-            <field name="domain_force">[('student_id.partner_id', '=', user.partner_id.id)]</field>
-            <field name="groups" eval="[(4, ref('inom_university_core.group_univ_portal_student')), (4, ref('inom_university_core.group_univ_portal_parent'))]"/>
-            <field name="perm_read" eval="True"/>
-            <field name="perm_write" eval="False"/>
-            <field name="perm_create" eval="False"/>
-            <field name="perm_unlink" eval="False"/>
+            <field name="group_id" ref="inom_university_core.group_univ_portal_student"/>
+            <field name="operation">r</field>
+            <field name="domain">[('student_id.partner_id', '=', user.partner_id.id)]</field>
+        </record>
+        <record id="access_parent_result_transcript" model="ir.access">
+            <field name="name">Transcript: parent own</field>
+            <field name="model_id" ref="model_univ_result_transcript"/>
+            <field name="group_id" ref="inom_university_core.group_univ_portal_parent"/>
+            <field name="operation">r</field>
+            <field name="domain">[('student_id.partner_id', '=', user.partner_id.id)]</field>
         </record>
 
     </data>

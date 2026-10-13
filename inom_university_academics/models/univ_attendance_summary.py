@@ -36,10 +36,7 @@ class UnivAttendanceSummary(models.Model):
         related="student_id.company_id", store=True, index=True,
     )
 
-    _sql_constraints = [
-        ("student_subject_uniq", "unique(student_id, subject_id)",
-         "One summary row per student and subject."),
-    ]
+    _student_subject_uniq = models.Constraint('unique(student_id, subject_id)', 'One summary row per student and subject.')
 
     @staticmethod
     def _band_for(percent):

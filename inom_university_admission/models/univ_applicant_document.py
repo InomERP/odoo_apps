@@ -93,13 +93,12 @@ class UnivApplicantDocument(models.Model):
         index=True,
     )
 
-    _sql_constraints = [
-        (
-            "uniq_applicant_doctype",
-            "unique(applicant_id, doc_type)",
-            "Only one document per type is allowed for each application.",
-        ),
-    ]
+    
+
+    _uniq_applicant_doctype = models.Constraint(
+        'unique(applicant_id, doc_type)',
+        'Only one document per type is allowed for each application.',
+    )
 
     @api.depends("state")
     def _compute_flags(self):

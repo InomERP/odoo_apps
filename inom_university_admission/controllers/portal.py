@@ -2,7 +2,8 @@
 import base64
 
 from odoo import http
-from odoo.http import request, content_disposition
+from odoo.http import request
+from odoo.http.stream import content_disposition
 from odoo.addons.portal.controllers.portal import CustomerPortal
 
 from odoo.addons.inom_university_admission.models.univ_applicant_document import (

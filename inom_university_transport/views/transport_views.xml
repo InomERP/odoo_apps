@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- DRIVER -->
+    <record id="view_tr_driver_list" model="ir.ui.view">
+        <field name="name">univ.transport.driver.list</field>
+        <field name="model">univ.transport.driver</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/><field name="role"/><field name="phone"/>
+                <field name="license_no"/><field name="license_expiry"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_tr_driver" model="ir.actions.act_window">
+        <field name="name">Drivers</field><field name="res_model">univ.transport.driver</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- VEHICLE -->
+    <record id="view_tr_vehicle_form" model="ir.ui.view">
+        <field name="name">univ.transport.vehicle.form</field>
+        <field name="model">univ.transport.vehicle</field>
+        <field name="arch" type="xml">
+            <form string="Vehicle">
+                <sheet>
+                    <div class="oe_title"><h1><field name="regno"/></h1></div>
+                    <group>
+                        <group><field name="vehicle_type"/><field name="capacity"/><field name="driver_id"/></group>
+                        <group><field name="insurance_expiry"/><field name="fitness_expiry"/><field name="permit_expiry"/></group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_tr_vehicle_list" model="ir.ui.view">
+        <field name="name">univ.transport.vehicle.list</field>
+        <field name="model">univ.transport.vehicle</field>
+        <field name="arch" type="xml">
+            <list string="Vehicles">
+                <field name="regno"/><field name="vehicle_type"/><field name="capacity"/>
+                <field name="driver_id"/><field name="insurance_expiry"/>
+                <field name="fitness_expiry"/><field name="permit_expiry"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_tr_vehicle" model="ir.actions.act_window">
+        <field name="name">Vehicles</field><field name="res_model">univ.transport.vehicle</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ROUTE -->
+    <record id="view_tr_route_form" model="ir.ui.view">
+        <field name="name">univ.transport.route.form</field>
+        <field name="model">univ.transport.route</field>
+        <field name="arch" type="xml">
+            <form string="Route">
+                <sheet>
+                    <div class="oe_title"><label for="name"/><h1><field name="name"/></h1></div>
+                    <group>
+                        <group><field name="code"/><field name="vehicle_id"/><field name="driver_id"/></group>
+                        <group>
+                            <field name="fee_amount"/><field name="fee_head_id"/>
+                            <field name="seats_used"/><field name="seats_available"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Stops">
+                            <field name="stop_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/><field name="pickup_time" widget="float_time"/>
+                                    <field name="latitude"/><field name="longitude"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Subscriptions">
+                            <field name="subscription_ids">
+                                <list><field name="name"/><field name="student_id"/><field name="stop_id"/><field name="state"/></list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_tr_route_list" model="ir.ui.view">
+        <field name="name">univ.transport.route.list</field>
+        <field name="model">univ.transport.route</field>
+        <field name="arch" type="xml">
+            <list string="Routes">
+                <field name="name"/><field name="vehicle_id"/><field name="driver_id"/>
+                <field name="fee_amount"/><field name="seats_used"/><field name="seats_available"/>
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_tr_route" model="ir.actions.act_window">
+        <field name="name">Routes</field><field name="res_model">univ.transport.route</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="action_tr_stop" model="ir.actions.act_window">
+        <field name="name">Stops</field><field name="res_model">univ.transport.stop</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- SUBSCRIPTION -->
+    <record id="view_tr_sub_form" model="ir.ui.view">
+        <field name="name">univ.transport.subscription.form</field>
+        <field name="model">univ.transport.subscription</field>
+        <field name="arch" type="xml">
+            <form string="Subscription">
+                <header>
+                    <button name="action_map_stop" string="Map Stop" type="object" invisible="state != 'requested'"/>
+                    <button name="action_add_fee" string="Add Fee" type="object" class="oe_highlight" invisible="state not in ('requested','mapped')"/>
+                    <button name="action_issue_pass" string="Issue Pass" type="object" class="oe_highlight" invisible="state != 'fee_added'"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state in ('issued','cancelled')"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name" readonly="1"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="student_id"/><field name="route_id"/>
+                            <field name="stop_id"/><field name="vehicle_id"/>
+                        </group>
+                        <group>
+                            <field name="fee_amount"/><field name="fee_invoice_id" readonly="1"/>
+                            <field name="valid_from"/><field name="valid_to"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_tr_sub_list" model="ir.ui.view">
+        <field name="name">univ.transport.subscription.list</field>
+        <field name="model">univ.transport.subscription</field>
+        <field name="arch" type="xml">
+            <list string="Subscriptions">
+                <field name="name"/><field name="student_id"/><field name="route_id"/>
+                <field name="stop_id"/><field name="fee_amount"/>
+                <field name="state" widget="badge" decoration-success="state == 'issued'"/>
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_tr_sub_search" model="ir.ui.view">
+        <field name="name">univ.transport.subscription.search</field>
+        <field name="model">univ.transport.subscription</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="student_id"/><field name="route_id"/><field name="stop_id"/>
+                <filter name="active" string="Active" domain="[('state','in',('fee_added','issued'))]"/>
+                <group>
+                    <filter name="g_route" string="Route" context="{'group_by': 'route_id'}"/>
+                    <filter name="g_stop" string="Stop" context="{'group_by': 'stop_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_tr_sub" model="ir.actions.act_window">
+        <field name="name">Subscriptions</field><field name="res_model">univ.transport.subscription</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- DASHBOARD -->
+    <record id="view_tr_sub_graph" model="ir.ui.view">
+        <field name="name">univ.transport.subscription.graph</field>
+        <field name="model">univ.transport.subscription</field>
+        <field name="arch" type="xml">
+            <graph string="Route Utilisation" type="bar" sample="1">
+                <field name="route_id"/>
+            </graph>
+        </field>
+    </record>
+    <record id="action_tr_dashboard" model="ir.actions.act_window">
+        <field name="name">Transport Dashboard</field>
+        <field name="res_model">univ.transport.subscription</field>
+        <field name="view_mode">graph,pivot,list</field>
+    </record>
+
+    <!-- WIZARD -->
+    <record id="view_tr_sub_wizard" model="ir.ui.view">
+        <field name="name">univ.transport.subscription.wizard.form</field>
+        <field name="model">univ.transport.subscription.wizard</field>
+        <field name="arch" type="xml">
+            <form string="New Subscription">
+                <group>
+                    <field name="student_id"/><field name="route_id"/><field name="stop_id"/>
+                    <field name="valid_from"/><field name="valid_to"/><field name="add_fee"/>
+                </group>
+                <footer>
+                    <button name="action_create" string="Create" type="object" class="oe_highlight"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_tr_sub_wizard" model="ir.actions.act_window">
+        <field name="name">New Subscription</field><field name="res_model">univ.transport.subscription.wizard</field>
+        <field name="view_mode">form</field><field name="target">new</field>
+    </record>
+
+</odoo>

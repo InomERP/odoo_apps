@@ -35,7 +35,7 @@
                                 <option t-foreach="applicants" t-as="a"
                                         t-att-value="a.id"
                                         t-att-selected="applicant and a.id == applicant.id">
-                                    <t t-esc="a.application_no"/> - <t t-esc="a.program_id.name"/>
+                                    <t t-out="a.application_no"/> - <t t-out="a.program_id.name"/>
                                 </option>
                             </select>
                         </form>
@@ -46,23 +46,23 @@
                         <div class="card mb-4">
                             <div class="card-body">
                                 <h5 class="card-title">
-                                    <t t-esc="applicant.application_no"/> -
-                                    <t t-esc="applicant.program_id.name"/>
+                                    <t t-out="applicant.application_no"/> -
+                                    <t t-out="applicant.program_id.name"/>
                                 </h5>
                                 <p>
                                     <span class="badge text-bg-primary">
-                                        <t t-esc="applicant.stage_id.name"/>
+                                        <t t-out="applicant.stage_id.name"/>
                                     </span>
                                     <span class="badge text-bg-secondary ms-1">
-                                        Docs <t t-esc="int(applicant.document_progress)"/>%
+                                        Docs <t t-out="int(applicant.document_progress)"/>%
                                     </span>
                                     <span class="badge text-bg-info ms-1">
-                                        Fee: <t t-esc="dict(applicant._fields['fee_state'].selection).get(applicant.fee_state)"/>
+                                        Fee: <t t-out="dict(applicant._fields['fee_state'].selection).get(applicant.fee_state)"/>
                                     </span>
                                 </p>
                                 <div class="alert alert-light border" role="alert">
                                     <strong>Next step: </strong>
-                                    <t t-esc="next_action"/>
+                                    <t t-out="next_action"/>
                                 </div>
                             </div>
                         </div>
@@ -94,13 +94,13 @@
                                         <div class="d-flex justify-content-between align-items-start flex-wrap">
                                             <div class="me-3">
                                                 <h6 class="mb-1">
-                                                    <t t-esc="dict(doc._fields['doc_type'].selection).get(doc.doc_type)"/>
+                                                    <t t-out="dict(doc._fields['doc_type'].selection).get(doc.doc_type)"/>
                                                     <span class="text-danger" t-if="doc.mandatory">*</span>
                                                 </h6>
                                                 <t t-if="doc.file">
                                                     <div class="small text-muted">
                                                         <i class="fa fa-paperclip"/>
-                                                        <t t-esc="doc.file_name or 'document'"/>
+                                                        <t t-out="doc.file_name or 'document'"/>
                                                     </div>
                                                 </t>
                                                 <t t-else="">
@@ -109,7 +109,7 @@
                                             </div>
                                             <div class="text-end">
                                                 <span t-attf-class="badge #{'text-bg-success' if doc.state == 'verified' else ('text-bg-danger' if doc.state == 'rejected' else ('text-bg-info' if doc.state == 'under_review' else ('text-bg-warning' if doc.state == 'submitted' else 'text-bg-secondary')))}">
-                                                    <t t-esc="dict(doc._fields['state'].selection).get(doc.state)"/>
+                                                    <t t-out="dict(doc._fields['state'].selection).get(doc.state)"/>
                                                 </span>
                                             </div>
                                         </div>
@@ -118,7 +118,7 @@
                                         <div class="alert alert-warning mt-2 mb-2 py-2"
                                              t-if="doc.state == 'rejected'">
                                             <strong>Reason: </strong>
-                                            <t t-esc="doc.reject_reason or 'Not specified'"/>
+                                            <t t-out="doc.reject_reason or 'Not specified'"/>
                                         </div>
 
                                         <!-- Actions -->

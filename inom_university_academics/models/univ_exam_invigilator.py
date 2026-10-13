@@ -26,10 +26,7 @@ class UnivExamInvigilator(models.Model):
         related="schedule_id.company_id", store=True, index=True,
     )
 
-    _sql_constraints = [
-        ("schedule_faculty_uniq", "unique(schedule_id, faculty_id)",
-         "Faculty assigned only once per exam schedule."),
-    ]
+    _schedule_faculty_uniq = models.Constraint('unique(schedule_id, faculty_id)', 'Faculty assigned only once per exam schedule.')
 
     @api.constrains("faculty_id", "date")
     def _check_conflict(self):

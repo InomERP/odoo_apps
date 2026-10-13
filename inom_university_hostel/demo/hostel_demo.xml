@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="demo_hostel_a" model="univ.hostel">
+            <field name="name">Aryabhatta Hostel</field><field name="code">AH</field>
+            <field name="hostel_type">boys</field>
+        </record>
+        <record id="demo_block_a" model="univ.hostel.block">
+            <field name="name">Block A</field><field name="hostel_id" ref="demo_hostel_a"/>
+        </record>
+        <record id="demo_floor_1" model="univ.hostel.floor">
+            <field name="name">Ground Floor</field><field name="block_id" ref="demo_block_a"/>
+        </record>
+        <record id="demo_room_101" model="univ.hostel.room">
+            <field name="room_no">101</field><field name="floor_id" ref="demo_floor_1"/>
+            <field name="capacity">2</field>
+        </record>
+        <record id="demo_bed_1" model="univ.hostel.bed">
+            <field name="bed_no">1</field><field name="room_id" ref="demo_room_101"/>
+        </record>
+        <record id="demo_bed_2" model="univ.hostel.bed">
+            <field name="bed_no">2</field><field name="room_id" ref="demo_room_101"/>
+        </record>
+    </data>
+</odoo>

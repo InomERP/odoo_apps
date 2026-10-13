@@ -211,7 +211,7 @@ class UnivApplicant(models.Model):
         return (
             self.env["ir.config_parameter"]
             .sudo()
-            .get_param(SMS_ENABLED_PARAM, "False")
+            .get_str(SMS_ENABLED_PARAM, "False")
             .lower()
             in ("1", "true", "yes")
         )

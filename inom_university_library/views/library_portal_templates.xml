@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_my_home_library" inherit_id="portal.portal_my_home" priority="50">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Library</t>
+                <t t-set="text">My issued books and fines</t>
+                <t t-set="url" t-value="'/my/library'"/>
+                <t t-set="config_card" t-value="True"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_library" name="My Library">
+        <t t-call="portal.portal_layout">
+            <div class="container mt-3">
+                <h3>My Library</h3>
+                <t t-if="not member"><p class="text-muted">No library membership found.</p></t>
+                <t t-if="member">
+                    <p><strong>Card: </strong><span t-out="member.code"/> ·
+                       <strong>Limit: </strong><span t-out="member.max_books"/></p>
+                    <h5 class="mt-3">Currently Issued</h5>
+                    <table class="table table-sm" t-if="current">
+                        <thead><tr><th>Book</th><th>Issued</th><th>Due</th><th>Status</th></tr></thead>
+                        <tbody>
+                            <tr t-foreach="current" t-as="i">
+                                <td><span t-out="i.book_id.name"/></td>
+                                <td><span t-out="i.issue_date"/></td>
+                                <td><span t-out="i.due_date"/></td>
+                                <td>
+                                    <span t-if="i.state == 'overdue'" class="badge text-bg-danger">Overdue</span>
+                                    <span t-else="" class="badge text-bg-success">Issued</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p t-if="not current" class="text-muted">No books currently issued.</p>
+                    <h5 class="mt-3">Fines</h5>
+                    <table class="table table-sm" t-if="fines">
+                        <thead><tr><th>Book</th><th>Amount</th><th>Status</th></tr></thead>
+                        <tbody>
+                            <tr t-foreach="fines" t-as="f">
+                                <td><span t-out="f.issue_id.book_id.name"/></td>
+                                <td><span t-out="f.amount"/></td>
+                                <td><span t-out="f.state"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p t-if="not fines" class="text-muted">No fines. </p>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

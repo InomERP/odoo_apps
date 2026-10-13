@@ -50,10 +50,7 @@ class UnivExamSchedule(models.Model):
         related="exam_id.company_id", store=True, index=True,
     )
 
-    _sql_constraints = [
-        ("exam_subject_uniq", "unique(exam_id, subject_id)",
-         "A subject is scheduled only once per exam."),
-    ]
+    _exam_subject_uniq = models.Constraint('unique(exam_id, subject_id)', 'A subject is scheduled only once per exam.')
 
     @api.depends("exam_id", "subject_id")
     def _compute_name(self):

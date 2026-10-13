@@ -62,18 +62,8 @@ class UnivSubject(models.Model):
         string="Faculty",
     )
 
-    _sql_constraints = [
-        (
-            "code_company_uniq",
-            "unique(code, company_id)",
-            "The subject code must be unique per campus.",
-        ),
-        (
-            "credit_hours_positive",
-            "check(credit_hours >= 0)",
-            "Credit hours cannot be negative.",
-        ),
-    ]
+    _code_company_uniq = models.Constraint('unique(code, company_id)', 'The subject code must be unique per campus.')
+    _credit_hours_positive = models.Constraint('check(credit_hours >= 0)', 'Credit hours cannot be negative.')
 
     @api.constrains("subject_type", "elective_group_id")
     def _check_elective_group(self):

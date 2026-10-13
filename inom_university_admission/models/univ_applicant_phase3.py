@@ -48,7 +48,7 @@ class UnivApplicant(models.Model):
     # ------------------------------------------------------------------
     @api.model
     def _phase3_param(self, key, default=""):
-        return self.env["ir.config_parameter"].sudo().get_param(key, default)
+        return self.env["ir.config_parameter"].sudo().get_str(key, default)
 
     @api.model
     def _phase3_enabled(self, key, default=True):

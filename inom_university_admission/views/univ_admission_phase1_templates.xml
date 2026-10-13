@@ -121,7 +121,7 @@
                  (auth_signup invitation_scope = 'b2c'). Uses Odoo's standard
                  /web/signup route, so no custom authentication code is added
                  and the page degrades silently when sign up is off. -->
-            <a t-if="not form.get('resume_token') and request.env['ir.config_parameter'].sudo().get_param('auth_signup.invitation_scope') == 'b2c'"
+            <a t-if="not form.get('resume_token') and request.env['ir.config_parameter'].sudo().get_str('auth_signup.invitation_scope') == 'b2c'"
                href="/web/signup?redirect=/my/admission"
                class="btn btn-link ms-2">
                 Create an account
@@ -147,7 +147,7 @@
                     <!-- Phase 1: let a guest who saved a draft create an account
                          to track it (standard /web/signup, only when free sign
                          up is enabled). -->
-                    <a t-if="request.env['ir.config_parameter'].sudo().get_param('auth_signup.invitation_scope') == 'b2c'"
+                    <a t-if="request.env['ir.config_parameter'].sudo().get_str('auth_signup.invitation_scope') == 'b2c'"
                        href="/web/signup?redirect=/my/admission"
                        class="btn btn-link ms-2">Create an account to track this</a>
                     <p class="text-muted mt-3" t-if="applicant.email">
@@ -167,8 +167,8 @@
                      class="alert alert-warning d-flex flex-wrap justify-content-between align-items-center">
                     <span>
                         <span class="badge text-bg-warning me-2">Draft</span>
-                        <strong t-esc="a.program_id.name or 'Application'"/>
-                        <span class="text-muted ms-1">(<t t-esc="a.application_no"/>)</span>
+                        <strong t-out="a.program_id.name or 'Application'"/>
+                        <span class="text-muted ms-1">(<t t-out="a.application_no"/>)</span>
                     </span>
                     <a t-attf-href="/admission/resume/#{a.access_token}"
                        class="btn btn-sm btn-primary">Continue</a>

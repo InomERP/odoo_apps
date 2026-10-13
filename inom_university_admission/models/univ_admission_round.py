@@ -60,13 +60,12 @@ class UnivAdmissionRound(models.Model):
         string="Enrolled", compute="_compute_applicant_count"
     )
 
-    _sql_constraints = [
-        (
-            "code_company_uniq",
-            "unique(code, company_id)",
-            "The round code must be unique per campus.",
-        ),
-    ]
+    
+
+    _code_company_uniq = models.Constraint(
+        'unique(code, company_id)',
+        'The round code must be unique per campus.',
+    )
 
     @api.depends("applicant_ids", "applicant_ids.stage_id.is_won")
     def _compute_applicant_count(self):

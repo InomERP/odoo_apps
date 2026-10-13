@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Promote a unified dashboard entry at the top of the portal home -->
+    <template id="portal_my_home_campus" inherit_id="portal.portal_my_home" priority="1">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
+            <div class="mb-4">
+                <a href="/my/dashboard" class="btn btn-primary">Open My University Dashboard</a>
+                <a href="/my/teaching" class="btn btn-outline-secondary ms-2">Faculty Workspace</a>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="portal_dashboard" name="Student Dashboard">
+        <t t-call="portal.portal_layout">
+            <div class="container mt-3">
+                <h3>My University Dashboard</h3>
+                <t t-if="not student">
+                    <p class="text-muted">No student profile linked to your account.</p>
+                </t>
+                <t t-if="student">
+                    <div class="row g-3 mt-1">
+                        <t t-call="inom_university_campus_services.kpi_card">
+                            <t t-set="label">Profile</t><t t-set="value" t-value="student.name"/></t>
+                        <t t-call="inom_university_campus_services.kpi_card">
+                            <t t-set="label">Current Semester</t>
+                            <t t-set="value" t-value="student.semester_id.name or '-'"/></t>
+                        <t t-call="inom_university_campus_services.kpi_card">
+                            <t t-set="label">Attendance %</t>
+                            <t t-set="value" t-value="'%.1f' % (attendance or 0.0)"/></t>
+                        <t t-call="inom_university_campus_services.kpi_card">
+                            <t t-set="label">SGPA</t><t t-set="value" t-value="'%.2f' % (sgpa or 0.0)"/></t>
+                        <t t-call="inom_university_campus_services.kpi_card">
+                            <t t-set="label">CGPA</t><t t-set="value" t-value="'%.2f' % (cgpa or 0.0)"/></t>
+                        <t t-call="inom_university_campus_services.kpi_card">
+                            <t t-set="label">Outstanding Fees</t>
+                            <t t-set="value" t-value="outstanding"/></t>
+                        <t t-call="inom_university_campus_services.kpi_card">
+                            <t t-set="label">Pending Assignments</t>
+                            <t t-set="value" t-value="pending_assignments"/></t>
+                        <t t-call="inom_university_campus_services.kpi_card">
+                            <t t-set="label">Library Books</t>
+                            <t t-set="value" t-value="library_count"/></t>
+                        <t t-call="inom_university_campus_services.kpi_card">
+                            <t t-set="label">Hostel</t>
+                            <t t-set="value" t-value="hostel or 'Not allotted'"/></t>
+                        <t t-call="inom_university_campus_services.kpi_card">
+                            <t t-set="label">Transport</t>
+                            <t t-set="value" t-value="transport or 'None'"/></t>
+                    </div>
+
+                    <h5 class="mt-4">Upcoming Exams</h5>
+                    <table class="table table-sm" t-if="upcoming_exams">
+                        <thead><tr><th>Date</th><th>Subject</th></tr></thead>
+                        <tbody>
+                            <tr t-foreach="upcoming_exams" t-as="ex">
+                                <td><span t-out="ex.date"/></td>
+                                <td><span t-out="ex.subject_id.name"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p t-if="not upcoming_exams" class="text-muted">No upcoming exams.</p>
+
+                    <h5 class="mt-3">Quick Links</h5>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a href="/my/library" class="btn btn-sm btn-outline-primary">Library</a>
+                        <a href="/my/hostel" class="btn btn-sm btn-outline-primary">Hostel</a>
+                        <a href="/my/transport" class="btn btn-sm btn-outline-primary">Transport</a>
+                        <a href="/my/assignments" class="btn btn-sm btn-outline-primary">Assignments</a>
+                        <a href="/my/lms" class="btn btn-sm btn-outline-primary">Study Materials</a>
+                        <a href="/my/certificates" class="btn btn-sm btn-outline-primary">Certificates</a>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <template id="kpi_card" name="KPI Card">
+        <div class="col-6 col-md-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="text-muted small text-uppercase" t-out="label"/>
+                    <div class="h5 mb-0" t-out="value"/>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="portal_teaching" name="Faculty Workspace">
+        <t t-call="portal.portal_layout">
+            <div class="container mt-3">
+                <h3>Faculty Workspace</h3>
+                <t t-if="not faculty"><p class="text-muted">No faculty profile linked.</p></t>
+                <t t-if="faculty">
+                    <p><strong>Subjects: </strong>
+                       <t t-foreach="subjects" t-as="s"><span class="badge text-bg-secondary me-1" t-out="s.name"/></t></p>
+
+                    <h5 class="mt-3">Submissions to Grade
+                        <span class="badge text-bg-warning" t-out="len(to_grade)"/></h5>
+                    <table class="table table-sm" t-if="to_grade">
+                        <thead><tr><th>Assignment</th><th>Student</th><th>Submitted</th></tr></thead>
+                        <tbody>
+                            <tr t-foreach="to_grade" t-as="sub">
+                                <td><span t-out="sub.assignment_id.name"/></td>
+                                <td><span t-out="sub.student_id.display_name"/></td>
+                                <td><span t-out="sub.submitted_on"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p t-if="not to_grade" class="text-muted">Nothing pending.</p>
+
+                    <h5 class="mt-3">My Assignments</h5>
+                    <table class="table table-sm" t-if="assignments">
+                        <thead><tr><th>Title</th><th>Subject</th><th>Due</th><th>Status</th></tr></thead>
+                        <tbody>
+                            <tr t-foreach="assignments" t-as="a">
+                                <td><span t-out="a.name"/></td>
+                                <td><span t-out="a.subject_id.name"/></td>
+                                <td><span t-out="a.due_date"/></td>
+                                <td><span t-out="a.state"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

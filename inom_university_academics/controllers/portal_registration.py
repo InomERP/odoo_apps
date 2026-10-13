@@ -2,7 +2,8 @@
 # Phase 5 - Student portal for course registration. Additive controller; the
 # existing academics portal controller is untouched.
 from odoo import http
-from odoo.http import request, content_disposition
+from odoo.http import request
+from odoo.http.stream import content_disposition
 from odoo.exceptions import UserError
 from odoo.addons.portal.controllers.portal import CustomerPortal
 

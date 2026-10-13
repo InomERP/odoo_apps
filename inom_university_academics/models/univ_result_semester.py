@@ -52,10 +52,7 @@ class UnivResultSemester(models.Model):
         related="student_id.company_id", store=True, index=True,
     )
 
-    _sql_constraints = [
-        ("student_sem_uniq", "unique(student_id, semester_id)",
-         "One result record per student per semester."),
-    ]
+    _student_sem_uniq = models.Constraint('unique(student_id, semester_id)', 'One result record per student per semester.')
 
     @api.depends("student_id", "semester_id")
     def _compute_name(self):

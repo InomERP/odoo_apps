@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_my_home_hostel" inherit_id="portal.portal_my_home" priority="51">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Hostel</t>
+                <t t-set="text">My room and complaints</t>
+                <t t-set="url" t-value="'/my/hostel'"/>
+                <t t-set="config_card" t-value="True"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_hostel" name="My Hostel">
+        <t t-call="portal.portal_layout">
+            <div class="container mt-3">
+                <h3>My Hostel</h3>
+                <t t-if="allotment">
+                    <table class="table table-sm">
+                        <tr><th>Hostel</th><td><span t-out="allotment.hostel_id.name"/></td></tr>
+                        <tr><th>Room</th><td><span t-out="allotment.room_id.name"/></td></tr>
+                        <tr><th>Bed</th><td><span t-out="allotment.bed_id.name"/></td></tr>
+                        <tr><th>Status</th><td><span t-out="allotment.state"/></td></tr>
+                    </table>
+                </t>
+                <t t-if="not allotment"><p class="text-muted">No active hostel allotment.</p></t>
+
+                <h5 class="mt-4">Raise a Complaint</h5>
+                <form action="/my/hostel/complaint" method="post" class="mb-4">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <div class="mb-2"><input type="text" name="subject" class="form-control" placeholder="Subject" required="required"/></div>
+                    <div class="mb-2">
+                        <select name="category" class="form-select">
+                            <option value="maintenance">Maintenance</option>
+                            <option value="mess">Mess</option>
+                            <option value="cleanliness">Cleanliness</option>
+                            <option value="security">Security</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-2"><textarea name="description" class="form-control" placeholder="Describe the issue"/></div>
+                    <button type="submit" class="btn btn-primary btn-sm">Submit Complaint</button>
+                </form>
+
+                <h5>My Complaints</h5>
+                <table class="table table-sm" t-if="complaints">
+                    <thead><tr><th>Subject</th><th>Category</th><th>Status</th></tr></thead>
+                    <tbody>
+                        <tr t-foreach="complaints" t-as="c">
+                            <td><span t-out="c.name"/></td>
+                            <td><span t-out="c.category"/></td>
+                            <td><span t-out="c.state"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p t-if="not complaints" class="text-muted">No complaints raised.</p>
+            </div>
+        </t>
+    </template>
+</odoo>

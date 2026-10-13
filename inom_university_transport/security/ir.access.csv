@@ -1,0 +1,17 @@
+id,name,model_id,group_id/id,operation,domain
+access20_tr_driver_mgr,Driver manager,univ.transport.driver,group_univ_transport_incharge,crud,
+access20_tr_driver_user,Driver user,univ.transport.driver,base.group_user,r,
+access20_tr_vehicle_mgr,Vehicle manager,univ.transport.vehicle,group_univ_transport_incharge,crud,
+access20_tr_vehicle_user,Vehicle user,univ.transport.vehicle,base.group_user,r,
+access20_tr_route_mgr,Route manager,univ.transport.route,group_univ_transport_incharge,crud,
+access20_tr_route_user,Route user,univ.transport.route,base.group_user,r,
+access20_tr_route_portal_student,Route portal student,univ.transport.route,inom_university_core.group_univ_portal_student,r,
+access20_tr_stop_mgr,Stop manager,univ.transport.stop,group_univ_transport_incharge,crud,
+access20_tr_stop_user,Stop user,univ.transport.stop,base.group_user,r,
+access20_tr_stop_portal_student,Stop portal student,univ.transport.stop,inom_university_core.group_univ_portal_student,r,
+access20_tr_sub_company_restriction,Subscription multi-company restriction,univ.transport.subscription,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access20_tr_sub_mgr,Subscription manager,univ.transport.subscription,group_univ_transport_incharge,crud,
+access20_tr_sub_user,Subscription user,univ.transport.subscription,base.group_user,r,
+access20_tr_sub_portal_student,Subscription portal student,univ.transport.subscription,inom_university_core.group_univ_portal_student,r,"[('student_id.partner_id', '=', user.partner_id.id)]"
+access20_tr_sub_portal_parent,Subscription portal parent,univ.transport.subscription,inom_university_core.group_univ_portal_parent,r,"[('student_id.partner_id', '=', user.partner_id.id)]"
+access20_tr_sub_wizard,Subscription wizard,univ.transport.subscription.wizard,group_univ_transport_incharge,crud,

@@ -22,7 +22,4 @@ class UnivExamSeat(models.Model):
         related="schedule_id.company_id", store=True, index=True,
     )
 
-    _sql_constraints = [
-        ("schedule_student_uniq", "unique(schedule_id, student_id)",
-         "A student gets one seat per exam schedule."),
-    ]
+    _schedule_student_uniq = models.Constraint('unique(schedule_id, student_id)', 'A student gets one seat per exam schedule.')

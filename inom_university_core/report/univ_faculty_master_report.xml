@@ -29,7 +29,7 @@
                         </tbody>
                     </table>
                     <p class="text-muted mt-3">
-                        Total faculty: <span t-esc="len(docs)"/>
+                        Total faculty: <span t-out="len(docs)"/>
                     </p>
                 </div>
             </t>

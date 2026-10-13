@@ -42,13 +42,7 @@ class UnivBatch(models.Model):
         string="Students", compute="_compute_student_count"
     )
 
-    _sql_constraints = [
-        (
-            "code_company_uniq",
-            "unique(code, company_id)",
-            "The batch code must be unique per campus.",
-        ),
-    ]
+    _code_company_uniq = models.Constraint('unique(code, company_id)', 'The batch code must be unique per campus.')
 
     @api.depends("start_year", "program_id.duration_years")
     def _compute_end_year(self):

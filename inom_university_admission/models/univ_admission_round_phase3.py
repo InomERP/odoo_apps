@@ -61,7 +61,7 @@ class UnivAdmissionRound(models.Model):
         enabled = str(
             self.env["ir.config_parameter"]
             .sudo()
-            .get_param(PARAM_REGISTRATION_ENABLED, "True")
+            .get_str(PARAM_REGISTRATION_ENABLED, "True")
         ).lower() in ("1", "true", "yes")
         if not enabled:
             return

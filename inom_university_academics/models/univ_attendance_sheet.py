@@ -60,10 +60,7 @@ class UnivAttendanceSheet(models.Model):
         related="session_id.company_id", store=True, index=True,
     )
 
-    _sql_constraints = [
-        ("session_uniq", "unique(session_id)",
-         "An attendance sheet already exists for this session."),
-    ]
+    _session_uniq = models.Constraint('unique(session_id)', 'An attendance sheet already exists for this session.')
 
     @api.depends("session_id")
     def _compute_name(self):
@@ -206,10 +203,7 @@ class UnivAttendanceLine(models.Model):
         related="sheet_id.company_id", store=True, index=True,
     )
 
-    _sql_constraints = [
-        ("sheet_student_uniq", "unique(sheet_id, student_id)",
-         "A student appears only once per attendance sheet."),
-    ]
+    _sheet_student_uniq = models.Constraint('unique(sheet_id, student_id)', 'A student appears only once per attendance sheet.')
 
     def write(self, vals):
         if "state" in vals:

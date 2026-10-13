@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id/id,operation,domain
+access20_lms_material_faculty,material faculty,model_univ_lms_material,inom_university_core.group_univ_faculty,crud,
+access20_lms_material_user,material user,model_univ_lms_material,base.group_user,r,
+access20_lms_material_portal,material portal,model_univ_lms_material,inom_university_core.group_univ_portal_student,r,
+access20_lms_assignment_faculty,assign faculty,model_univ_assignment,inom_university_core.group_univ_faculty,crud,
+access20_lms_assignment_user,assign user,model_univ_assignment,base.group_user,r,
+access20_lms_assignment_portal,assign portal,model_univ_assignment,inom_university_core.group_univ_portal_student,r,
+access20_lms_submission_faculty,sub faculty,model_univ_assignment_submission,inom_university_core.group_univ_faculty,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access20_lms_submission_user,sub user,model_univ_assignment_submission,base.group_user,r,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access20_lms_submission_portal_student,sub portal s,model_univ_assignment_submission,inom_university_core.group_univ_portal_student,cr,"['&', ('student_id.partner_id', '=', user.partner_id.id), '|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access20_lms_submission_portal_parent,sub portal p,model_univ_assignment_submission,inom_university_core.group_univ_portal_parent,r,"['&', ('student_id.partner_id', '=', user.partner_id.id), '|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access20_lms_progress_faculty,progress faculty,model_univ_lms_progress,inom_university_core.group_univ_faculty,r,
+access20_lms_progress_user,progress user,model_univ_lms_progress,base.group_user,r,
+access20_lms_grade_wizard,grade wiz,model_univ_lms_grade_wizard,inom_university_core.group_univ_faculty,crud,

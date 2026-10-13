@@ -15,7 +15,7 @@
                     <span>Admission Conditions</span>
                     <span t-if="applicant.has_pending_conditions"
                           class="badge text-bg-warning">
-                        <t t-esc="applicant.pending_condition_count"/> pending
+                        <t t-out="applicant.pending_condition_count"/> pending
                     </span>
                     <span t-else="" class="badge text-bg-success">All cleared</span>
                 </div>
@@ -29,13 +29,13 @@
                         <div class="list-group-item" t-foreach="applicant.condition_ids" t-as="cond">
                             <div class="d-flex justify-content-between align-items-start flex-wrap">
                                 <div class="me-3">
-                                    <h6 class="mb-1"><t t-esc="cond.name"/></h6>
+                                    <h6 class="mb-1"><t t-out="cond.name"/></h6>
                                     <div class="small text-muted" t-if="cond.instructions">
-                                        <t t-esc="cond.instructions"/>
+                                        <t t-out="cond.instructions"/>
                                     </div>
                                 </div>
                                 <span t-attf-class="badge #{'text-bg-success' if cond.state == 'satisfied' else ('text-bg-secondary' if cond.state == 'waived' else 'text-bg-warning')}">
-                                    <t t-esc="dict(cond._fields['state'].selection).get(cond.state)"/>
+                                    <t t-out="dict(cond._fields['state'].selection).get(cond.state)"/>
                                 </span>
                             </div>
                         </div>

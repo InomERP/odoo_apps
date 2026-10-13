@@ -18,14 +18,14 @@ student, parent and faculty portals, dashboards and reports.
     "website": "https://inomerp.in",
     "license": "LGPL-3",
     "depends": [
-        "inom_university_core",
-        "inom_university_admission",
-        "inom_university_fee",
+        # "inom_university_core",
+        # "inom_university_admission",
+        # "inom_university_fee",
         "calendar",
     ],
     "data": [
         "security/univ_academics_security.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "data/univ_academics_sequence.xml",
         "data/univ_academics_data.xml",
         "data/univ_academics_mail_templates.xml",
@@ -50,6 +50,7 @@ student, parent and faculty portals, dashboards and reports.
     ],
     "demo": [
         "demo/univ_academics_demo.xml",
+        "demo/univ_academics_demo_extra.xml",
     ],
     'images': [
         'static/description/banner.png',

@@ -6,7 +6,6 @@
         <field name="model">univ.course.registration</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">inom_university_academics.report_registration_confirmation</field>
-        <field name="report_file">inom_university_academics.report_registration_confirmation</field>
         <field name="binding_model_id" ref="model_univ_course_registration"/>
         <field name="binding_type">report</field>
     </record>

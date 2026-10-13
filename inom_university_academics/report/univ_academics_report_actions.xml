@@ -6,7 +6,6 @@
         <field name="model">univ.exam.schedule</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">inom_university_academics.report_hall_ticket</field>
-        <field name="report_file">inom_university_academics.report_hall_ticket</field>
         <field name="binding_model_id" ref="model_univ_exam_schedule"/>
         <field name="binding_type">report</field>
     </record>
@@ -16,7 +15,6 @@
         <field name="model">univ.result.semester</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">inom_university_academics.report_mark_sheet</field>
-        <field name="report_file">inom_university_academics.report_mark_sheet</field>
         <field name="binding_model_id" ref="model_univ_result_semester"/>
         <field name="binding_type">report</field>
     </record>
@@ -26,7 +24,6 @@
         <field name="model">univ.result.transcript</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">inom_university_academics.report_transcript</field>
-        <field name="report_file">inom_university_academics.report_transcript</field>
         <field name="binding_model_id" ref="model_univ_result_transcript"/>
         <field name="binding_type">report</field>
     </record>
@@ -36,7 +33,6 @@
         <field name="model">univ.section</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">inom_university_academics.report_class_timetable</field>
-        <field name="report_file">inom_university_academics.report_class_timetable</field>
         <field name="binding_model_id" ref="inom_university_core.model_univ_section"/>
         <field name="binding_type">report</field>
     </record>
@@ -46,7 +42,6 @@
         <field name="model">univ.attendance.sheet</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">inom_university_academics.report_attendance_sheet</field>
-        <field name="report_file">inom_university_academics.report_attendance_sheet</field>
         <field name="binding_model_id" ref="model_univ_attendance_sheet"/>
         <field name="binding_type">report</field>
     </record>
@@ -56,7 +51,6 @@
         <field name="model">univ.attendance.summary</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">inom_university_academics.report_shortage_notice</field>
-        <field name="report_file">inom_university_academics.report_shortage_notice</field>
         <field name="binding_model_id" ref="model_univ_attendance_summary"/>
         <field name="binding_type">report</field>
     </record>

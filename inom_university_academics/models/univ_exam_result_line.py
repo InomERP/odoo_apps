@@ -53,10 +53,7 @@ class UnivExamResultLine(models.Model):
         related="schedule_id.company_id", store=True, index=True,
     )
 
-    _sql_constraints = [
-        ("schedule_student_uniq", "unique(schedule_id, student_id)",
-         "One mark line per student per subject."),
-    ]
+    _schedule_student_uniq = models.Constraint('unique(schedule_id, student_id)', 'One mark line per student per subject.')
 
     @api.constrains("obtained", "second_obtained", "moderated", "max_marks")
     def _check_range(self):

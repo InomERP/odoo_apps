@@ -67,7 +67,7 @@
                             <div class="card o_univ_tile text-center h-100">
                                 <div class="card-body">
                                     <i t-attf-class="fa fa-2x #{tile['icon']} mb-2 text-muted"/>
-                                    <div t-esc="tile['name']"/>
+                                    <div t-out="tile['name']"/>
                                     <span class="badge text-bg-secondary mt-2">Soon</span>
                                 </div>
                             </div>

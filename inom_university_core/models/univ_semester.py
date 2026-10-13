@@ -32,10 +32,4 @@ class UnivSemester(models.Model):
         comodel_name="univ.section", inverse_name="semester_id", string="Sections"
     )
 
-    _sql_constraints = [
-        (
-            "code_company_uniq",
-            "unique(code, company_id)",
-            "The semester code must be unique per campus.",
-        ),
-    ]
+    _code_company_uniq = models.Constraint('unique(code, company_id)', 'The semester code must be unique per campus.')

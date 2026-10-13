@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="demo_driver_1" model="univ.transport.driver">
+            <field name="name">Ramesh Kumar</field><field name="role">driver</field>
+        </record>
+        <record id="demo_vehicle_1" model="univ.transport.vehicle">
+            <field name="regno">DL01AB1234</field><field name="vehicle_type">bus</field>
+            <field name="capacity">40</field><field name="driver_id" ref="demo_driver_1"/>
+        </record>
+        <record id="demo_route_1" model="univ.transport.route">
+            <field name="name">Route 1 - City Center</field><field name="code">R1</field>
+            <field name="vehicle_id" ref="demo_vehicle_1"/><field name="fee_amount">5000</field>
+        </record>
+        <record id="demo_stop_1" model="univ.transport.stop">
+            <field name="name">Main Gate</field><field name="route_id" ref="demo_route_1"/>
+            <field name="sequence">1</field>
+        </record>
+        <record id="demo_stop_2" model="univ.transport.stop">
+            <field name="name">City Center</field><field name="route_id" ref="demo_route_1"/>
+            <field name="sequence">2</field>
+        </record>
+    </data>
+</odoo>

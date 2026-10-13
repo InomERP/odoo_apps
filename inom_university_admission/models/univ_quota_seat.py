@@ -51,13 +51,12 @@ class UnivQuotaSeat(models.Model):
         index=True,
     )
 
-    _sql_constraints = [
-        (
-            "quota_program_round_uniq",
-            "unique(program_id, quota_id, round_id)",
-            "A seat cap already exists for this program / quota / round.",
-        ),
-    ]
+    
+
+    _quota_program_round_uniq = models.Constraint(
+        'unique(program_id, quota_id, round_id)',
+        'A seat cap already exists for this program / quota / round.',
+    )
 
     @api.depends("program_id", "quota_id", "round_id")
     def _compute_name(self):

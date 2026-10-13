@@ -6,7 +6,6 @@
         <field name="model">univ.student</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">inom_university_core.report_univ_student_master</field>
-        <field name="report_file">inom_university_core.report_univ_student_master</field>
         <field name="binding_model_id" ref="model_univ_student"/>
         <field name="binding_type">report</field>
     </record>
@@ -16,7 +15,6 @@
         <field name="model">univ.faculty</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">inom_university_core.report_univ_faculty_master</field>
-        <field name="report_file">inom_university_core.report_univ_faculty_master</field>
         <field name="binding_model_id" ref="model_univ_faculty"/>
         <field name="binding_type">report</field>
     </record>
@@ -26,7 +24,6 @@
         <field name="model">univ.program</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">inom_university_core.report_univ_academic_structure</field>
-        <field name="report_file">inom_university_core.report_univ_academic_structure</field>
         <field name="binding_model_id" ref="model_univ_program"/>
         <field name="binding_type">report</field>
     </record>

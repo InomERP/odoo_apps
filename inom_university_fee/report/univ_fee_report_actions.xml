@@ -7,7 +7,6 @@
         <field name="model">univ.fee.invoice</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">inom_university_fee.report_fee_receipt</field>
-        <field name="report_file">inom_university_fee.report_fee_receipt</field>
         <field name="binding_model_id" ref="model_univ_fee_invoice"/>
         <field name="binding_type">report</field>
         <field name="print_report_name">'Fee Receipt - %s' % (object.name)</field>
@@ -18,7 +17,6 @@
         <field name="model">univ.student</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">inom_university_fee.report_fee_statement</field>
-        <field name="report_file">inom_university_fee.report_fee_statement</field>
         <field name="binding_model_id" ref="inom_university_core.model_univ_student"/>
         <field name="binding_type">report</field>
         <field name="print_report_name">'Fee Statement - %s' % (object.name)</field>
@@ -29,7 +27,6 @@
         <field name="model">univ.student</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">inom_university_fee.report_fee_ledger</field>
-        <field name="report_file">inom_university_fee.report_fee_ledger</field>
         <field name="binding_model_id" ref="inom_university_core.model_univ_student"/>
         <field name="binding_type">report</field>
         <field name="print_report_name">'Ledger - %s' % (object.name)</field>
