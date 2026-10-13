@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Odoo 20 loads backend assets from __manifest__.py.
+        The actual chatter assets are declared in web.assets_backend;
+        this legacy asset view is intentionally kept as a non-loaded file
+        for backward compatibility with the original module structure.
+    -->
+</odoo>
