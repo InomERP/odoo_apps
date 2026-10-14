@@ -1,0 +1,11 @@
+id,name,model_id,group_id/id,operation,domain
+access_material_requisition_base,material.requisition base,material.requisition,base.group_user,cru,
+access_material_requisition_employee,material.requisition employee,material.requisition,inom_material_purchase_requisition.group_material_requisition_employee,cru,
+access_material_requisition_manager,material.requisition manager,material.requisition,inom_material_purchase_requisition.group_material_requisition_manager,cru,
+access_material_requisition_user,material.requisition user,material.requisition,inom_material_purchase_requisition.group_material_requisition_user,crud,
+access_material_requisition_line_base,material.requisition.line base,material.requisition.line,base.group_user,cru,
+access_material_requisition_line_employee,material.requisition.line employee,material.requisition.line,inom_material_purchase_requisition.group_material_requisition_employee,cru,
+access_material_requisition_line_manager,material.requisition.line manager,material.requisition.line,inom_material_purchase_requisition.group_material_requisition_manager,cru,
+access_material_requisition_line_user,material.requisition.line user,material.requisition.line,inom_material_purchase_requisition.group_material_requisition_user,crud,
+access_material_requisition_reject_wizard,material.requisition.reject.wizard,material.requisition.reject.wizard,base.group_user,crud,
+rule_material_requisition_employee_own,Material Requisition: Employee own records only,material.requisition,,cru,"[('employee_id.user_id', '=', user.id)] if user.has_group('inom_material_purchase_requisition.group_material_requisition_employee') else []"

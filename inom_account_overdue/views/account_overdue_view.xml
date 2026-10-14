@@ -1,0 +1,197 @@
+<odoo>
+    <!-- TREE / LIST VIEW -->
+    <record id="view_account_overdue_tree" model="ir.ui.view">
+        <field name="name">account.overdue.tree</field>
+        <field name="model">account.overdue</field>
+        <field name="arch" type="xml">
+            <list string="Due Payment Monitor"
+                  decoration-success="status == 'normal'"
+                  decoration-warning="status == 'warning'"
+                  decoration-danger="status == 'critical'">
+
+                <field name="invoice_date"/>
+                <field name="date"/>
+                <field name="journal_id"/>
+                <field name="invoice_id"/>
+                <field name="partner_id"/>
+                <field name="move_type"/>
+                <field name="label"/>
+
+                <!-- PROFESSIONAL MONITORING -->
+                <field name="days_overdue"/>
+                <field name="status"/>
+
+                <field name="debit"/>
+                <field name="credit"/>
+                <field name="tax_amount"/>
+                <field name="base_amount"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- FORM VIEW -->
+    <record id="view_account_overdue_form" model="ir.ui.view">
+        <field name="name">account.overdue.form</field>
+        <field name="model">account.overdue</field>
+        <field name="arch" type="xml">
+            <form string="Due Payment Monitor">
+                <sheet>
+                    <group>
+                        <field name="invoice_id"/>
+                        <field name="partner_id"/>
+                        <field name="journal_id"/>
+                        <field name="move_type"/>
+                    </group>
+
+                    <group>
+                        <field name="invoice_date"/>
+                        <field name="date"/>
+                    </group>
+
+                    <group>
+                        <field name="label"/>
+                    </group>
+
+                    <!-- NEW MONITORING SECTION -->
+                    <group string="Payment Monitoring">
+                        <field name="days_overdue"/>
+                        <field name="status"/>
+                    </group>
+
+                    <group string="Amounts">
+                        <field name="amount_currency"/>
+                        <field name="debit"/>
+                        <field name="credit"/>
+                        <field name="tax_amount"/>
+                        <field name="base_amount"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- CUSTOMER ACTION -->
+    <record id="action_customer_overdue" model="ir.actions.act_window">
+        <field name="name">Customer Entries</field>
+        <field name="res_model">account.overdue</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('move_type', '=', 'out_invoice')]</field>
+    </record>
+
+    <!-- VENDOR ACTION -->
+    <record id="action_vendor_overdue" model="ir.actions.act_window">
+        <field name="name">Vendor Entries</field>
+        <field name="res_model">account.overdue</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('move_type', '=', 'in_invoice')]</field>
+    </record>
+
+    <!-- ROOT MENU -->
+    <menuitem id="menu_account_overdue_root"
+              name="Due Payment Monitor"
+              sequence="10"/>
+
+    <!-- CUSTOMER PAGE -->
+    <menuitem id="menu_customer_overdue_entries"
+              name="Customer Entries"
+              parent="menu_account_overdue_root"
+              action="action_customer_overdue"
+              sequence="1"/>
+
+    <!-- VENDOR PAGE -->
+    <menuitem id="menu_vendor_overdue_entries"
+              name="Vendor Entries"
+              parent="menu_account_overdue_root"
+              action="action_vendor_overdue"
+              sequence="2"/>
+</odoo>
+
+
+<!-- <odoo>
+    TREE / LIST VIEW
+    <record id="view_account_overdue_tree" model="ir.ui.view">
+        <field name="name">account.overdue.tree</field>
+        <field name="model">account.overdue</field>
+        <field name="arch" type="xml">
+            <list string="Overdue Entries">
+                <field name="invoice_date"/>
+                <field name="date"/>
+                <field name="journal_id"/>
+                <field name="invoice_id"/>
+                <field name="partner_id"/>
+                <field name="label"/>
+                <field name="debit"/>
+                <field name="credit"/>
+                <field name="tax_amount"/>
+                <field name="base_amount"/>
+            </list>
+        </field>
+    </record>
+
+    FORM VIEW
+    <record id="view_account_overdue_form" model="ir.ui.view">
+        <field name="name">account.overdue.form</field>
+        <field name="model">account.overdue</field>
+        <field name="arch" type="xml">
+            <form string="Overdue Entry">
+                <sheet>
+                    <group>
+                        <field name="invoice_id"/>
+                        <field name="partner_id"/>
+                        <field name="journal_id"/>
+                    </group>
+                    <group>
+                        <field name="invoice_date"/>
+                        <field name="date"/>
+                    </group>
+                    <group>
+                        <field name="label"/>
+                    </group>
+                    <group string="Amounts">
+                        <field name="amount_currency"/>
+                        <field name="debit"/>
+                        <field name="credit"/>
+                        <field name="tax_amount"/>
+                        <field name="base_amount"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    CUSTOMER ACTION
+    <record id="action_customer_overdue" model="ir.actions.act_window">
+        <field name="name">Customer Entries</field>
+        <field name="res_model">account.overdue</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('move_type', '=', 'out_invoice')]</field>
+    </record>
+
+    VENDOR ACTION
+    <record id="action_vendor_overdue" model="ir.actions.act_window">
+        <field name="name">Vendor Entries</field>
+        <field name="res_model">account.overdue</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('move_type', '=', 'in_invoice')]</field>
+    </record>
+
+    ROOT MENU
+    <menuitem id="menu_account_overdue_root"
+              name="Account Overdue"
+              sequence="10"/>
+
+    CUSTOMER PAGE
+    <menuitem id="menu_customer_overdue_entries"
+              name="Customer Entries"
+              parent="menu_account_overdue_root"
+              action="action_customer_overdue"
+              sequence="1"/>
+
+    VENDOR PAGE
+    <menuitem id="menu_vendor_overdue_entries"
+              name="Vendor Entries"
+              parent="menu_account_overdue_root"
+              action="action_vendor_overdue"
+              sequence="2"/>
+
+</odoo> -->

@@ -1,0 +1,108 @@
+<odoo>
+    <record id="view_due_payment_dashboard_form" model="ir.ui.view">
+        <field name="name">due.payment.dashboard.form</field>
+        <field name="model">due.payment.dashboard</field>
+        <field name="arch" type="xml">
+            <form string="Due Payment Dashboard" create="false" edit="false">
+                <sheet>
+                    <div style="padding:20px;">
+
+                        <h1 style="margin-bottom:25px;">
+                            Due Payment Monitor Dashboard
+                        </h1>
+
+                        <!-- ROW 1 -->
+                        <div style="display:flex; gap:20px; margin-bottom:20px;">
+
+                            <div style="flex:1; background:#4f46e5; color:white; padding:20px; border-radius:12px;">
+                                <h4>Customer Due</h4>
+                                <h1>
+                                    <field name="total_customer_due"/>
+                                </h1>
+                            </div>
+
+                            <div style="flex:1; background:#f59e0b; color:white; padding:20px; border-radius:12px;">
+                                <h4>Vendor Due</h4>
+                                <h1>
+                                    <field name="total_vendor_due"/>
+                                </h1>
+                            </div>
+
+                            <div style="flex:1; background:#16a34a; color:white; padding:20px; border-radius:12px;">
+                                <h4>Today Total Received</h4>
+                                <h1>
+                                    <field name="today_received"/>
+                                </h1>
+                            </div>
+
+                            <div style="flex:1; background:#0ea5e9; color:white; padding:20px; border-radius:12px;">
+                                <h4>Today Total Paid</h4>
+                                <h1>
+                                    <field name="today_paid"/>
+                                </h1>
+                            </div>
+                        </div>
+
+                        <!-- ROW 2 -->
+                        <div style="display:flex; gap:20px; margin-bottom:20px;">
+
+                            <div style="flex:1; background:#06b6d4; color:white; padding:20px; border-radius:12px;">
+                                <h4>Customers</h4>
+                                <h1>
+                                    <field name="customer_partner_count"/>
+                                </h1>
+                            </div>
+
+                            <div style="flex:1; background:#64748b; color:white; padding:20px; border-radius:12px;">
+                                <h4>Vendors</h4>
+                                <h1>
+                                    <field name="vendor_partner_count"/>
+                                </h1>
+                            </div>
+
+                            <div style="flex:1; background:#ef4444; color:white; padding:20px; border-radius:12px;">
+                                <h4>Critical Alerts</h4>
+                                <h1>
+                                    <field name="critical_count"/>
+                                </h1>
+                            </div>
+
+                            <div style="flex:1; background:#e5e7eb; color:black; padding:20px; border-radius:12px;">
+                                <h4>Warning Alerts</h4>
+                                <h1>
+                                    <field name="warning_count"/>
+                                </h1>
+                            </div>
+                        </div>
+
+                        <!-- OVERVIEW -->
+                        <group string="Overview Summary">
+                            <group>
+                                <field name="customer_invoice_count"/>
+                                <field name="vendor_bill_count"/>
+                            </group>
+                            <group>
+                                <field name="critical_count"/>
+                                <field name="warning_count"/>
+                            </group>
+                        </group>
+
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_due_payment_dashboard" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">due.payment.dashboard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+    </record>
+
+    <menuitem id="menu_due_dashboard"
+              name="Dashboard"
+              parent="menu_account_overdue_root"
+              action="action_due_payment_dashboard"
+              sequence="0"/>
+</odoo>

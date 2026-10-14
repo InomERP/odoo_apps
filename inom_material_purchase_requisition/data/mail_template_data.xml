@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Feature 14: notification when a requisition needs Department Manager
+         approval. -->
+    <record id="mail_template_manager_approval" model="mail.template">
+        <field name="name">Material Requisition: Department Approval Needed</field>
+        <field name="model_id" ref="model_material_requisition"/>
+        <field name="subject">Approval Needed: {{ object.name }}</field>
+        <field name="email_from">{{ (object.company_id.email or user.email) }}</field>
+        <field name="body_html" type="html">
+            <div style="margin:0px;padding:0px;font-size:13px;">
+                <p>Hello,</p>
+                <p>
+                    A new material requisition
+                    <strong t-out="object.name or ''">MR/0001</strong>
+                    submitted by
+                    <t t-out="object.employee_id.name or ''">Employee</t>
+                    is waiting for your department approval.
+                </p>
+                <p>
+                    Department:
+                    <t t-out="object.department_id.name or ''">Department</t><br/>
+                    Requisition Date:
+                    <t t-out="object.request_date or ''">Date</t>
+                </p>
+                <p>Please review and approve it in the system.</p>
+            </div>
+        </field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+    <!-- Feature 14: notification when a requisition needs Requisition User
+         (final) approval. -->
+    <record id="mail_template_user_approval" model="mail.template">
+        <field name="name">Material Requisition: User Approval Needed</field>
+        <field name="model_id" ref="model_material_requisition"/>
+        <field name="subject">Approval Needed: {{ object.name }}</field>
+        <field name="email_from">{{ (object.company_id.email or user.email) }}</field>
+        <field name="body_html" type="html">
+            <div style="margin:0px;padding:0px;font-size:13px;">
+                <p>Hello,</p>
+                <p>
+                    Material requisition
+                    <strong t-out="object.name or ''">MR/0001</strong>
+                    has been approved by the department manager and is now
+                    waiting for your final approval.
+                </p>
+                <p>
+                    Employee:
+                    <t t-out="object.employee_id.name or ''">Employee</t><br/>
+                    Department:
+                    <t t-out="object.department_id.name or ''">Department</t>
+                </p>
+                <p>Please review and approve it in the system.</p>
+            </div>
+        </field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+</odoo>
