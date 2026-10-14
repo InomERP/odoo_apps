@@ -1,0 +1,68 @@
+<odoo>
+<data>
+    <record id="view_helpdesk_ticket_list" model="ir.ui.view">
+        <field name="name">Helpdesk ticket list</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="ticket_number"/>
+                <field name="subject"/>
+                <field name="description"/>
+                <field name="priority"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_helpdesk_ticket_form" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.form</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="in_process_ticket"
+                            type="object"
+                            string="Process"
+                            class="btn-primary"
+                            invisible="state != 'new'"/>
+
+                    <button name="resolved_ticket"
+                            type="object"
+                            string="Resolve"
+                            class="btn-primary"
+                            invisible="state != 'in_process'"/>
+
+                    <button name="close_ticket"
+                            type="object"
+                            string="Close"
+                            class="btn-primary"
+                            invisible="state != 'resolved'"/>
+
+                    <button name="action_print_ticket_report"
+                            type="object"
+                            string="Print Report"
+                            class="btn-secondary"/>
+
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="new,in_process,resolved,closed"/>
+                </header>
+
+                <sheet>
+                    <group>
+                        <field name="ticket_number" readonly="1"/>
+                        <field name="subject"/>
+                        <field name="description"/>
+                        <field name="priority"/>
+                        <field name="assigned_to"/>
+                    </group>
+                </sheet>
+
+                <!-- Chatter -->
+                <chatter/>
+
+            </form>
+        </field>
+    </record>
+
+</data>
+</odoo>
