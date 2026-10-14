@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_offboarding_checklist_template_list" model="ir.ui.view">
+        <field name="name">inom.offboarding.checklist.template.list</field>
+        <field name="model">inom.offboarding.checklist.template</field>
+        <field name="arch" type="xml">
+            <list string="Checklist Templates">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="responsible"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_offboarding_checklist_template_form" model="ir.ui.view">
+        <field name="name">inom.offboarding.checklist.template.form</field>
+        <field name="model">inom.offboarding.checklist.template</field>
+        <field name="arch" type="xml">
+            <form string="Checklist Template">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="responsible"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="active" widget="boolean_toggle"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <group string="Description">
+                        <field name="description" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_offboarding_checklist_template" model="ir.actions.act_window">
+        <field name="name">Checklist Templates</field>
+        <field name="res_model">inom.offboarding.checklist.template</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

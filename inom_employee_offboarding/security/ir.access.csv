@@ -1,0 +1,11 @@
+id,name,model_id,group_id/id,operation,domain
+access_offboarding_request_officer,offboarding.request.officer,inom.offboarding.request,inom_group_offboarding_officer,cru,
+access_offboarding_request_hr,offboarding.request.hr,inom.offboarding.request,inom_group_offboarding_hr,crud,
+access_offboarding_reason_officer,offboarding.reason.officer,inom.offboarding.reason,inom_group_offboarding_officer,r,
+access_offboarding_reason_hr,offboarding.reason.hr,inom.offboarding.reason,inom_group_offboarding_hr,crud,
+access_offboarding_checklist_template_officer,offboarding.checklist.template.officer,inom.offboarding.checklist.template,inom_group_offboarding_officer,r,
+access_offboarding_checklist_template_hr,offboarding.checklist.template.hr,inom.offboarding.checklist.template,inom_group_offboarding_hr,crud,
+access_offboarding_checklist_line_officer,offboarding.checklist.line.officer,inom.offboarding.checklist.line,inom_group_offboarding_officer,crud,
+access_offboarding_checklist_line_hr,offboarding.checklist.line.hr,inom.offboarding.checklist.line,inom_group_offboarding_hr,crud,
+access_offboarding_reject_wizard_officer,offboarding.reject.wizard.officer,inom.offboarding.reject.wizard,inom_group_offboarding_officer,crud,
+access_offboarding_reject_wizard_hr,offboarding.reject.wizard.hr,inom.offboarding.reject.wizard,inom_group_offboarding_hr,crud,

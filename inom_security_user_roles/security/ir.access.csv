@@ -1,0 +1,6 @@
+id,name,model_id,group_id/id,operation,domain
+access_security_role_admin,security.role (Admin),security.role,base.group_system,crud,
+access_security_role_user,security.role (User),security.role,base.group_user,r,
+access_security_role_temp_rule_admin,security.role.temporary.rule (Admin),security.role.temporary.rule,base.group_system,crud,
+access_security_role_scheduler_admin,security.role.scheduler (Admin),security.role.scheduler,base.group_system,crud,
+access_create_role_from_user_wizard,create.role.from.user.wizard,create.role.from.user.wizard,base.group_system,crud,

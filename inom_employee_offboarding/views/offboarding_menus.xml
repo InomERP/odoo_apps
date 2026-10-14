@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_offboarding_root"
+              name="Offboarding"
+              sequence="90"
+              web_icon="inom_employee_offboarding,static/description/icon.png"/>
+
+    <menuitem id="menu_offboarding_request"
+              name="Offboarding Requests"
+              parent="menu_offboarding_root"
+              action="action_offboarding_request"
+              sequence="10"/>
+
+    <menuitem id="menu_offboarding_config"
+              name="Configuration"
+              parent="menu_offboarding_root"
+              sequence="90"
+              groups="inom_group_offboarding_hr"/>
+
+    <menuitem id="menu_offboarding_reason"
+              name="Offboarding Reasons"
+              parent="menu_offboarding_config"
+              action="action_offboarding_reason"
+              sequence="10"/>
+
+    <menuitem id="menu_offboarding_checklist_template"
+              name="Checklist Templates"
+              parent="menu_offboarding_config"
+              action="action_offboarding_checklist_template"
+              sequence="20"/>
+
+</odoo>

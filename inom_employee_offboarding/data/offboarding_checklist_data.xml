@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="checklist_handover_documents" model="inom.offboarding.checklist.template">
+            <field name="name">Handover of pending work and documents</field>
+            <field name="sequence">10</field>
+            <field name="responsible">employee</field>
+            <field name="description">Employee hands over ongoing tasks and project documents.</field>
+        </record>
+
+        <record id="checklist_return_assets" model="inom.offboarding.checklist.template">
+            <field name="name">Return of company assets</field>
+            <field name="sequence">20</field>
+            <field name="responsible">it</field>
+            <field name="description">Laptop, ID card, access card and other company assets returned.</field>
+        </record>
+
+        <record id="checklist_revoke_access" model="inom.offboarding.checklist.template">
+            <field name="name">Revoke system and email access</field>
+            <field name="sequence">30</field>
+            <field name="responsible">it</field>
+            <field name="description">Disable accounts and revoke application access.</field>
+        </record>
+
+        <record id="checklist_exit_interview" model="inom.offboarding.checklist.template">
+            <field name="name">Conduct exit interview</field>
+            <field name="sequence">40</field>
+            <field name="responsible">hr</field>
+            <field name="description">HR conducts the exit interview and records feedback.</field>
+        </record>
+
+        <record id="checklist_final_settlement" model="inom.offboarding.checklist.template">
+            <field name="name">Process full and final settlement</field>
+            <field name="sequence">50</field>
+            <field name="responsible">finance</field>
+            <field name="description">Finance clears dues and processes the final settlement.</field>
+        </record>
+
+    </data>
+</odoo>

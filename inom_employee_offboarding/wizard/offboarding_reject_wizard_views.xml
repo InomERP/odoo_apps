@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_offboarding_reject_wizard_form" model="ir.ui.view">
+        <field name="name">inom.offboarding.reject.wizard.form</field>
+        <field name="model">inom.offboarding.reject.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Reject Offboarding Request">
+                <group>
+                    <field name="request_id" invisible="1"/>
+                    <field name="rejection_reason"
+                           placeholder="Explain why this request is being rejected..."/>
+                </group>
+                <footer>
+                    <button name="action_confirm_reject" type="object"
+                            string="Reject Request" class="btn-danger"/>
+                    <button string="Discard" class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,4 @@
+id,name,model_id,group_id/id,operation,domain
+access_inom_audit_trail_rule_manager,inom.audit.trail.rule.manager,inom.audit.trail.rule,group_inom_audit_trail_manager,crud,
+access_inom_audit_trail_log_manager,inom.audit.trail.log.manager,inom.audit.trail.log,group_inom_audit_trail_manager,rd,
+access_inom_audit_trail_log_line_manager,inom.audit.trail.log.line.manager,inom.audit.trail.log.line,group_inom_audit_trail_manager,rd,

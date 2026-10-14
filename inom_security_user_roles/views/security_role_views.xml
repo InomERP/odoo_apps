@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_security_role_form" model="ir.ui.view">
+        <field name="name">security.role.form</field>
+        <field name="model">security.role</field>
+        <field name="arch" type="xml">
+            <form string="Security Role">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_users"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-users">
+                            <field name="user_count" widget="statinfo" string="Users"/>
+                        </button>
+                        <button type="button"
+                                class="oe_stat_button"
+                                icon="fa-shield">
+                            <field name="group_count" widget="statinfo" string="Groups"/>
+                        </button>
+                    </div>
+
+                    <!-- Feature 10: Archived ribbon indicator -->
+                    <widget name="web_ribbon"
+                            title="Archived"
+                            bg_color="text-bg-danger"
+                            invisible="active == True"/>
+
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"
+                                   placeholder="e.g. Sales Manager"
+                                   required="True"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+
+                    <group string="Description">
+                        <field name="description"
+                               nolabel="1"
+                               placeholder="Describe what this role is for..."/>
+                    </group>
+
+                    <group string="Copy Groups from Existing User">
+                        <field name="source_user_id"
+                               placeholder="Select a user to copy their groups into this role..."/>
+                    </group>
+                    <div class="o_field_widget mb-3 ms-3">
+                        <button name="action_apply_source_user"
+                                string="Apply Groups from User"
+                                type="object"
+                                class="btn btn-primary"
+                                icon="fa-copy"/>
+                        <span class="text-muted ms-2">
+                            Select a user above then click Apply to copy their groups into this role.
+                        </span>
+                    </div>
+
+                    <group string="Notification Settings" name="notification_settings"
+                           groups="base.group_no_one">
+                        <field name="notify_by_odoo"/>
+                    </group>
+                    <div class="text-muted ms-2 mb-2" groups="base.group_no_one"
+                         invisible="not notify_by_odoo">
+                        <i class="fa fa-info-circle me-1"/>
+                        All users assigned to this role have had their notification preference set to
+                        <strong>Odoo Inbox</strong>.
+                        Any new users assigned to this role in the future will also
+                        automatically receive Inbox notifications.
+                    </div>
+                    <div class="text-muted ms-2 mb-2" groups="base.group_no_one"
+                         invisible="notify_by_odoo">
+                        <i class="fa fa-envelope me-1"/>
+                        Users are currently receiving <strong>Email</strong> notifications.
+                        Enable this option to switch notifications to <strong>Odoo Inbox</strong>.
+                    </div>
+
+                    <notebook>
+                        <!-- Feature 6 + Feature 9: Groups / Permissions -->
+                        <page string="Groups / Permissions" name="groups">
+                            <div class="alert alert-info mb-3" role="alert">
+                                <i class="fa fa-info-circle me-1"/>
+                                <strong>Supports Access Groups from Any Module:</strong>
+                                You can add access groups from any Odoo module here, including standard modules
+                                (Sales, Inventory, Accounting, HR, etc.), third-party modules, and your own custom modules.
+                                Any groups added to this role will be automatically assigned to all users who have this role.
+                            </div>
+                            <!-- Feature 9: setting ON / dev mode -> sab groups; warna technical hide -->
+                            <field name="visible_group_ids" invisible="1"/>
+                            <field name="group_ids"
+                                   widget="many2many_tags"
+                                   placeholder="Add groups from any module — Sales, HR, Inventory, third-party, custom..."
+                                   domain="[('id', 'in', visible_group_ids)]"/>
+                            <p class="text-muted mt-2">
+                                <i class="fa fa-check-circle text-success me-1"/>
+                                Standard, third-party, and custom module groups can all be added here.
+                                When a new Odoo app is installed, its access groups and permissions will also be available for assignment here.
+                            </p>
+                        </page>
+
+                        <page string="Users" name="users">
+                            <field name="user_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="login"/>
+                                    <field name="email"/>
+                                    <field name="active" column_invisible="True"/>
+                                </list>
+                            </field>
+                            <button name="action_create_user"
+                                    type="object"
+                                    string="Create User from this Role"
+                                    class="btn btn-secondary mt-2"
+                                    icon="fa-user-plus"/>
+                        </page>
+
+                        <page string="Temporary Activation and Blocking" name="temporary_rules">
+                            <field name="temporary_rule_ids">
+                                <list editable="bottom">
+                                    <field name="user_id"/>
+                                    <field name="rule_type"/>
+                                    <field name="date_from"/>
+                                    <field name="date_to"/>
+                                </list>
+                            </field>
+                            <p class="text-muted mt-2">
+                                <strong>Block:</strong> Temporarily remove the role from the user during the specified date range (for example, while on vacation).<br/>
+                                <strong>Activate:</strong> Assign the role to the user only during the specified date range (for example, for a temporary substitute).
+                            </p>
+                        </page>
+
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_security_role_list" model="ir.ui.view">
+        <field name="name">security.role.list</field>
+        <field name="model">security.role</field>
+        <field name="arch" type="xml">
+            <list string="Security Roles" decoration-muted="active == False">
+                <field name="name"/>
+                <field name="description"/>
+                <field name="group_count" string="Groups"/>
+                <field name="user_count" string="Users"/>
+                <field name="active" column_invisible="True"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_security_role_search" model="ir.ui.view">
+        <field name="name">security.role.search</field>
+        <field name="model">security.role</field>
+        <field name="arch" type="xml">
+            <search string="Search Roles">
+                <field name="name" string="Role Name"/>
+                <field name="group_ids" string="Group"/>
+                <field name="user_ids" string="User"/>
+                <separator/>
+                <!-- Feature 10: Archived filter -->
+                <filter string="Archived"
+                        name="inactive"
+                        domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_security_role" model="ir.actions.act_window">
+        <field name="name">Roles</field>
+        <field name="res_model">security.role</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_security_role_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Security Role!
+            </p>
+            <p>
+                Roles allow you to bundle multiple permissions/groups together
+                and assign them to users in one click.
+                All module groups supported — standard, third-party, and custom.
+            </p>
+        </field>
+    </record>
+
+</odoo>

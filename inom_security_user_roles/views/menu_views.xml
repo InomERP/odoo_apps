@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ═══════════════════════════════════════════════════════
+         MENU: Settings > Users & Companies > Roles
+    ═══════════════════════════════════════════════════════ -->
+    <menuitem
+        id="menu_security_roles"
+        name="Roles"
+        parent="base.menu_users"
+        action="action_security_role"
+        sequence="10"
+        groups="base.group_system"/>
+
+</odoo>

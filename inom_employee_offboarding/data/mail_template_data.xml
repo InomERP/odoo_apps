@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- Submitted to manager: notify the reporting manager -->
+        <record id="mail_template_offboarding_submitted" model="mail.template">
+            <field name="name">Offboarding: Submitted to Manager</field>
+            <field name="model_id" ref="model_inom_offboarding_request"/>
+            <field name="subject">Offboarding request {{ object.name }} - {{ object.employee_id.name }}</field>
+            <field name="email_from">{{ (object.company_id.email or user.email_formatted) }}</field>
+            <field name="body_html" type="html">
+                <div style="font-family: Arial, sans-serif; font-size: 14px; color: #2b2b2b;">
+                    <p>Hello,</p>
+                    <p>A new offboarding request has been submitted and is awaiting your review.</p>
+                    <ul>
+                        <li><strong>Reference:</strong> <t t-out="object.name or ''"/></li>
+                        <li><strong>Employee:</strong> <t t-out="object.employee_id.name or ''"/></li>
+                        <li><strong>Department:</strong> <t t-out="object.department_id.name or ''"/></li>
+                        <li><strong>Offboarding Type:</strong> <t t-out="object.offboarding_type or ''"/></li>
+                        <li><strong>Reason:</strong> <t t-out="object.reason_id.name or ''"/></li>
+                    </ul>
+                    <p>Please review the request in the system.</p>
+                    <p style="margin: 16px 0;">
+                        <a t-att-href="object.access_url"
+                           style="background-color: #0b3954; color: #ffffff; padding: 10px 18px; text-decoration: none; border-radius: 4px; display: inline-block;">
+                            View Offboarding Request
+                        </a>
+                    </p>
+                    <p>Regards,<br/><t t-out="object.company_id.name or ''"/></p>
+                </div>
+            </field>
+            <field name="lang">{{ object.employee_id.user_id.lang or user.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <!-- Submitted to HR: notify the HR team -->
+        <record id="mail_template_offboarding_hr_review" model="mail.template">
+            <field name="name">Offboarding: Submitted to HR</field>
+            <field name="model_id" ref="model_inom_offboarding_request"/>
+            <field name="subject">HR review needed: {{ object.name }} - {{ object.employee_id.name }}</field>
+            <field name="email_from">{{ (object.company_id.email or user.email_formatted) }}</field>
+            <field name="body_html" type="html">
+                <div style="font-family: Arial, sans-serif; font-size: 14px; color: #2b2b2b;">
+                    <p>Hello HR Team,</p>
+                    <p>An offboarding request has been approved by the manager and now requires HR review.</p>
+                    <ul>
+                        <li><strong>Reference:</strong> <t t-out="object.name or ''"/></li>
+                        <li><strong>Employee:</strong> <t t-out="object.employee_id.name or ''"/></li>
+                        <li><strong>Department:</strong> <t t-out="object.department_id.name or ''"/></li>
+                        <li><strong>Reason:</strong> <t t-out="object.reason_id.name or ''"/></li>
+                    </ul>
+                    <p style="margin: 16px 0;">
+                        <a t-att-href="object.access_url"
+                           style="background-color: #0b3954; color: #ffffff; padding: 10px 18px; text-decoration: none; border-radius: 4px; display: inline-block;">
+                            View Offboarding Request
+                        </a>
+                    </p>
+                    <p>Regards,<br/><t t-out="object.company_id.name or ''"/></p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <!-- Approved by HR: notify the employee -->
+        <record id="mail_template_offboarding_approved" model="mail.template">
+            <field name="name">Offboarding: Approved by HR</field>
+            <field name="model_id" ref="model_inom_offboarding_request"/>
+            <field name="subject">Your offboarding request {{ object.name }} has been approved</field>
+            <field name="email_from">{{ (object.company_id.email or user.email_formatted) }}</field>
+            <field name="body_html" type="html">
+                <div style="font-family: Arial, sans-serif; font-size: 14px; color: #2b2b2b;">
+                    <p>Hello <t t-out="object.employee_id.name or ''"/>,</p>
+                    <p>Your offboarding request has been approved by the HR team.</p>
+                    <ul>
+                        <li><strong>Reference:</strong> <t t-out="object.name or ''"/></li>
+                        <li><strong>Notice Period:</strong> <t t-out="object.notice_period_days or 0"/> day(s)</li>
+                        <li><strong>Relieving Date:</strong> <t t-out="object.relieving_date or 'To be confirmed'"/></li>
+                    </ul>
+                    <p style="margin: 16px 0;">
+                        <a t-att-href="object.access_url"
+                           style="background-color: #0b3954; color: #ffffff; padding: 10px 18px; text-decoration: none; border-radius: 4px; display: inline-block;">
+                            View Offboarding Request
+                        </a>
+                    </p>
+                    <p>Regards,<br/><t t-out="object.company_id.name or ''"/></p>
+                </div>
+            </field>
+            <field name="lang">{{ object.employee_id.user_id.lang or user.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <!-- Relieved: notify the employee -->
+        <record id="mail_template_offboarding_relieved" model="mail.template">
+            <field name="name">Offboarding: Employee Relieved</field>
+            <field name="model_id" ref="model_inom_offboarding_request"/>
+            <field name="subject">Relieving confirmation - {{ object.name }}</field>
+            <field name="email_from">{{ (object.company_id.email or user.email_formatted) }}</field>
+            <field name="body_html" type="html">
+                <div style="font-family: Arial, sans-serif; font-size: 14px; color: #2b2b2b;">
+                    <p>Hello <t t-out="object.employee_id.name or ''"/>,</p>
+                    <p>This confirms that your offboarding process is now complete.</p>
+                    <ul>
+                        <li><strong>Reference:</strong> <t t-out="object.name or ''"/></li>
+                        <li><strong>Relieving Date:</strong> <t t-out="object.relieving_date or ''"/></li>
+                    </ul>
+                    <p>We wish you all the best for the future.</p>
+                    <p style="margin: 16px 0;">
+                        <a t-att-href="object.access_url"
+                           style="background-color: #0b3954; color: #ffffff; padding: 10px 18px; text-decoration: none; border-radius: 4px; display: inline-block;">
+                            View Offboarding Request
+                        </a>
+                    </p>
+                    <p>Regards,<br/><t t-out="object.company_id.name or ''"/></p>
+                </div>
+            </field>
+            <field name="lang">{{ object.employee_id.user_id.lang or user.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <!-- Rejected: notify the employee with the reason -->
+        <record id="mail_template_offboarding_rejected" model="mail.template">
+            <field name="name">Offboarding: Request Rejected</field>
+            <field name="model_id" ref="model_inom_offboarding_request"/>
+            <field name="subject">Your offboarding request {{ object.name }} was not approved</field>
+            <field name="email_from">{{ (object.company_id.email or user.email_formatted) }}</field>
+            <field name="body_html" type="html">
+                <div style="font-family: Arial, sans-serif; font-size: 14px; color: #2b2b2b;">
+                    <p>Hello <t t-out="object.employee_id.name or ''"/>,</p>
+                    <p>Your offboarding request has been rejected.</p>
+                    <ul>
+                        <li><strong>Reference:</strong> <t t-out="object.name or ''"/></li>
+                        <li><strong>Reason for rejection:</strong> <t t-out="object.rejection_reason or ''"/></li>
+                    </ul>
+                    <p>Please reach out to HR for any clarification.</p>
+                    <p style="margin: 16px 0;">
+                        <a t-att-href="object.access_url"
+                           style="background-color: #0b3954; color: #ffffff; padding: 10px 18px; text-decoration: none; border-radius: 4px; display: inline-block;">
+                            View Offboarding Request
+                        </a>
+                    </p>
+                    <p>Regards,<br/><t t-out="object.company_id.name or ''"/></p>
+                </div>
+            </field>
+            <field name="lang">{{ object.employee_id.user_id.lang or user.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_audit_root"
+              name="Audit Trail"
+              web_icon="inom_audit_trail,static/description/icon.png"
+              groups="inom_audit_trail.group_inom_audit_trail_manager"
+              sequence="90"/>
+
+    <menuitem id="menu_audit_dashboard"
+              name="Overview"
+              parent="menu_audit_root"
+              action="action_audit_dashboard"
+              sequence="10"/>
+
+    <menuitem id="menu_audit_log"
+              name="Audit Log"
+              parent="menu_audit_root"
+              action="action_audit_log"
+              sequence="20"/>
+
+    <menuitem id="menu_audit_config"
+              name="Configuration"
+              parent="menu_audit_root"
+              sequence="90"/>
+
+    <menuitem id="menu_audit_rules"
+              name="Logging Rules"
+              parent="menu_audit_config"
+              action="action_audit_rule"
+              sequence="10"/>
+</odoo>
