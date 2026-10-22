@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_rental_maintenance" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.rental.maintenance</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="inom_rental_management.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <block name="rental_accounting" position="after">
+                <block title="Maintenance" name="rental_maintenance">
+                    <setting id="rental_maintenance_reminder_days"
+                             help="Remind the responsible person of property maintenance scheduled within this many days (0 disables it).">
+                        <field name="rental_maintenance_reminder_days"/>
+                    </setting>
+                    <setting id="rental_maintenance_product_id"
+                             help="Product used to invoice maintenance costs to tenants or owners. Its taxes and income account apply.">
+                        <field name="rental_maintenance_product_id"/>
+                    </setting>
+                </block>
+            </block>
+        </field>
+    </record>
+</odoo>

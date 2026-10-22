@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Taxes are left empty on purpose: set those that apply to recharged maintenance. -->
+        <record id="product_maintenance_recharge" model="product.product">
+            <field name="name">Maintenance Recharge</field>
+            <field name="default_code">RE-MAINT</field>
+            <field name="type">service</field>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="False"/>
+            <field name="taxes_id" eval="[(5, 0, 0)]"/>
+        </record>
+    </data>
+</odoo>

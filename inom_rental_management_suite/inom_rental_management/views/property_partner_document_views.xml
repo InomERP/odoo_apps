@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="property_partner_document_view_list" model="ir.ui.view">
+        <field name="name">property.partner.document.list</field>
+        <field name="model">property.partner.document</field>
+        <field name="arch" type="xml">
+            <list string="Owner and Tenant Documents" sample="1">
+                <field name="partner_id"/>
+                <field name="name"/>
+                <field name="document_type"/>
+                <field name="document_number" optional="show"/>
+                <field name="issue_date" optional="hide"/>
+                <field name="expiry_date"
+                       decoration-danger="is_expired"/>
+                <field name="file_name" optional="show"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+                <field name="create_uid" string="Uploaded by" widget="many2one_avatar_user" optional="hide"/>
+                <field name="is_expired" column_invisible="True"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="property_partner_document_view_form" model="ir.ui.view">
+        <field name="name">property.partner.document.form</field>
+        <field name="model">property.partner.document</field>
+        <field name="arch" type="xml">
+            <form string="Owner and Tenant Document">
+                <sheet>
+                    <widget name="web_ribbon" title="Expired" bg_color="text-bg-danger" invisible="not is_expired"/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. Passport, Aadhaar card, Title deed"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="document_type"/>
+                            <field name="document_number"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="issue_date"/>
+                            <field name="expiry_date"/>
+                            <field name="file" filename="file_name"/>
+                            <field name="file_name" invisible="1"/>
+                            <field name="is_expired" invisible="1"/>
+                        </group>
+                    </group>
+                    <field name="note" placeholder="Notes..."/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="property_partner_document_view_search" model="ir.ui.view">
+        <field name="name">property.partner.document.search</field>
+        <field name="model">property.partner.document</field>
+        <field name="arch" type="xml">
+            <search string="Owner and Tenant Documents">
+                <field name="name" string="Document" filter_domain="['|', ('name', 'ilike', self), ('document_number', 'ilike', self)]"/>
+                <field name="partner_id"/>
+                <filter name="identity" string="Identity Proofs" domain="[('document_type', '=', 'identity')]"/>
+                <filter name="ownership" string="Ownership Proofs" domain="[('document_type', '=', 'ownership')]"/>
+                <separator/>
+                <filter name="owners" string="Owners" domain="[('partner_id.is_property_owner', '=', True)]"/>
+                <filter name="tenants" string="Tenants" domain="[('partner_id.is_tenant', '=', True)]"/>
+                <separator/>
+                <filter name="expired" string="Expired"
+                        domain="[('expiry_date', '&lt;', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter name="expiring_soon" string="Expiring in 30 Days"
+                        domain="[('expiry_date', '&gt;=', context_today().strftime('%Y-%m-%d')),
+                                 ('expiry_date', '&lt;=', (context_today() + relativedelta(days=30)).strftime('%Y-%m-%d'))]"/>
+                <filter name="no_file" string="Missing File" domain="[('file', '=', False)]"/>
+                <group>
+                    <filter name="group_by_partner" string="Owner / Tenant" context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_by_type" string="Document Type" context="{'group_by': 'document_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_property_partner_document" model="ir.actions.act_window">
+        <field name="name">Owner and Tenant Documents</field>
+        <field name="res_model">property.partner.document</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="property_partner_document_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Record an owner or tenant document</p>
+            <p>Keep identity proofs, ownership proofs and agreements in one place. Only Real Estate agents and managers can open them.</p>
+        </field>
+    </record>
+</odoo>

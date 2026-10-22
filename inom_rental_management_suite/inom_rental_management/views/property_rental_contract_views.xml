@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="property_rental_contract_view_list" model="ir.ui.view">
+        <field name="name">property.rental.contract.list</field>
+        <field name="model">property.rental.contract</field>
+        <field name="arch" type="xml">
+            <list string="Rental Contracts" sample="1"
+                  decoration-danger="state == 'expired'"
+                  decoration-muted="state in ('closed', 'terminated', 'cancelled')">
+                <field name="name"/>
+                <field name="property_id"/>
+                <field name="tenant_id"/>
+                <field name="owner_id" optional="show"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="days_to_expiry" string="Days Left" optional="show"
+                       invisible="state not in ('approved', 'running', 'expired')"
+                       decoration-warning="days_to_expiry &lt;= 30" decoration-danger="days_to_expiry &lt; 0"/>
+                <field name="rent_period" optional="show"/>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="rent_amount" sum="Total Monthly Rent"/>
+                <field name="deposit_amount" optional="hide"/>
+                <field name="renewed_from_id" optional="hide"/>
+                <field name="user_id" widget="many2one_avatar_user" optional="show"/>
+                <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                <field name="state" widget="badge"
+                       decoration-info="state in ('draft', 'approved')"
+                       decoration-success="state == 'running'"
+                       decoration-danger="state == 'expired'"
+                       decoration-warning="state == 'terminated'"
+                       decoration-muted="state in ('closed', 'cancelled')"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="property_rental_contract_view_form" model="ir.ui.view">
+        <field name="name">property.rental.contract.form</field>
+        <field name="model">property.rental.contract</field>
+        <field name="arch" type="xml">
+            <form string="Rental Contract">
+                <header>
+                    <button name="action_approve" type="object" string="Approve"
+                            class="btn-primary" invisible="state != 'draft'"
+                            groups="inom_rental_management.group_rental_manager"/>
+                    <button name="action_start" type="object" string="Start Contract"
+                            class="btn-primary" invisible="state not in ('draft', 'approved')"/>
+                    <button name="action_open_renew_wizard" type="object" string="Renew"
+                            class="btn-primary" invisible="state not in ('running', 'expired') or renewal_id"/>
+                    <button name="action_close" type="object" string="Close Contract"
+                            invisible="state not in ('running', 'expired')"
+                            confirm="Close this contract? The property becomes available unless another lease runs on it."/>
+                    <button name="action_open_terminate_wizard" type="object" string="Terminate Early"
+                            invisible="state not in ('running', 'expired')"
+                            groups="inom_rental_management.group_rental_manager"/>
+                    <button name="action_invoice_deposit" type="object" string="Invoice Deposit"
+                            invisible="state not in ('approved', 'running') or deposit_state != 'to_invoice'"
+                            groups="account.group_account_invoice"/>
+                    <button name="action_create_due_invoices" type="object" string="Invoice Due Rent"
+                            invisible="state not in ('running', 'expired', 'terminated', 'closed') or not rent_schedule_ids"
+                            groups="account.group_account_invoice"/>
+                    <button name="action_open_deposit_settlement" type="object" string="Settle Deposit"
+                            invisible="state not in ('expired', 'terminated', 'closed') or deposit_state != 'held'"
+                            groups="account.group_account_invoice"/>
+                    <button name="action_generate_rent_schedule" type="object" string="Create Billing Schedule"
+                            invisible="state not in ('running', 'expired') or rent_schedule_ids"
+                            groups="inom_rental_management.group_rental_manager"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state not in ('draft', 'approved')"/>
+                    <button name="action_reset_to_draft" type="object" string="Reset to Draft"
+                            invisible="state not in ('approved', 'cancelled')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approved,running,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_invoices" type="object" class="oe_stat_button" icon="fa-pencil-square-o"
+                                invisible="not invoice_count" groups="account.group_account_invoice">
+                            <field name="invoice_count" widget="statinfo" string="Invoices"/>
+                        </button>
+                        <button name="action_view_payments" type="object" class="oe_stat_button" icon="fa-money"
+                                string="Payments" invisible="not invoice_count" groups="account.group_account_invoice"/>
+                        <button name="action_view_lead" type="object" class="oe_stat_button" icon="fa-star"
+                                string="Enquiry" invisible="not lead_id" groups="sales_team.group_sale_salesman"/>
+                        <button name="action_view_documents" type="object" class="oe_stat_button" icon="fa-files-o">
+                            <field name="document_count" widget="statinfo" string="Documents"/>
+                        </button>
+                        <button name="action_view_previous" type="object" class="oe_stat_button" icon="fa-history"
+                                string="Previous Contract" invisible="not renewed_from_id"/>
+                        <button name="action_view_renewal" type="object" class="oe_stat_button" icon="fa-refresh"
+                                string="Renewal" invisible="not renewal_id"/>
+                    </div>
+                    <widget name="web_ribbon" title="Expired" bg_color="text-bg-danger" invisible="state != 'expired'"/>
+                    <widget name="web_ribbon" title="Terminated" bg_color="text-bg-warning" invisible="state != 'terminated'"/>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group name="parties">
+                            <field name="property_id" readonly="state != 'draft'"/>
+                            <field name="owner_id"/>
+                            <field name="tenant_id" readonly="state != 'draft'"
+                                   context="{'default_is_tenant': True}"/>
+                            <field name="lead_id" readonly="1" invisible="not lead_id" groups="sales_team.group_sale_salesman"/>
+                            <field name="user_id" widget="many2one_avatar_user"/>
+                            <field name="company_id" groups="base.group_multi_company" readonly="state != 'draft'"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <group name="terms" string="Lease Terms">
+                            <field name="date_start" readonly="state != 'draft'"/>
+                            <field name="date_end" readonly="state != 'draft'"/>
+                            <field name="days_to_expiry" string="Days Left"
+                                   invisible="state not in ('approved', 'running', 'expired')"/>
+                            <field name="rent_amount" readonly="state != 'draft'"/>
+                            <field name="rent_period" readonly="state != 'draft'"/>
+                            <field name="deposit_amount" readonly="state != 'draft'"/>
+                            <field name="invoice_from" readonly="state != 'draft'" placeholder="Start date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Billing Schedule" name="billing" invisible="not rent_schedule_ids">
+                            <group>
+                                <group string="Rent">
+                                    <field name="rent_invoiced"/>
+                                    <field name="rent_received"/>
+                                    <field name="rent_due"/>
+                                    <field name="rent_overdue" decoration-danger="rent_overdue &gt; 0"/>
+                                </group>
+                                <group string="Security Deposit">
+                                    <field name="deposit_state" widget="badge"/>
+                                    <field name="deposit_invoiced"/>
+                                    <field name="deposit_received"/>
+                                    <field name="deposit_held"/>
+                                    <field name="deposit_deducted" invisible="deposit_state != 'settled'"/>
+                                    <field name="deposit_refunded" invisible="deposit_state != 'settled'"/>
+                                </group>
+                            </group>
+                            <field name="rent_schedule_ids" readonly="1"
+                                   context="{'list_view_ref': 'inom_rental_management.property_rent_schedule_view_list'}"/>
+                        </page>
+                        <page string="Terms and Conditions" name="terms_conditions">
+                            <field name="note" placeholder="Terms and conditions of this contract..."/>
+                        </page>
+                        <page string="History" name="history">
+                            <group>
+                                <group string="Approval">
+                                    <field name="approved_by_id"/>
+                                    <field name="date_approved"/>
+                                </group>
+                                <group string="Renewal">
+                                    <field name="renewed_from_id"/>
+                                    <field name="renewal_id"/>
+                                </group>
+                                <group string="End of Contract">
+                                    <field name="date_closed"/>
+                                    <field name="date_terminated"/>
+                                    <field name="termination_reason"/>
+                                    <field name="termination_note"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="property_rental_contract_view_calendar" model="ir.ui.view">
+        <field name="name">property.rental.contract.calendar</field>
+        <field name="model">property.rental.contract</field>
+        <field name="arch" type="xml">
+            <calendar string="Rental Contracts" date_start="date_start" date_stop="date_end" color="property_id"
+                      mode="month" quick_create="0">
+                <field name="tenant_id"/>
+                <field name="state"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="property_rental_contract_view_search" model="ir.ui.view">
+        <field name="name">property.rental.contract.search</field>
+        <field name="model">property.rental.contract</field>
+        <field name="arch" type="xml">
+            <search string="Rental Contracts">
+                <field name="name"/>
+                <field name="property_id"/>
+                <field name="tenant_id"/>
+                <field name="owner_id"/>
+                <filter name="my_contracts" string="My Contracts" domain="[('user_id', '=', uid)]"/>
+                <separator/>
+                <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                <filter name="running" string="Running" domain="[('state', '=', 'running')]"/>
+                <filter name="expired" string="Expired" domain="[('state', '=', 'expired')]"/>
+                <filter name="terminated" string="Terminated" domain="[('state', '=', 'terminated')]"/>
+                <filter name="closed" string="Closed" domain="[('state', '=', 'closed')]"/>
+                <separator/>
+                <filter name="expiring_soon" string="Expiring in 30 Days"
+                        domain="[('state', '=', 'running'),
+                                 ('date_end', '&gt;=', context_today().strftime('%Y-%m-%d')),
+                                 ('date_end', '&lt;=', (context_today() + relativedelta(days=30)).strftime('%Y-%m-%d'))]"/>
+                <filter name="not_renewed" string="Not Renewed"
+                        domain="[('state', 'in', ('running', 'expired')), ('renewal_ids', '=', False)]"/>
+                <filter name="renewals" string="Renewals" domain="[('renewed_from_id', '!=', False)]"/>
+                <separator/>
+                <filter name="filter_date_start" string="Start Date" date="date_start"/>
+                <filter name="filter_date_end" string="End Date" date="date_end"/>
+                <group>
+                    <filter name="group_by_property" string="Property" context="{'group_by': 'property_id'}"/>
+                    <filter name="group_by_tenant" string="Tenant" context="{'group_by': 'tenant_id'}"/>
+                    <filter name="group_by_owner" string="Owner" context="{'group_by': 'owner_id'}"/>
+                    <filter name="group_by_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_by_date_start" string="Start Date" context="{'group_by': 'date_start'}"/>
+                    <filter name="group_by_date_end" string="End Date" context="{'group_by': 'date_end'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="property_rental_contract_view_pivot" model="ir.ui.view">
+        <field name="name">property.rental.contract.pivot</field>
+        <field name="model">property.rental.contract</field>
+        <field name="arch" type="xml">
+            <pivot string="Rental Analysis" sample="1">
+                <field name="property_id" type="row"/>
+                <field name="state" type="col"/>
+                <field name="rent_amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="property_rental_contract_view_graph" model="ir.ui.view">
+        <field name="name">property.rental.contract.graph</field>
+        <field name="model">property.rental.contract</field>
+        <field name="arch" type="xml">
+            <graph string="Rental Analysis" type="bar" sample="1">
+                <field name="date_start" interval="month"/>
+                <field name="rent_amount" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_property_rental_contract" model="ir.actions.act_window">
+        <field name="name">Rental Contracts</field>
+        <field name="res_model">property.rental.contract</field>
+        <field name="view_mode">list,form,calendar</field>
+        <field name="search_view_id" ref="property_rental_contract_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create a rental contract</p>
+            <p>A rental contract lets a property to a tenant for a period, at an agreed monthly rent and deposit.</p>
+        </field>
+    </record>
+
+    <record id="action_property_rental_contract_analysis" model="ir.actions.act_window">
+        <field name="name">Rental Analysis</field>
+        <field name="res_model">property.rental.contract</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="search_view_id" ref="property_rental_contract_view_search"/>
+    </record>
+</odoo>

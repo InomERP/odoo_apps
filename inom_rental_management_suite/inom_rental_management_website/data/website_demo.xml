@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Publish the demo properties that are open for rent or sale. Outside noupdate so it also
+         runs when demo data is added by an upgrade; it only touches listings never set up before. -->
+    <data noupdate="0">
+        <function model="property.rental.demo" name="_load_website_demo"/>
+    </data>
+</odoo>

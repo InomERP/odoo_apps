@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Property types and amenities -->
+    <record id="demo_type_apartment" model="property.type">
+        <field name="name">Apartment</field>
+        <field name="category">residential</field>
+    </record>
+    <record id="demo_type_villa" model="property.type">
+        <field name="name">Villa</field>
+        <field name="category">residential</field>
+    </record>
+    <record id="demo_type_office" model="property.type">
+        <field name="name">Office Space</field>
+        <field name="category">commercial</field>
+    </record>
+    <record id="demo_type_shop" model="property.type">
+        <field name="name">Retail Shop</field>
+        <field name="category">commercial</field>
+    </record>
+    <record id="demo_type_plot" model="property.type">
+        <field name="name">Residential Plot</field>
+        <field name="category">land</field>
+    </record>
+
+    <record id="demo_amenity_parking" model="property.amenity"><field name="name">Covered Parking</field></record>
+    <record id="demo_amenity_lift" model="property.amenity"><field name="name">Lift</field></record>
+    <record id="demo_amenity_gym" model="property.amenity"><field name="name">Gym</field></record>
+    <record id="demo_amenity_pool" model="property.amenity"><field name="name">Swimming Pool</field></record>
+    <record id="demo_amenity_power" model="property.amenity"><field name="name">Power Backup</field></record>
+    <record id="demo_amenity_security" model="property.amenity"><field name="name">24x7 Security</field></record>
+    <record id="demo_amenity_garden" model="property.amenity"><field name="name">Private Garden</field></record>
+    <record id="demo_amenity_club" model="property.amenity"><field name="name">Clubhouse</field></record>
+
+    <!-- Owners, tenants and buyers -->
+    <record id="demo_owner_horizon" model="res.partner">
+        <field name="name">Horizon Estates Pvt Ltd</field>
+        <field name="is_company" eval="True"/>
+        <field name="is_property_owner" eval="True"/>
+        <field name="email">accounts@horizon-estates.example.com</field>
+        <field name="phone">+91 20 4000 1100</field>
+        <field name="street">Baner Road</field>
+        <field name="city">Pune</field>
+        <field name="zip">411045</field>
+        <field name="country_id" ref="base.in"/>
+    </record>
+    <record id="demo_owner_rajesh" model="res.partner">
+        <field name="name">Rajesh Mehta</field>
+        <field name="is_property_owner" eval="True"/>
+        <field name="email">rajesh.mehta@example.com</field>
+        <field name="phone">+91 98200 11223</field>
+        <field name="city">Mumbai</field>
+        <field name="country_id" ref="base.in"/>
+    </record>
+    <record id="demo_owner_sunita" model="res.partner">
+        <field name="name">Sunita Iyer</field>
+        <field name="is_property_owner" eval="True"/>
+        <field name="email">sunita.iyer@example.com</field>
+        <field name="phone">+91 98450 33445</field>
+        <field name="city">Bengaluru</field>
+        <field name="country_id" ref="base.in"/>
+    </record>
+
+    <record id="demo_tenant_neha" model="res.partner">
+        <field name="name">Neha Kulkarni</field>
+        <field name="is_tenant" eval="True"/>
+        <field name="email">neha.kulkarni@example.com</field>
+        <field name="phone">+91 99220 10001</field>
+        <field name="city">Pune</field>
+        <field name="country_id" ref="base.in"/>
+        <field name="property_payment_term_id" ref="account.account_payment_term_immediate"/>
+    </record>
+    <record id="demo_tenant_karan" model="res.partner">
+        <field name="name">Karan Desai</field>
+        <field name="is_tenant" eval="True"/>
+        <field name="email">karan.desai@example.com</field>
+        <field name="phone">+91 99220 10002</field>
+        <field name="city">Pune</field>
+        <field name="country_id" ref="base.in"/>
+        <field name="property_payment_term_id" ref="account.account_payment_term_immediate"/>
+    </record>
+    <record id="demo_tenant_vikram" model="res.partner">
+        <field name="name">Vikram Rao</field>
+        <field name="is_tenant" eval="True"/>
+        <field name="email">vikram.rao@example.com</field>
+        <field name="phone">+91 99220 10003</field>
+        <field name="city">Pune</field>
+        <field name="country_id" ref="base.in"/>
+        <field name="property_payment_term_id" ref="account.account_payment_term_immediate"/>
+    </record>
+    <record id="demo_tenant_riya" model="res.partner">
+        <field name="name">Riya Shah</field>
+        <field name="is_tenant" eval="True"/>
+        <field name="email">riya.shah@example.com</field>
+        <field name="phone">+91 99220 10004</field>
+        <field name="city">Mumbai</field>
+        <field name="country_id" ref="base.in"/>
+        <field name="property_payment_term_id" ref="account.account_payment_term_immediate"/>
+    </record>
+    <record id="demo_tenant_freshmart" model="res.partner">
+        <field name="name">FreshMart Retail LLP</field>
+        <field name="is_company" eval="True"/>
+        <field name="is_tenant" eval="True"/>
+        <field name="email">leasing@freshmart.example.com</field>
+        <field name="phone">+91 22 6100 2200</field>
+        <field name="city">Mumbai</field>
+        <field name="country_id" ref="base.in"/>
+        <field name="property_payment_term_id" ref="account.account_payment_term_immediate"/>
+    </record>
+    <record id="demo_tenant_asha" model="res.partner">
+        <field name="name">Asha Patel</field>
+        <field name="is_tenant" eval="True"/>
+        <field name="email">asha.patel@example.com</field>
+        <field name="phone">+91 99220 10005</field>
+        <field name="city">Bengaluru</field>
+        <field name="country_id" ref="base.in"/>
+    </record>
+
+    <record id="demo_buyer_arjun" model="res.partner">
+        <field name="name">Arjun Nair</field>
+        <field name="is_property_buyer" eval="True"/>
+        <field name="email">arjun.nair@example.com</field>
+        <field name="phone">+91 98860 55667</field>
+        <field name="city">Bengaluru</field>
+        <field name="country_id" ref="base.in"/>
+    </record>
+    <record id="demo_buyer_meera" model="res.partner">
+        <field name="name">Meera Joshi</field>
+        <field name="is_property_buyer" eval="True"/>
+        <field name="email">meera.joshi@example.com</field>
+        <field name="phone">+91 98860 77889</field>
+        <field name="city">Pune</field>
+        <field name="country_id" ref="base.in"/>
+    </record>
+
+    <!-- Properties for rent -->
+    <record id="demo_property_skyline_a101" model="property.property">
+        <field name="name">Skyline Residency A-101</field>
+        <field name="type_id" ref="demo_type_apartment"/>
+        <field name="property_for">rent</field>
+        <field name="state">available</field>
+        <field name="owner_id" ref="demo_owner_horizon"/>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="street">Skyline Residency, Baner Road</field>
+        <field name="city">Pune</field>
+        <field name="zip">411045</field>
+        <field name="state_id" ref="base.state_in_mh"/>
+        <field name="country_id" ref="base.in"/>
+        <field name="bedrooms">2</field>
+        <field name="bathrooms">2</field>
+        <field name="furnishing">semi_furnished</field>
+        <field name="total_area">1050</field>
+        <field name="rent_price">28000</field>
+        <field name="amenity_ids" eval="[Command.set([ref('demo_amenity_parking'), ref('demo_amenity_lift'), ref('demo_amenity_gym'), ref('demo_amenity_power'), ref('demo_amenity_security')])]"/>
+        <field name="description"><![CDATA[<p>Bright two-bedroom apartment on the first floor, with a balcony facing the garden and a covered parking space.</p>]]></field>
+        <field name="image_1920" type="base64" file="inom_rental_management/static/img/demo/skyline_tower.jpg"/>
+    </record>
+    <record id="demo_property_skyline_a102" model="property.property">
+        <field name="name">Skyline Residency A-102</field>
+        <field name="type_id" ref="demo_type_apartment"/>
+        <field name="property_for">rent</field>
+        <field name="state">available</field>
+        <field name="owner_id" ref="demo_owner_horizon"/>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="street">Skyline Residency, Baner Road</field>
+        <field name="city">Pune</field>
+        <field name="zip">411045</field>
+        <field name="state_id" ref="base.state_in_mh"/>
+        <field name="country_id" ref="base.in"/>
+        <field name="bedrooms">2</field>
+        <field name="bathrooms">2</field>
+        <field name="furnishing">furnished</field>
+        <field name="total_area">1080</field>
+        <field name="rent_price">30000</field>
+        <field name="amenity_ids" eval="[Command.set([ref('demo_amenity_parking'), ref('demo_amenity_lift'), ref('demo_amenity_gym'), ref('demo_amenity_security')])]"/>
+        <field name="image_1920" type="base64" file="inom_rental_management/static/img/demo/skyline_tower.jpg"/>
+    </record>
+    <record id="demo_property_skyline_b201" model="property.property">
+        <field name="name">Skyline Residency B-201</field>
+        <field name="type_id" ref="demo_type_apartment"/>
+        <field name="property_for">rent</field>
+        <field name="state">available</field>
+        <field name="owner_id" ref="demo_owner_horizon"/>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="street">Skyline Residency, Baner Road</field>
+        <field name="city">Pune</field>
+        <field name="zip">411045</field>
+        <field name="state_id" ref="base.state_in_mh"/>
+        <field name="country_id" ref="base.in"/>
+        <field name="bedrooms">3</field>
+        <field name="bathrooms">3</field>
+        <field name="furnishing">semi_furnished</field>
+        <field name="total_area">1420</field>
+        <field name="rent_price">36000</field>
+        <field name="amenity_ids" eval="[Command.set([ref('demo_amenity_parking'), ref('demo_amenity_lift'), ref('demo_amenity_pool'), ref('demo_amenity_club'), ref('demo_amenity_security')])]"/>
+        <field name="image_1920" type="base64" file="inom_rental_management/static/img/demo/skyline_tower.jpg"/>
+    </record>
+    <record id="demo_property_park_view_7" model="property.property">
+        <field name="name">Park View Towers 7</field>
+        <field name="type_id" ref="demo_type_apartment"/>
+        <field name="property_for">rent</field>
+        <field name="state">available</field>
+        <field name="owner_id" ref="demo_owner_rajesh"/>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="street">Hiranandani Gardens</field>
+        <field name="city">Mumbai</field>
+        <field name="zip">400076</field>
+        <field name="state_id" ref="base.state_in_mh"/>
+        <field name="country_id" ref="base.in"/>
+        <field name="bedrooms">2</field>
+        <field name="bathrooms">2</field>
+        <field name="furnishing">unfurnished</field>
+        <field name="total_area">980</field>
+        <field name="rent_price">42000</field>
+        <field name="amenity_ids" eval="[Command.set([ref('demo_amenity_parking'), ref('demo_amenity_lift'), ref('demo_amenity_power')])]"/>
+        <field name="description"><![CDATA[<p>Two-bedroom flat on the seventh floor with city views, five minutes from the metro station.</p>]]></field>
+        <field name="image_1920" type="base64" file="inom_rental_management/static/img/demo/park_view.jpg"/>
+    </record>
+    <record id="demo_property_green_villa" model="property.property">
+        <field name="name">Green Villa 12</field>
+        <field name="type_id" ref="demo_type_villa"/>
+        <field name="property_for">rent</field>
+        <field name="state">available</field>
+        <field name="owner_id" ref="demo_owner_rajesh"/>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="street">Green Meadows, Lonavala Road</field>
+        <field name="city">Pune</field>
+        <field name="zip">410401</field>
+        <field name="state_id" ref="base.state_in_mh"/>
+        <field name="country_id" ref="base.in"/>
+        <field name="bedrooms">4</field>
+        <field name="bathrooms">4</field>
+        <field name="furnishing">furnished</field>
+        <field name="total_area">3200</field>
+        <field name="land_area">4500</field>
+        <field name="rent_price">85000</field>
+        <field name="amenity_ids" eval="[Command.set([ref('demo_amenity_parking'), ref('demo_amenity_garden'), ref('demo_amenity_pool'), ref('demo_amenity_power'), ref('demo_amenity_security')])]"/>
+        <field name="image_1920" type="base64" file="inom_rental_management/static/img/demo/green_villa.jpg"/>
+    </record>
+    <record id="demo_property_lake_side" model="property.property">
+        <field name="name">Lake Side Villa 3</field>
+        <field name="type_id" ref="demo_type_villa"/>
+        <field name="property_for">rent</field>
+        <field name="owner_id" ref="demo_owner_sunita"/>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="street">Hebbal Lake Road</field>
+        <field name="city">Bengaluru</field>
+        <field name="zip">560024</field>
+        <field name="state_id" ref="base.state_in_ka"/>
+        <field name="country_id" ref="base.in"/>
+        <field name="bedrooms">3</field>
+        <field name="bathrooms">3</field>
+        <field name="furnishing">semi_furnished</field>
+        <field name="total_area">2400</field>
+        <field name="land_area">3000</field>
+        <field name="rent_price">95000</field>
+        <field name="amenity_ids" eval="[Command.set([ref('demo_amenity_garden'), ref('demo_amenity_parking'), ref('demo_amenity_security')])]"/>
+        <field name="description"><![CDATA[<p>Being renovated: listed once the new kitchen is finished.</p>]]></field>
+        <field name="image_1920" type="base64" file="inom_rental_management/static/img/demo/lake_side.jpg"/>
+    </record>
+    <record id="demo_property_metro_shop" model="property.property">
+        <field name="name">Metro Plaza Shop G-03</field>
+        <field name="type_id" ref="demo_type_shop"/>
+        <field name="property_for">rent</field>
+        <field name="state">available</field>
+        <field name="owner_id" ref="demo_owner_horizon"/>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="street">Metro Plaza, Linking Road</field>
+        <field name="city">Mumbai</field>
+        <field name="zip">400050</field>
+        <field name="state_id" ref="base.state_in_mh"/>
+        <field name="country_id" ref="base.in"/>
+        <field name="total_area">650</field>
+        <field name="rent_price">60000</field>
+        <field name="amenity_ids" eval="[Command.set([ref('demo_amenity_power'), ref('demo_amenity_security')])]"/>
+        <field name="image_1920" type="base64" file="inom_rental_management/static/img/demo/metro_shop.jpg"/>
+    </record>
+    <record id="demo_property_tech_park" model="property.property">
+        <field name="name">Tech Park Office 5F</field>
+        <field name="type_id" ref="demo_type_office"/>
+        <field name="property_for">rent</field>
+        <field name="state">available</field>
+        <field name="owner_id" ref="demo_owner_sunita"/>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="street">Outer Ring Road, Bellandur</field>
+        <field name="city">Bengaluru</field>
+        <field name="zip">560103</field>
+        <field name="state_id" ref="base.state_in_ka"/>
+        <field name="country_id" ref="base.in"/>
+        <field name="total_area">5200</field>
+        <field name="furnishing">furnished</field>
+        <field name="rent_price">150000</field>
+        <field name="amenity_ids" eval="[Command.set([ref('demo_amenity_parking'), ref('demo_amenity_lift'), ref('demo_amenity_power'), ref('demo_amenity_security')])]"/>
+        <field name="image_1920" type="base64" file="inom_rental_management/static/img/demo/tech_park.jpg"/>
+    </record>
+
+    <!-- Properties for sale -->
+    <record id="demo_property_hill_top" model="property.property">
+        <field name="name">Hill Top Villa 9</field>
+        <field name="type_id" ref="demo_type_villa"/>
+        <field name="property_for">sale</field>
+        <field name="state">available</field>
+        <field name="owner_id" ref="demo_owner_sunita"/>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="street">Nandi Hills Road</field>
+        <field name="city">Bengaluru</field>
+        <field name="zip">562103</field>
+        <field name="state_id" ref="base.state_in_ka"/>
+        <field name="country_id" ref="base.in"/>
+        <field name="bedrooms">4</field>
+        <field name="bathrooms">5</field>
+        <field name="total_area">3800</field>
+        <field name="land_area">6000</field>
+        <field name="sale_price">12500000</field>
+        <field name="amenity_ids" eval="[Command.set([ref('demo_amenity_garden'), ref('demo_amenity_pool'), ref('demo_amenity_parking'), ref('demo_amenity_security')])]"/>
+        <field name="image_1920" type="base64" file="inom_rental_management/static/img/demo/lake_side.jpg"/>
+    </record>
+    <record id="demo_property_nh_plot" model="property.property">
+        <field name="name">Plot NH-52, Sunrise Layout</field>
+        <field name="type_id" ref="demo_type_plot"/>
+        <field name="property_for">sale</field>
+        <field name="state">available</field>
+        <field name="owner_id" ref="demo_owner_rajesh"/>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="street">Sunrise Layout, Hinjewadi Phase 3</field>
+        <field name="city">Pune</field>
+        <field name="zip">411057</field>
+        <field name="state_id" ref="base.state_in_mh"/>
+        <field name="country_id" ref="base.in"/>
+        <field name="land_area">2400</field>
+        <field name="sale_price">4500000</field>
+        <field name="image_1920" type="base64" file="inom_rental_management/static/img/demo/nh_plot.jpg"/>
+    </record>
+    <record id="demo_property_park_view_12" model="property.property">
+        <field name="name">Park View Towers 12</field>
+        <field name="type_id" ref="demo_type_apartment"/>
+        <field name="property_for">sale</field>
+        <field name="state">available</field>
+        <field name="owner_id" ref="demo_owner_rajesh"/>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="street">Hiranandani Gardens</field>
+        <field name="city">Mumbai</field>
+        <field name="zip">400076</field>
+        <field name="state_id" ref="base.state_in_mh"/>
+        <field name="country_id" ref="base.in"/>
+        <field name="bedrooms">3</field>
+        <field name="bathrooms">3</field>
+        <field name="total_area">1650</field>
+        <field name="sale_price">21500000</field>
+        <field name="amenity_ids" eval="[Command.set([ref('demo_amenity_parking'), ref('demo_amenity_lift'), ref('demo_amenity_gym'), ref('demo_amenity_club')])]"/>
+        <field name="description"><![CDATA[<p>Three-bedroom corner apartment on the twelfth floor, ready to move in.</p>]]></field>
+        <field name="image_1920" type="base64" file="inom_rental_management/static/img/demo/park_view.jpg"/>
+    </record>
+
+    <!-- Gallery pictures -->
+    <record id="demo_image_green_villa_2" model="property.image">
+        <field name="name">Garden view</field>
+        <field name="property_id" ref="demo_property_green_villa"/>
+        <field name="image_1920" type="base64" file="inom_rental_management/static/img/demo/lake_side.jpg"/>
+    </record>
+    <record id="demo_image_park_view_2" model="property.image">
+        <field name="name">Neighbourhood</field>
+        <field name="property_id" ref="demo_property_park_view_7"/>
+        <field name="image_1920" type="base64" file="inom_rental_management/static/img/demo/tech_park.jpg"/>
+    </record>
+
+    <!-- Rental contracts: started, invoiced and partly paid by the demo workflow below -->
+    <record id="demo_lease_skyline_a101" model="property.rental.contract">
+        <field name="property_id" ref="demo_property_skyline_a101"/>
+        <field name="tenant_id" ref="demo_tenant_neha"/>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="date_start" eval="(DateTime.today().replace(day=1) - relativedelta(months=5)).strftime('%Y-%m-%d')"/>
+        <field name="date_end" eval="(DateTime.today().replace(day=1) + relativedelta(months=7, days=-1)).strftime('%Y-%m-%d')"/>
+        <field name="rent_amount">28000</field>
+        <field name="deposit_amount">84000</field>
+    </record>
+    <record id="demo_lease_skyline_a102" model="property.rental.contract">
+        <field name="property_id" ref="demo_property_skyline_a102"/>
+        <field name="tenant_id" ref="demo_tenant_karan"/>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="date_start" eval="(DateTime.today() + relativedelta(days=20) - relativedelta(years=1, days=-1)).strftime('%Y-%m-%d')"/>
+        <field name="date_end" eval="(DateTime.today() + relativedelta(days=20)).strftime('%Y-%m-%d')"/>
+        <field name="rent_amount">30000</field>
+        <field name="deposit_amount">90000</field>
+    </record>
+    <record id="demo_lease_skyline_b201" model="property.rental.contract">
+        <field name="property_id" ref="demo_property_skyline_b201"/>
+        <field name="tenant_id" ref="demo_tenant_vikram"/>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="date_start" eval="(DateTime.today().replace(day=1) - relativedelta(months=3)).strftime('%Y-%m-%d')"/>
+        <field name="date_end" eval="(DateTime.today().replace(day=1) + relativedelta(months=9, days=-1)).strftime('%Y-%m-%d')"/>
+        <field name="rent_amount">36000</field>
+        <field name="deposit_amount">108000</field>
+    </record>
+    <record id="demo_lease_green_villa" model="property.rental.contract">
+        <field name="property_id" ref="demo_property_green_villa"/>
+        <field name="tenant_id" ref="demo_tenant_riya"/>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="date_start" eval="(DateTime.today() + relativedelta(days=6) - relativedelta(months=11, days=-1)).strftime('%Y-%m-%d')"/>
+        <field name="date_end" eval="(DateTime.today() + relativedelta(days=6)).strftime('%Y-%m-%d')"/>
+        <field name="rent_amount">85000</field>
+        <field name="deposit_amount">255000</field>
+    </record>
+    <record id="demo_lease_metro_shop" model="property.rental.contract">
+        <field name="property_id" ref="demo_property_metro_shop"/>
+        <field name="tenant_id" ref="demo_tenant_freshmart"/>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="date_start" eval="(DateTime.today().replace(day=1) - relativedelta(months=4)).strftime('%Y-%m-%d')"/>
+        <field name="date_end" eval="(DateTime.today().replace(day=1) + relativedelta(years=2, months=-4, days=-1)).strftime('%Y-%m-%d')"/>
+        <field name="rent_amount">60000</field>
+        <field name="deposit_amount">360000</field>
+    </record>
+    <!-- Waiting to start -->
+    <record id="demo_lease_tech_park" model="property.rental.contract">
+        <field name="property_id" ref="demo_property_tech_park"/>
+        <field name="tenant_id" ref="demo_tenant_asha"/>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="date_start" eval="(DateTime.today().replace(day=1) + relativedelta(months=1)).strftime('%Y-%m-%d')"/>
+        <field name="date_end" eval="(DateTime.today().replace(day=1) + relativedelta(years=3, months=1, days=-1)).strftime('%Y-%m-%d')"/>
+        <field name="rent_amount">150000</field>
+        <field name="deposit_amount">900000</field>
+    </record>
+
+    <!-- Property sales -->
+    <record id="demo_sale_nh_plot" model="property.sale.contract">
+        <field name="property_id" ref="demo_property_nh_plot"/>
+        <field name="buyer_id" ref="demo_buyer_meera"/>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="sale_price">4500000</field>
+        <field name="booking_amount">500000</field>
+        <field name="booking_date" eval="(DateTime.today() - relativedelta(days=20)).strftime('%Y-%m-%d')"/>
+    </record>
+    <record id="demo_sale_hill_top" model="property.sale.contract">
+        <field name="property_id" ref="demo_property_hill_top"/>
+        <field name="buyer_id" ref="demo_buyer_arjun"/>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="sale_price">12200000</field>
+        <field name="booking_amount">1000000</field>
+    </record>
+
+    <!-- Enquiries -->
+    <record id="demo_enquiry_park_view_rent" model="crm.lead">
+        <field name="name">2BHK on rent at Park View Towers</field>
+        <field name="type">opportunity</field>
+        <field name="contact_name">Sameer Kulkarni</field>
+        <field name="email_from">sameer.k@example.com</field>
+        <field name="phone">+91 98111 22334</field>
+        <field name="property_id" ref="demo_property_park_view_7"/>
+        <field name="property_for">rent</field>
+        <field name="ask_price">40000</field>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="description">Looking to move in next month with family. Wants a parking space.</field>
+    </record>
+    <record id="demo_enquiry_tech_park" model="crm.lead">
+        <field name="name">Office space for 60 seats</field>
+        <field name="type">opportunity</field>
+        <field name="partner_name">Brightline Analytics</field>
+        <field name="contact_name">Pooja Menon</field>
+        <field name="email_from">pooja@brightline.example.com</field>
+        <field name="property_id" ref="demo_property_tech_park"/>
+        <field name="property_for">rent</field>
+        <field name="ask_price">140000</field>
+        <field name="user_id" ref="base.user_admin"/>
+    </record>
+    <record id="demo_enquiry_park_view_sale" model="crm.lead">
+        <field name="name">Interested in buying Park View Towers 12</field>
+        <field name="type">opportunity</field>
+        <field name="contact_name">Rohan Gupta</field>
+        <field name="email_from">rohan.gupta@example.com</field>
+        <field name="phone">+91 98111 55667</field>
+        <field name="property_id" ref="demo_property_park_view_12"/>
+        <field name="property_for">sale</field>
+        <field name="ask_price">20000000</field>
+        <field name="user_id" ref="base.user_admin"/>
+    </record>
+    <record id="demo_enquiry_villa" model="crm.lead">
+        <field name="name">Villa with garden, Pune</field>
+        <field name="type">lead</field>
+        <field name="contact_name">Anita Deshpande</field>
+        <field name="email_from">anita.d@example.com</field>
+        <field name="property_for">rent</field>
+        <field name="ask_price">70000</field>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="description">Asked through the website for a three or four bedroom villa near Pune.</field>
+    </record>
+
+    <!-- Bring the records to life: start leases, invoice rent, register payments, record sales.
+         Outside noupdate so it also runs when demo data is added by a module upgrade; it only
+         acts on demo records still in draft, so running it again changes nothing. -->
+    <data noupdate="0">
+        <function model="property.rental.demo" name="_load_demo_workflow"/>
+    </data>
+</odoo>

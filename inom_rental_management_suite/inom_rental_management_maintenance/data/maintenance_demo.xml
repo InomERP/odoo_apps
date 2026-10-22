@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="demo_team_property_care" model="maintenance.team">
+        <field name="name">Property Care Team</field>
+    </record>
+
+    <!-- Outside noupdate so it also runs when demo data is added by an upgrade -->
+    <data noupdate="0">
+        <function model="property.rental.demo" name="_load_maintenance_demo"/>
+    </data>
+
+    <record id="demo_request_tap" model="maintenance.request">
+        <field name="name">Leaking bathroom tap</field>
+        <field name="property_id" ref="inom_rental_management.demo_property_skyline_a101"/>
+        <field name="rental_contract_id" ref="inom_rental_management.demo_lease_skyline_a101"/>
+        <field name="maintenance_team_id" ref="demo_team_property_care"/>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="maintenance_type">corrective</field>
+        <field name="priority">2</field>
+        <field name="schedule_date" eval="(DateTime.today() + relativedelta(days=4, hours=10)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        <field name="maintenance_cost">1500</field>
+        <field name="cost_charged_to">tenant</field>
+        <field name="description">The tenant reports a constant drip from the master bathroom tap. Replace the cartridge.</field>
+    </record>
+    <record id="demo_request_ac" model="maintenance.request">
+        <field name="name">Air conditioner servicing</field>
+        <field name="property_id" ref="inom_rental_management.demo_property_green_villa"/>
+        <field name="rental_contract_id" ref="inom_rental_management.demo_lease_green_villa"/>
+        <field name="maintenance_team_id" ref="demo_team_property_care"/>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="maintenance_type">preventive</field>
+        <field name="schedule_date" eval="(DateTime.today() + relativedelta(days=9, hours=11)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        <field name="maintenance_cost">4500</field>
+        <field name="cost_charged_to">company</field>
+    </record>
+    <record id="demo_request_paint" model="maintenance.request">
+        <field name="name">Repaint living room and bedrooms</field>
+        <field name="property_id" ref="inom_rental_management.demo_property_lake_side"/>
+        <field name="maintenance_team_id" ref="demo_team_property_care"/>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="stage_id" ref="maintenance.stage_1"/>
+        <field name="maintenance_type">corrective</field>
+        <field name="schedule_date" eval="(DateTime.today() - relativedelta(days=2)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        <field name="maintenance_cost">35000</field>
+        <field name="cost_charged_to">owner</field>
+    </record>
+    <record id="demo_request_lift" model="maintenance.request">
+        <field name="name">Annual lift inspection</field>
+        <field name="property_id" ref="inom_rental_management.demo_property_skyline_b201"/>
+        <field name="maintenance_team_id" ref="demo_team_property_care"/>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="stage_id" ref="maintenance.stage_3"/>
+        <field name="maintenance_type">preventive</field>
+        <field name="schedule_date" eval="(DateTime.today() - relativedelta(days=12)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        <field name="maintenance_cost">8000</field>
+        <field name="cost_charged_to">company</field>
+    </record>
+</odoo>

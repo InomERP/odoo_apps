@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="property_enquiry_create_view_form" model="ir.ui.view">
+        <field name="name">property.enquiry.create.form</field>
+        <field name="model">property.enquiry.create</field>
+        <field name="arch" type="xml">
+            <form string="New Enquiry">
+                <div class="alert alert-warning" role="alert" invisible="not duplicate_count">
+                    This customer already has an open enquiry for this property. Open it instead, or tick
+                    <strong>Create Anyway</strong> to record a separate one.
+                </div>
+                <group>
+                    <group>
+                        <field name="property_id" readonly="1"/>
+                        <field name="property_for" widget="radio" options="{'horizontal': true}"/>
+                        <field name="partner_id"/>
+                        <field name="contact_name" invisible="partner_id"/>
+                        <field name="email_from" invisible="partner_id"/>
+                        <field name="phone" invisible="partner_id"/>
+                    </group>
+                    <group>
+                        <field name="company_currency" invisible="1"/>
+                        <field name="ask_price"/>
+                        <field name="user_id" widget="many2one_avatar_user"/>
+                        <field name="create_anyway" invisible="not duplicate_count"/>
+                    </group>
+                </group>
+                <field name="duplicate_count" invisible="1"/>
+                <field name="duplicate_summary" invisible="not duplicate_count" readonly="1" nolabel="1"/>
+                <field name="description" placeholder="What the customer is looking for, budget, move-in date..."/>
+                <footer>
+                    <button name="action_create" type="object" string="Create Enquiry" class="btn-primary"/>
+                    <button name="action_open_existing" type="object" string="Open Existing Enquiry"
+                            invisible="not duplicate_count"/>
+                    <button special="cancel" string="Discard"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

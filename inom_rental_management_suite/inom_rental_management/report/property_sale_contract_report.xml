@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_property_sale_contract" model="ir.actions.report">
+        <field name="name">Sale Summary</field>
+        <field name="model">property.sale.contract</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inom_rental_management.report_property_sale_contract</field>
+        <field name="report_file">inom_rental_management.report_property_sale_contract</field>
+        <field name="print_report_name">'Sale Summary - %s' % object.name</field>
+        <field name="binding_model_id" ref="model_property_sale_contract"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_property_sale_contract_document">
+        <t t-call="web.external_layout">
+            <t t-set="o" t-value="o.with_context(lang=o.buyer_id.lang)"/>
+            <div class="page">
+                <h2>Sale Summary <span t-field="o.name"/></h2>
+                <div class="row mt-4 mb-4">
+                    <div class="col-6">
+                        <strong>Property</strong>
+                        <div t-field="o.property_id"/>
+                        <div t-if="o.property_id.city"><span t-field="o.property_id.city"/></div>
+                        <strong class="d-block mt-2">Owner</strong>
+                        <div t-field="o.owner_id"/>
+                    </div>
+                    <div class="col-6">
+                        <strong>Buyer</strong>
+                        <div t-field="o.buyer_id" t-options="{'widget': 'contact', 'fields': ['address', 'name', 'phone', 'email'], 'no_marker': True}"/>
+                    </div>
+                </div>
+                <table class="table table-sm o_main_table">
+                    <tbody>
+                        <tr><td>Status</td><td class="text-end"><span t-field="o.state"/></td></tr>
+                        <tr><td>Booking date</td><td class="text-end"><span t-field="o.booking_date"/></td></tr>
+                        <tr t-if="o.date_sold"><td>Sold on</td><td class="text-end"><span t-field="o.date_sold"/></td></tr>
+                        <tr><td>Agreed sale price</td><td class="text-end"><span t-field="o.sale_price"/></td></tr>
+                        <tr><td>Booking amount</td><td class="text-end"><span t-field="o.booking_amount"/></td></tr>
+                        <tr><td>Invoiced (untaxed)</td><td class="text-end"><span t-field="o.amount_invoiced"/></td></tr>
+                        <tr><td>Paid</td><td class="text-end"><span t-field="o.amount_paid"/></td></tr>
+                        <tr><td><strong>Amount due</strong></td><td class="text-end"><strong t-field="o.amount_due"/></td></tr>
+                    </tbody>
+                </table>
+                <t t-set="invoices" t-value="o._get_report_invoices()"/>
+                <t t-if="invoices">
+                    <h5 class="mt-4">Invoices and credit notes</h5>
+                    <table class="table table-sm o_main_table">
+                        <thead>
+                            <tr>
+                                <th>Number</th>
+                                <th>Date</th>
+                                <th>Due date</th>
+                                <th class="text-end">Total</th>
+                                <th class="text-end">Amount due</th>
+                                <th>Payment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="invoices" t-as="inv">
+                                <td><span t-field="inv.name"/></td>
+                                <td><span t-field="inv.invoice_date"/></td>
+                                <td><span t-field="inv.invoice_date_due"/></td>
+                                <td class="text-end"><span t-field="inv.amount_total_signed"/></td>
+                                <td class="text-end"><span t-field="inv.amount_residual_signed"/></td>
+                                <td><span t-field="inv.payment_state"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_property_sale_contract">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="inom_rental_management.report_property_sale_contract_document" t-lang="o.buyer_id.lang"/>
+            </t>
+        </t>
+    </template>
+</odoo>

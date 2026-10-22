@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="property_rental_contract_renew_view_form" model="ir.ui.view">
+        <field name="name">property.rental.contract.renew.form</field>
+        <field name="model">property.rental.contract.renew</field>
+        <field name="arch" type="xml">
+            <form string="Renew Rental Contract">
+                <group>
+                    <group>
+                        <field name="contract_id"/>
+                        <field name="date_start"/>
+                        <field name="date_end"/>
+                    </group>
+                    <group>
+                        <field name="currency_id" invisible="1"/>
+                        <field name="current_rent"/>
+                        <field name="increase_percent"/>
+                        <field name="rent_amount"/>
+                    </group>
+                </group>
+                <p class="text-muted">
+                    The renewal is created as a new draft contract for the same property and tenant.
+                    The current contract and its history are kept; the security deposit carries over.
+                </p>
+                <footer>
+                    <button name="action_renew" type="object" string="Create Renewal" class="btn-primary"/>
+                    <button special="cancel" string="Discard"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="property_rental_contract_terminate_view_form" model="ir.ui.view">
+        <field name="name">property.rental.contract.terminate.form</field>
+        <field name="model">property.rental.contract.terminate</field>
+        <field name="arch" type="xml">
+            <form string="Terminate Rental Contract">
+                <group>
+                    <field name="contract_id"/>
+                    <field name="date_terminated"/>
+                    <field name="termination_reason"/>
+                    <field name="termination_note" placeholder="Notice given, handover, agreed settlement..."/>
+                </group>
+                <footer>
+                    <button name="action_terminate" type="object" string="Terminate Contract" class="btn-danger"
+                            confirm="The contract ends early and the property becomes available. Continue?"/>
+                    <button special="cancel" string="Discard"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

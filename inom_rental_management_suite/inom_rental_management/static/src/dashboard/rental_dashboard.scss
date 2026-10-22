@@ -1,0 +1,468 @@
+$o-rd-colors: (
+    blue: #2563eb,
+    green: #16a34a,
+    sky: #0284c7,
+    teal: #0d9488,
+    purple: #7c3aed,
+    orange: #ea580c,
+    red: #e11d48,
+    pink: #db2777,
+    gray: #64748b,
+);
+// Softer shades for the donut, as in pastel charts
+$o-rd-soft: (
+    blue: #93b4f5,
+    green: #8fd3a8,
+    purple: #c4a7f5,
+    orange: #f8c58f,
+    pink: #f5a3c7,
+    gray: #cbd5e1,
+);
+$o-rd-navy: #13294b;
+
+.o_rental_dashboard {
+    --rd-radius: 0.9rem;
+    overflow-x: hidden;
+    background-color: $o-webclient-background-color;
+
+    .o_rd_tiny {
+        font-size: 0.72rem;
+    }
+
+    // Banner
+    .o_rd_banner {
+        border-radius: var(--rd-radius);
+        background: linear-gradient(100deg, #eaf2fc 0%, #dce9f8 45%, #c9dcf3 100%);
+        border: 1px solid rgba($o-rd-navy, 0.08);
+        min-height: 9.5rem;
+        padding: 1.4rem 1.6rem;
+        color: $o-rd-navy;
+    }
+    .o_rd_banner_art {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        height: 100%;
+        width: auto;
+        max-width: 70%;
+        object-fit: cover;
+        object-position: right bottom;
+        pointer-events: none;
+    }
+    .o_rd_banner_text {
+        max-width: 34rem;
+        z-index: 1;
+    }
+    .o_rd_banner_controls {
+        position: absolute;
+        top: 0.9rem;
+        right: 0.9rem;
+        z-index: 2;
+    }
+    .o_rd_title {
+        font-size: 1.85rem;
+        letter-spacing: -0.01em;
+        color: $o-rd-navy;
+    }
+    .o_rd_banner_sub {
+        color: rgba($o-rd-navy, 0.75);
+    }
+    .o_rd_sun {
+        color: #f59e0b;
+    }
+
+    .o_rd_period {
+        background-color: rgba(255, 255, 255, 0.92);
+        border: 1px solid $border-color;
+        border-radius: 0.6rem;
+        min-height: 2.4rem;
+        color: $o-rd-navy;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+        select {
+            min-width: 8.5rem;
+            padding-left: 0;
+            color: inherit;
+        }
+    }
+    .o_rd_period_sm {
+        min-height: 2rem;
+        select {
+            min-width: 7.5rem;
+        }
+    }
+
+    .o_rd_panel {
+        background-color: $o-view-background-color;
+        border: 1px solid $border-color;
+        border-radius: var(--rd-radius);
+        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+    }
+    .o_rd_panel_icon {
+        color: $o-rd-navy;
+        font-size: 1.1rem;
+    }
+
+    .o_rd_clickable {
+        cursor: pointer;
+        transition: box-shadow 0.15s ease, transform 0.15s ease;
+        &:hover {
+            box-shadow: 0 8px 22px rgba(15, 23, 42, 0.1);
+            transform: translateY(-2px);
+        }
+    }
+
+    // Round icons
+    .o_rd_round_icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        flex: none;
+        color: var(--rd-c);
+        background-color: var(--rd-c-soft);
+    }
+    .o_rd_round_solid {
+        color: #fff;
+        background-color: var(--rd-c);
+        box-shadow: 0 4px 10px var(--rd-c-border);
+    }
+    .o_rd_round_sm {
+        width: 2.1rem;
+        height: 2.1rem;
+        font-size: 0.95rem;
+    }
+
+    // Headline cards
+    .o_rd_kpi {
+        position: relative;
+        overflow: hidden;
+        border-radius: var(--rd-radius);
+        border: 1px solid var(--rd-c-border);
+        background: linear-gradient(150deg, var(--rd-c-soft) 0%, var(--rd-c-faint) 70%), $o-view-background-color;
+        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+        min-height: 7.5rem;
+    }
+    .o_rd_kpi .o_rd_round_icon {
+        width: 2.2rem;
+        height: 2.2rem;
+        font-size: 1rem;
+    }
+    .o_rd_kpi_label {
+        font-size: 0.8rem;
+        color: $o-rd-navy;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .o_rd_kpi_value {
+        font-size: 1.6rem;
+        line-height: 1.2;
+        color: $o-rd-navy;
+    }
+    .o_rd_kpi_mark {
+        position: absolute;
+        right: 0.8rem;
+        bottom: 0.7rem;
+        font-size: 2.6rem;
+        color: var(--rd-c);
+        opacity: 0.3;
+        pointer-events: none;
+    }
+    .o_rd_trend {
+        font-size: 0.72rem;
+        color: rgba($o-rd-navy, 0.6);
+        padding-right: 2.6rem;
+    }
+    .o_rd_trend_up {
+        color: map-get($o-rd-colors, green);
+    }
+    .o_rd_trend_down {
+        color: map-get($o-rd-colors, red);
+    }
+
+    // Figures inside panels
+    .o_rd_mini {
+        border-radius: 0.75rem;
+        background-color: var(--rd-c-faint);
+    }
+    .o_rd_mini_label {
+        color: $o-rd-navy;
+        line-height: 1.25;
+    }
+    .o_rd_mini_value {
+        font-size: 1.25rem;
+        line-height: 1.4;
+        color: $o-rd-navy;
+    }
+    .o_rd_mini_hint {
+        color: var(--rd-c);
+        font-size: 0.72rem;
+    }
+
+    // Colour families
+    @each $name, $color in $o-rd-colors {
+        .o_rd_c_#{$name} {
+            --rd-c: #{$color};
+            --rd-c-soft: #{rgba($color, 0.14)};
+            --rd-c-faint: #{rgba($color, 0.06)};
+            --rd-c-border: #{rgba($color, 0.28)};
+        }
+        .o_rd_bg_#{$name} {
+            background-color: $color;
+        }
+        .o_rd_text_#{$name} {
+            color: $color;
+        }
+        .o_rd_stroke_#{$name} {
+            stroke: $color;
+        }
+        .o_rd_stop_#{$name} {
+            stop-color: $color;
+        }
+    }
+    @each $name, $color in $o-rd-soft {
+        .o_rd_soft_stroke_#{$name} {
+            stroke: $color;
+        }
+    }
+
+    // Line chart
+    .o_rd_line_chart {
+        min-height: 11rem;
+        max-height: 15rem;
+        .o_rd_grid {
+            stroke: $border-color;
+        }
+        .o_rd_axis {
+            font-size: 11px;
+            fill: currentColor;
+            opacity: 0.55;
+        }
+        .o_rd_line {
+            fill: none;
+            stroke-width: 2.2;
+            stroke-linejoin: round;
+            stroke-linecap: round;
+        }
+        .o_rd_line_dashed {
+            stroke-dasharray: 5 4;
+            stroke-width: 1.8;
+        }
+        .o_rd_point {
+            fill: $o-view-background-color;
+            stroke-width: 2;
+        }
+        .o_rd_point_solid {
+            fill: map-get($o-rd-colors, blue);
+        }
+    }
+
+    // Donut
+    .o_rd_donut {
+        circle {
+            fill: none;
+            stroke-width: 20;
+        }
+        .o_rd_donut_track {
+            stroke: rgba($secondary, 0.12);
+        }
+        .o_rd_donut_total {
+            font-size: 26px;
+            font-weight: 700;
+            fill: currentColor;
+        }
+        .o_rd_donut_caption {
+            font-size: 10px;
+            fill: currentColor;
+            opacity: 0.6;
+        }
+    }
+    .o_rd_legend {
+        max-width: 15rem;
+    }
+    .o_rd_legend_row {
+        padding: 0.3rem 0;
+    }
+    .o_rd_ring {
+        width: 0.9rem;
+        height: 0.9rem;
+        border-radius: 50%;
+        border: 3px solid var(--rd-c);
+        background-color: var(--rd-c-soft);
+        flex: none;
+    }
+    .o_rd_dot {
+        width: 0.6rem;
+        height: 0.6rem;
+        border-radius: 50%;
+        display: inline-block;
+        flex: none;
+    }
+
+    // Activity feed
+    .o_rd_activity {
+        padding: 0.35rem 0.35rem;
+        border-radius: 0.5rem;
+    }
+    .o_rd_activity_icon {
+        width: 1.9rem;
+        height: 1.9rem;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+        font-size: 0.85rem;
+        color: var(--rd-c);
+        background-color: var(--rd-c-soft);
+    }
+
+    // Promotion card
+    .o_rd_promo {
+        border-radius: var(--rd-radius);
+        border: 1px solid $border-color;
+        background: linear-gradient(110deg, $o-view-background-color 35%, #e6effb 100%);
+        min-height: 10rem;
+    }
+    .o_rd_promo_art {
+        position: absolute;
+        right: -0.5rem;
+        bottom: 0;
+        height: 85%;
+        max-height: 10rem;
+        max-width: 50%;
+        object-fit: contain;
+        object-position: right bottom;
+        pointer-events: none;
+    }
+    .o_rd_promo_text {
+        max-width: 55%;
+        color: $o-rd-navy;
+    }
+    .o_rd_eyebrow {
+        font-size: 0.65rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba($o-rd-navy, 0.55);
+    }
+    .o_rd_btn_dark {
+        background-color: $o-rd-navy;
+        color: #fff;
+        &:hover {
+            background-color: lighten($o-rd-navy, 10%);
+            color: #fff;
+        }
+    }
+
+    // Side column
+    .o_rd_soft_card {
+        border-radius: 0.75rem;
+        background: linear-gradient(120deg, #eef4fd 0%, #dfeaf9 100%);
+        color: $o-rd-navy;
+        min-height: 5.5rem;
+    }
+    .o_rd_soft_art {
+        position: absolute;
+        right: 0.25rem;
+        bottom: 0;
+        height: 4.8rem;
+        opacity: 0.95;
+        pointer-events: none;
+    }
+    .o_rd_quote {
+        max-width: 68%;
+        font-size: 0.85rem;
+        line-height: 1.5;
+    }
+    .o_rd_period_rows {
+        max-width: 68%;
+        .text-muted {
+            color: rgba($o-rd-navy, 0.65) !important;
+        }
+    }
+    .o_rd_quick {
+        border: 1px solid var(--rd-c-border);
+        border-radius: 0.7rem;
+        background-color: var(--rd-c-faint);
+        color: $o-rd-navy;
+        transition: background-color 0.15s ease, transform 0.15s ease;
+        &:hover {
+            background-color: var(--rd-c-soft);
+            transform: translateY(-1px);
+        }
+    }
+    .o_rd_calendar_row {
+        padding: 0.55rem 0.35rem;
+        border-radius: 0.5rem;
+        & + .o_rd_calendar_row {
+            border-top: 1px solid $border-color;
+        }
+    }
+    .o_rd_date {
+        min-width: 2.4rem;
+        color: $o-rd-navy;
+    }
+    .o_rd_badge {
+        font-size: 0.68rem;
+        font-weight: 600;
+        padding: 0.2rem 0.6rem;
+        border-radius: 1rem;
+        white-space: nowrap;
+    }
+    .o_rd_badge_warning {
+        color: #be123c;
+        background-color: #ffe4e6;
+    }
+    .o_rd_badge_orange {
+        color: #c2410c;
+        background-color: #ffedd5;
+    }
+    .o_rd_badge_info {
+        color: #1d4ed8;
+        background-color: #dbeafe;
+    }
+
+    .o_rd_list_row {
+        cursor: pointer;
+        &:hover {
+            background-color: rgba($secondary, 0.08);
+        }
+    }
+
+    @include media-breakpoint-down(md) {
+        .o_rd_banner_art {
+            width: 100%;
+            opacity: 0.35;
+        }
+        .o_rd_banner_controls {
+            position: static;
+            margin-bottom: 0.75rem;
+        }
+        .o_rd_banner {
+            padding: 1rem;
+        }
+        .o_rd_title {
+            font-size: 1.4rem;
+        }
+        .o_rd_line_chart .o_rd_axis {
+            font-size: 18px;
+        }
+    }
+    @include media-breakpoint-down(sm) {
+        .o_rd_kpi_label {
+            white-space: normal;
+        }
+        .o_rd_kpi_mark {
+            display: none;
+        }
+        .o_rd_trend {
+            padding-right: 0;
+        }
+        .o_rd_promo_text {
+            max-width: 62%;
+        }
+    }
+}

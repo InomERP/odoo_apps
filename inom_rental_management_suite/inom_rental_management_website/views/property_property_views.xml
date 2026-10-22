@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="property_property_view_form_website" model="ir.ui.view">
+        <field name="name">property.property.form.website</field>
+        <field name="model">property.property</field>
+        <field name="inherit_id" ref="inom_rental_management.property_property_view_form"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <field name="is_published" widget="website_redirect_button"/>
+            </div>
+            <page name="description" position="after">
+                <page string="Website" name="website">
+                    <group>
+                        <group>
+                            <field name="is_published" string="Published" widget="boolean_toggle"
+                                   readonly="not can_publish"/>
+                            <field name="can_publish" invisible="1"/>
+                            <field name="website_id" options="{'no_create': True}" groups="website.group_multi_website"/>
+                            <field name="website_url" widget="url" invisible="not is_published"/>
+                        </group>
+                        <group string="Brochure Link" groups="inom_rental_management.group_rental_agent">
+                            <field name="website_brochure_url" widget="CopyClipboardChar" invisible="not website_brochure_url"/>
+                            <button name="action_generate_brochure_link" type="object" class="btn-link ps-0" colspan="2"
+                                    string="Create brochure link" invisible="website_brochure_url"/>
+                            <button name="action_generate_brochure_link" type="object" class="btn-link ps-0" colspan="2"
+                                    string="Renew brochure link (the old one stops working)" invisible="not website_brochure_url"
+                                    confirm="The current brochure link will stop working. Continue?"/>
+                        </group>
+                    </group>
+                    <group string="3D View" name="view_3d">
+                        <group>
+                            <field name="website_show_3d"/>
+                            <field name="model_3d" filename="model_3d_filename" invisible="not website_show_3d"/>
+                            <field name="model_3d_filename" invisible="1"/>
+                        </group>
+                        <group invisible="not website_show_3d or model_3d">
+                            <field name="building_3d_style"/>
+                            <field name="website_3d_interior" invisible="building_3d_style == 'plot'"/>
+                            <field name="building_floors"/>
+                        </group>
+                    </group>
+                    <div class="text-muted mb-3" invisible="not website_show_3d">
+                        Upload a GLB file to show your own 3D model of the building. Without one, the page shows an
+                        illustrative model generated from the style, floors and area, marked as illustrative for visitors.
+                        Its interior is laid out from the bedrooms, bathrooms and area, and furnished according to the
+                        furnishing status.
+                    </div>
+                    <div class="text-muted mb-2">
+                        Visitors see this property only while it is published, active and Available.
+                        The internal description, owner, tenants, contracts and documents are never shown.
+                    </div>
+                    <field name="website_description" placeholder="Public description shown on the website..."/>
+                </page>
+            </page>
+        </field>
+    </record>
+
+    <record id="property_property_view_search_website" model="ir.ui.view">
+        <field name="name">property.property.search.website</field>
+        <field name="model">property.property</field>
+        <field name="inherit_id" ref="inom_rental_management.property_property_view_search"/>
+        <field name="arch" type="xml">
+            <filter name="archived" position="before">
+                <filter name="published" string="Published on Website" domain="[('is_published', '=', True)]"/>
+                <filter name="not_published" string="Not Published" domain="[('is_published', '=', False)]"/>
+                <separator/>
+            </filter>
+        </field>
+    </record>
+
+    <record id="property_property_view_list_website" model="ir.ui.view">
+        <field name="name">property.property.list.website</field>
+        <field name="model">property.property</field>
+        <field name="inherit_id" ref="inom_rental_management.property_property_view_list"/>
+        <field name="arch" type="xml">
+            <field name="state" position="before">
+                <field name="is_published" string="Published" optional="show" widget="boolean"/>
+            </field>
+        </field>
+    </record>
+</odoo>

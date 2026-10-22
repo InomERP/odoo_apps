@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="crm_lead_view_form_property_request" model="ir.ui.view">
+        <field name="name">crm.lead.form.property.request</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="inom_rental_management.crm_lead_view_form_rental_management"/>
+        <field name="arch" type="xml">
+            <field name="ask_price" position="after">
+                <field name="property_move_in_date" invisible="property_for != 'rent'"/>
+                <field name="property_lease_months" invisible="property_for != 'rent'"/>
+                <field name="property_occupants" invisible="property_for != 'rent'"/>
+                <field name="property_financing" invisible="property_for != 'sale'"/>
+                <field name="property_purchase_timeline" invisible="property_for != 'sale'"/>
+            </field>
+        </field>
+    </record>
+</odoo>
