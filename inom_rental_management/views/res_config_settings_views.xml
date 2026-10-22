@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.rental.management</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="60"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Real Estate" string="Real Estate" name="inom_rental_management"
+                     groups="inom_rental_management.group_rental_admin">
+                    <block title="Tenants" name="rental_tenants">
+                        <setting id="rental_require_tenant_identity"
+                                 help="A rental contract can only start when its tenant has a valid identity document.">
+                            <field name="rental_require_tenant_identity"/>
+                        </setting>
+                    </block>
+                    <block title="Rental Contracts" name="rental_contracts">
+                        <setting id="rental_require_lease_approval"
+                                 help="Rental contracts must be approved by a Property Manager before they can start.">
+                            <field name="rental_require_lease_approval"/>
+                        </setting>
+                        <setting id="rental_expiry_notice_days"
+                                 help="Schedule an activity for the responsible person this many days before a lease ends (0 disables it).">
+                            <field name="rental_expiry_notice_days"/>
+                        </setting>
+                    </block>
+                    <block title="Notifications" name="rental_notifications">
+                        <setting id="rental_rent_due_notice_days"
+                                 help="Remind the responsible agent this many days before rent is due (0 disables it).">
+                            <field name="rental_rent_due_notice_days"/>
+                        </setting>
+                        <setting id="rental_enquiry_pending_days"
+                                 help="Remind the salesperson of open enquiries with no planned activity for this many days (0 disables it).">
+                            <field name="rental_enquiry_pending_days"/>
+                        </setting>
+                    </block>
+                    <block title="Enquiries" name="rental_enquiries">
+                        <setting id="rental_enquiry_followup_days"
+                                 help="Schedule a follow-up activity for the responsible salesperson this many days after an enquiry is recorded (0 disables it).">
+                            <field name="rental_enquiry_followup_days"/>
+                        </setting>
+                    </block>
+                    <block title="Rent and Deposits" name="rental_accounting">
+                        <setting id="rental_auto_post_invoices"
+                                 help="Confirm rent and deposit invoices as soon as Odoo creates them. Leave unticked to review drafts first.">
+                            <field name="rental_auto_post_invoices"/>
+                        </setting>
+                        <setting id="rental_invoice_advance_days"
+                                 help="Create each period's rent invoice this many days before its due date.">
+                            <field name="rental_invoice_advance_days"/>
+                        </setting>
+                        <setting id="rental_accounting_products"
+                                 help="Products and journal used on rent invoices, deposit invoices and deposit settlements. Their taxes and accounts apply.">
+                            <div class="row mt-2">
+                                <label for="rental_rent_product_id" class="col-lg-5 o_light_label"/>
+                                <field name="rental_rent_product_id" class="col-lg-7"/>
+                            </div>
+                            <div class="row">
+                                <label for="rental_deposit_product_id" class="col-lg-5 o_light_label"/>
+                                <field name="rental_deposit_product_id" class="col-lg-7"/>
+                            </div>
+                            <div class="row">
+                                <label for="rental_deposit_deduction_product_id" class="col-lg-5 o_light_label"/>
+                                <field name="rental_deposit_deduction_product_id" class="col-lg-7"/>
+                            </div>
+                            <div class="row">
+                                <label for="rental_journal_id" class="col-lg-5 o_light_label"/>
+                                <field name="rental_journal_id" class="col-lg-7"/>
+                            </div>
+                            <div class="alert alert-warning mt-2" role="alert" invisible="not rental_deposit_account_warning">
+                                The security deposit product's income account is not a liability account:
+                                deposits will be booked as income. Set a liability account on the product.
+                            </div>
+                        </setting>
+                    </block>
+                    <block title="Property Sales" name="rental_sales">
+                        <setting id="rental_sale_products"
+                                 help="Products used on property sale invoices. Set their taxes and income accounts to match your accounting.">
+                            <div class="row mt-2">
+                                <label for="rental_sale_booking_product_id" class="col-lg-4 o_light_label"/>
+                                <field name="rental_sale_booking_product_id" class="col-lg-8"/>
+                            </div>
+                            <div class="row">
+                                <label for="rental_sale_product_id" class="col-lg-4 o_light_label"/>
+                                <field name="rental_sale_product_id" class="col-lg-8"/>
+                            </div>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_rental_management_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="context">{'module': 'inom_rental_management', 'bin_size': False}</field>
+    </record>
+</odoo>

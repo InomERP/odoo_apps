@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Taxes are left empty on purpose: set the taxes that apply to property sales in your country. -->
+        <record id="product_property_booking" model="product.product">
+            <field name="name">Property Booking Amount</field>
+            <field name="default_code">RE-BOOKING</field>
+            <field name="type">service</field>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="False"/>
+            <field name="taxes_id" eval="[(5, 0, 0)]"/>
+        </record>
+
+        <record id="product_property_sale" model="product.product">
+            <field name="name">Property Sale</field>
+            <field name="default_code">RE-SALE</field>
+            <field name="type">service</field>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="False"/>
+            <field name="taxes_id" eval="[(5, 0, 0)]"/>
+        </record>
+
+        <record id="product_rent" model="product.product">
+            <field name="name">Rent</field>
+            <field name="default_code">RE-RENT</field>
+            <field name="type">service</field>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="False"/>
+            <field name="taxes_id" eval="[(5, 0, 0)]"/>
+        </record>
+
+        <!-- Give this product a liability account as income account, so deposits stay out of rental income. -->
+        <record id="product_security_deposit" model="product.product">
+            <field name="name">Security Deposit</field>
+            <field name="default_code">RE-DEPOSIT</field>
+            <field name="type">service</field>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="False"/>
+            <field name="taxes_id" eval="[(5, 0, 0)]"/>
+        </record>
+
+        <record id="product_deposit_deduction" model="product.product">
+            <field name="name">Deposit Deduction</field>
+            <field name="default_code">RE-DEDUCTION</field>
+            <field name="type">service</field>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="False"/>
+            <field name="taxes_id" eval="[(5, 0, 0)]"/>
+        </record>
+    </data>
+</odoo>

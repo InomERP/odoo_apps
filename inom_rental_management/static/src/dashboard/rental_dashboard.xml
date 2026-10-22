@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- A small coloured figure inside a panel -->
+    <t t-name="inom_rental_management.RentalDashboard.Mini">
+        <t t-set="s" t-value="miniStyle(tl.key)"/>
+        <div t-attf-class="o_rd_mini h-100 p-3 d-flex align-items-start gap-3 o_rental_tile o_rental_tile_#{tl.key} o_rd_c_#{s.color} #{tl.action ? 'o_rd_clickable' : ''}"
+             t-on-click="() => this.open(tl.action)">
+            <span class="o_rd_round_icon"><i t-attf-class="fa #{s.icon}"/></span>
+            <div class="min-w-0">
+                <div class="o_rd_mini_label small" t-out="tl.label"/>
+                <div class="o_rental_tile_value o_rd_mini_value fw-bold text-truncate" t-out="tl.value"/>
+                <t t-set="h" t-value="hint or miniHint(tl.key)"/>
+                <div t-if="h" t-attf-class="small text-truncate #{hint ? 'text-muted' : 'o_rd_mini_hint'}" t-out="h"/>
+            </div>
+        </div>
+    </t>
+
+    <!-- Panel title with icon and optional link -->
+    <t t-name="inom_rental_management.RentalDashboard.PanelHead">
+        <div class="d-flex align-items-center gap-2 mb-3">
+            <i t-attf-class="fa #{icon} o_rd_panel_icon"/>
+            <h6 class="fw-bold mb-0 me-auto" t-out="title"/>
+            <a t-if="link" href="#" class="small fw-semibold text-nowrap" t-on-click.prevent="() => this.open(link)" t-out="linkLabel or 'View All'"/>
+        </div>
+    </t>
+
+    <t t-name="inom_rental_management.RentalDashboard">
+        <div class="o_rental_dashboard o_action h-100 overflow-auto">
+            <div class="container-fluid py-3 px-3 px-lg-4">
+                <div class="row g-3">
+
+                    <!-- ================= Main column ================= -->
+                    <div class="col-12 col-xxl-9 d-flex flex-column gap-3">
+
+                        <!-- Banner -->
+                        <div class="o_rd_banner position-relative overflow-hidden">
+                            <img class="o_rd_banner_art" t-att-src="bannerUrl" alt=""/>
+                            <div class="o_rd_banner_controls d-flex gap-2">
+                                <div class="o_rd_period d-flex align-items-center gap-2 px-3">
+                                    <i class="fa fa-calendar text-muted"/>
+                                    <select class="form-select border-0 shadow-none bg-transparent o_rental_dashboard_period" t-on-change="onPeriodChange" aria-label="Period">
+                                        <t t-foreach="state.data?.periods || []" t-as="p" t-key="p[0]">
+                                            <option t-att-value="p[0]" t-att-selected="p[0] === state.period" t-out="p[1]"/>
+                                        </t>
+                                    </select>
+                                </div>
+                                <button class="btn o_rd_period o_rd_refresh" t-on-click="() => this.load()" title="Refresh" aria-label="Refresh">
+                                    <i t-attf-class="fa fa-refresh #{state.loading ? 'fa-spin' : ''}"/>
+                                </button>
+                            </div>
+                            <div class="o_rd_banner_text position-relative">
+                                <div class="fw-semibold mb-1"><i class="fa fa-sun-o o_rd_sun me-2"/><t t-out="greeting"/><t t-if="userName">, <t t-out="userName"/></t>!</div>
+                                <h1 class="o_rd_title fw-bold mb-1">Real Estate Dashboard</h1>
+                                <div class="o_rd_banner_sub mb-2">Track your properties, rentals and income all in one place.</div>
+                                <div t-if="state.data" class="o_rd_banner_sub small">
+                                    <i class="fa fa-calendar-o me-2"/>Period: <t t-out="state.data.date_from"/> to <t t-out="state.data.date_to"/>
+                                    <span class="mx-2">•</span><t t-out="state.data.companies.join(', ')"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <t t-if="state.data">
+                            <!-- Empty state -->
+                            <div t-if="isEmpty" class="o_rd_panel p-4 d-flex flex-wrap align-items-center gap-3">
+                                <span class="o_rd_round_icon o_rd_c_blue"><i class="fa fa-building"/></span>
+                                <div class="me-auto">
+                                    <div class="fw-bold fs-5">No properties yet</div>
+                                    <div class="text-muted">Add your first property to start filling this dashboard.</div>
+                                </div>
+                                <button class="btn btn-primary" t-on-click="newProperty"><i class="fa fa-plus me-1"/>New Property</button>
+                            </div>
+
+                            <!-- Headline cards -->
+                            <div class="row g-3">
+                                <t t-foreach="['total', 'available', 'for_sale', 'for_rent', 'occupied', 'vacant']" t-as="key" t-key="key">
+                                    <t t-set="t" t-value="tile(key)"/>
+                                    <t t-set="s" t-value="kpiStyle(key)"/>
+                                    <div class="col-6 col-md-4 col-xl-2">
+                                        <div t-attf-class="o_rd_kpi o_rd_c_#{s.color} o_rd_clickable h-100 p-3 o_rental_tile o_rental_tile_#{key}"
+                                             t-on-click="() => this.open(t.action)">
+                                            <i t-attf-class="fa #{s.mark} o_rd_kpi_mark" aria-hidden="true"/>
+                                            <div class="d-flex align-items-start gap-2">
+                                                <span class="o_rd_round_icon o_rd_round_solid"><i t-attf-class="fa #{s.icon}"/></span>
+                                                <div class="min-w-0">
+                                                    <div class="o_rd_kpi_label small fw-semibold" t-out="t.label"/>
+                                                    <div class="o_rental_tile_value o_rd_kpi_value fw-bold" t-out="t.value"/>
+                                                </div>
+                                            </div>
+                                            <div class="o_rd_trend small mt-2">
+                                                <t t-if="key === 'total'">
+                                                    <t t-set="trend" t-value="totalTrend"/>
+                                                    <span t-attf-class="o_rd_trend_#{trend.tone}"><i t-attf-class="fa #{trend.arrow} me-1"/></span><t t-out="trend.text"/>
+                                                </t>
+                                                <t t-else=""><i class="fa fa-minus me-1"/><t t-out="kpiHint(key)"/></t>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+
+                            <!-- Income and status -->
+                            <div class="row g-3">
+                                <div class="col-12 col-lg-7">
+                                    <div class="o_rd_panel p-3 h-100 d-flex flex-column">
+                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                            <i class="fa fa-bar-chart o_rd_panel_icon"/>
+                                            <h6 class="fw-bold mb-0 me-auto">Rental Income Overview</h6>
+                                            <div class="o_rd_period o_rd_period_sm d-flex align-items-center gap-1 px-2">
+                                                <i class="fa fa-calendar-o text-muted small"/>
+                                                <select class="form-select form-select-sm border-0 shadow-none bg-transparent o_rd_chart_range" t-on-change="onChartRangeChange" aria-label="Chart range">
+                                                    <t t-foreach="state.data.chart_ranges" t-as="r" t-key="r[0]">
+                                                        <option t-att-value="r[0]" t-att-selected="r[0] === state.chartRange" t-out="r[1]"/>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-end gap-3 small mb-1">
+                                            <span class="d-inline-flex align-items-center gap-1"><span class="o_rd_dot o_rd_bg_blue"/>Collected</span>
+                                            <span class="d-inline-flex align-items-center gap-1"><span class="o_rd_dot o_rd_bg_purple"/>Invoiced</span>
+                                        </div>
+                                        <t t-set="chartData" t-value="incomeChart"/>
+                                        <svg class="o_rd_line_chart w-100 flex-grow-1" t-attf-viewBox="0 0 #{chart.width} #{chart.height}" role="img" aria-label="Rental income chart">
+                                            <defs>
+                                                <linearGradient id="o_rd_grad_collected" x1="0" y1="0" x2="0" y2="1">
+                                                    <stop offset="0%" class="o_rd_stop_blue" stop-opacity="0.25"/>
+                                                    <stop offset="100%" class="o_rd_stop_blue" stop-opacity="0"/>
+                                                </linearGradient>
+                                            </defs>
+                                            <t t-foreach="chartData.ticks" t-as="tick" t-key="tick_index">
+                                                <line t-att-x1="chart.left" t-att-x2="chart.width - chart.right" t-att-y1="tick.y" t-att-y2="tick.y" class="o_rd_grid"/>
+                                                <text t-att-x="chart.left - 8" t-att-y="tick.y + 4" text-anchor="end" class="o_rd_axis" t-out="tick.label"/>
+                                            </t>
+                                            <t t-foreach="chartData.labels" t-as="label" t-key="label.key">
+                                                <text t-att-x="label.x" t-att-y="chart.height - 6" text-anchor="middle" class="o_rd_axis" t-out="label.text"/>
+                                            </t>
+                                            <path t-att-d="chartData.collected.area" fill="url(#o_rd_grad_collected)"/>
+                                            <path t-att-d="chartData.invoiced.line" class="o_rd_line o_rd_line_dashed o_rd_stroke_purple"/>
+                                            <path t-att-d="chartData.collected.line" class="o_rd_line o_rd_stroke_blue"/>
+                                            <t t-foreach="chartData.invoiced.points" t-as="p" t-key="'i' + p_index">
+                                                <circle t-att-cx="p.x" t-att-cy="p.y" r="3" class="o_rd_point o_rd_stroke_purple"><title t-out="'Invoiced, ' + p.title"/></circle>
+                                            </t>
+                                            <t t-foreach="chartData.collected.points" t-as="p" t-key="'c' + p_index">
+                                                <circle t-att-cx="p.x" t-att-cy="p.y" r="3.5" class="o_rd_point o_rd_point_solid o_rd_stroke_blue"><title t-out="'Collected, ' + p.title"/></circle>
+                                            </t>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-5">
+                                    <div class="o_rd_panel p-3 h-100">
+                                        <t t-call="inom_rental_management.RentalDashboard.PanelHead">
+                                            <t t-set="icon" t-value="'fa-home'"/>
+                                            <t t-set="title" t-value="'Property Status'"/>
+                                            <t t-set="link" t-value="tile('total').action"/>
+                                        </t>
+                                        <div class="d-flex flex-wrap align-items-center justify-content-center gap-4 py-2">
+                                            <svg class="o_rd_donut flex-none" viewBox="0 0 140 140" width="150" height="150" role="img" aria-label="Properties by status">
+                                                <g transform="rotate(-90 70 70)">
+                                                    <circle cx="70" cy="70" r="54" class="o_rd_donut_track"/>
+                                                    <t t-foreach="statusSegments" t-as="seg" t-key="seg.key">
+                                                        <circle cx="70" cy="70" r="54" t-attf-class="o_rd_soft_stroke_#{seg.color}"
+                                                                t-att-stroke-dasharray="seg.dasharray" t-att-stroke-dashoffset="seg.dashoffset"/>
+                                                    </t>
+                                                </g>
+                                                <text x="70" y="70" text-anchor="middle" class="o_rd_donut_total" t-out="state.data.summary.total"/>
+                                                <text x="70" y="90" text-anchor="middle" class="o_rd_donut_caption">Total Properties</text>
+                                            </svg>
+                                            <div class="flex-fill o_rd_legend">
+                                                <t t-foreach="statusLegend" t-as="item" t-key="item.key">
+                                                    <div class="d-flex align-items-center gap-2 o_rd_legend_row">
+                                                        <span t-attf-class="o_rd_ring o_rd_c_#{item.color}"/>
+                                                        <span class="me-auto text-truncate small" t-out="item.label"/>
+                                                        <span class="small"><t t-out="item.value"/> (<t t-out="item.percent"/>%)</span>
+                                                    </div>
+                                                </t>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Leases and sales -->
+                            <div class="row g-3">
+                                <div class="col-12 col-lg-7">
+                                    <div class="o_rd_panel p-3 h-100">
+                                        <t t-call="inom_rental_management.RentalDashboard.PanelHead">
+                                            <t t-set="icon" t-value="'fa-calendar'"/>
+                                            <t t-set="title" t-value="'Leases and Rent Due'"/>
+                                            <t t-set="link" t-value="tile('active_contracts').action"/>
+                                        </t>
+                                        <div class="row g-2">
+                                            <t t-foreach="['active_contracts', 'expiring', 'upcoming_due']" t-as="key" t-key="key">
+                                                <div class="col-12 col-sm-4">
+                                                    <t t-call="inom_rental_management.RentalDashboard.Mini">
+                                                        <t t-set="tl" t-value="tile(key)"/>
+                                                    </t>
+                                                </div>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-5">
+                                    <div class="o_rd_panel p-3 h-100">
+                                        <t t-call="inom_rental_management.RentalDashboard.PanelHead">
+                                            <t t-set="icon" t-value="'fa-tag'"/>
+                                            <t t-set="title" t-value="'Property Sales'"/>
+                                            <t t-set="link" t-value="tile('sold').action"/>
+                                        </t>
+                                        <div class="row g-2">
+                                            <t t-foreach="['sold', 'booked']" t-as="key" t-key="key">
+                                                <div class="col-12 col-sm-6">
+                                                    <t t-call="inom_rental_management.RentalDashboard.Mini">
+                                                        <t t-set="tl" t-value="tile(key)"/>
+                                                        <t t-set="hint" t-value="tile(key).hint"/>
+                                                    </t>
+                                                </div>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Activity and promotion -->
+                            <div class="row g-3">
+                                <div class="col-12 col-lg-7">
+                                    <div class="o_rd_panel p-3 h-100">
+                                        <t t-call="inom_rental_management.RentalDashboard.PanelHead">
+                                            <t t-set="icon" t-value="'fa-clock-o'"/>
+                                            <t t-set="title" t-value="'Recent Activity'"/>
+                                        </t>
+                                        <div t-if="!activity.length" class="text-muted small text-center py-3">Nothing has happened yet.</div>
+                                        <t t-foreach="activity" t-as="event" t-key="event.id">
+                                            <div t-attf-class="d-flex align-items-center gap-2 o_rd_activity #{event.action ? 'o_rd_list_row' : ''}" t-on-click="() => this.open(event.action)">
+                                                <span t-attf-class="o_rd_activity_icon o_rd_c_#{event.color}"><i t-attf-class="fa #{event.icon}"/></span>
+                                                <div class="min-w-0 flex-fill">
+                                                    <div class="small fw-semibold text-truncate" t-out="event.title"/>
+                                                    <div class="text-muted o_rd_tiny text-truncate" t-out="event.detail"/>
+                                                </div>
+                                                <span class="text-muted o_rd_tiny text-nowrap" t-out="event.ago"/>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-5">
+                                    <div class="o_rd_promo h-100 position-relative overflow-hidden p-3">
+                                        <img class="o_rd_promo_art" t-att-src="houseUrl" alt=""/>
+                                        <div class="position-relative o_rd_promo_text">
+                                            <div class="o_rd_eyebrow">Real Estate Management</div>
+                                            <div class="fw-bold fs-6 lh-sm my-1">Manage Your Properties<br/>With Confidence</div>
+                                            <div class="o_rd_tiny text-muted mb-3">Track rentals, collect payments, manage tenants and grow your portfolio all in one place.</div>
+                                            <button class="btn btn-sm o_rd_btn_dark rounded-pill px-3" t-on-click="() => this.open(tile('total').action)">
+                                                Get Started <i class="fa fa-arrow-right ms-1"/>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </t>
+                        <div t-else="" class="text-center text-muted py-5"><i class="fa fa-spinner fa-spin fa-2x"/></div>
+                    </div>
+
+                    <!-- ================= Side column ================= -->
+                    <div t-if="state.data" class="col-12 col-xxl-3">
+                        <div class="row g-3">
+                            <!-- Quote -->
+                            <div class="col-12 col-md-6 col-xxl-12">
+                                <div class="o_rd_panel p-3 h-100">
+                                    <div class="d-flex align-items-center gap-2 mb-2">
+                                        <span class="o_rd_round_icon o_rd_round_sm o_rd_c_blue"><i class="fa fa-bolt"/></span>
+                                        <h6 class="fw-bold mb-0">Thought of the Day</h6>
+                                    </div>
+                                    <div class="o_rd_soft_card position-relative overflow-hidden p-3">
+                                        <img class="o_rd_soft_art" t-att-src="houseUrl" alt=""/>
+                                        <div class="o_rd_quote fst-italic position-relative">“<t t-out="quote"/>”</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Quick actions -->
+                            <div class="col-12 col-md-6 col-xxl-12">
+                                <div class="o_rd_panel p-3 h-100">
+                                    <div class="d-flex align-items-center gap-2 mb-3">
+                                        <i class="fa fa-bolt o_rd_panel_icon"/>
+                                        <h6 class="fw-bold mb-0">Quick Actions</h6>
+                                    </div>
+                                    <div class="row g-2">
+                                        <t t-foreach="quickActions" t-as="qa" t-key="qa.key">
+                                            <div class="col-6">
+                                                <button t-attf-class="o_rd_quick o_rd_c_#{qa.color} w-100 h-100 d-flex align-items-center gap-2 p-2 o_rd_quick_#{qa.key}"
+                                                        t-on-click="() => this.open(qa.action)">
+                                                    <span class="o_rd_round_icon o_rd_round_sm"><i t-attf-class="fa #{qa.icon}"/></span>
+                                                    <span class="small fw-semibold text-start" t-out="qa.label"/>
+                                                </button>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Period summary -->
+                            <div class="col-12 col-md-6 col-xxl-12">
+                                <div class="o_rd_panel p-3 h-100">
+                                    <div class="d-flex align-items-center gap-2 mb-2">
+                                        <i class="fa fa-calendar o_rd_panel_icon"/>
+                                        <h6 class="fw-bold mb-0 me-auto" t-out="periodLabel"/>
+                                        <a t-if="tile('rent_invoiced').action" href="#" class="text-muted" t-on-click.prevent="() => this.open(tile('rent_invoiced').action)" aria-label="Rent invoices"><i class="fa fa-chevron-right"/></a>
+                                    </div>
+                                    <div class="o_rd_soft_card position-relative overflow-hidden p-3">
+                                        <img class="o_rd_soft_art" t-att-src="houseUrl" alt=""/>
+                                        <div class="position-relative o_rd_period_rows">
+                                            <t t-foreach="['rent_invoiced', 'rent_collected', 'overdue']" t-as="key" t-key="key">
+                                                <t t-set="tl" t-value="tile(key)"/>
+                                                <div t-attf-class="o_rental_tile o_rental_tile_#{key} d-flex gap-2 py-1 #{tl.action ? 'o_rd_list_row' : ''}" t-on-click="() => this.open(tl.action)">
+                                                    <span class="small text-muted me-auto" t-out="tl.label"/>
+                                                    <span t-attf-class="small fw-bold o_rental_tile_value #{key === 'overdue' and tl.raw ? 'text-danger' : ''}" t-out="tl.value"/>
+                                                </div>
+                                            </t>
+                                            <div class="o_rd_tiny text-muted mt-1"><t t-out="state.data.summary.collection_rate"/>% of invoiced rent collected</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Calendar -->
+                            <div class="col-12 col-md-6 col-xxl-12">
+                                <div class="o_rd_panel p-3 h-100">
+                                    <t t-call="inom_rental_management.RentalDashboard.PanelHead">
+                                        <t t-set="icon" t-value="'fa-calendar-check-o'"/>
+                                        <t t-set="title" t-value="'Calendar'"/>
+                                        <t t-set="link" t-value="tile('upcoming_due').action"/>
+                                    </t>
+                                    <div t-if="!state.data.calendar.length" class="text-muted small text-center py-3">Nothing due in the next 30 days.</div>
+                                    <t t-foreach="state.data.calendar" t-as="ev" t-key="ev.id">
+                                        <div class="d-flex align-items-center gap-3 o_rd_calendar_row o_rd_list_row" t-on-click="() => this.open(ev.action)">
+                                            <div class="o_rd_date text-center">
+                                                <div class="fw-bold fs-5 lh-1" t-out="ev.day"/>
+                                                <div class="o_rd_tiny text-muted" t-out="ev.month"/>
+                                            </div>
+                                            <div class="flex-fill min-w-0">
+                                                <div class="small fw-semibold text-truncate" t-out="ev.title"/>
+                                                <div class="o_rd_tiny text-muted" t-out="ev.detail"/>
+                                            </div>
+                                            <span t-attf-class="o_rd_badge o_rd_badge_#{ev.tone}" t-out="ev.badge"/>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                            <!-- Follow-up lists -->
+                            
+                                <div class="col-12 col-md-6 col-xxl-12">
+                                    <div class="o_rd_panel h-100 p-3">
+                                        <t t-call="inom_rental_management.RentalDashboard.PanelHead">
+                                            <t t-set="icon" t-value="'fa-hourglass-half'"/>
+                                            <t t-set="title" t-value="'Leases Expiring Soon'"/>
+                                            <t t-set="link" t-value="tile('expiring').action"/>
+                                        </t>
+                                        <div t-if="!state.data.lists.expiring.length" class="text-muted py-3 text-center small">No lease ends in the next 30 days.</div>
+                                        <table t-else="" class="table table-sm align-middle mb-0">
+                                            <tbody>
+                                                <t t-foreach="state.data.lists.expiring" t-as="row" t-key="row.id">
+                                                    <tr class="o_rd_list_row" t-on-click="() => this.open(row.action)">
+                                                        <td>
+                                                            <div class="fw-semibold" t-out="row.property"/>
+                                                            <div class="small text-muted"><t t-out="row.name"/> · <t t-out="row.tenant"/></div>
+                                                        </td>
+                                                        <td class="text-end text-nowrap">
+                                                            <span t-attf-class="badge rounded-pill #{row.days &lt;= 7 ? 'text-bg-danger' : 'text-bg-warning'}">
+                                                                <t t-out="plural(row.days, 'day', 'days')"/>
+                                                            </span>
+                                                            <div class="small text-muted" t-out="row.date_end"/>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xxl-12">
+                                    <div class="o_rd_panel h-100 p-3">
+                                        <t t-call="inom_rental_management.RentalDashboard.PanelHead">
+                                            <t t-set="icon" t-value="'fa-exclamation-triangle'"/>
+                                            <t t-set="title" t-value="'Top Overdue Tenants'"/>
+                                            <t t-set="link" t-value="tile('overdue').action"/>
+                                        </t>
+                                        <div t-if="!state.data.lists.overdue_tenants.length" class="text-muted py-3 text-center small">No overdue rent. Well done!</div>
+                                        <table t-else="" class="table table-sm align-middle mb-0">
+                                            <tbody>
+                                                <t t-foreach="state.data.lists.overdue_tenants" t-as="row" t-key="row.id">
+                                                    <tr t-attf-class="#{row.action ? 'o_rd_list_row' : ''}" t-on-click="() => this.open(row.action)">
+                                                        <td>
+                                                            <div class="fw-semibold" t-out="row.name"/>
+                                                            <div class="small text-muted"><t t-out="plural(row.count, 'overdue invoice', 'overdue invoices')"/></div>
+                                                        </td>
+                                                        <td class="text-end fw-bold text-danger text-nowrap" t-out="row.amount_display"/>
+                                                    </tr>
+                                                </t>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

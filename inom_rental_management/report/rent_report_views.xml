@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Rent due: billing periods that are due and not paid -->
+    <record id="action_rent_due" model="ir.actions.act_window">
+        <field name="name">Rent Due</field>
+        <field name="res_model">property.rent.schedule</field>
+        <field name="view_mode">list,pivot</field>
+        <field name="search_view_id" ref="property_rent_schedule_view_search"/>
+        <field name="context">{'search_default_rent_due': 1}</field>
+    </record>
+
+    <record id="action_rent_schedule" model="ir.actions.act_window">
+        <field name="name">Billing Schedule</field>
+        <field name="res_model">property.rent.schedule</field>
+        <field name="view_mode">list,pivot</field>
+        <field name="search_view_id" ref="property_rent_schedule_view_search"/>
+    </record>
+
+    <!-- Rental invoices, read from accounting -->
+    <record id="action_rental_invoices" model="ir.actions.act_window">
+        <field name="name">Rental Invoices</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="account.view_out_invoice_tree"/>
+        <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+        <field name="domain">[('property_rental_move_kind', '!=', False)]</field>
+        <field name="context">{'default_move_type': 'out_invoice', 'create': False}</field>
+    </record>
+
+    <record id="action_overdue_rent" model="ir.actions.act_window">
+        <field name="name">Overdue Rent</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="account.view_out_invoice_tree"/>
+        <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+        <field name="domain">[('property_rental_move_kind', '=', 'rent')]</field>
+        <field name="context">{'default_move_type': 'out_invoice', 'create': False, 'search_default_late': 1}</field>
+    </record>
+
+    <record id="action_paid_rent" model="ir.actions.act_window">
+        <field name="name">Paid Rent Invoices</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="account.view_out_invoice_tree"/>
+        <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+        <field name="domain">[('property_rental_move_kind', '=', 'rent'), ('move_type', '=', 'out_invoice')]</field>
+        <field name="context">{'default_move_type': 'out_invoice', 'create': False, 'search_default_rental_paid': 1}</field>
+    </record>
+
+    <record id="action_outstanding_rent" model="ir.actions.act_window">
+        <field name="name">Outstanding Rent Invoices</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="account.view_out_invoice_tree"/>
+        <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+        <field name="domain">[('property_rental_move_kind', '=', 'rent'), ('state', '=', 'posted')]</field>
+        <field name="context">{'default_move_type': 'out_invoice', 'create': False, 'search_default_open': 1}</field>
+    </record>
+
+    <!-- Deposit status -->
+    <record id="property_rental_contract_view_list_deposit" model="ir.ui.view">
+        <field name="name">property.rental.contract.list.deposit</field>
+        <field name="model">property.rental.contract</field>
+        <field name="priority">50</field>
+        <field name="arch" type="xml">
+            <list string="Deposit Status" create="0">
+                <field name="name"/>
+                <field name="property_id"/>
+                <field name="tenant_id"/>
+                <field name="state" widget="badge" optional="show"/>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="deposit_amount" sum="Total"/>
+                <field name="deposit_invoiced" sum="Total"/>
+                <field name="deposit_received" sum="Total"/>
+                <field name="deposit_held" sum="Total"/>
+                <field name="deposit_deducted" sum="Total" optional="show"/>
+                <field name="deposit_refunded" sum="Total" optional="show"/>
+                <field name="deposit_state" widget="badge"
+                       decoration-info="deposit_state in ('to_invoice', 'invoiced')"
+                       decoration-warning="deposit_state == 'held'"
+                       decoration-muted="deposit_state == 'settled'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_deposit_status" model="ir.actions.act_window">
+        <field name="name">Deposit Status</field>
+        <field name="res_model">property.rental.contract</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="property_rental_contract_view_list_deposit"/>
+        <field name="domain">[('deposit_state', '!=', 'none'), ('state', 'not in', ('draft', 'cancelled'))]</field>
+    </record>
+</odoo>

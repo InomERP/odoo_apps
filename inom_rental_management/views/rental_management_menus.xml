@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_rental_management_root"
+              name="Real Estate"
+              web_icon="inom_rental_management,static/description/icon.png"
+              sequence="40"
+              groups="group_rental_agent,group_rental_accountant"/>
+
+    <menuitem id="menu_rental_dashboard"
+              name="Dashboard"
+              parent="menu_rental_management_root"
+              action="action_rental_dashboard"
+              sequence="1"
+              groups="group_rental_manager,group_rental_accountant"/>
+
+    <menuitem id="menu_rental_properties"
+              name="Properties"
+              parent="menu_rental_management_root"
+              action="action_property_property"
+              sequence="10"/>
+
+    <menuitem id="menu_rental_owners"
+              name="Owners"
+              parent="menu_rental_management_root"
+              action="action_property_owner"
+              sequence="20"/>
+
+    <menuitem id="menu_rental_tenants"
+              name="Tenants"
+              parent="menu_rental_management_root"
+              action="action_property_tenant"
+              sequence="30"/>
+
+    <menuitem id="menu_rental_enquiries"
+              name="Enquiries"
+              parent="menu_rental_management_root"
+              sequence="32"
+              groups="sales_team.group_sale_salesman">
+        <menuitem id="menu_rental_enquiries_all" name="All Enquiries" action="action_property_enquiry_all" sequence="10"/>
+        <menuitem id="menu_rental_enquiries_rent" name="Rental Enquiries" action="action_property_enquiry_rent" sequence="20"/>
+        <menuitem id="menu_rental_enquiries_sale" name="Sale Enquiries" action="action_property_enquiry" sequence="30"/>
+    </menuitem>
+
+    <menuitem id="menu_rental_partner_documents"
+              name="Documents"
+              parent="menu_rental_management_root"
+              action="action_property_partner_document"
+              sequence="35"
+              groups="group_rental_agent"/>
+
+    <menuitem id="menu_rental_contracts"
+              name="Rental Contracts"
+              parent="menu_rental_management_root"
+              action="action_property_rental_contract"
+              sequence="40"/>
+
+    <menuitem id="menu_rental_sales"
+              name="Property Sales"
+              parent="menu_rental_management_root"
+              sequence="50">
+        <menuitem id="menu_rental_sale_contracts"
+                  name="Sale Contracts"
+                  action="action_property_sale_contract"
+                  sequence="10"/>
+        <menuitem id="menu_rental_sale_enquiries"
+                  name="Sale Enquiries"
+                  action="action_property_enquiry"
+                  sequence="5"
+                  groups="sales_team.group_sale_salesman"/>
+        <menuitem id="menu_rental_buyers"
+                  name="Buyers"
+                  action="action_property_buyer"
+                  sequence="20"/>
+    </menuitem>
+
+    <menuitem id="menu_rental_rent"
+              name="Rent"
+              parent="menu_rental_management_root"
+              sequence="45"
+              groups="group_rental_manager,group_rental_accountant">
+        <menuitem id="menu_rental_rent_due" name="Rent Due" action="action_rent_due" sequence="10"/>
+        <menuitem id="menu_rental_rent_schedule" name="Billing Schedule" action="action_rent_schedule" sequence="20"/>
+        <menuitem id="menu_rental_rent_invoices" name="Rental Invoices" action="action_rental_invoices" sequence="30"
+                  groups="account.group_account_invoice"/>
+        <menuitem id="menu_rental_deposit_status" name="Deposit Status" action="action_deposit_status" sequence="40"/>
+    </menuitem>
+
+    <menuitem id="menu_rental_reports"
+              name="Reports"
+              parent="menu_rental_management_root"
+              sequence="90"
+              groups="group_rental_manager,group_rental_accountant">
+        <menuitem id="menu_rental_report_property"
+                  name="Property Analysis"
+                  action="action_property_property_analysis"
+                  sequence="10"/>
+        <menuitem id="menu_rental_report_rental"
+                  name="Rental Analysis"
+                  action="action_property_rental_contract_analysis"
+                  sequence="20"/>
+        <menuitem id="menu_rental_report_sale"
+                  name="Sales Analysis"
+                  action="action_property_sale_contract_analysis"
+                  sequence="30"/>
+        <menuitem id="menu_rental_report_enquiries" name="Enquiry Analysis" action="action_property_enquiry_analysis"
+                  sequence="35" groups="sales_team.group_sale_salesman"/>
+        <menuitem id="menu_rental_report_income_property" name="Rental Income by Property"
+                  action="action_report_rental_income_property" sequence="36"/>
+        <menuitem id="menu_rental_report_income_owner" name="Rental Income by Owner"
+                  action="action_report_rental_income_owner" sequence="37"/>
+        <menuitem id="menu_rental_report_tenant_outstanding" name="Tenant Outstanding Invoices"
+                  action="action_report_tenant_outstanding" sequence="38"/>
+        <menuitem id="menu_rental_report_contract_expiry" name="Contract Expiry"
+                  action="action_report_contract_expiry" sequence="39"/>
+        <menuitem id="menu_rental_report_occupancy" name="Property Occupancy"
+                  action="action_report_occupancy" sequence="41"/>
+        <menuitem id="menu_rental_report_sale_transactions" name="Sale Transactions"
+                  action="action_report_sale_transactions" sequence="42"/>
+        <menuitem id="menu_rental_report_rent_due" name="Rent Due" action="action_rent_due" sequence="40"/>
+        <menuitem id="menu_rental_report_overdue" name="Overdue Rent" action="action_overdue_rent" sequence="50"
+                  groups="account.group_account_invoice"/>
+        <menuitem id="menu_rental_report_paid" name="Paid Rent Invoices" action="action_paid_rent" sequence="60"
+                  groups="account.group_account_invoice"/>
+        <menuitem id="menu_rental_report_outstanding" name="Outstanding Rent Invoices" action="action_outstanding_rent"
+                  sequence="70" groups="account.group_account_invoice"/>
+        <menuitem id="menu_rental_report_deposits" name="Deposit Status" action="action_deposit_status" sequence="80"/>
+    </menuitem>
+
+    <menuitem id="menu_rental_configuration"
+              name="Configuration"
+              parent="menu_rental_management_root"
+              sequence="100"
+              groups="group_rental_admin">
+        <menuitem id="menu_rental_settings"
+                  name="Settings"
+                  action="action_rental_management_settings"
+                  sequence="0"
+                  groups="base.group_system"/>
+        <menuitem id="menu_rental_property_types"
+                  name="Property Types"
+                  action="action_property_type"
+                  sequence="10"/>
+        <menuitem id="menu_rental_amenities"
+                  name="Amenities"
+                  action="action_property_amenity"
+                  sequence="20"/>
+    </menuitem>
+</odoo>

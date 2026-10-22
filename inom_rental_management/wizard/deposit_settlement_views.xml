@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="property_deposit_settlement_view_form" model="ir.ui.view">
+        <field name="name">property.deposit.settlement.form</field>
+        <field name="model">property.deposit.settlement</field>
+        <field name="arch" type="xml">
+            <form string="Settle Security Deposit">
+                <group>
+                    <group>
+                        <field name="contract_id"/>
+                        <field name="currency_id" invisible="1"/>
+                        <field name="deposit_held"/>
+                    </group>
+                    <group>
+                        <field name="total_deducted"/>
+                        <field name="refund_amount"/>
+                    </group>
+                </group>
+                <field name="line_ids">
+                    <list editable="bottom">
+                        <field name="name" placeholder="e.g. Broken window, cleaning"/>
+                        <field name="currency_id" column_invisible="True"/>
+                        <field name="amount"/>
+                    </list>
+                </field>
+                <p class="text-muted">
+                    Odoo creates a draft credit note for the tenant: the deposit held, less the deductions.
+                    Post it, then either register the refund payment or use it against the tenant's open invoices.
+                </p>
+                <footer>
+                    <button name="action_settle" type="object" string="Create Settlement" class="btn-primary"/>
+                    <button special="cancel" string="Discard"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

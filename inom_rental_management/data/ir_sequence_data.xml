@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_property_property" model="ir.sequence">
+            <field name="name">Property</field>
+            <field name="code">property.property</field>
+            <field name="prefix">PROP/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_property_rental_contract" model="ir.sequence">
+            <field name="name">Rental Contract</field>
+            <field name="code">property.rental.contract</field>
+            <field name="prefix">RC/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_property_sale_contract" model="ir.sequence">
+            <field name="name">Property Sale Contract</field>
+            <field name="code">property.sale.contract</field>
+            <field name="prefix">SC/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

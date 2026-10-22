@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_partner_view_form_rental_management" model="ir.ui.view">
+        <field name="name">res.partner.form.rental.management</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button name="action_view_owned_properties" type="object" class="oe_stat_button" icon="fa-building"
+                        invisible="not is_property_owner"
+                        groups="inom_rental_management.group_rental_agent,inom_rental_management.group_rental_accountant">
+                    <field name="owned_property_count" widget="statinfo" string="Properties"/>
+                </button>
+                <button name="action_view_rental_contracts" type="object" class="oe_stat_button" icon="fa-file-text-o"
+                        invisible="not is_tenant and not is_property_owner"
+                        groups="inom_rental_management.group_rental_agent,inom_rental_management.group_rental_accountant">
+                    <field name="rental_contract_count" widget="statinfo" string="Rental Contracts"/>
+                </button>
+                <button name="action_view_sale_contracts" type="object" class="oe_stat_button" icon="fa-handshake-o"
+                        invisible="not is_property_buyer and not is_property_owner"
+                        groups="inom_rental_management.group_rental_agent,inom_rental_management.group_rental_accountant">
+                    <field name="sale_contract_count" widget="statinfo" string="Sale Contracts"/>
+                </button>
+                <button name="action_view_real_estate_documents" type="object" class="oe_stat_button" icon="fa-id-card-o"
+                        invisible="not is_tenant and not is_property_owner and not is_property_buyer"
+                        groups="inom_rental_management.group_rental_agent">
+                    <field name="real_estate_document_count" widget="statinfo" string="RE Documents"/>
+                </button>
+            </div>
+            <xpath expr="//page[@name='internal_notes']" position="before">
+                <page string="Real Estate" name="inom_rental_management"
+                      groups="inom_rental_management.group_rental_agent,inom_rental_management.group_rental_accountant">
+                    <group>
+                        <group name="real_estate_roles">
+                            <field name="is_property_owner"/>
+                            <field name="is_tenant"/>
+                            <field name="is_property_buyer"/>
+                        </group>
+                    </group>
+                    <separator string="Owned Properties" invisible="not is_property_owner"/>
+                    <field name="owned_property_ids" invisible="not is_property_owner" readonly="1">
+                        <list>
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="type_id"/>
+                            <field name="property_for"/>
+                            <field name="state"/>
+                        </list>
+                    </field>
+                    <separator string="Rental History" invisible="not is_tenant"/>
+                    <field name="tenant_contract_ids" invisible="not is_tenant" readonly="1">
+                        <list>
+                            <field name="name"/>
+                            <field name="property_id"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="currency_id" column_invisible="True"/>
+                            <field name="rent_amount"/>
+                            <field name="state" widget="badge"
+                                   decoration-success="state == 'running'"
+                                   decoration-muted="state in ('closed', 'cancelled')"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="res_partner_view_search_rental_management" model="ir.ui.view">
+        <field name="name">res.partner.search.rental.management</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='inactive']" position="before">
+                <filter name="property_owners" string="Property Owners" domain="[('is_property_owner', '=', True)]"/>
+                <filter name="tenants" string="Tenants" domain="[('is_tenant', '=', True)]"/>
+                <filter name="property_buyers" string="Property Buyers" domain="[('is_property_buyer', '=', True)]"/>
+                <filter name="current_tenants" string="Current Tenants"
+                        domain="[('tenant_contract_ids.state', '=', 'running')]"
+                        groups="inom_rental_management.group_rental_agent,inom_rental_management.group_rental_accountant"/>
+                <filter name="owners_without_property" string="Owners Without Property"
+                        domain="[('is_property_owner', '=', True), ('owned_property_ids', '=', False)]"
+                        groups="inom_rental_management.group_rental_agent,inom_rental_management.group_rental_accountant"/>
+                <separator/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_property_owner" model="ir.actions.act_window">
+        <field name="name">Owners</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('is_property_owner', '=', True)]</field>
+        <field name="context">{'default_is_property_owner': True}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create a property owner</p>
+            <p>Owners are the landlords whose properties you rent out or sell.</p>
+        </field>
+    </record>
+
+    <record id="action_property_tenant" model="ir.actions.act_window">
+        <field name="name">Tenants</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('is_tenant', '=', True)]</field>
+        <field name="context">{'default_is_tenant': True}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create a tenant</p>
+            <p>Tenants are the people and companies who rent your properties.</p>
+        </field>
+    </record>
+
+    <record id="action_property_buyer" model="ir.actions.act_window">
+        <field name="name">Buyers</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('is_property_buyer', '=', True)]</field>
+        <field name="context">{'default_is_property_buyer': True}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create a buyer</p>
+            <p>Buyers are the people and companies who book or buy your properties.</p>
+        </field>
+    </record>
+</odoo>

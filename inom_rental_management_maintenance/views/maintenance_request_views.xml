@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="maintenance_request_view_form_rental" model="ir.ui.view">
+        <field name="name">maintenance.request.form.rental</field>
+        <field name="model">maintenance.request</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_request_view_form"/>
+        <field name="arch" type="xml">
+            <header position="inside">
+                <button name="action_charge_cost" type="object" string="Charge Cost"
+                        invisible="cost_charged_to == 'company' or not maintenance_cost or recharge_move_count"
+                        groups="account.group_account_invoice"/>
+            </header>
+            <xpath expr="//sheet/*[1]" position="before">
+                <div class="oe_button_box" name="button_box">
+                    <button name="action_view_recharge_invoices" type="object" class="oe_stat_button" icon="fa-pencil-square-o"
+                            invisible="not recharge_move_count" groups="account.group_account_invoice">
+                        <field name="recharge_move_count" widget="statinfo" string="Invoices"/>
+                    </button>
+                </div>
+            </xpath>
+            <field name="equipment_id" position="before">
+                <field name="property_id"
+                       groups="inom_rental_management.group_rental_agent,inom_rental_management.group_rental_accountant,maintenance.group_equipment_manager"/>
+                <field name="rental_contract_id" invisible="not property_id"
+                       groups="inom_rental_management.group_rental_agent,inom_rental_management.group_rental_accountant,maintenance.group_equipment_manager"/>
+                <field name="tenant_id" invisible="not rental_contract_id"
+                       groups="inom_rental_management.group_rental_agent,inom_rental_management.group_rental_accountant,maintenance.group_equipment_manager"/>
+            </field>
+            <xpath expr="//notebook" position="inside">
+                <page string="Cost" name="rental_cost" invisible="not property_id"
+                      groups="inom_rental_management.group_rental_agent,inom_rental_management.group_rental_accountant,maintenance.group_equipment_manager">
+                    <group>
+                        <group>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="maintenance_cost" readonly="recharge_move_count"/>
+                            <field name="cost_charged_to" widget="radio" readonly="recharge_move_count"/>
+                        </group>
+                        <group>
+                            <field name="property_owner_id" invisible="cost_charged_to != 'owner'"/>
+                            <field name="recharge_move_ids" invisible="not recharge_move_ids" readonly="1"
+                                   groups="account.group_account_invoice">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="partner_id"/>
+                                    <field name="amount_total_signed" string="Total"/>
+                                    <field name="state" widget="badge"/>
+                                    <field name="payment_state" widget="badge"/>
+                                </list>
+                            </field>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="maintenance_request_view_list_rental" model="ir.ui.view">
+        <field name="name">maintenance.request.list.rental</field>
+        <field name="model">maintenance.request</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_request_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list/field[@name='name']" position="after">
+                <field name="property_id" optional="show"
+                       groups="inom_rental_management.group_rental_agent,inom_rental_management.group_rental_accountant,maintenance.group_equipment_manager"/>
+                <field name="maintenance_cost" optional="hide" sum="Total Cost"
+                       groups="inom_rental_management.group_rental_agent,inom_rental_management.group_rental_accountant,maintenance.group_equipment_manager"/>
+                <field name="currency_id" column_invisible="True"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="maintenance_request_view_search_rental" model="ir.ui.view">
+        <field name="name">maintenance.request.search.rental</field>
+        <field name="model">maintenance.request</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_request_view_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <field name="property_id"
+                       groups="inom_rental_management.group_rental_agent,inom_rental_management.group_rental_accountant,maintenance.group_equipment_manager"/>
+                <field name="tenant_id"
+                       groups="inom_rental_management.group_rental_agent,inom_rental_management.group_rental_accountant,maintenance.group_equipment_manager"/>
+                <filter name="property_requests" string="Property Requests" domain="[('property_id', '!=', False)]"/>
+                <filter name="charged_to_others" string="Cost Charged On" domain="[('cost_charged_to', 'in', ('owner', 'tenant'))]"/>
+                <group>
+                    <filter name="group_by_property" string="Property" context="{'group_by': 'property_id'}"
+                            groups="inom_rental_management.group_rental_agent,inom_rental_management.group_rental_accountant,maintenance.group_equipment_manager"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_property_maintenance_requests" model="ir.actions.act_window">
+        <field name="name">Maintenance Requests</field>
+        <field name="res_model">maintenance.request</field>
+        <field name="view_mode">kanban,list,form,pivot,graph,calendar,activity</field>
+        <field name="domain">[('property_id', '!=', False)]</field>
+        <field name="context">{'search_default_todo': 1}</field>
+        <field name="search_view_id" ref="maintenance.hr_equipment_request_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Raise a maintenance request</p>
+            <p>Use the Maintenance Request button on a property or a lease.</p>
+        </field>
+    </record>
+
+    <record id="maintenance_request_view_pivot_summary" model="ir.ui.view">
+        <field name="name">maintenance.request.pivot.summary</field>
+        <field name="model">maintenance.request</field>
+        <field name="priority">50</field>
+        <field name="arch" type="xml">
+            <pivot string="Maintenance Summary" sample="1">
+                <field name="property_id" type="row"/>
+                <field name="stage_id" type="col"/>
+                <field name="maintenance_cost" type="measure"/>
+                <field name="duration" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_report_maintenance_summary" model="ir.actions.act_window">
+        <field name="name">Maintenance Summary</field>
+        <field name="res_model">maintenance.request</field>
+        <field name="view_mode">pivot,graph,list,form</field>
+        <field name="domain">[('property_id', '!=', False)]</field>
+        <field name="context">{'search_default_filter_request_date': 1}</field>
+        <field name="view_ids" eval="[Command.clear(),
+            Command.create({'view_mode': 'pivot', 'view_id': ref('maintenance_request_view_pivot_summary')})]"/>
+        <field name="search_view_id" ref="maintenance.hr_equipment_request_view_search"/>
+    </record>
+
+    <menuitem id="menu_rental_report_maintenance_summary"
+              name="Maintenance Summary"
+              parent="inom_rental_management.menu_rental_reports"
+              action="action_report_maintenance_summary"
+              sequence="45"/>
+
+    <menuitem id="menu_rental_maintenance"
+              name="Maintenance"
+              parent="inom_rental_management.menu_rental_management_root"
+              action="action_property_maintenance_requests"
+              sequence="48"
+              groups="inom_rental_management.group_rental_agent,inom_rental_management.group_rental_accountant"/>
+</odoo>

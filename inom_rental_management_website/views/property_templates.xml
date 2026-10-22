@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Property card used on the listing -->
+    <template id="property_card" name="Property Card">
+        <div class="col-12 col-sm-6 col-lg-4 mb-4">
+            <a t-att-href="prop.website_url" class="card h-100 text-decoration-none text-reset shadow-sm o_property_card">
+                <img t-att-src="image_url(prop, 'image_512')" t-att-alt="prop.name"
+                     class="card-img-top object-fit-cover" style="height: 200px;" loading="lazy"/>
+                <div class="card-body">
+                    <span t-attf-class="badge mb-2 #{'text-bg-primary' if prop.property_for == 'rent' else 'text-bg-success'}"
+                          t-out="'For Rent' if prop.property_for == 'rent' else 'For Sale'"/>
+                    <h5 class="card-title mb-1" t-out="prop.name"/>
+                    <p class="text-muted small mb-2">
+                        <t t-out="prop.type_id.name"/><t t-if="prop.city"> · <t t-out="prop.city"/></t>
+                    </p>
+                    <p class="small mb-2">
+                        <span t-if="prop.bedrooms" class="me-3"><i class="fa fa-bed me-1" title="Bedrooms"/><t t-out="prop.bedrooms"/></span>
+                        <span t-if="prop.bathrooms" class="me-3"><i class="fa fa-bath me-1" title="Bathrooms"/><t t-out="prop.bathrooms"/></span>
+                        <span t-if="prop.total_area"><i class="fa fa-arrows-alt me-1" title="Area"/><span t-field="prop.total_area"/> <span t-field="prop.area_unit"/></span>
+                    </p>
+                    <p class="fw-bold mb-0">
+                        <t t-if="prop.property_for == 'rent'"><span t-field="prop.rent_price"/> <span class="fw-normal text-muted">/ month</span></t>
+                        <t t-else=""><span t-field="prop.sale_price"/></t>
+                    </p>
+                </div>
+            </a>
+        </div>
+    </template>
+
+    <!-- Listing with search and filters -->
+    <template id="property_listing" name="Properties">
+        <t t-call="website.layout">
+            <t t-set="additional_title">Properties</t>
+            <div id="wrap" class="o_property_listing">
+                <div class="container py-4">
+                    <h1 class="h3 mb-3">Properties</h1>
+                    <form action="/properties" method="get" class="row g-2 mb-4 o_property_filters" role="search">
+                        <div class="col-12 col-md-4">
+                            <input type="search" name="search" class="form-control" maxlength="100"
+                                   placeholder="Search name, reference, city or type" t-att-value="filters['search']"/>
+                        </div>
+                        <div class="col-6 col-md-2">
+                            <select name="purpose" class="form-select" aria-label="Rent or sale">
+                                <option value="">Rent or sale</option>
+                                <option value="rent" t-att-selected="filters['purpose'] == 'rent'">For rent</option>
+                                <option value="sale" t-att-selected="filters['purpose'] == 'sale'">For sale</option>
+                            </select>
+                        </div>
+                        <div class="col-6 col-md-2">
+                            <select name="category" class="form-select" aria-label="Category">
+                                <option value="">Any category</option>
+                                <t t-foreach="categories" t-as="cat">
+                                    <option t-att-value="cat[0]" t-att-selected="filters['category'] == cat[0]" t-out="cat[1]"/>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="col-6 col-md-2">
+                            <select name="type" class="form-select" aria-label="Property type">
+                                <option value="">Any type</option>
+                                <t t-foreach="property_types" t-as="ptype">
+                                    <option t-att-value="ptype.id" t-att-selected="filters['type'] == ptype.id" t-out="ptype.name"/>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="col-6 col-md-2">
+                            <select name="bedrooms" class="form-select" aria-label="Bedrooms">
+                                <option value="">Any bedrooms</option>
+                                <t t-foreach="[1, 2, 3, 4]" t-as="beds">
+                                    <option t-att-value="beds" t-att-selected="filters['bedrooms'] == beds"><t t-out="beds"/>+ bedrooms</option>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <input type="text" name="city" class="form-control" maxlength="64" placeholder="City" t-att-value="filters['city']"/>
+                        </div>
+                        <div class="col-6 col-md-2">
+                            <input type="number" name="min_price" class="form-control" min="0" step="any" placeholder="Min price"
+                                   t-att-value="filters['min_price'] if filters['min_price'] is not None else ''"/>
+                        </div>
+                        <div class="col-6 col-md-2">
+                            <input type="number" name="max_price" class="form-control" min="0" step="any" placeholder="Max price"
+                                   t-att-value="filters['max_price'] if filters['max_price'] is not None else ''"/>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <select name="sort" class="form-select" aria-label="Sort">
+                                <option value="newest" t-att-selected="filters['sort'] == 'newest'">Newest first</option>
+                                <option value="name" t-att-selected="filters['sort'] == 'name'">Name</option>
+                                <option value="price_asc" t-att-selected="filters['sort'] == 'price_asc'">Price: low to high</option>
+                                <option value="price_desc" t-att-selected="filters['sort'] == 'price_desc'">Price: high to low</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-2 d-grid">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </div>
+                    </form>
+                    <p class="text-muted"><t t-out="total"/> properties found</p>
+                    <div class="row">
+                        <t t-foreach="properties" t-as="prop">
+                            <t t-call="inom_rental_management_website.property_card"/>
+                        </t>
+                    </div>
+                    <div t-if="not properties" class="alert alert-info">
+                        No property matches your search. <a href="/properties">See all properties</a>.
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <t t-call="website.pager"/>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Property detail -->
+    <template id="property_detail" name="Property">
+        <t t-call="website.layout">
+            <t t-set="additional_title" t-value="prop.name"/>
+            <div id="wrap" class="o_property_detail">
+                <div class="container py-4">
+                    <a href="/properties" class="small"><i class="fa fa-arrow-left me-1"/>All properties</a>
+                    <div class="row mt-3">
+                        <div class="col-12 col-lg-8">
+                            <h1 class="h3 mb-1" t-out="prop.name"/>
+                            <p class="text-muted mb-3">
+                                <span t-attf-class="badge me-2 #{'text-bg-primary' if prop.property_for == 'rent' else 'text-bg-success'}"
+                                      t-out="'For Rent' if prop.property_for == 'rent' else 'For Sale'"/>
+                                <t t-out="prop.type_id.name"/>
+                                <t t-if="prop.city"> · <t t-out="prop.city"/></t>
+                                <t t-if="prop.country_id"> · <t t-out="prop.country_id.name"/></t>
+                                · Ref. <t t-out="prop.code"/>
+                            </p>
+                            <img t-att-src="image_url(prop, 'image_1024', brochure_token)" t-att-alt="prop.name"
+                                 class="img-fluid rounded w-100 object-fit-cover mb-3" style="max-height: 480px;"/>
+                            <div t-if="images" class="row g-2 mb-4">
+                                <div t-foreach="images" t-as="image" class="col-6 col-md-3">
+                                    <a t-att-href="image_url(image, 'image_1024', brochure_token)" target="_blank">
+                                        <img t-att-src="image_url(image, 'image_256', brochure_token)" t-att-alt="image.name"
+                                             class="img-fluid rounded object-fit-cover w-100" style="height: 120px;" loading="lazy"/>
+                                    </a>
+                                </div>
+                            </div>
+                            <section t-if="view_3d" class="o_property_3d card mb-4"
+                                     t-att-data-model-url="view_3d['model_url']" t-att-data-spec="view_3d['spec']">
+                                <div class="card-header d-flex flex-wrap align-items-center gap-2 bg-transparent">
+                                    <h2 class="h5 mb-0 me-auto"><i class="fa fa-cube me-2"/>3D View</h2>
+                                    <span t-if="not view_3d['model_url']" class="badge text-bg-light border d-none d-sm-inline-block">Illustrative model</span>
+                                    <div class="btn-group btn-group-sm" role="group" aria-label="3D view mode">
+                                        <button type="button" class="btn btn-light border o_property_3d_mode" data-mode="exterior">
+                                            <i class="fa fa-building-o me-1"/>Exterior</button>
+                                        <button type="button" class="btn btn-light border o_property_3d_mode d-none" data-mode="interior">
+                                            <i class="fa fa-th-large me-1"/>Interior</button>
+                                        <button type="button" class="btn btn-light border o_property_3d_mode d-none" data-mode="walk">
+                                            <i class="fa fa-street-view me-1"/>Walk through</button>
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-light border o_property_3d_rotate" title="Rotate automatically"
+                                            aria-pressed="true"><i class="fa fa-repeat"/><span class="visually-hidden">Rotate automatically</span></button>
+                                    <button type="button" class="btn btn-sm btn-light border o_property_3d_reset" title="Reset view">
+                                        <i class="fa fa-crosshairs"/><span class="visually-hidden">Reset view</span></button>
+                                    <button type="button" class="btn btn-sm btn-light border o_property_3d_fullscreen" title="Full screen">
+                                        <i class="fa fa-expand"/><span class="visually-hidden">Full screen</span></button>
+                                </div>
+                                <div class="o_property_3d_viewport" role="region" t-attf-aria-label="3D view of #{prop.name}">
+                                    <div class="o_property_3d_status text-muted">
+                                        <i class="fa fa-cube fa-2x d-block mb-2"/>
+                                        <span class="o_property_3d_message">The 3D view loads when you scroll to it.</span>
+                                    </div>
+                                    <div class="o_property_3d_rooms d-none" aria-label="Floors and rooms"/>
+                                </div>
+                                <div class="card-footer bg-transparent small text-muted">
+                                    <span class="o_property_3d_hint">Drag to rotate, scroll or pinch to zoom, right-drag to move.</span>
+                                    <t t-if="not view_3d['model_url']">
+                                        This model is generated from the property details and does not show the exact building or layout.
+                                    </t>
+                                </div>
+                            </section>
+                            <h2 class="h5">Key facts</h2>
+                            <table class="table table-sm mb-4">
+                                <tbody>
+                                    <tr t-if="prop.property_for == 'rent'"><th>Monthly rent</th><td><span t-field="prop.rent_price"/></td></tr>
+                                    <tr t-else=""><th>Price</th><td><span t-field="prop.sale_price"/></td></tr>
+                                    <tr t-if="prop.bedrooms"><th>Bedrooms</th><td t-out="prop.bedrooms"/></tr>
+                                    <tr t-if="prop.bathrooms"><th>Bathrooms</th><td t-out="prop.bathrooms"/></tr>
+                                    <tr t-if="prop.furnishing"><th>Furnishing</th><td><span t-field="prop.furnishing"/></td></tr>
+                                    <tr t-if="prop.total_area"><th>Built-up area</th><td><span t-field="prop.total_area"/> <span t-field="prop.area_unit"/></td></tr>
+                                    <tr t-if="prop.land_area"><th>Land area</th><td><span t-field="prop.land_area"/> <span t-field="prop.area_unit"/></td></tr>
+                                </tbody>
+                            </table>
+                            <div t-if="amenities" class="mb-4">
+                                <h2 class="h5">Amenities</h2>
+                                <span t-foreach="amenities" t-as="amenity" class="badge text-bg-light border me-1 mb-1" t-out="amenity.name"/>
+                            </div>
+                            <div class="mb-4" t-field="prop.website_description"/>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <div id="property-request" class="card shadow-sm o_property_request">
+                                <div class="card-body">
+                                    <h2 class="h5 mb-3">Interested in this property?</h2>
+                                    <t t-if="listed">
+                                    <ul class="nav nav-pills nav-fill mb-3 o_property_request_tabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button type="button" role="tab" id="property_tab_rent" data-bs-toggle="tab" data-bs-target="#property_pane_rent"
+                                                aria-controls="property_pane_rent" t-att-aria-selected="'true' if active_tab == 'rent' else 'false'"
+                                                t-attf-class="nav-link #{'active' if active_tab == 'rent' else ''}"><i class="fa fa-key me-1"/>Rent</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button type="button" role="tab" id="property_tab_sale" data-bs-toggle="tab" data-bs-target="#property_pane_sale"
+                                                aria-controls="property_pane_sale" t-att-aria-selected="'true' if active_tab == 'sale' else 'false'"
+                                                t-attf-class="nav-link #{'active' if active_tab == 'sale' else ''}"><i class="fa fa-home me-1"/>Buy</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button type="button" role="tab" id="property_tab_enquiry" data-bs-toggle="tab" data-bs-target="#property_pane_enquiry"
+                                                aria-controls="property_pane_enquiry" t-att-aria-selected="'true' if active_tab == 'enquiry' else 'false'"
+                                                t-attf-class="nav-link #{'active' if active_tab == 'enquiry' else ''}"><i class="fa fa-comment-o me-1"/>Ask</button>
+                                    </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                    <div t-attf-class="tab-pane fade #{'show active' if active_tab == 'rent' else ''}" id="property_pane_rent" role="tabpanel"
+                                         aria-labelledby="property_tab_rent">
+                                        <div t-if="request_sent == 'rent'" class="alert alert-success" role="status">Thank you. Your rent request has been sent. An agent will contact you to confirm availability and arrange a visit.</div>
+                                        <t t-if="prop.property_for == 'rent'">
+                                            <p class="small text-muted"><span class="fw-bold text-body" t-field="prop.rent_price"/> per month</p>
+                                            <form t-attf-action="/properties/#{request.env['ir.http']._slug(prop)}/rent" method="post" novalidate="novalidate">
+                                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                <div class="d-none" aria-hidden="true">
+                                                    <label for="rent_website_url">Leave this field empty</label>
+                                                    <input type="text" id="rent_website_url" name="website_url" tabindex="-1" autocomplete="off"/>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="rent_name" class="form-label">Your name</label>
+                                                    <input type="text" id="rent_name" name="name" maxlength="100" required="required"
+                                                           t-attf-class="form-control #{'is-invalid' if errors.get('name') else ''}" t-att-value="values.get('name')"/>
+                                                    <div class="invalid-feedback" t-out="errors.get('name')"/>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="rent_email" class="form-label">Email</label>
+                                                    <input type="email" id="rent_email" name="email" maxlength="254" required="required"
+                                                           t-attf-class="form-control #{'is-invalid' if errors.get('email') else ''}" t-att-value="values.get('email')"/>
+                                                    <div class="invalid-feedback" t-out="errors.get('email')"/>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="rent_phone" class="form-label">Phone (optional)</label>
+                                                    <input type="tel" id="rent_phone" name="phone" maxlength="20"
+                                                           t-attf-class="form-control #{'is-invalid' if errors.get('phone') else ''}" t-att-value="values.get('phone')"/>
+                                                    <div class="invalid-feedback" t-out="errors.get('phone')"/>
+                                                </div>
+                                                <div class="row g-2">
+                                                    <div class="col-12 col-sm-6 mb-2">
+                                                        <label for="rent_move_in" class="form-label">Move-in date</label>
+                                                        <input type="date" id="rent_move_in" name="move_in_date" required="required"
+                                                               t-att-min="today" t-att-max="max_move_in" t-att-value="values.get('move_in_date')"
+                                                               t-attf-class="form-control #{'is-invalid' if errors.get('move_in_date') else ''}"/>
+                                                        <div class="invalid-feedback" t-out="errors.get('move_in_date')"/>
+                                                    </div>
+                                                    <div class="col-12 col-sm-6 mb-2">
+                                                        <label for="rent_lease_months" class="form-label">Lease length</label>
+                                                        <select id="rent_lease_months" name="lease_months" required="required"
+                                                                t-attf-class="form-select #{'is-invalid' if errors.get('lease_months') else ''}">
+                                                            <t t-foreach="lease_months" t-as="months">
+                                                                <option t-att-value="months" t-att-selected="months == (values.get('lease_months') or 11)"
+                                                                        t-out="'%s months' % months"/>
+                                                            </t>
+                                                        </select>
+                                                        <div class="invalid-feedback" t-out="errors.get('lease_months')"/>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="rent_occupants" class="form-label">Number of occupants</label>
+                                                    <input type="number" id="rent_occupants" name="occupants" min="1" max="50" required="required"
+                                                           t-att-value="values.get('occupants') or 1"
+                                                           t-attf-class="form-control #{'is-invalid' if errors.get('occupants') else ''}"/>
+                                                    <div class="invalid-feedback" t-out="errors.get('occupants')"/>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="rent_message" class="form-label">Message (optional)</label>
+                                                    <textarea id="rent_message" name="message" rows="3" maxlength="2000" class="form-control"
+                                                              placeholder="Pets, parking, furnishing, best time to visit..." t-out="values.get('message') or ''"/>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary w-100 o_property_request_submit"><i class="fa fa-key me-1"/>Request to rent</button>
+                                                <p class="small text-muted mt-2 mb-0">No payment now. An agent confirms availability and arranges a visit before any agreement.</p>
+                                            </form>
+                                        </t>
+                                        <t t-else="">
+                                            <div class="text-center py-3 o_property_not_offered">
+                                                <i class="fa fa-info-circle fa-2x text-muted mb-2 d-block"/>
+                                                <p class="mb-3">This property is only available <t t-out="'for rent' if prop.property_for == 'rent' else 'for sale'"/>.</p>
+                                                <a t-att-href="other_purpose_url" class="btn btn-outline-primary btn-sm mb-2">See properties for rent</a>
+                                                <p class="small text-muted mb-0">Or ask the agent about it under <a href="#" class="o_property_tab_link" data-tab="enquiry">Ask a question</a>.</p>
+                                            </div>
+                                        </t>
+                                    </div>
+                                    <div t-attf-class="tab-pane fade #{'show active' if active_tab == 'sale' else ''}" id="property_pane_sale" role="tabpanel"
+                                         aria-labelledby="property_tab_sale">
+                                        <div t-if="request_sent == 'sale'" class="alert alert-success" role="status">Thank you. Your purchase request has been sent. An agent will contact you to arrange a visit and discuss the price.</div>
+                                        <t t-if="prop.property_for == 'sale'">
+                                            <p class="small text-muted">Listed at <span class="fw-bold text-body" t-field="prop.sale_price"/></p>
+                                            <form t-attf-action="/properties/#{request.env['ir.http']._slug(prop)}/buy" method="post" novalidate="novalidate">
+                                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                <div class="d-none" aria-hidden="true">
+                                                    <label for="buy_website_url">Leave this field empty</label>
+                                                    <input type="text" id="buy_website_url" name="website_url" tabindex="-1" autocomplete="off"/>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="buy_name" class="form-label">Your name</label>
+                                                    <input type="text" id="buy_name" name="name" maxlength="100" required="required"
+                                                           t-attf-class="form-control #{'is-invalid' if errors.get('name') else ''}" t-att-value="values.get('name')"/>
+                                                    <div class="invalid-feedback" t-out="errors.get('name')"/>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="buy_email" class="form-label">Email</label>
+                                                    <input type="email" id="buy_email" name="email" maxlength="254" required="required"
+                                                           t-attf-class="form-control #{'is-invalid' if errors.get('email') else ''}" t-att-value="values.get('email')"/>
+                                                    <div class="invalid-feedback" t-out="errors.get('email')"/>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="buy_phone" class="form-label">Phone (optional)</label>
+                                                    <input type="tel" id="buy_phone" name="phone" maxlength="20"
+                                                           t-attf-class="form-control #{'is-invalid' if errors.get('phone') else ''}" t-att-value="values.get('phone')"/>
+                                                    <div class="invalid-feedback" t-out="errors.get('phone')"/>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="buy_offer" class="form-label">Your offer (optional)</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text" t-out="prop.currency_id.symbol"/>
+                                                        <input type="text" inputmode="decimal" id="buy_offer" name="offer_price" maxlength="20"
+                                                               t-att-placeholder="'Listed at %s' % prop.currency_id.format(prop.sale_price)"
+                                                               t-att-value="values.get('offer_price')"
+                                                               t-attf-class="form-control #{'is-invalid' if errors.get('offer_price') else ''}"/>
+                                                    </div>
+                                                    <div class="invalid-feedback" t-out="errors.get('offer_price')"/>
+                                                </div>
+                                                <div class="row g-2">
+                                                    <div class="col-12 col-sm-6 mb-2">
+                                                        <label for="buy_financing" class="form-label">Financing</label>
+                                                        <select id="buy_financing" name="financing" required="required"
+                                                                t-attf-class="form-select #{'is-invalid' if errors.get('financing') else ''}">
+                                                            <option value="">Choose...</option>
+                                                            <option value="cash" t-att-selected="values.get('financing') == 'cash'">Own funds</option>
+                                                            <option value="loan" t-att-selected="values.get('financing') == 'loan'">Home loan</option>
+                                                            <option value="undecided" t-att-selected="values.get('financing') == 'undecided'">Not decided yet</option>
+                                                        </select>
+                                                        <div class="invalid-feedback" t-out="errors.get('financing')"/>
+                                                    </div>
+                                                    <div class="col-12 col-sm-6 mb-2">
+                                                        <label for="buy_timeline" class="form-label">When to buy</label>
+                                                        <select id="buy_timeline" name="timeline" required="required"
+                                                                t-attf-class="form-select #{'is-invalid' if errors.get('timeline') else ''}">
+                                                            <option value="">Choose...</option>
+                                                            <option value="now" t-att-selected="values.get('timeline') == 'now'">Immediately</option>
+                                                            <option value="1_3" t-att-selected="values.get('timeline') == '1_3'">Within 1-3 months</option>
+                                                            <option value="3_6" t-att-selected="values.get('timeline') == '3_6'">Within 3-6 months</option>
+                                                            <option value="later" t-att-selected="values.get('timeline') == 'later'">Later</option>
+                                                        </select>
+                                                        <div class="invalid-feedback" t-out="errors.get('timeline')"/>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="buy_message" class="form-label">Message (optional)</label>
+                                                    <textarea id="buy_message" name="message" rows="3" maxlength="2000" class="form-control"
+                                                              placeholder="Questions about the property, documents, a site visit..." t-out="values.get('message') or ''"/>
+                                                </div>
+                                                <button type="submit" class="btn btn-success w-100 o_property_request_submit"><i class="fa fa-home me-1"/>Request to buy</button>
+                                                <p class="small text-muted mt-2 mb-0">No payment now. An agent contacts you to arrange a visit and discuss the price.</p>
+                                            </form>
+                                        </t>
+                                        <t t-else="">
+                                            <div class="text-center py-3 o_property_not_offered">
+                                                <i class="fa fa-info-circle fa-2x text-muted mb-2 d-block"/>
+                                                <p class="mb-3">This property is only available <t t-out="'for rent' if prop.property_for == 'rent' else 'for sale'"/>.</p>
+                                                <a t-att-href="other_purpose_url" class="btn btn-outline-primary btn-sm mb-2">See properties for sale</a>
+                                                <p class="small text-muted mb-0">Or ask the agent about it under <a href="#" class="o_property_tab_link" data-tab="enquiry">Ask a question</a>.</p>
+                                            </div>
+                                        </t>
+                                    </div>
+                                    <div id="property_pane_enquiry" t-attf-class="tab-pane fade #{'show active' if active_tab == 'enquiry' else ''}" role="tabpanel" aria-labelledby="property_tab_enquiry">
+                                        <div t-if="request_sent == 'enquiry'" class="alert alert-success" role="status">
+                                            Thank you. Your enquiry has been sent; we will contact you soon.
+                                        </div>
+                                        <form t-attf-action="/properties/#{request.env['ir.http']._slug(prop)}/enquiry" method="post" novalidate="novalidate">
+                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                            <div class="d-none" aria-hidden="true">
+                                                <label for="enquiry_website_url">Leave this field empty</label>
+                                                <input type="text" id="enquiry_website_url" name="website_url" tabindex="-1" autocomplete="off"/>
+                                            </div>
+                                            <div class="mb-2">
+                                                <label for="enquiry_name" class="form-label">Your name</label>
+                                                <input type="text" id="enquiry_name" name="name" maxlength="100" required="required"
+                                                       t-attf-class="form-control #{'is-invalid' if errors.get('name') else ''}" t-att-value="values.get('name')"/>
+                                                <div class="invalid-feedback" t-out="errors.get('name')"/>
+                                            </div>
+                                            <div class="mb-2">
+                                                <label for="enquiry_email" class="form-label">Email</label>
+                                                <input type="email" id="enquiry_email" name="email" maxlength="254" required="required"
+                                                       t-attf-class="form-control #{'is-invalid' if errors.get('email') else ''}" t-att-value="values.get('email')"/>
+                                                <div class="invalid-feedback" t-out="errors.get('email')"/>
+                                            </div>
+                                            <div class="mb-2">
+                                                <label for="enquiry_phone" class="form-label">Phone (optional)</label>
+                                                <input type="tel" id="enquiry_phone" name="phone" maxlength="20"
+                                                       t-attf-class="form-control #{'is-invalid' if errors.get('phone') else ''}" t-att-value="values.get('phone')"/>
+                                                <div class="invalid-feedback" t-out="errors.get('phone')"/>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="enquiry_message" class="form-label">Message</label>
+                                                <textarea id="enquiry_message" name="message" rows="4" maxlength="2000" class="form-control"
+                                                          t-out="values.get('message') or ''"/>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary w-100">Send enquiry</button>
+                                        </form>
+                                    </div>
+                                    </div>
+                                    </t>
+                                    <p t-else="" class="mb-0">
+                                        <a href="/contactus">Contact us</a> about this property.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

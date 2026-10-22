@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="property_property_view_form_maintenance" model="ir.ui.view">
+        <field name="name">property.property.form.maintenance</field>
+        <field name="model">property.property</field>
+        <field name="inherit_id" ref="inom_rental_management.property_property_view_form"/>
+        <field name="arch" type="xml">
+            <header position="inside">
+                <button name="action_new_maintenance_request" type="object" string="Maintenance Request"
+                        invisible="not active" groups="inom_rental_management.group_rental_agent"/>
+            </header>
+            <div name="button_box" position="inside">
+                <button name="action_view_maintenance_requests" type="object" class="oe_stat_button" icon="fa-wrench">
+                    <div class="o_stat_info">
+                        <span class="o_stat_value"><field name="maintenance_open_count"/> / <field name="maintenance_count"/></span>
+                        <span class="o_stat_text">Maintenance</span>
+                    </div>
+                </button>
+            </div>
+            <page name="description" position="after">
+                <page string="Maintenance" name="maintenance">
+                    <group>
+                        <group string="Defaults for New Requests">
+                            <field name="maintenance_team_id" options="{'no_create': True}"/>
+                            <field name="technician_user_id" string="Default Responsible"/>
+                        </group>
+                        <group string="Statistics">
+                            <field name="maintenance_count" string="Requests"/>
+                            <field name="maintenance_open_count" string="Open Requests"/>
+                            <field name="mttr" string="Average Repair Days"/>
+                        </group>
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+
+    <record id="property_rental_contract_view_form_maintenance" model="ir.ui.view">
+        <field name="name">property.rental.contract.form.maintenance</field>
+        <field name="model">property.rental.contract</field>
+        <field name="inherit_id" ref="inom_rental_management.property_rental_contract_view_form"/>
+        <field name="arch" type="xml">
+            <header position="inside">
+                <button name="action_new_maintenance_request" type="object" string="Maintenance Request"
+                        invisible="state not in ('running', 'expired')" groups="inom_rental_management.group_rental_agent"/>
+            </header>
+            <div name="button_box" position="inside">
+                <button name="action_view_maintenance_requests" type="object" class="oe_stat_button" icon="fa-wrench"
+                        invisible="not maintenance_request_count">
+                    <field name="maintenance_request_count" widget="statinfo" string="Maintenance"/>
+                </button>
+            </div>
+        </field>
+    </record>
+</odoo>

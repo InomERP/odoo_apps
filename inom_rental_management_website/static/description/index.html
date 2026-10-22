@@ -1,0 +1,2100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Real Estate Rental Management - Website</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
+    <style>
+        :root {
+            --primary-color: #7f54b3;
+            --bg-white: #fff;
+            --text-color: #121212;
+            --text-color-light: #64728f;
+        }
+
+        body {
+            font-family: "Montserrat", sans-serif;
+        }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+            color: #121212;
+            font-family: Montserrat;
+            font-size: 16px !important;
+            font-weight: 500 !important;
+            border-radius: 30px;
+            line-height: normal;
+            text-transform: capitalize;
+            background-color: #F5F5F5;
+            border: none;
+            margin-bottom: 0;
+            padding: 8px 20px;
+        }
+
+        .nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
+            border-color: transparent;
+            isolation: isolate;
+        }
+
+        .nav-tabs .nav-link:focus-visible {
+            border-color: transparent;
+            box-shadow: none;
+        }
+
+        /* owl-carosel */
+        .owl-carousel .owl-nav {
+            position: absolute;
+            top: 42%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-42%);
+        }
+
+        .owl-carousel .owl-nav button.owl-prev {
+            position: absolute;
+            right: -36px;
+            font-size: 28px;
+            background-color: #e4e4e4;
+            border-radius: 20px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .owl-carousel .owl-nav button.owl-next {
+            position: absolute;
+            left: -36px;
+            font-size: 28px;
+            background-color: #e4e4e4;
+            border-radius: 20px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+    </style>
+</head>
+<body>
+<!-- overview -->
+<div class="container">
+    <div class="my-5">
+        <!-- button tab -->
+        <!--  -->
+        <!-- version support -->
+        <div class="my-3 d-flex align-items-center justify-content-end">
+            <div class="text-center"
+                 style="background-color:#017E84 !important; font-size:0.8rem !important; color:#fff !important; font-weight:500 !important; padding:4px !important; margin:0 3px !important; border-radius:50px !important; min-width:120px !important">
+                Community
+            </div>
+           <div class="text-center"
+                 style="background-color:#875A7B !important; color:#fff !important; font-size:0.8rem !important; font-weight:500 !important; padding:4px !important; margin:0 3px !important; border-radius:50px !important; min-width:120px !important">
+                Enterprise
+            </div>
+           <div class="text-center"
+            style="background-color:#7C7BAD !important; color:#fff !important; font-size:0.8rem !important; font-weight:500 !important; padding:4px !important; margin:0 3px !important; border-radius:50px !important; min-width:120px !important">
+            Odoo.sh </div>
+        </div>
+       <div class="tab-content" id="myTabContent">
+    <!-- description -->
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        
+        <div class="position-relative" style="border-radius: 16px; background: #f8f8f8; padding: 20px 0;">
+            
+            <div class="row" style="padding: 2rem 0rem 0 !important;">
+                
+                <!-- Heading -->
+                <div class="col-lg-8 mx-auto gap-4 d-flex flex-column align-items-center">
+                    
+                    <p class="my-1 text-center text-uppercase"
+                       style="letter-spacing: 4px; color: #7f54b3; font-weight: 600; font-size: 14px;">
+                       Property Listings on Your Website
+                    </p>
+
+                    <h1 class="text-center text-uppercase my-0"
+                        style="color: #121212; font-size: 46px; font-weight: 700;">
+                        Real Estate Rental Management - Website
+                    </h1>
+
+                </div>
+
+                <!-- SAME IMAGE (No Change) -->
+                <div class="col-lg-12 d-flex justify-content-center align-items-center"
+                     style="margin: 1rem 0;">
+                    <img src="./assets/icons/logo.png"
+                         style="width: 30%; height: auto;"
+                         class="img-responsive"/>
+                </div>
+
+                <!-- Buttons -->
+                <div class="col-md-12 text-center">
+                    
+                    <a href="mailto:info@inomerp.in"
+                       target="_blank"
+                       style="background-color: transparent;
+                              border-radius: 35px;
+                              padding: 7px 23px;
+                              border: 1px solid #7f54b3;
+                              color: #7f54b3;
+                              text-decoration: none;"
+                       class="mx-1 mb-2">
+                        <img style="width: 24px" src="./assets/icons/mail.svg"/>
+                        <span style="font-size: 16px;">Email Us</span>
+                    </a>
+
+                    <!-- <a href="https://teams.microsoft.com"
+                       target="_blank"
+                       style="background-color: #7f289b;
+                              padding: 7px 33px;
+                              border-radius: 35px;
+                              color: #fff;
+                              text-decoration: none;"
+                       class="mx-1 mb-2">
+                        <img style="width: 24px" src="./assets/icons/tms.png"/>
+                        <span style="font-size: 16px;">Teams</span>
+                    </a> -->
+
+                </div>
+
+                <!-- SAME GIF (No Change) -->
+                <div class="d-flex justify-content-center mt-2">
+                    <img src="./assets/icons/InomERP dashboard and global connections.png"
+                         class="w-100"
+                         style="z-index: 3; height: auto;">
+                </div>
+
+            </div>
+
+            <!-- Background SAME -->
+            <div class="position-absolute bottom-0" style="z-index: 1; width: 100%;">
+                <img src="./assets/icons/banner-bg.svg" class="img-fluid w-100">
+            </div>
+
+            <div class="position-absolute bottom-0 end-0" style="z-index: 2;">
+                <img src="./assets/icons/patter.svg">
+            </div>
+
+        </div>
+    </div>
+</div>
+                <!-- key-highlight -->
+                <div class="" style="border-radius: 16px;
+     padding: 60px 40px;
+     border: 1px solid #EBEEF2;
+     background: #F5F5F7;
+     box-shadow: 0px 5px 20px -11px rgba(0, 0, 0, 0.25); ">
+                    <div class="row">
+                        <div class="col-lg-12 d-flex flex-column justify-content-center align-items-center">
+                            <h2 style=" color: #121212;
+            text-align: center;
+            font-size: 40px;
+            font-weight: 700;
+            text-transform: uppercase; padding-bottom: 50px;">Key
+                                Highlights</h2>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="mb-4 d-flex flex-column justify-content-center gap-3"
+                                 style="border-radius: 12px; border: 1px solid  #B6BCCD;
+            background:  #FFF;padding:32px ">
+                                <div class="d-flex justify-content-center align-items-center"
+                                     style="background-color:#7847D9 !important; border-radius:8px !important; height:42px; width:42px">
+                                    <img src="./assets/icons/feature-icon.svg"
+                                         class="img-responsive" height="26px"
+                                         width="26px">
+                                </div>
+                                <h5 class="m-0"
+                                    style="color:#000 !important; font-weight:bold">
+                                    Property Listing with Filters
+                                </h5>
+                                <p class="m-0"
+                                   style="font-size:0.9rem; color:var(--text-color-light); font-size: 16px; font-weight: 400;">
+                                    A public Properties page lists published properties with picture, type, city, rooms, area and price, with search, rent or sale, category, type, bedrooms, city and price filters.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="mb-4 d-flex flex-column justify-content-center gap-3"
+                                 style="border-radius: 12px; border: 1px solid  #B6BCCD;
+            background:  #FFF;padding:32px ">
+                                <div class="d-flex justify-content-center align-items-center"
+                                     style="background-color:#7847D9 !important; border-radius:8px !important; height:42px; width:42px">
+                                    <img src="./assets/icons/feature-icon.svg"
+                                         class="img-responsive" height="26px"
+                                         width="26px">
+                                </div>
+                                <h5 class="m-0"
+                                    style="color:#000 !important; font-weight:bold">
+                                    Property Detail Pages
+                                </h5>
+                                <p class="m-0"
+                                   style="font-size:0.9rem; color:var(--text-color-light); font-size: 16px; font-weight: 400;">
+                                    Each property has its own page with a picture gallery, key facts, amenities and a public description. Owners, tenants, contracts and internal notes are never shown.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="mb-4 d-flex flex-column justify-content-center gap-3"
+                                 style="border-radius: 12px; border: 1px solid  #B6BCCD;
+            background:  #FFF;padding:32px ">
+                                <div class="d-flex justify-content-center align-items-center"
+                                     style="background-color:#7847D9 !important; border-radius:8px !important; height:42px; width:42px">
+                                    <img src="./assets/icons/feature-icon.svg"
+                                         class="img-responsive" height="26px"
+                                         width="26px">
+                                </div>
+                                <h5 class="m-0"
+                                    style="color:#000 !important; font-weight:bold">
+                                    Enquiries Straight into CRM
+                                </h5>
+                                <p class="m-0"
+                                   style="font-size:0.9rem; color:var(--text-color-light); font-size: 16px; font-weight: 400;">
+                                    The enquiry form creates a CRM enquiry linked to the property. A repeat enquiry from the same person is added to the open one instead of creating a duplicate.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="mb-4 d-flex flex-column justify-content-center gap-3"
+                                 style="border-radius: 12px; border: 1px solid  #B6BCCD;
+            background:  #FFF;padding:32px ">
+                                <div class="d-flex justify-content-center align-items-center"
+                                     style="background-color:#7847D9 !important; border-radius:8px !important; height:42px; width:42px">
+                                    <img src="./assets/icons/feature-icon.svg"
+                                         class="img-responsive" height="26px"
+                                         width="26px">
+                                </div>
+                                <h5 class="m-0"
+                                    style="color:#000 !important; font-weight:bold">
+                                    Publishing Under Control
+                                </h5>
+                                <p class="m-0"
+                                   style="font-size:0.9rem; color:var(--text-color-light); font-size: 16px; font-weight: 400;">
+                                    Only Property Managers publish properties, and a property disappears from the website as soon as it is rented, sold or archived.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="mb-4 d-flex flex-column justify-content-center gap-3"
+                                 style="border-radius: 12px; border: 1px solid  #B6BCCD;
+            background:  #FFF;padding:32px ">
+                                <div class="d-flex justify-content-center align-items-center"
+                                     style="background-color:#7847D9 !important; border-radius:8px !important; height:42px; width:42px">
+                                    <img src="./assets/icons/feature-icon.svg"
+                                         class="img-responsive" height="26px"
+                                         width="26px">
+                                </div>
+                                <h5 class="m-0"
+                                    style="color:#000 !important; font-weight:bold">
+                                    Private Brochure Links
+                                </h5>
+                                <p class="m-0"
+                                   style="font-size:0.9rem; color:var(--text-color-light); font-size: 16px; font-weight: 400;">
+                                    Generate a secret link to share a property page with a client before it is published.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="mb-4 d-flex flex-column justify-content-center gap-3"
+                                 style="border-radius: 12px; border: 1px solid  #B6BCCD;
+            background:  #FFF;padding:32px ">
+                                <div class="d-flex justify-content-center align-items-center"
+                                     style="background-color:#7847D9 !important; border-radius:8px !important; height:42px; width:42px">
+                                    <img src="./assets/icons/feature-icon.svg"
+                                         class="img-responsive" height="26px"
+                                         width="26px">
+                                </div>
+                                <h5 class="m-0"
+                                    style="color:#000 !important; font-weight:bold">
+                                    Mobile Friendly
+                                </h5>
+                                <p class="m-0"
+                                   style="font-size:0.9rem; color:var(--text-color-light); font-size: 16px; font-weight: 400;">
+                                    Listing, filters, detail pages and the enquiry form adapt to phones and tablets.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="mb-4 d-flex flex-column justify-content-center gap-3"
+                                 style="border-radius: 12px; border: 1px solid  #B6BCCD;
+            background:  #FFF;padding:32px ">
+                                <div class="d-flex justify-content-center align-items-center"
+                                     style="background-color:#7847D9 !important; border-radius:8px !important; height:42px; width:42px">
+                                    <img src="./assets/icons/feature-icon.svg"
+                                         class="img-responsive" height="26px"
+                                         width="26px">
+                                </div>
+                                <h5 class="m-0"
+                                    style="color:#000 !important; font-weight:bold">
+                                    Interactive 3D View
+                                </h5>
+                                <p class="m-0"
+                                   style="font-size:0.9rem; color:var(--text-color-light); font-size: 16px; font-weight: 400;">
+                                    Visitors rotate around the building, look at its floor plan from above and walk through the rooms. Upload your own 3D model, or let Odoo generate one from the property details.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--code  -->
+                <div class="my-5">
+                    <div style=" padding: 5rem 4rem 5rem 4rem; background-color: #0A1425; border-radius: 12px; position: relative;">
+                        <div class="wrapper-info"
+                             style="display: flex; flex-direction: column; gap: 20px;">
+                            <span class="wrapper-subtitle"
+                                  style="font-size: 40px; font-weight: 700; color: #fff;line-height: 60px; text-transform: capitalize; width: 450px;">Real Estate Rental Management - Website</span>
+                            <h3 class="wrapper-details"
+                                style="font-size: 20px; font-weight: 400; color: #fff; line-height: 32px; ">
+                                Ready to publish your properties online?
+                                <br> Improve now!
+                            </h3>
+                            <div class="d-flex gap-3">
+                             <!--    <a href="mailto:odoo@cybrosys.com"
+                                   class="shop-btn" style="cursor: pointer; border-radius: 16px; display: flex; justify-content: center; align-items: center; gap: 7px;
+            border: 1px solid  #ffffff33;
+            background-color: #ffffff14;
+            backdrop-filter: blur(10px); color: #fff; padding: 12px 16px 12px 16px; text-decoration: none;"> -->
+            <!--  <span style="border-radius: 12px;
+             background-color: #ffffff1a;
+             backdrop-filter: blur(6px);padding: 12px;  ">
+              <img src="./assets/icons/banner-mail.svg">
+           </span>
+                                    <span style="font-weight: 500;">odoo@cybrosys.com</span>
+                                </a>
+                                <a href="https://wa.me/919074270811" target="_blank" class="shop-btn"
+                                   style="cursor: pointer; border-radius: 16px; display: flex; justify-content: center; align-items: center; gap: 7px;
+             border: 1px solid  #ffffff33;
+             background-color: #ffffff14;
+            backdrop-filter: blur(10px); color: #fff; padding: 12px 22px 12px 18px; text-decoration: none;">
+             <span style="border-radius: 12px;
+             background: var(--DarkOverlayElement-DO10, rgba(255, 255, 255, 0.10));
+             backdrop-filter: blur(6px);padding: 12px;">
+              <img src="./assets/icons/banner-call.svg">
+           </span> -->
+                                    <!-- <span style="font-weight: 500;">+91 9074270811</span> -->
+                                </a>
+                            </div>
+                        </div>
+                        <div class=""
+                             style="position: absolute; bottom: 0; right: 0;">
+                            <img src="./assets/icons/banner-pattern.svg"
+                                 style="width: 540px;">
+                        </div>
+                    </div>
+                </div>
+                <!-- end-code -->
+                <!--  -->
+              
+                <!-- screenshot and other -->
+
+                <div class="mb-4 bg-white"
+                     style=" border: 1px solid #EBEEF2; border-radius: 6px; box-shadow: 0px 8px 20px -4px rgba(0, 0, 0, 0.10); border: 1px solid #EBEEF2;">
+                    <div>
+                        <ul class="nav nav-tabs justify-content-center bg-white py-2"
+                            id="myTab" role="tablist"
+                            style="border-radius: 6px 6px 0 0;">
+                            <li class="nav-item">
+                                <a aria-controls="overview"
+                                   aria-bs-selected="true"
+                                   class="nav-link active" data-bs-toggle="tab"
+                                   href="#overview" id="overview-tab" role="tab"
+                                   style="color:#121212; font-weight:900; font-size:0px">
+                                    Screenshots</a>
+                            </li>
+                           <!--  <li class="nav-item">
+                                <a aria-controls="feature"
+                                   aria-bs-selected="false"
+                                   class="nav-link py-2" data-bs-toggle="tab"
+                                   href="#feature" id="feature-tab" role="tab"
+                                   style="color:#121212; font-weight:500; font-size:16px">Features</a>
+                            </li> -->
+                           <!--  <li class="nav-item">
+                                <a aria-controls="faq" aria-bs-selected="false"
+                                   class="nav-link" data-bs-toggle="tab"
+                                   href="#faq" id="faq-tab" role="tab"
+                                   style="color:#121212; font-weight:500; font-size:16px">
+                                    FAQs</a>
+                            </li> -->
+                            <!-- <li class="nav-item">
+                                <a aria-controls="releases"
+                                   aria-bs-selected="false" class="nav-link"
+                                   data-bs-toggle="tab" href="#releases"
+                                   id="releases-tab" role="tab"
+                                   style="color:#121212; font-weight:500; font-size:16px">Releases</a>
+                            </li> -->
+                        </ul>
+                    </div>
+                    <div class="tab-content p-md-5 p-2 py-3" id="myTabContent">
+                        <div aria-labelledby="overview-tab"
+                             class="tab-pane fade show active" id="overview"
+                             role="tabpanel">
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px">
+                                <img alt="acc_bg"
+                                     class="w-100 h-100 position-absolute img-fluid left_0"
+                                     loading="lazy"
+                                     src="//apps.odoocdn.com/apps/assets/17.0/ks_dashboard_ninja/ai-img/o3.png?007008f"
+                                     style="">
+                            </div>
+                            <!-- screenshots section-->
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Step 1:
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Website Tab</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  Each property has a Website tab with its publication status and a public description.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="Step 1: Website Tab" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./01_website_tab_unpublished.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Step 2:
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Publish</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  A Property Manager switches Published on; the website link appears.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="Step 2: Publish" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./02_website_tab_published.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Private
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Brochure Link</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  Create a secret link to share a property page with a client before it is published.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="Private Brochure Link" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./03_brochure_link.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Step 3:
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Go to Website</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  The property page as visitors see it.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="Step 3: Go to Website" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./04_go_to_website.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Published
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Properties</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  The property list shows which properties are published.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="Published Properties" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./05_published_column.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Property
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Listing</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  The public Properties page lists published, available properties with picture, type, city, rooms, area and price.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="Property Listing" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./07_listing.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Filter:
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">For Rent</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  Show only properties for rent.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="Filter: For Rent" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./08_filter_rent.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Filter:
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Category</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  Filter by category, such as commercial.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="Filter: Category" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./10_filter_commercial.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Filter:
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">City and Bedrooms</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  Combine city, bedrooms and purpose.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="Filter: City and Bedrooms" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./11_filter_city_bedrooms.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Filter:
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Price and Sorting</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  Set a price range and sort by price.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="Filter: Price and Sorting" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./12_filter_price_sort.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">No
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Results</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  A clear message when nothing matches, with a link back to all properties.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="No Results" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./13_no_results.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Property
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Detail Page</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  Gallery, key facts, amenities and public description, with the enquiry form beside them. Owners, tenants and contracts are never shown.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="Property Detail Page" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./14_detail.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Enquiry
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Validation</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  Required fields are checked before the enquiry is sent.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="Enquiry Validation" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./16_enquiry_validation.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Send an
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Enquiry</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  The visitor enters name, email, phone and message.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="Send an Enquiry" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./17_enquiry_filled.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Enquiry
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Sent</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  The visitor sees a confirmation.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="Enquiry Sent" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./18_enquiry_sent.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Repeat
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Enquiry</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  A second message from the same visitor about the same property is added to the open enquiry instead of creating a duplicate.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="Repeat Enquiry" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./19_repeat_enquiry_sent.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Brochure
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Page</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  The private brochure link shows an unpublished property to whoever has the link.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="Brochure Page" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./20_brochure_page.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Mobile
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Listing</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  The listing and filters on a phone.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="Mobile Listing" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./21_mobile_listing.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Mobile
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Detail Page</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  The property page on a phone.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="Mobile Detail Page" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./22_mobile_detail.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Mobile
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Enquiry Form</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  The enquiry form on a phone.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="Mobile Enquiry Form" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./23_mobile_enquiry_form.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Website Enquiries
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">in CRM</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  Website enquiries arrive in the CRM pipeline, linked to the property.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="Website Enquiries in CRM" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./24_crm_rental_enquiries.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Website Enquiry
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Details</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  The visitor's messages are in the chatter; convert the enquiry into a rental or sale contract.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="Website Enquiry Details" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./25_crm_website_enquiry.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">3D View on the
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Property Page</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  Every property page has an interactive 3D view between the photos and the key facts. It loads only when the visitor scrolls to it.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="3D View on the Property Page" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./26_3d_detail_page.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">3D Exterior:
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Apartment Building</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  An apartment tower with the property's number of floors, framed windows, balconies with glass railings and a rooftop, on its street.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="3D Exterior: Apartment Building" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./27_3d_exterior_apartment.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">3D Exterior:
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">House or Villa</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  A house with a tiled roof, brick base, garage, garden path, hedges and a fenced plot sized from the land area.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="3D Exterior: House or Villa" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./28_3d_exterior_house.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">3D Exterior:
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Office Building</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  A glass office building with a canopy at the entrance.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="3D Exterior: Office Building" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./29_3d_exterior_office.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">3D Exterior:
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Shop</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  A shop with a glass front, a striped awning and a sign.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="3D Exterior: Shop" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./30_3d_exterior_shop.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">3D Exterior:
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Warehouse</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  A warehouse with loading shutters and a pitched metal roof, sized from the built-up area.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="3D Exterior: Warehouse" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./31_3d_exterior_warehouse.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">3D Exterior:
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Plot of Land</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  A fenced plot with corner markers and a sign board. Plots show the exterior only.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="3D Exterior: Plot of Land" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./32_3d_exterior_plot.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">3D Interior:
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Floor Plan</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  The Interior mode shows a cut-away floor plan from above, laid out from the bedrooms, bathrooms and area, with each room's name and size.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="3D Interior: Floor Plan" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./33_3d_interior_apartment.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">3D Interior:
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Floor Switcher</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  Houses with several storeys have a floor switcher: bedrooms upstairs, living spaces and the staircase downstairs.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="3D Interior: Floor Switcher" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./34_3d_interior_house_upstairs.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">3D Interior:
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Office Layout</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  Offices are laid out with an open workspace, a meeting room, a manager's cabin, a pantry and a restroom.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="3D Interior: Office Layout" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./35_3d_interior_office.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Walk Through:
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Living Room</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  Explore at eye height: drag to look around, walk with W A S D or the arrow keys, or tap the floor to go there. Walls stop you, doorways let you through.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="Walk Through: Living Room" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./36_3d_walk_living.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Walk Through:
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Bedroom</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  Room buttons take the visitor straight into a room. Furniture follows the furnishing status: fully furnished, semi-furnished or unfurnished.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="Walk Through: Bedroom" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./37_3d_walk_bedroom.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Walk Through:
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Kitchen</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  The kitchen with counter, hob, sink, fridge and a breakfast table.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="Walk Through: Kitchen" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./38_3d_walk_kitchen.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Walk Through:
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Bathroom</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  Bathrooms with tiled walls and floor, WC, basin with mirror and a glass shower.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="Walk Through: Bathroom" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./39_3d_walk_bathroom.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Walk Through:
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Office</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  Desks with screens and chairs in the open workspace of an office.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="Walk Through: Office" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./40_3d_walk_office.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Walk Through:
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Shop</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  Stocked shelves on the sales floor of a shop, seen from the entrance.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="Walk Through: Shop" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./41_3d_walk_shop.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Walk Through:
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Warehouse</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  Pallet racks in the storage hall of a warehouse.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="Walk Through: Warehouse" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./42_3d_walk_warehouse.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">3D View
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">on Mobile</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  The 3D view works on phones and tablets: drag, pinch to zoom and tap rooms.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="3D View on Mobile" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./43_3d_mobile.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">3D View
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Settings</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                  On the property's Website tab: show or hide the 3D view and the interior, choose the building style and floors, or upload your own 3D model as a GLB file to show the real building.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="3D View Settings" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./44_3d_backend_settings.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                           <!--  <div class="position-relative mb-4"
+                                 style="border-radius:10px; background-color:#f4f4f4">
+                                <div class="p-md-5 p-3 position-relative">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 style="font-weight:bold; font-size:calc(1.1rem + 1vw); line-height:120%; text-align:center; text-transform:capitalize; font-size: 40px;
+                              font-weight: 700;">
+                                      <span style="color:#121212; font-size:calc(1.1rem + 1vw)">Sale Order
+                                      </span>
+                                                <span style="color: var(--primary-color); font-size:calc(1.1rem + 1vw)">Report View</span>
+                                            </h1>
+                                        </div>
+                                        <div class="col-md-12 mb-4">
+                                            <p style="font-weight:400; font-size:16px; line-height:150%; text-align:center;  color:var(--text-color-light)">
+                                                Images are shown in the product line of the reports.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <div class="d-inline-block p-3 shadow-sm"
+                                                 style="background-color:#fff; border-radius:10px">
+                                                <img alt="" class="img-fluid"
+                                                     loading="lazy"
+                                                     src="./assets/screenshots/3.png"
+                                                     style="min-height: 1px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- <div aria-labelledby="feature-tab"
+                             class="tab-pane fade show py-1" id="feature"
+                             role="tabpanel"> -->
+                           <!--  <div class="row py-4">
+                                <div class="col-md-6 col-sm-12 p-3">
+                                    <div class="d-flex flex-column align-items-start h-100"
+                                         style="padding:30px; border-radius:12px; background-color:#faf8ff">
+                                        <div class="d-flex align-items-center justify-content-center">
+                                            <div class="d-flex align-items-center justify-content-center "
+                                                 style="width:36px; height:36px; border-radius:50%; background-color:#7847D9 ; margin-right:10px">
+                                                <i class="fa fa-star  "
+                                                   style="color:#fff; font-size:14px"></i>
+                                            </div>
+                                            <p style="color:#1A202C; font-weight:600; font-size:1.2rem; margin-bottom:2px">
+                                                Order line product images</p>
+                                        </div>
+                                        <div class="ms-5">
+                                            <p class="m-0"
+                                               style="color:#718096">
+                                                Display the product images in Sale order lines.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div> -->
+                               <!--  <div class="col-md-6 col-sm-12 p-3">
+                                    <div class="d-flex flex-column align-items-start h-100"
+                                         style="padding:30px; border-radius:12px; background-color:#faf8ff">
+                                        <div class="d-flex align-items-center justify-content-center">
+                                            <div class="d-flex align-items-center justify-content-center "
+                                                 style="width:36px; height:36px; border-radius:50%; background-color:#7847D9 ; margin-right:10px">
+                                                <i class="fa fa-star  "
+                                                   style="color:#fff; font-size:14px"></i>
+                                            </div>
+                                            <p style="color:#1A202C; font-weight:600; font-size:1.2rem; margin-bottom:2px">
+                                                Image printing option</p>
+                                        </div>
+                                        <div class="ms-5">
+                                            <p class="m-0"
+                                               style="color:#718096">
+                                                Configure the Image printing option.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div> -->
+                              <!--   <div class="col-md-6 col-sm-12 p-3">
+                                    <div class="d-flex flex-column align-items-start h-100"
+                                         style="padding:30px; border-radius:12px; background-color:#faf8ff">
+                                        <div class="d-flex align-items-center justify-content-center">
+                                            <div class="d-flex align-items-center justify-content-center "
+                                                 style="width:36px; height:36px; border-radius:50%; background-color:#7847D9 ; margin-right:10px">
+                                                <i class="fa fa-star  "
+                                                   style="color:#fff; font-size:14px"></i>
+                                            </div>
+                                            <p style="color:#1A202C; font-weight:600; font-size:1.2rem; margin-bottom:2px">
+                                                Print product images in report</p>
+                                        </div>
+                                        <div class="ms-5">
+                                            <p class="m-0"
+                                               style="color:#718096">
+                                                 Print product images in sale report.
+                                            </p>
+                                        </div>
+                                    </div> -->
+                                <!-- </div>
+                            </div>
+                        </div> -->
+                        <div aria-labelledby="faq-tab"
+                             class="tab-pane fade show" id="faq"
+                             role="tabpanel">
+                            <div class="row"
+                                 style=" background-color:#fff !important">
+                                <div class="col-md-12" aria-labelledby="faq-tab"
+                                     id="faq" role="tabpanel">
+                                    <div class="accordion mb-4" id="accordion6">
+                                        <div style="background-color:#fff">
+                                            <!-- accordian -->
+                                            <div class="accordion"
+                                                 id="accordion_faq">
+                                                <!-- Question 1 -->
+                                                <div class=""
+                                                     style="margin:1rem 0rem">
+                                                    <div aria-expanded="false"
+                                                         class=" card-header collapsed"
+                                                         data-bs-toggle="collapse"
+                                                         data-bs-target="#collapseFAQOne"
+                                                         href="#collapseFAQOne"
+                                                         aria-controls="collapseFAQOne"
+                                                         style="cursor: pointer; background-color:#f8f8f8; border:none; border-top-right-radius:10px; border-top-left-radius:10px; padding: 12px 24px;">
+                                                        <!-- <a class="card-title text-decoration-none"
+                                                           style=" font-size:18px; line-height:30px; font-weight:500; color:#040f3a">
+                                                            How to print the images in the report?
+                                                            <img alt=""
+                                                                 class="float-end"
+                                                                 src="//apps.odoocdn.com/apps/assets/16.0/index_test_odoo/assets/icons/down.svg?6ef7fd7"
+                                                                 width="25px">
+                                                        </a> -->
+                                                    </div>
+                                                    <div class="accordion-collapse collapse"
+                                                         aria-labelledby="collapseFAQOne"
+                                                         data-bs-parent="#accordion_faq"
+                                                         id="collapseFAQOne"
+                                                         style=" box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px; border: 1px solid #f8f8f8; border-bottom-right-radius:10px; border-bottom-left-radius:10px">
+                                                        <p style=" padding:0.75rem 1.25rem; font-size:16px; line-height:27px;  color:#888; font-weight:normal; border-bottom-right-radius:10px; border-bottom-left-radius:10px">
+                                                            Open a property, go to its Website tab and switch Published on. Only Property Managers can publish, and only available properties are shown. A brochure link can share an unpublished property privately.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--  -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div aria-labelledby="releases-tab"
+                             class="tab-pane fade show" id="releases"
+                             role="tabpanel">
+                            <!-- Release Notes -->
+                            <div class="row pt-5 m-0">
+                                <div class="col-md-3">
+                                    <!-- <h4 style="font-size:16px; font-weight:600; color:#514F4F; margin:0; line-height:26px;">
+                                        Latest Release 20.0.1.0.0
+                                    </h4> -->
+                                   <!--  <span style="font-size:14px; color:#7A7979; display:block; margin-bottom:20px;">
+                                          5th October, 2025
+                                    </span> -->
+                                </div>
+                               <!--  <div class="col-md-8">
+                                    <div style="padding:0 0 40px"> -->
+                                        <!-- <div style="margin:0 0 10px">
+                                            <div style="display:inline-block; padding:0px 8px; color:#514F4F; background-color:#FFD8D8; border-radius:20px">
+                                                Add
+                                            </div> -->
+                                        </div>
+                                       <!--  <div class="d-flex m-0"
+                                             style="color:#7A7979;">
+                                            <ul class="pl-3 mb-0">
+                                                <li>
+                                                    Initial Commit
+                                                </li>
+
+                                            </ul>
+                                        </div> -->
+                                    <!-- </div> -->
+                                    <!-- <div style="padding:0 0 0; border-bottom:1px solid #E3E3E3">
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+              
+                <!-- service-section -->
+
+                <section id="services" class="mt-5" style="border-radius: 16px;
+                                                            border: 1px solid #EBEEF2;
+                                                            background: var(--Neutral-N0, #FFF);
+                                                            padding: 30px 20px;
+                                                            box-shadow: 0px 5px 20px -11px rgba(0, 0, 0, 0.25);">
+                    <div class="text-center mt-4"><h3 class="mb-0" style="color: #000;
+                                                                  text-align: center;
+                                                                  font-family: Montserrat;
+                                                                  font-size: 40px;
+                                                                  font-style: normal;
+                                                                  font-weight: 700;
+                                                                  line-height: normal;
+                                                                  text-transform: uppercase;
+                                                                  padding-bottom: 50px;">
+                        Our Services</h3></div>
+                    <div class="row mt-3">
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold;background-color:#FFE2E5; margin:auto; gap: 16px; border-radius: 8px;">
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#FA5A7D; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/gear.svg"
+                                             class="img-responsive"
+                                             height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px;
+                                  color: var(--text-color);
+                                  font-weight: 600;"> Odoo Customization</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold;background-color:#FFF4DE; margin:auto; gap: 16px; border-radius: 8px;">
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#FF947A; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/wrench-icon.svg"
+                                             class="img-responsive"
+                                             height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px;
+                    color: var(--text-color);
+                    font-weight: 600;"> Odoo Implementation</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold;background-color:#DCFCE7; margin:auto; gap: 16px; border-radius: 8px;">
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#3CD856; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/life-ring-icon.svg"
+                                             class="img-responsive"
+                                             height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px;
+                  color: var(--text-color);
+                  font-weight: 600;">Odoo Support</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold;background-color:#F3E8FF; margin:auto; gap: 16px; border-radius: 8px;">
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#BF83FF; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/arrows-repeat.svg"
+                                             class="img-responsive"
+                                             height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px;
+                color: var(--text-color);
+                font-weight: 600;">Odoo Migration</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold;background-color:#F1F9FF; margin:auto; gap: 16px; border-radius: 8px;">
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#01649C; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/puzzle-piece-icon.svg"
+                                             class="img-responsive"
+                                             height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px;
+              color: var(--text-color);
+              font-weight: 600;">Odoo integration</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold;background-color:#EDF8ED; margin:auto; gap: 16px; border-radius: 8px;">
+
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#69CC70; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/odoo-consultancy.svg"
+                                             class="img-responsive"
+                                             height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px;
+            color: var(--text-color);
+            font-weight: 600;">Odoo Consultancy</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold;background-color:#F1F6FF; margin:auto; gap: 16px; border-radius: 8px;">
+
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#2E4556; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/odoo-licencing.svg"
+                                             class="img-responsive"
+                                             height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px;
+          color: var(--text-color);
+          font-weight: 600;">Odoo Licensing</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-sm-12 mb-3">
+                            <a href="https://inomerp.in/" style="text-decoration:none">
+                                <div class="btn-lg btn-block p-4 mb-2 d-flex flex-column justify-content-center align-items-center"
+                                     style="font-size:25px; font-weight:bold;background-color:#FAF6EA; margin:auto; gap: 16px; border-radius: 8px;">
+
+                                    <div class="d-flex justify-content-center align-items-center"
+                                         style="background-color:#FCD12C; border-radius:50%; height:56px; width:56px">
+                                        <img src="./assets/icons/hire-odoo.svg"
+                                             class="img-responsive"
+                                             height="28px" width="28px">
+                                    </div>
+                                    <span style="font-size: 18px;
+          color: var(--text-color);
+          font-weight: 600;">Hire Odoo Developer</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+            </div>
+            <!-- licence -->
+            <div class="tab-pane fade" id="profile" role="tabpanel"
+                 aria-labelledby="profile-tab">
+                <div class="px-5">
+                    ....
+                </div>
+            </div>
+            <!--  -->
+        </div>
+        </section>
+        <!--  -->
+    </div>
+</div>
+<div style="max-width:850px;margin:10px auto;
+padding:35px 25px;
+border-radius:16px;
+background-color:#0f172a;
+color:#fff;
+font-family: 'Segoe UI', sans-serif;
+box-shadow:0 10px 30px rgba(0,0,0,0.2);">
+
+    <!-- HEADER -->
+    <div style="text-align:center;margin-bottom:20px;">
+        <h2 style="margin:0;font-size:26px;font-weight:600;">
+            Support & Customization
+        </h2>
+        <p style="color:#94a3b8;font-size:14px;margin-top:6px;">
+            We're here to help you with setup, customization & support
+        </p>
+    </div>
+
+    <!-- EMAIL BUTTON -->
+    <div style="text-align:center;margin-bottom:25px;">
+        <a href="mailto:info@inomerp.in"
+           style="background:linear-gradient(135deg,#7f54b3,#9b6cff);
+           color:#fff;
+           padding:10px 22px;
+           border-radius:30px;
+           text-decoration:none;
+           font-size:14px;
+           font-weight:500;
+           display:inline-block;
+           box-shadow:0 4px 10px rgba(127,84,179,0.4);">
+            📩 info@inomerp.in
+        </a>
+    </div>
+
+    <!-- SUPPORT CARD -->
+    <div style="background:rgba(255,255,255,0.05);
+                padding:18px 20px;
+                border-radius:12px;
+                border:1px solid rgba(255,255,255,0.08);
+                backdrop-filter: blur(6px);">
+
+        <h4 style="color:#f87171;font-size:17px;margin-bottom:6px;">
+            🚀 Free Installation Support
+        </h4>
+
+        <p style="font-size:13px;color:#e2e8f0;margin-bottom:6px;">
+            One-time free setup on Odoo server with proper configuration.
+        </p>
+
+        <p style="font-size:12px;color:#94a3b8;margin:0;">
+            Third-party or custom development requests may be chargeable.
+        </p>
+    </div>
+
+    <!-- BUTTON -->
+    <div style="text-align:center;margin-top:25px;">
+        <a href="https://inomerp.in"
+           target="_blank"
+           style="border:1px solid #7f54b3;
+           color:#fff;
+           padding:9px 22px;
+           border-radius:30px;
+           text-decoration:none;
+           font-size:13px;
+           transition:0.3s;">
+            🌐 Visit Website
+        </a>
+    </div>
+
+    <!-- FOOTER -->
+    <div style="text-align:center;margin-top:30px;
+                border-top:1px solid rgba(255,255,255,0.1);
+                padding-top:15px;">
+
+        <strong style="font-size:14px;letter-spacing:1px;">
+            INOM ERP
+        </strong>
+
+        <p style="font-size:12px;color:#94a3b8;margin-top:5px;">
+            Odoo Experts | ERP Solutions | Custom Development
+        </p>
+    </div>
+
+</div>
+</div>
+
+</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script>
+    $('.owl-carousel').owlCarousel({
+     rtl:true,
+     loop:true,
+     margin:10,
+     nav:true,
+     responsive:{
+         0:{
+             items:1
+         },
+         600:{
+             items:3
+         },
+         1000:{
+             items:3
+         }
+     }
+ })
+</script>
+</html>

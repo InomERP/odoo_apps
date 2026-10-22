@@ -1,0 +1,102 @@
+.o_property_3d {
+    overflow: hidden;
+
+    .o_property_3d_viewport {
+        position: relative;
+        height: 440px;
+        background: linear-gradient(180deg, #bcd6f2 0%, #e8f0f9 60%, #f4efe6 100%);
+        touch-action: none;
+        cursor: grab;
+
+        &:active {
+            cursor: grabbing;
+        }
+    }
+
+    .o_property_3d_canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+
+    .o_property_3d_status {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 1rem;
+    }
+
+    .o_property_3d_rotate.active {
+        background-color: $primary;
+        border-color: $primary !important;
+        color: color-contrast($primary);
+    }
+
+    &.o_property_3d_is_fullscreen {
+        display: flex;
+        flex-direction: column;
+        border-radius: 0;
+        background-color: $white;
+
+        .o_property_3d_viewport {
+            flex: 1 1 auto;
+            height: auto;
+        }
+
+        .o_property_3d_fullscreen .fa-expand::before {
+            content: "\f066"; // fa-compress
+        }
+    }
+
+    @include media-breakpoint-down(md) {
+        .o_property_3d_viewport {
+            height: 320px;
+        }
+    }
+}
+
+.o_property_3d {
+    .o_property_3d_mode.active {
+        background-color: $primary;
+        border-color: $primary !important;
+        color: color-contrast($primary);
+    }
+
+    .o_property_3d_rooms {
+        position: absolute;
+        left: 0.75rem;
+        right: 0.75rem;
+        bottom: 0.75rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+        pointer-events: none;
+
+        > * {
+            pointer-events: auto;
+        }
+
+        .o_property_3d_room {
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-light {
+            background-color: rgba(255, 255, 255, 0.92);
+        }
+    }
+
+    &[data-mode="walk"] .o_property_3d_viewport {
+        cursor: crosshair;
+    }
+
+    @include media-breakpoint-down(md) {
+        .o_property_3d_rooms .o_property_3d_room {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.45rem;
+        }
+    }
+}

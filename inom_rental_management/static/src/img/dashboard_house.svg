@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200">
+<defs>
+<linearGradient id="hw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe3a8"/><stop offset="1" stop-color="#f3b45e"/></linearGradient>
+<linearGradient id="hg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7cc36e"/><stop offset="1" stop-color="#3f8f45"/></linearGradient>
+</defs>
+<ellipse cx="170" cy="188" rx="150" ry="12" fill="url(#hg)"/>
+<g>
+<rect x="60" y="92" width="150" height="92" fill="#f4efe6"/>
+<rect x="60" y="92" width="150" height="6" fill="#d8cfc0"/>
+<path d="M48,98 L135,40 L222,98 Z" fill="#2d3e55"/>
+<path d="M135,40 L222,98 L210,98 L135,50 Z" fill="#22303f"/>
+<rect x="176" y="48" width="14" height="26" fill="#6b5a4c"/>
+<rect x="210" y="118" width="70" height="66" fill="#8a6a52"/>
+<path d="M204,122 L245,96 L286,122 Z" fill="#2d3e55"/>
+<rect x="222" y="134" width="44" height="34" rx="2" fill="url(#hw)" stroke="#5b4636" stroke-width="3"/>
+<line x1="244" y1="134" x2="244" y2="168" stroke="#5b4636" stroke-width="2"/>
+<rect x="76" y="112" width="34" height="30" rx="2" fill="url(#hw)" stroke="#5b4636" stroke-width="3"/>
+<line x1="93" y1="112" x2="93" y2="142" stroke="#5b4636" stroke-width="2"/>
+<rect x="160" y="112" width="34" height="30" rx="2" fill="url(#hw)" stroke="#5b4636" stroke-width="3"/>
+<line x1="177" y1="112" x2="177" y2="142" stroke="#5b4636" stroke-width="2"/>
+<rect x="120" y="140" width="28" height="44" rx="2" fill="#5b4636"/>
+<circle cx="142" cy="163" r="2" fill="#f3b45e"/>
+<rect x="114" y="182" width="40" height="4" fill="#c9bfae"/>
+</g>
+<g transform="translate(298,184)"><rect x="-3" y="-40" width="6" height="40" fill="#6b4a33"/><ellipse cx="0" cy="-70" rx="20" ry="36" fill="#4f9b4f"/><path d="M0,-104 C14,-90 18,-60 0,-36 Z" fill="#3d8441"/></g>
+<g transform="translate(30,184)"><rect x="-2.5" y="-30" width="5" height="30" fill="#6b4a33"/><ellipse cx="0" cy="-52" rx="15" ry="27" fill="#5aa857"/><path d="M0,-78 C10,-66 13,-46 0,-28 Z" fill="#478f46"/></g>
+<g fill="#6fb46a"><ellipse cx="70" cy="184" rx="14" ry="7"/><ellipse cx="200" cy="185" rx="12" ry="6"/></g>
+</svg>

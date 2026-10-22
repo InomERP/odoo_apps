@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_groups_privilege_rental_management" model="res.groups.privilege">
+        <field name="name">Real Estate</field>
+        <field name="sequence">40</field>
+        <field name="category_id" ref="base.module_category_services"/>
+    </record>
+
+    <record id="res_groups_privilege_rental_accounting" model="res.groups.privilege">
+        <field name="name">Real Estate Accounting</field>
+        <field name="sequence">41</field>
+        <field name="category_id" ref="base.module_category_services"/>
+    </record>
+
+    <record id="group_rental_agent" model="res.groups">
+        <field name="name">Property Agent</field>
+        <field name="sequence">10</field>
+        <field name="privilege_id" ref="res_groups_privilege_rental_management"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="comment">Manages properties and their own rental and sale contracts.</field>
+    </record>
+
+    <record id="group_rental_manager" model="res.groups">
+        <field name="name">Property Manager</field>
+        <field name="sequence">20</field>
+        <field name="privilege_id" ref="res_groups_privilege_rental_management"/>
+        <field name="implied_ids" eval="[(4, ref('group_rental_agent'))]"/>
+        <field name="comment">Manages all properties and contracts and sees the reports.</field>
+    </record>
+
+    <record id="group_rental_admin" model="res.groups">
+        <field name="name">Real Estate Administrator</field>
+        <field name="sequence">30</field>
+        <field name="privilege_id" ref="res_groups_privilege_rental_management"/>
+        <field name="implied_ids" eval="[(4, ref('group_rental_manager'))]"/>
+        <field name="user_ids" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        <field name="comment">Full access, including the Real Estate configuration.</field>
+    </record>
+
+    <record id="group_rental_accountant" model="res.groups">
+        <field name="name">Accountant</field>
+        <field name="sequence">10</field>
+        <field name="privilege_id" ref="res_groups_privilege_rental_accounting"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user')), (4, ref('account.group_account_invoice'))]"/>
+        <field name="comment">Reads properties and contracts and sees the reports, for invoicing and collections.</field>
+    </record>
+
+    <data noupdate="1">
+        <record id="property_property_company_rule" model="ir.rule">
+            <field name="name">Property: multi-company</field>
+            <field name="model_id" ref="model_property_property"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="property_image_company_rule" model="ir.rule">
+            <field name="name">Property image: multi-company</field>
+            <field name="model_id" ref="model_property_image"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="property_partner_document_company_rule" model="ir.rule">
+            <field name="name">Owner and tenant document: multi-company</field>
+            <field name="model_id" ref="model_property_partner_document"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="property_partner_document_agent_rule" model="ir.rule">
+            <field name="name">Owner and tenant document: agents see documents they uploaded or of their own tenants and owners</field>
+            <field name="model_id" ref="model_property_partner_document"/>
+            <field name="domain_force">['|', '|',
+                ('create_uid', '=', user.id),
+                ('partner_id.tenant_contract_ids.user_id', '=', user.id),
+                ('partner_id.owned_property_ids.user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_rental_agent'))]"/>
+        </record>
+
+        <record id="property_partner_document_manager_rule" model="ir.rule">
+            <field name="name">Owner and tenant document: managers see all documents</field>
+            <field name="model_id" ref="model_property_partner_document"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_rental_manager'))]"/>
+        </record>
+
+        <record id="property_rent_schedule_company_rule" model="ir.rule">
+            <field name="name">Rent schedule: multi-company</field>
+            <field name="model_id" ref="model_property_rent_schedule"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="property_rent_schedule_agent_rule" model="ir.rule">
+            <field name="name">Rent schedule: agents see the periods of their own and unassigned contracts</field>
+            <field name="model_id" ref="model_property_rent_schedule"/>
+            <field name="domain_force">['|', ('contract_id.user_id', '=', user.id), ('contract_id.user_id', '=', False)]</field>
+            <field name="groups" eval="[(4, ref('group_rental_agent'))]"/>
+        </record>
+
+        <record id="property_rent_schedule_all_rule" model="ir.rule">
+            <field name="name">Rent schedule: managers and accountants see all periods</field>
+            <field name="model_id" ref="model_property_rent_schedule"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_rental_manager')), (4, ref('group_rental_accountant'))]"/>
+        </record>
+
+        <record id="property_rent_invoice_report_company_rule" model="ir.rule">
+            <field name="name">Rental income report: multi-company</field>
+            <field name="model_id" ref="model_property_rent_invoice_report"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="property_rental_contract_company_rule" model="ir.rule">
+            <field name="name">Rental contract: multi-company</field>
+            <field name="model_id" ref="model_property_rental_contract"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="property_sale_contract_company_rule" model="ir.rule">
+            <field name="name">Sale contract: multi-company</field>
+            <field name="model_id" ref="model_property_sale_contract"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="property_rental_contract_agent_rule" model="ir.rule">
+            <field name="name">Rental contract: agents see their own and unassigned contracts</field>
+            <field name="model_id" ref="model_property_rental_contract"/>
+            <field name="domain_force">['|', ('user_id', '=', user.id), ('user_id', '=', False)]</field>
+            <field name="groups" eval="[(4, ref('group_rental_agent'))]"/>
+        </record>
+
+        <record id="property_rental_contract_all_rule" model="ir.rule">
+            <field name="name">Rental contract: managers and accountants see all contracts</field>
+            <field name="model_id" ref="model_property_rental_contract"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_rental_manager')), (4, ref('group_rental_accountant'))]"/>
+        </record>
+
+        <record id="property_sale_contract_agent_rule" model="ir.rule">
+            <field name="name">Sale contract: agents see their own and unassigned contracts</field>
+            <field name="model_id" ref="model_property_sale_contract"/>
+            <field name="domain_force">['|', ('user_id', '=', user.id), ('user_id', '=', False)]</field>
+            <field name="groups" eval="[(4, ref('group_rental_agent'))]"/>
+        </record>
+
+        <record id="property_sale_contract_all_rule" model="ir.rule">
+            <field name="name">Sale contract: managers and accountants see all contracts</field>
+            <field name="model_id" ref="model_property_sale_contract"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_rental_manager')), (4, ref('group_rental_accountant'))]"/>
+        </record>
+    </data>
+</odoo>

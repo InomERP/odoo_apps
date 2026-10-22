@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="crm_lead_view_form_rental_management" model="ir.ui.view">
+        <field name="name">crm.lead.form.rental.management</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <header position="inside">
+                <button name="action_create_property_sale" type="object" string="Create Property Sale"
+                        invisible="property_for != 'sale' or not property_id or not active or property_enquiry_state != 'open'"
+                        groups="inom_rental_management.group_rental_agent"/>
+                <button name="action_create_property_rental" type="object" string="Create Rental Contract"
+                        invisible="property_for != 'rent' or not property_id or not active or property_enquiry_state != 'open'"
+                        groups="inom_rental_management.group_rental_agent"/>
+            </header>
+            <div name="button_box" position="inside">
+                <button name="action_view_property_sales" type="object" class="oe_stat_button" icon="fa-handshake-o"
+                        invisible="not property_sale_contract_count"
+                        groups="inom_rental_management.group_rental_agent,inom_rental_management.group_rental_accountant">
+                    <field name="property_sale_contract_count" widget="statinfo" string="Property Sales"/>
+                </button>
+                <button name="action_view_property_rentals" type="object" class="oe_stat_button" icon="fa-file-text-o"
+                        invisible="not property_rental_contract_count"
+                        groups="inom_rental_management.group_rental_agent,inom_rental_management.group_rental_accountant">
+                    <field name="property_rental_contract_count" widget="statinfo" string="Rental Contracts"/>
+                </button>
+            </div>
+            <xpath expr="//sheet/div[@name='button_box']" position="after">
+                <div class="alert alert-warning mb-2" role="alert"
+                     invisible="not property_duplicate_count or not active"
+                     groups="inom_rental_management.group_rental_agent,inom_rental_management.group_rental_accountant">
+                    This customer has another open enquiry for the same property. Check the Property tab before following up twice.
+                </div>
+            </xpath>
+            <xpath expr="//page[@name='internal_notes']" position="before">
+                <page string="Property" name="rental_management_property"
+                      groups="inom_rental_management.group_rental_agent,inom_rental_management.group_rental_accountant">
+                    <group>
+                        <group>
+                            <field name="property_for" widget="radio" options="{'horizontal': true}"/>
+                            <field name="property_id"/>
+                            <field name="property_enquiry_state" widget="badge" invisible="not property_for"
+                                   decoration-info="property_enquiry_state == 'open'"
+                                   decoration-warning="property_enquiry_state == 'contract'"
+                                   decoration-success="property_enquiry_state == 'won'"
+                                   decoration-muted="property_enquiry_state == 'lost'"/>
+                        </group>
+                        <group>
+                            <field name="ask_price"/>
+                            <field name="listed_price" invisible="not property_id"/>
+                            <field name="company_currency" invisible="1"/>
+                        </group>
+                    </group>
+                    <field name="property_duplicate_count" invisible="1"/>
+                    <group invisible="not property_duplicate_count">
+                        <field name="property_duplicate_summary"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="crm_lead_view_list_rental_management" model="ir.ui.view">
+        <field name="name">crm.lead.list.rental.management</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+        <field name="arch" type="xml">
+            <field name="won_status" position="after">
+                <field name="property_id" optional="hide"
+                       groups="inom_rental_management.group_rental_agent,inom_rental_management.group_rental_accountant"/>
+                <field name="property_for" optional="hide"/>
+                <field name="property_enquiry_state" optional="hide"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="crm_lead_view_search_rental_management" model="ir.ui.view">
+        <field name="name">crm.lead.search.rental.management</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.view_crm_case_opportunities_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <field name="property_id" groups="inom_rental_management.group_rental_agent,inom_rental_management.group_rental_accountant"/>
+                <separator/>
+                <filter name="property_enquiries" string="Property Enquiries" domain="[('property_for', '!=', False)]"/>
+                <filter name="rent_enquiries" string="Rental Enquiries" domain="[('property_for', '=', 'rent')]"/>
+                <filter name="sale_enquiries" string="Sale Enquiries" domain="[('property_for', '=', 'sale')]"/>
+                <separator/>
+                <filter name="enquiry_open" string="Open Enquiries" domain="[('property_enquiry_state', '=', 'open')]"/>
+                <filter name="enquiry_contract" string="Contract Drafted" domain="[('property_enquiry_state', '=', 'contract')]"/>
+                <filter name="enquiry_won" string="Won Enquiries" domain="[('property_enquiry_state', '=', 'won')]"/>
+                <filter name="enquiry_lost" string="Lost Enquiries" domain="[('property_enquiry_state', '=', 'lost')]"/>
+                <group>
+                    <filter name="group_by_property" string="Property" context="{'group_by': 'property_id'}"
+                            groups="inom_rental_management.group_rental_agent,inom_rental_management.group_rental_accountant"/>
+                    <filter name="group_by_property_for" string="Enquiry For" context="{'group_by': 'property_for'}"/>
+                    <filter name="group_by_enquiry_state" string="Enquiry Status" context="{'group_by': 'property_enquiry_state'}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_property_enquiry_all" model="ir.actions.act_window">
+        <field name="name">Property Enquiries</field>
+        <field name="res_model">crm.lead</field>
+        <field name="view_mode">kanban,list,form,activity</field>
+        <field name="domain">[('property_for', '!=', False)]</field>
+        <field name="context">{'default_type': 'opportunity'}</field>
+        <field name="search_view_id" ref="crm.view_crm_case_opportunities_filter"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Record a property enquiry</p>
+            <p>Use New Enquiry on a property, or create an opportunity here and fill in its Property tab.</p>
+        </field>
+    </record>
+
+    <record id="action_property_enquiry_rent" model="ir.actions.act_window">
+        <field name="name">Rental Enquiries</field>
+        <field name="res_model">crm.lead</field>
+        <field name="view_mode">kanban,list,form,activity</field>
+        <field name="domain">[('property_for', '=', 'rent')]</field>
+        <field name="context">{'default_property_for': 'rent', 'default_type': 'opportunity'}</field>
+        <field name="search_view_id" ref="crm.view_crm_case_opportunities_filter"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Record a rental enquiry</p>
+            <p>An enquiry tracks a customer's interest in renting a property. It never creates a lease:
+               create the rental contract from it when the customer commits.</p>
+        </field>
+    </record>
+
+    <record id="action_property_enquiry" model="ir.actions.act_window">
+        <field name="name">Sale Enquiries</field>
+        <field name="res_model">crm.lead</field>
+        <field name="view_mode">kanban,list,form,activity</field>
+        <field name="domain">[('property_for', '=', 'sale')]</field>
+        <field name="context">{'default_property_for': 'sale', 'default_type': 'opportunity'}</field>
+        <field name="search_view_id" ref="crm.view_crm_case_opportunities_filter"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Record a sale enquiry</p>
+            <p>An enquiry tracks a customer's interest in a property. It never books or sells the property:
+               create a property sale from it when the customer commits.</p>
+        </field>
+    </record>
+
+    <record id="action_property_enquiry_analysis" model="ir.actions.act_window">
+        <field name="name">Enquiry Analysis</field>
+        <field name="res_model">crm.lead</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="view_id" ref="crm.crm_lead_view_pivot"/>
+        <field name="domain">[('property_for', '!=', False)]</field>
+        <field name="context">{'pivot_row_groupby': ['property_id'], 'pivot_column_groupby': ['property_enquiry_state'], 'graph_groupbys': ['property_for', 'property_enquiry_state']}</field>
+        <field name="search_view_id" ref="crm.view_crm_case_opportunities_filter"/>
+    </record>
+</odoo>
